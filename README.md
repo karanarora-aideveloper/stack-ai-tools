@@ -9,7 +9,7 @@
 ```
 
 ### ⚡ The Authoritative Open-Source Frontier AI Software & Agent Ecosystem
-**Discover, compare, and deploy 65+ vetted AI software, autonomous coding agents, and prompt libraries.**
+**Discover, compare, and deploy 85+ vetted AI software, autonomous coding agents, and prompt libraries.**
 
 [![Production Deployment](https://img.shields.io/badge/Live_Site-stackaitools.com-6366f1?style=for-the-badge&logo=vercel&logoColor=white)](https://stack-ai-tools.vercel.app)
 [![Built With AI](https://img.shields.io/badge/Built_With-Frontier_AI-ec4899?style=for-the-badge&logo=openai&logoColor=white)](#-built-with-ai)
@@ -17,7 +17,11 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-brightgreen.svg?style=for-the-badge)](https://github.com/karanarora-aideveloper/stack-ai-tools/pulls)
 
-[🌐 **Live Production Site**](https://stack-ai-tools.vercel.app) • [📖 **Interactive Prompts**](https://stack-ai-tools.vercel.app/prompts) • [⚖️ **Alternative Comparisons**](https://stack-ai-tools.vercel.app/alternatives) • [🤖 **LLM Context (`llms.txt`)**](https://stack-ai-tools.vercel.app/llms.txt)
+[🌐 **Live Production Site**](https://stack-ai-tools.vercel.app) • [📖 **Interactive Prompts**](https://stack-ai-tools.vercel.app/prompts) • [⚖️ **Alternative Comparisons**](https://stack-ai-tools.vercel.app/alternatives) • [🤖 **LLM Context (`llms.txt`)**](https://stack-ai-tools.vercel.app/llms.txt) • [🚀 **Submit Your Tool**](https://stack-ai-tools.vercel.app/submit)
+
+---
+
+> 💡 **Have an AI product, coding agent, or prompt?** [Submit your tool on Stack AI Tools for free](https://stack-ai-tools.vercel.app/submit) or open a PR in this repo to get featured!
 
 ---
 
@@ -25,8 +29,9 @@
 
 ## 📌 Table of Contents
 - [🌟 Overview](#-overview)
+- [⭐ Editor's Choice (Top Vetted AI Software)](#-editors-choice-top-vetted-ai-software)
 - [🤖 Built with AI](#-built-with-ai)
-- [🔥 2026 Frontier Tools Catalog](#-2026-frontier-tools-catalog)
+- [🔥 2026 Frontier Tools Catalog (85+ Tools)](#-2026-frontier-tools-catalog-85-tools)
 - [🚀 Architecture & Tech Stack](#-architecture--tech-stack)
 - [🔍 Programmatic SEO & GEO](#-programmatic-seo--geo)
 - [🛠️ Local Development](#️-local-development)
@@ -37,13 +42,13 @@
 
 ## 🌟 Overview
 
-**Stack AI Tools** (`stackaitools.com`) is a community-driven, open-source ecosystem engineered to help US engineers, founders, creators, and researchers navigate the fast-moving artificial intelligence landscape.
+**Stack AI Tools** (`stackaitools.com`) is an authoritative community-driven ecosystem engineered to help US engineers, founders, creators, and researchers discover and deploy the world's most productive artificial intelligence software.
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
 │                      STACK AI TOOLS ECOSYSTEM                          │
 ├───────────────────┬───────────────────┬─────────────────────────────────┤
-│  65+ Curated      │  147 Programmatic │  Interactive Prompt             │
+│  85+ Curated      │  185 Programmatic │  Interactive Prompt             │
 │  Frontier Tools   │  SEO Comparisons  │  Engineering Showcase           │
 ├───────────────────┼───────────────────┼─────────────────────────────────┤
 │  Autonomous       │  Instant Latency  │  AI Search Machine              │
@@ -51,11 +56,22 @@
 └───────────────────┴───────────────────┴─────────────────────────────────┘
 ```
 
-### Key Capabilities
-- **Hand-Vetted AI Directory**: Real-time classification by category, verified ratings, pricing tiers (Free, Freemium, Paid), and review counts.
-- **Head-to-Head Comparison Hub**: Programmatic comparison pages (`/alternatives/[slug]`) comparing pricing, features, pros, and cons.
-- **Interactive Prompt Showcase**: Tested prompt templates for Midjourney v8, Flux.1, Claude 3.5 Sonnet / 5, Cursor, and ChatGPT with 1-click copy.
-- **Generative Engine Optimization (GEO)**: Automated `/llms.txt` and Schema.org JSON-LD so models like ChatGPT, Claude, and Perplexity cite this repository directly.
+---
+
+## ⭐ Editor's Choice (Top Vetted AI Software)
+
+Hand-picked frontier tools selected for exceptional ROI, builder adoption, and performance:
+
+| Tool | Category | Highlights | Pricing | Link & Reviews |
+| :--- | :--- | :--- | :--- | :--- |
+| **Cursor 3.0** | 💻 Code | Composer multi-file agent & deep codebase indexing | Freemium | [Review & Pricing](https://stack-ai-tools.vercel.app/tool/cursor) |
+| **Lovable.dev** | 💻 Code | Autonomous fullstack software engineer (React + Supabase) | Freemium | [Review & Pricing](https://stack-ai-tools.vercel.app/tool/lovabledev) |
+| **Murf AI** | 🎙️ Audio | Studio-grade AI voiceovers with 120+ natural human voices | Freemium | [Review & Pricing](https://stack-ai-tools.vercel.app/tool/murf-ai) |
+| **MeetGeek** | 📹 Automation | Autonomous video meeting recorder, transcript, and AI summary | Freemium | [Review & Pricing](https://stack-ai-tools.vercel.app/tool/meetgeek) |
+| **CodeRabbit** | 🐰 Code | Automated AI PR reviewer for GitHub & GitLab with instant diff analysis | Freemium | [Review & Pricing](https://stack-ai-tools.vercel.app/tool/coderabbit) |
+| **Ollama** | 💻 Code | Run Llama 3, DeepSeek, and Mistral 100% locally on your terminal | Free | [Review & Pricing](https://stack-ai-tools.vercel.app/tool/ollama) |
+| **ElevenLabs** | 🗣️ Audio | Hyper-realistic speech synthesis & real-time conversational agents | Freemium | [Review & Pricing](https://stack-ai-tools.vercel.app/tool/elevenlabs) |
+| **Flux.1** | 🎨 Design | 12B parameter open-weights photorealism leader by Black Forest Labs | Freemium | [Review & Pricing](https://stack-ai-tools.vercel.app/tool/flux1-black-forest-labs) |
 
 ---
 
@@ -65,31 +81,66 @@
 
 Stack AI Tools was architected from ground zero utilizing pair-programming with autonomous AI agents. Every tool is vetted, every comparison matrix is structured, and every prompt in the library is tested against frontier foundation models.
 
-- **Curated by**: Multi-agent scraping, validation pipelines, and human editorial oversight.
-- **Engineered with**: Next.js 16 (App Router), React 19, TypeScript, and Tailwind CSS v4.
+- **Curated by**: Multi-agent scraping, automated verification pipelines, and human editorial oversight.
+- **Engineered with**: Next.js 16 (App Router), React 19, TypeScript, MongoDB Atlas, and Tailwind CSS v4.
 - **AI-Readable**: Full native compliance with the [llms.txt standard](https://llmstxt.org) at `https://stackaitools.com/llms.txt`.
 
 ---
 
-## 🔥 2026 Frontier Tools Catalog
+## 🔥 2026 Frontier Tools Catalog (85+ Tools)
 
-Here is a preview of top frontier AI software curated in the directory:
+Explore top software across high-intent categories:
 
-| Tool | Category | Key Strength | Pricing | Review & Alternatives |
-| :--- | :--- | :--- | :--- | :--- |
-| **Cursor 3.0** | 💻 Code | Multi-file Composer agent & deep codebase indexing | Freemium | [Review](https://stack-ai-tools.vercel.app/tool/cursor) • [Alternatives](https://stack-ai-tools.vercel.app/alternatives/cursor) |
-| **Lovable.dev** | 💻 Code | Fullstack autonomous app builder (React + Supabase) | Freemium | [Review](https://stack-ai-tools.vercel.app/tool/lovabledev) • [Alternatives](https://stack-ai-tools.vercel.app/alternatives/lovabledev) |
-| **Windsurf** | 💻 Code | Cascade multi-file agent IDE by Codeium | Freemium | [Review](https://stack-ai-tools.vercel.app/tool/windsurf-by-codeium) • [Alternatives](https://stack-ai-tools.vercel.app/alternatives/windsurf-by-codeium) |
-| **Bolt.new** | 💻 Code | In-browser WebContainers sandbox for fullstack apps | Freemium | [Review](https://stack-ai-tools.vercel.app/tool/boltnew) • [Alternatives](https://stack-ai-tools.vercel.app/alternatives/boltnew) |
-| **Flux.1** | 🎨 Design | 12B parameter open-weights photorealism leader | Freemium | [Review](https://stack-ai-tools.vercel.app/tool/flux1-black-forest-labs) • [Alternatives](https://stack-ai-tools.vercel.app/alternatives/flux1-black-forest-labs) |
-| **Midjourney v8.2**| 🎨 Design | Industry benchmark in aesthetic renders & styling | Paid | [Review](https://stack-ai-tools.vercel.app/tool/midjourney) • [Alternatives](https://stack-ai-tools.vercel.app/alternatives/midjourney) |
-| **Runway Gen-3** | 🎬 Video | Hollywood director camera controls & VFX | Freemium | [Review](https://stack-ai-tools.vercel.app/tool/runway-gen3-alpha) • [Alternatives](https://stack-ai-tools.vercel.app/alternatives/runway-gen3-alpha) |
-| **Suno v4** | 🎵 Audio | Radio-ready broadcast music generation with vocals | Freemium | [Review](https://stack-ai-tools.vercel.app/tool/suno-v4) • [Alternatives](https://stack-ai-tools.vercel.app/alternatives/suno-v4) |
-| **ElevenLabs** | 🎙️ Audio | Ultra-realistic voice synthesis & conversational AI | Freemium | [Review](https://stack-ai-tools.vercel.app/tool/elevenlabs) • [Alternatives](https://stack-ai-tools.vercel.app/alternatives/elevenlabs) |
-| **NotebookLM** | 📝 Writing | Google personalized research notebook with Deep Dive audio | Free | [Review](https://stack-ai-tools.vercel.app/tool/notebooklm-by-google) • [Alternatives](https://stack-ai-tools.vercel.app/alternatives/notebooklm-by-google) |
-| **Browse AI** | 🤖 Automation | No-code scraping robots and price monitors | Freemium | [Review](https://stack-ai-tools.vercel.app/tool/browse-ai) • [Alternatives](https://stack-ai-tools.vercel.app/alternatives/browse-ai) |
+### 💻 Coding & Autonomous Dev Agents
+- **Cursor 3.0** — Multi-file AI code editor powered by Claude 3.5 Sonnet & GPT-5.
+- **Lovable.dev** — Fullstack app development agent with instant deployment.
+- **Windsurf** — Cascade multi-file flow editor by Codeium.
+- **Bolt.new** — In-browser WebContainer sandbox for fullstack prototyping.
+- **CodeRabbit** — Automated line-by-line pull request reviews and security audits.
+- **Ollama** — Local model runner for private, offline LLM inference.
+- **LlamaIndex** — Enterprise RAG data framework for LLM knowledge bases.
+- **Langfuse** — Open-source LLMOps observability, latency tracing, and prompt evaluations.
+- **Pieces for Developers** — On-device contextual copilot for capturing code context.
 
-*(Explore all 65+ tools at [stackaitools.com](https://stack-ai-tools.vercel.app))*
+### 🎙️ Audio & Voice Cloning
+- **Murf AI** — Studio voiceover platform for e-learning, YouTube, and product demos.
+- **ElevenLabs** — Benchmark emotional voice synthesis and conversational AI agents.
+- **Suno v4** — High-fidelity broadcast-ready AI music and vocal generation.
+- **Udio v1.5** — Studio music production and multi-genre harmonic styling.
+- **Soundraw** — Custom dynamic music generator for video creators and game developers.
+- **Mubert** — Real-time generative soundtrack streaming for apps and games.
+
+### 🎨 Generative Media, 3D & Design
+- **Flux.1** — Frontier 12-billion parameter photorealistic image generation.
+- **Midjourney v8.2** — Unmatched aesthetic composition and cinematic prompt rendering.
+- **Canva Magic Studio** — Visual design automation, background removal, and presentation generation.
+- **PhotoRoom** — Instant e-commerce product cutout and commercial scene generator.
+- **Civitai** — Premier community hub for open-weights checkpoints and LoRA models.
+- **Ideogram 2.0** — Typography rendering leader for logos, posters, and merchandise.
+
+### 📹 AI Video & Digital Avatars
+- **Runway Gen-3 Alpha** — Hollywood-grade generative VFX, camera motion, and cinematic video.
+- **Kling AI** — High-motion physics rendering for long-form video clips.
+- **Luma Dream Machine** — High-speed video synthesis and 3D camera sweeps.
+- **D-ID** — Interactive digital human avatars and talking portrait video generator.
+
+### ⚡ Workflow Automation & Meeting Intelligence
+- **MeetGeek** — Automated video recording, transcripts, and CRM sync for Zoom, Teams, and Meet.
+- **SaneBox** — AI email organizer that keeps your inbox at zero.
+- **Taskade AI** — Autonomous multi-agent teams for task and project management.
+- **Otter.ai** — Live real-time audio transcription and automated executive summaries.
+- **SiteGPT** — Website chatbot trained on your documentation for 24/7 customer support.
+- **Browse AI** — Zero-code web extraction robots and price monitoring.
+- **Make.com** — Visual enterprise workflow automation with native AI connectors.
+
+### 📝 Writing & Deep Scientific Research
+- **Elicit** — Automated literature reviews and paper summaries for researchers.
+- **SciSpace** — Chat with scientific PDFs and decode complex academic formulas.
+- **NotebookLM** — Google personal research assistant with deep-dive conversational audio.
+- **Consensus** — AI search engine citing peer-reviewed papers for medical and science questions.
+- **Mem.ai** — Ambient knowledge graph that self-organizes your personal notes and tasks.
+
+*(Explore all 85+ tools with live filters at [stackaitools.com](https://stack-ai-tools.vercel.app))*
 
 ---
 
@@ -106,7 +157,7 @@ Here is a preview of top frontier AI software curated in the directory:
 ┌─────────────────┐      ┌─────────────────┐      ┌─────────────────┐
 │ Programmatic    │      │ In-Memory TTL   │      │ MongoDB Atlas   │
 │ SSG Engine      │      │ Cache Layer     │      │ & Prisma ORM    │
-│ (147 Pages)     │      │ (<100ms LCP)    │      │ Fallback Seed   │
+│ (185 Pages)     │      │ (<100ms LCP)    │      │ Fallback Seed   │
 └─────────────────┘      └─────────────────┘      └─────────────────┘
 ```
 
@@ -114,6 +165,7 @@ Here is a preview of top frontier AI software curated in the directory:
 - **Frontend**: React 19, Vanilla CSS Design System, Lucide Icons, Google Font `Outfit`
 - **Database / ORM**: MongoDB Atlas + Prisma ORM 5.22.0
 - **Routing & Redirects**: Centralized outbound affiliate routing via `/go/[slug]` (307 Temporary Redirects with `X-Robots-Tag: noindex, nofollow`)
+- **Admin Console**: Live management portal at `/admin` for instant approval and link updates.
 - **Hosting**: Vercel Edge Global CDN
 
 ---
@@ -150,8 +202,8 @@ npm install
 Create a `.env` file in the root:
 ```env
 DATABASE_URL="mongodb+srv://<username>:<password>@cluster0.mongodb.net/aitools?retryWrites=true&w=majority"
+ADMIN_PASSWORD="your-admin-passkey"
 ```
-*(Note: If no database URL is provided, the application automatically falls back to the embedded curated dataset in `src/data.ts`)*
 
 ### 4. Run the development server
 ```bash
@@ -176,7 +228,7 @@ We welcome open-source contributions from founders, maintainers, and prompt engi
 3. Add your tool entry to the `aiTools` array:
    ```ts
    {
-     id: 66,
+     id: 86,
      name: 'Your Tool Name',
      category: 'Code', // 'Code' | 'Video' | 'Design' | 'Writing' | 'Audio' | 'Automation'
      icon: '🚀',
@@ -192,6 +244,7 @@ We welcome open-source contributions from founders, maintainers, and prompt engi
    }
    ```
 4. Commit your changes and open a Pull Request with the title: `feat: add [Tool Name] to directory`.
+5. Or submit directly on our web portal: [stackaitools.com/submit](https://stack-ai-tools.vercel.app/submit).
 
 ---
 

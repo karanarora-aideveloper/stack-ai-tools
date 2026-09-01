@@ -14,6 +14,8 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - **Live Vercel Production URL**: `https://stack-ai-tools.vercel.app`
 - **GitHub Open-Source Repo**: `https://github.com/karanarora-aideveloper/stack-ai-tools`
 - **Vercel Project**: `karanprojects1/stack-ai-tools` (`prj_T3HBpATYFw4aFmU4f2y3b5cf7Oiv`)
+- **Admin Portal**: `/admin` (Passkey protected via `ADMIN_PASSWORD`)
+- **Catalog Size**: 85 Frontier AI Tools & 185 Prerendered Static Pages
 - **Primary Market**: United States (USA)
 - **Status**: Live in Production on Vercel (Edge SSG & Prerendered)
 - **Last Updated**: September 1, 2026
