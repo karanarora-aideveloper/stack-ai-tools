@@ -12,6 +12,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 - **Domain Selected**: `stackaitools.com` (Targeted for purchase via Porkbun / Spaceship / Cloudflare)
 - **Live Vercel Production URL**: `https://stack-ai-tools.vercel.app`
+- **GitHub Open-Source Repo**: `https://github.com/karanarora-aideveloper/stack-ai-tools`
 - **Vercel Project**: `karanprojects1/stack-ai-tools` (`prj_T3HBpATYFw4aFmU4f2y3b5cf7Oiv`)
 - **Primary Market**: United States (USA)
 - **Status**: Live in Production on Vercel (Edge SSG & Prerendered)
