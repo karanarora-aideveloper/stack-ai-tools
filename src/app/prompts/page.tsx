@@ -72,10 +72,10 @@ export default async function PromptsPage() {
           fontSize: 'clamp(15px, 2vw, 17px)', 
           color: 'var(--text-secondary)', 
           lineHeight: 1.6, 
-          maxWidth: 680, 
+          maxWidth: 700, 
           margin: '0 auto 28px' 
         }}>
-          Battle-tested prompts engineered for Midjourney v8, Flux.1, Cursor 3.0 agents, Claude Sonnet 5, and full-stack builders. Includes verified outputs, aspect ratios, and one-click copy.
+          Battle-tested prompts engineered for <strong>Gmail MCP</strong>, <strong>GitHub MCP</strong>, <strong>PostgreSQL</strong>, Midjourney v8, Flux.1, and Cursor 3.0 agents. Includes verified outputs, executable MCP config JSON, and one-click copy.
         </p>
 
         {/* 4-Column Metric Ribbon */}
@@ -96,8 +96,8 @@ export default async function PromptsPage() {
             <div style={{ fontSize: 11.5, fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase' }}>Vetted Prompts</div>
           </div>
           <div>
-            <div style={{ fontSize: 20, fontWeight: 800, color: '#818cf8' }}>10+</div>
-            <div style={{ fontSize: 11.5, fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase' }}>Target Models</div>
+            <div style={{ fontSize: 20, fontWeight: 800, color: '#818cf8' }}>8 Top</div>
+            <div style={{ fontSize: 11.5, fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase' }}>MCP Servers</div>
           </div>
           <div>
             <div style={{ fontSize: 20, fontWeight: 800, color: '#ec4899' }}>100%</div>

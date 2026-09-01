@@ -22,9 +22,17 @@ interface PromptsExplorerProps {
 
 const MODEL_ICONS: Record<string, string> = {
   'All Models': '✨',
+  'Gmail MCP': '📧',
+  'GitHub MCP': '🐙',
+  'Playwright MCP': '🌐',
+  'Postgres MCP': '🐘',
+  'Filesystem MCP': '📁',
+  'Brave Search MCP': '🔍',
+  'Slack MCP': '💬',
+  'Google Drive MCP': '📂',
+  'Midjourney v8.2': '🎨',
   'Midjourney v7': '🔥',
   'Midjourney v6.1': '🖼️',
-  'Midjourney v8.2': '🎨',
   'Flux.1': '⚡',
   'Cursor 3.0': '💻',
   'Claude Sonnet 5': '🧠',
@@ -35,11 +43,12 @@ const MODEL_ICONS: Record<string, string> = {
 };
 
 const SUGGESTED_SEARCHES = [
+  'Gmail MCP',
+  'GitHub MCP',
+  'Playwright MCP',
+  'Postgres MCP',
   'Dragon on Cliff Edge',
-  'Vintage Tokyo Street',
-  'Full-Stack SaaS Dashboard',
-  'Dark Mode System Prompt',
-  'Flux.1 Hyper-realistic'
+  'Full-Stack SaaS Dashboard'
 ];
 
 export default function PromptsExplorer({ initialPrompts }: PromptsExplorerProps) {
@@ -67,10 +76,13 @@ export default function PromptsExplorer({ initialPrompts }: PromptsExplorerProps
     return counts;
   }, [initialPrompts]);
 
-  // Dynamic counts for output types
+  // Dynamic counts for output types + MCP count
   const typeCounts = useMemo(() => {
-    const counts = { all: initialPrompts.length, image: 0, code: 0, text: 0 };
+    const counts = { all: initialPrompts.length, mcp: 0, image: 0, code: 0, text: 0 };
     initialPrompts.forEach(p => {
+      if (p.targetAI?.toLowerCase().includes('mcp') || p.tags?.some(t => t.toLowerCase().includes('mcp'))) {
+        counts.mcp++;
+      }
       if (p.outputType === 'image') counts.image++;
       else if (p.outputType === 'code') counts.code++;
       else if (p.outputType === 'text') counts.text++;
@@ -90,8 +102,11 @@ export default function PromptsExplorer({ initialPrompts }: PromptsExplorerProps
         }
       }
 
-      // Output Type match
-      if (selectedType !== 'all') {
+      // Output Type match / MCP filter
+      if (selectedType === 'mcp') {
+        const isMcp = p.targetAI?.toLowerCase().includes('mcp') || p.tags?.some(t => t.toLowerCase().includes('mcp'));
+        if (!isMcp) return false;
+      } else if (selectedType !== 'all') {
         if (p.outputType !== selectedType) {
           return false;
         }
@@ -129,7 +144,7 @@ export default function PromptsExplorer({ initialPrompts }: PromptsExplorerProps
         <input
           type="text"
           className="prompts-search-input"
-          placeholder="Search 37+ production prompts by style, use case, model, or syntax..."
+          placeholder="Search 45+ prompts (e.g. 'Gmail MCP', 'GitHub PR review', 'Midjourney v8', 'Cursor 3.0')..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
@@ -153,24 +168,24 @@ export default function PromptsExplorer({ initialPrompts }: PromptsExplorerProps
         {SUGGESTED_SEARCHES.map(term => (
           <button
             key={term}
-            onClick={() => setSearchQuery(term)}
+            onClick={() => { setSearchQuery(term); setSelectedTarget('All Models'); setSelectedType('all'); }}
             style={{ 
-              background: 'rgba(255, 255, 255, 0.04)', 
-              border: '1px solid rgba(255, 255, 255, 0.08)', 
+              background: term.includes('MCP') ? 'rgba(99, 102, 241, 0.12)' : 'rgba(255, 255, 255, 0.04)', 
+              border: term.includes('MCP') ? '1px solid rgba(99, 102, 241, 0.35)' : '1px solid rgba(255, 255, 255, 0.08)', 
               borderRadius: 100, 
               padding: '3px 10px', 
               fontSize: 11.5, 
-              color: 'var(--text-secondary)', 
+              color: term.includes('MCP') ? '#a5b4fc' : 'var(--text-secondary)', 
               cursor: 'pointer',
               transition: 'all 0.15s ease'
             }}
             onMouseEnter={e => {
               (e.currentTarget as HTMLElement).style.color = '#ffffff';
-              (e.currentTarget as HTMLElement).style.borderColor = 'rgba(99, 102, 241, 0.4)';
+              (e.currentTarget as HTMLElement).style.borderColor = 'rgba(99, 102, 241, 0.5)';
             }}
             onMouseLeave={e => {
-              (e.currentTarget as HTMLElement).style.color = 'var(--text-secondary)';
-              (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255, 255, 255, 0.08)';
+              (e.currentTarget as HTMLElement).style.color = term.includes('MCP') ? '#a5b4fc' : 'var(--text-secondary)';
+              (e.currentTarget as HTMLElement).style.borderColor = term.includes('MCP') ? 'rgba(99, 102, 241, 0.35)' : 'rgba(255, 255, 255, 0.08)';
             }}
           >
             {term}
@@ -184,7 +199,7 @@ export default function PromptsExplorer({ initialPrompts }: PromptsExplorerProps
           <button
             key={target}
             className={`prompts-model-pill ${selectedTarget === target ? 'active' : ''}`}
-            onClick={() => setSelectedTarget(target)}
+            onClick={() => { setSelectedTarget(target); if (target.includes('MCP')) setSelectedType('all'); }}
           >
             <span>{MODEL_ICONS[target] || '✨'}</span>
             <span>{target}</span>
@@ -204,12 +219,12 @@ export default function PromptsExplorer({ initialPrompts }: PromptsExplorerProps
             <span style={{ opacity: 0.7, fontSize: 11.5 }}>({typeCounts.all})</span>
           </button>
           <button
-            className={`prompts-type-pill ${selectedType === 'image' ? 'active' : ''}`}
-            onClick={() => setSelectedType('image')}
+            className={`prompts-type-pill ${selectedType === 'mcp' ? 'active' : ''}`}
+            onClick={() => { setSelectedType('mcp'); setSelectedTarget('All Models'); }}
+            style={selectedType === 'mcp' ? { background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.3) 0%, rgba(236, 72, 153, 0.2) 100%)', borderColor: '#818cf8' } : {}}
           >
-            <ImageIcon size={13} />
-            <span>Visual Images</span>
-            <span style={{ opacity: 0.7, fontSize: 11.5 }}>({typeCounts.image})</span>
+            <span>🔌 Top MCP Servers</span>
+            <span style={{ opacity: 0.85, fontSize: 11.5, color: '#a5b4fc', fontWeight: 700 }}>({typeCounts.mcp})</span>
           </button>
           <button
             className={`prompts-type-pill ${selectedType === 'code' ? 'active' : ''}`}
@@ -218,6 +233,14 @@ export default function PromptsExplorer({ initialPrompts }: PromptsExplorerProps
             <Code2 size={13} />
             <span>Coding & Sandboxes</span>
             <span style={{ opacity: 0.7, fontSize: 11.5 }}>({typeCounts.code})</span>
+          </button>
+          <button
+            className={`prompts-type-pill ${selectedType === 'image' ? 'active' : ''}`}
+            onClick={() => setSelectedType('image')}
+          >
+            <ImageIcon size={13} />
+            <span>Visual Images</span>
+            <span style={{ opacity: 0.7, fontSize: 11.5 }}>({typeCounts.image})</span>
           </button>
           <button
             className={`prompts-type-pill ${selectedType === 'text' ? 'active' : ''}`}
