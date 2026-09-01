@@ -13,6 +13,7 @@ import {
   Mail 
 } from 'lucide-react';
 import Analytics from '@/app/components/Analytics';
+import MobileDock from '@/app/components/MobileDock';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://stackaitools.com'),
@@ -146,7 +147,7 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
         <link rel="help" href="/llms.txt" type="text/plain" title="LLM Context & AI Parser" />
         <script
           type="application/ld+json"
@@ -163,6 +164,7 @@ export default function RootLayout({
       </head>
       <body>
         <Analytics />
+        <MobileDock />
         <div id="app" className="app-container">
           <nav className="navbar">
             <div className="navbar-content">
@@ -172,6 +174,7 @@ export default function RootLayout({
                 </span>
                 <span className="logo-text">Stack AI Tools</span>
                 <span className="logo-domain-badge">.com</span>
+                <span className="retro-arcade-badge">ARCADE 90s</span>
               </Link>
               <div className="nav-links">
                 <Link href="/" className="nav-link">

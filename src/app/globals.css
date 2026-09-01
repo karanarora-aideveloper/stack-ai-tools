@@ -1786,3 +1786,835 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   font-weight: 700;
   text-transform: uppercase;
 }
+
+/* ==========================================================================
+   90s RETRO ARCADE POP THEME & FLUID MOBILE ARCHITECTURE
+   ========================================================================== */
+
+:root {
+  --font-arcade: 'Press Start 2P', monospace;
+  --arcade-cyan: #00f0ff;
+  --arcade-magenta: #ff007f;
+  --arcade-yellow: #fbbf24;
+  --arcade-green: #00ff66;
+  --arcade-purple: #a855f7;
+  --arcade-dark: #090a10;
+}
+
+/* Retro Arcade Badge in Navbar */
+.retro-arcade-badge {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  color: var(--arcade-cyan);
+  background: rgba(0, 240, 255, 0.12);
+  border: 1px solid rgba(0, 240, 255, 0.4);
+  padding: 3px 7px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.3);
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+/* Arcade Marquee Ticker */
+.arcade-marquee-container {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(90deg, #090a10 0%, #121320 50%, #090a10 100%);
+  border-top: 1px solid rgba(0, 240, 255, 0.25);
+  border-bottom: 2px solid rgba(255, 0, 127, 0.4);
+  overflow: hidden;
+  height: 40px;
+  margin-bottom: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(255, 0, 127, 0.1);
+}
+
+.arcade-marquee-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #ff007f, #ec4899);
+  color: #fff;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  padding: 0 14px;
+  height: 100%;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+  z-index: 2;
+  box-shadow: 4px 0 12px rgba(255, 0, 127, 0.4);
+  white-space: nowrap;
+}
+
+.arcade-blink-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #00ff66;
+  box-shadow: 0 0 8px #00ff66;
+  animation: pulseDot 1s infinite alternate;
+}
+
+.arcade-marquee-track {
+  flex: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+}
+
+.arcade-marquee-inner {
+  display: inline-flex;
+  animation: marqueeRun 32s linear infinite;
+}
+
+@keyframes marqueeRun {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.arcade-marquee-item {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  color: #e2e8f0;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  letter-spacing: 0.04em;
+  padding-right: 18px;
+}
+
+.arcade-marquee-separator {
+  color: var(--arcade-yellow);
+  font-size: 11px;
+}
+
+.arcade-marquee-action {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  color: var(--arcade-cyan);
+  text-decoration: none;
+  padding: 0 14px;
+  display: inline-flex;
+  align-items: center;
+  height: 100%;
+  background: rgba(0, 240, 255, 0.1);
+  border-left: 1px solid rgba(0, 240, 255, 0.3);
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.arcade-marquee-action:hover {
+  background: rgba(0, 240, 255, 0.25);
+  color: #fff;
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
+}
+
+@media (max-width: 600px) {
+  .arcade-marquee-action {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   DRAMATIC 90s ARCADE HERO SECTION
+   ========================================================================== */
+.arcade-hero {
+  position: relative;
+  border-radius: 24px;
+  background: radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.15), transparent 70%),
+              linear-gradient(180deg, rgba(18, 18, 28, 0.85) 0%, rgba(10, 10, 16, 0.95) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(99, 102, 241, 0.1);
+  padding: 44px 36px 36px;
+  margin-bottom: 36px;
+  overflow: hidden;
+}
+
+.arcade-grid-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    linear-gradient(rgba(0, 240, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 240, 255, 0.05) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.arcade-hero-layout {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 36px;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.arcade-status-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 240, 255, 0.08);
+  border: 1px solid rgba(0, 240, 255, 0.35);
+  padding: 6px 14px;
+  border-radius: 100px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  color: var(--arcade-cyan);
+  letter-spacing: 0.04em;
+  margin-bottom: 18px;
+  box-shadow: 0 0 16px rgba(0, 240, 255, 0.2);
+}
+
+.arcade-hero-title {
+  font-size: clamp(34px, 5.2vw, 56px);
+  font-weight: 900;
+  line-height: 1.08;
+  color: #ffffff;
+  letter-spacing: -0.025em;
+  margin: 0 0 18px;
+}
+
+.arcade-title-eyebrow {
+  display: block;
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(10px, 1.4vw, 13px);
+  color: var(--arcade-yellow);
+  letter-spacing: 0.08em;
+  margin-bottom: 10px;
+  text-shadow: 0 0 10px rgba(251, 191, 36, 0.4);
+}
+
+.arcade-glow-gradient {
+  background: linear-gradient(135deg, #00f0ff 0%, #ff007f 45%, #fbbf24 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 25px rgba(255, 0, 127, 0.5));
+}
+
+.arcade-hero-desc {
+  font-size: clamp(14px, 1.6vw, 17px);
+  color: #cbd5e1;
+  line-height: 1.65;
+  margin: 0 0 28px;
+  max-width: 620px;
+}
+
+.arcade-hero-desc strong {
+  color: #ffffff;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+/* Arcade HUD Stats Cards */
+.arcade-hud-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.arcade-hud-pill {
+  background: rgba(10, 10, 16, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 12px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.arcade-hud-pill:hover {
+  transform: translateY(-2px);
+  border-color: var(--arcade-cyan);
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+}
+
+.arcade-hud-digit {
+  font-size: 22px;
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+}
+
+.arcade-hud-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7.5px;
+  color: #94a3b8;
+  letter-spacing: 0.04em;
+  line-height: 1.3;
+}
+
+/* Retro CRT Screen Frame */
+.arcade-hero-visual-card {
+  position: relative;
+}
+
+.arcade-crt-screen {
+  background: #090a10;
+  border: 3px solid #2a2b3d;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), 0 0 35px rgba(255, 0, 127, 0.25);
+  position: relative;
+}
+
+.arcade-crt-header {
+  background: #181926;
+  border-bottom: 2px solid #2a2b3d;
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.arcade-crt-buttons {
+  display: flex;
+  gap: 6px;
+}
+
+.arcade-crt-buttons .dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+}
+.arcade-crt-buttons .dot.red { background: #ff5f56; }
+.arcade-crt-buttons .dot.yellow { background: #ffbd2e; }
+.arcade-crt-buttons .dot.green { background: #27c93f; }
+
+.arcade-crt-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  color: #94a3b8;
+  letter-spacing: 0.05em;
+}
+
+.arcade-crt-badge {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  color: var(--arcade-green);
+  background: rgba(0, 255, 102, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.arcade-artwork-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  overflow: hidden;
+}
+
+.arcade-artwork-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.arcade-crt-screen:hover .arcade-artwork-image {
+  transform: scale(1.03);
+}
+
+/* Floating Robot Mascot Badge */
+.arcade-mascot-badge {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(9, 10, 16, 0.85);
+  border: 2px solid var(--arcade-cyan);
+  border-radius: 100px;
+  padding: 4px 14px 4px 4px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 20px rgba(0, 240, 255, 0.4);
+  animation: floatMascot 3s ease-in-out infinite;
+}
+
+@keyframes floatMascot {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.arcade-mascot-thumb {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #fff;
+}
+
+.arcade-speech-bubble {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  color: #fff;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+/* View Toggle (Tools vs Prompts) */
+.arcade-view-toggle {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.arcade-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  border-radius: 14px;
+  background: rgba(18, 18, 28, 0.7);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.arcade-toggle-btn:hover {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+}
+
+.arcade-toggle-btn.active {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.25), rgba(236, 72, 153, 0.2));
+  border-color: var(--arcade-magenta);
+  color: #ffffff;
+  box-shadow: 0 0 25px rgba(255, 0, 127, 0.35), 3px 3px 0px var(--arcade-magenta);
+  transform: translate(-1px, -1px);
+}
+
+/* Arcade Search Box */
+.arcade-search-box {
+  position: relative;
+  max-width: 780px;
+  margin: 0 auto 28px;
+}
+
+.arcade-search-icon {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--arcade-cyan);
+  pointer-events: none;
+}
+
+.arcade-search-input {
+  width: 100%;
+  padding: 16px 52px 16px 56px;
+  background: rgba(9, 10, 16, 0.85);
+  border: 2px solid rgba(0, 240, 255, 0.35);
+  border-radius: 18px;
+  color: #ffffff;
+  font-size: 15px;
+  outline: none;
+  transition: all 0.2s ease;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 240, 255, 0.15);
+}
+
+.arcade-search-input:focus {
+  border-color: var(--arcade-cyan);
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 240, 255, 0.4);
+}
+
+.arcade-search-input::placeholder {
+  color: #64748b;
+  font-size: 13.5px;
+}
+
+/* Horizontal Scrollable Category Carousel */
+.filter-pills-scroll-wrapper {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.filter-pills-carousel {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 4px 4px 14px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  justify-content: center;
+}
+
+.filter-pills-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.filter-pill-arcade {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 12px;
+  background: rgba(18, 18, 28, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #94a3b8;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  scroll-snap-align: start;
+}
+
+.filter-pill-arcade:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.filter-pill-arcade.active {
+  background: #ffffff;
+  color: #090a10;
+  border-color: #ffffff;
+  font-weight: 700;
+  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.3), 2px 2px 0px var(--arcade-cyan);
+}
+
+/* ==========================================================================
+   GAMIFIED RARITY BADGES & TACTILE 3D BUTTONS
+   ========================================================================== */
+.card-rarity-badge {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7.5px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.04em;
+  font-weight: 700;
+}
+
+.rarity-boss {
+  background: rgba(251, 191, 36, 0.15);
+  color: #fbbf24;
+  border: 1px solid rgba(251, 191, 36, 0.4);
+  box-shadow: 0 0 10px rgba(251, 191, 36, 0.3);
+}
+
+.rarity-god {
+  background: rgba(0, 240, 255, 0.15);
+  color: #00f0ff;
+  border: 1px solid rgba(0, 240, 255, 0.4);
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+}
+
+.rarity-legend {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
+}
+
+.rarity-vetted {
+  background: rgba(16, 185, 129, 0.12);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+/* Tactile 3D Button Depression */
+.arcade-cta-press {
+  transition: transform 0.1s ease, box-shadow 0.1s ease !important;
+}
+
+.arcade-cta-press:active {
+  transform: translate(2px, 2px) !important;
+  box-shadow: none !important;
+}
+
+/* ==========================================================================
+   MOBILE BOTTOM NAVIGATION DOCK & SLIDE-OVER DRAWER
+   ========================================================================== */
+
+.mobile-bottom-dock {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-bottom-dock {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 64px;
+    background: rgba(9, 10, 16, 0.94);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.7), 0 -1px 0 rgba(0, 240, 255, 0.2);
+    z-index: 9999;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 8px;
+  }
+
+  .mobile-dock-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    color: #94a3b8;
+    text-decoration: none;
+    background: transparent;
+    border: none;
+    font-size: 11px;
+    font-weight: 600;
+    min-width: 52px;
+    height: 50px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .mobile-dock-btn:hover {
+    color: #ffffff;
+  }
+
+  .mobile-dock-btn.active {
+    color: var(--arcade-cyan);
+  }
+
+  .mobile-dock-btn.active svg {
+    filter: drop-shadow(0 0 8px rgba(0, 240, 255, 0.6));
+    transform: translateY(-2px);
+  }
+
+  /* Pad main app container so bottom dock never occludes content */
+  .app-container {
+    padding-bottom: 74px;
+  }
+}
+
+/* Mobile Slide-Over Drawer */
+.mobile-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  z-index: 10000;
+  display: flex;
+  justify-content: flex-end;
+  animation: fadeIn 0.2s ease;
+}
+
+.mobile-drawer-panel {
+  width: 85%;
+  max-width: 340px;
+  height: 100%;
+  background: #0d0e18;
+  border-left: 2px solid rgba(0, 240, 255, 0.3);
+  display: flex;
+  flex-direction: column;
+  box-shadow: -15px 0 50px rgba(0, 0, 0, 0.8);
+  animation: slideDrawer 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideDrawer {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+.mobile-drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.mobile-drawer-close {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #fff;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.mobile-drawer-content {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile-drawer-hero-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  color: var(--arcade-yellow);
+  background: rgba(251, 191, 36, 0.1);
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  padding: 8px 12px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+
+.mobile-drawer-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mobile-drawer-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  color: #cbd5e1;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  transition: all 0.15s ease;
+}
+
+.mobile-drawer-link:hover,
+.mobile-drawer-link.active {
+  background: rgba(0, 240, 255, 0.1);
+  border-color: rgba(0, 240, 255, 0.3);
+  color: #fff;
+}
+
+.mobile-drawer-footer {
+  margin-top: auto;
+  padding-top: 24px;
+}
+
+/* ==========================================================================
+   COMPREHENSIVE MOBILE AUDIT & RESPONSIVE MEDIA QUERIES
+   ========================================================================== */
+
+@media (max-width: 900px) {
+  .arcade-hero-layout {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+
+@media (max-width: 768px) {
+  .arcade-hero {
+    padding: 28px 18px 24px;
+    border-radius: 18px;
+    margin-bottom: 24px;
+  }
+
+  .arcade-hero-title {
+    font-size: 32px;
+    line-height: 1.15;
+  }
+
+  .arcade-title-eyebrow {
+    font-size: 9px;
+  }
+
+  .arcade-hud-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .arcade-hud-pill {
+    padding: 10px 8px;
+  }
+
+  .arcade-hud-digit {
+    font-size: 18px;
+  }
+
+  .arcade-view-toggle {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .arcade-toggle-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 12px 18px;
+    font-size: 13.5px;
+  }
+
+  .filter-pills-carousel {
+    justify-content: flex-start;
+    padding-left: 2px;
+  }
+
+  .card-top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .tool-title-row {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .tool-title {
+    font-size: 17px;
+    word-break: break-word;
+  }
+}
+
+@media (max-width: 480px) {
+  .arcade-hero-title {
+    font-size: 27px;
+  }
+
+  .arcade-search-input {
+    font-size: 13px;
+    padding: 14px 44px 14px 46px;
+  }
+
+  .arcade-speech-bubble {
+    display: none;
+  }
+
+  .tool-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .tool-footer > div {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .tool-affiliate-cta {
+    flex: 1;
+    justify-content: center;
+  }
+}
+

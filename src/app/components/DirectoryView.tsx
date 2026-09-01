@@ -4,14 +4,13 @@ import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import ToolLogo from './ToolLogo';
 import PromptCard, { PromptData } from './PromptCard';
+import ArcadeMarquee from './ArcadeMarquee';
 import { getToolSlug } from '@/lib/tools';
 import { 
   Search, 
   Sparkles, 
   Star, 
   ExternalLink, 
-  Check, 
-  Copy, 
   Flame, 
   SlidersHorizontal,
   BadgeCheck,
@@ -22,7 +21,11 @@ import {
   Video,
   Mic,
   Bot,
-  Filter
+  Filter,
+  Gamepad2,
+  Trophy,
+  Swords,
+  Rocket
 } from 'lucide-react';
 
 interface ToolItem {
@@ -49,12 +52,15 @@ interface DirectoryViewProps {
 }
 
 const CATEGORY_ICONS: Record<string, React.ReactNode> = {
+  All: <Gamepad2 size={14} />,
   Writing: <PenTool size={14} />,
   Code: <Code2 size={14} />,
   Design: <Palette size={14} />,
   Video: <Video size={14} />,
   Audio: <Mic size={14} />,
   Automation: <Bot size={14} />,
+  Marketing: <Rocket size={14} />,
+  Business: <Trophy size={14} />
 };
 
 const TARGET_AI_FILTERS = [
@@ -82,6 +88,13 @@ export default function DirectoryView({
       : ['All', 'Design', 'Code', 'Marketing', 'Business'];
     return list;
   }, [activeTab]);
+
+  const getGamifiedRarity = (tool: ToolItem) => {
+    if (tool.featured) return { label: 'BOSS TIER 👑', class: 'rarity-boss' };
+    if ((tool.rating || 0) >= 4.9) return { label: 'GOD MODE ⚡', class: 'rarity-god' };
+    if ((tool.reviewsCount || 0) > 1000) return { label: 'LEGENDARY 🔥', class: 'rarity-legend' };
+    return { label: 'LVL 99 👾', class: 'rarity-vetted' };
+  };
 
   // Filtered and Sorted Tools
   const filteredTools = useMemo(() => {
@@ -148,45 +161,111 @@ export default function DirectoryView({
 
   return (
     <div className="directory-view-wrapper">
-      {/* Hero Section */}
-      <header className="hero">
-        <div className="hero-glow"></div>
-        <div className="hero-badge">
-          <Sparkles size={14} className="sparkle-icon" />
-          <span>Verified Frontier Index · Updated September 1, 2026</span>
-        </div>
-        <h1 className="hero-title">
-          Explore the Best <span className="gradient-text">AI Tools & Prompts</span>
-        </h1>
-        <p className="hero-subtitle">
-          Real-time curated directory of autonomous AI agents, coding copilots, and tested prompt recipes with real outputs.
-        </p>
+      {/* 90s Retro Arcade Breaking News Ticker */}
+      <ArcadeMarquee />
 
-        {/* View Toggle */}
-        <div className="view-toggle">
+      {/* Dramatic 90s Arcade Hero Section */}
+      <header className="arcade-hero">
+        <div className="arcade-grid-bg"></div>
+        
+        <div className="arcade-hero-layout">
+          <div className="arcade-hero-content">
+            <div className="arcade-status-tag">
+              <span className="arcade-blink-dot"></span>
+              <span>LEVEL 2026: EXPONENTIAL REVOLUTION · PLAYER 1 READY</span>
+            </div>
+
+            <h1 className="arcade-hero-title">
+              <span className="arcade-title-eyebrow">👾 MISSION OBJECTIVE: UNLOCK THE FUTURE</span>
+              AI IS CHANGING <span className="arcade-glow-gradient">THE WORLD</span>
+            </h1>
+
+            <p className="arcade-hero-desc">
+              Don&apos;t build like it&apos;s 1996. Equip yourself with <strong>85+ autonomous coding agents</strong>, neural video studios, voice synthesis copilots, and visual prompt spellbooks curated by <strong>Karan Arora</strong>.
+            </p>
+
+            {/* Arcade HUD Stats Cards */}
+            <div className="arcade-hud-grid">
+              <div className="arcade-hud-pill">
+                <span className="arcade-hud-digit">85+</span>
+                <span className="arcade-hud-label">🕹️ BOSS WEAPONS</span>
+              </div>
+              <div className="arcade-hud-pill">
+                <span className="arcade-hud-digit">37</span>
+                <span className="arcade-hud-label">⚡ SECRET PROMPTS</span>
+              </div>
+              <div className="arcade-hud-pill">
+                <span className="arcade-hud-digit">186</span>
+                <span className="arcade-hud-label">👾 DUNGEON RUNS</span>
+              </div>
+              <div className="arcade-hud-pill">
+                <span className="arcade-hud-digit">100%</span>
+                <span className="arcade-hud-label">⭐ FREE ACCESS</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Dramatic Cartoon 90s Arcade Visual Frame */}
+          <div className="arcade-hero-visual-card">
+            <div className="arcade-crt-screen">
+              <div className="arcade-crt-header">
+                <div className="arcade-crt-buttons">
+                  <span className="dot red"></span>
+                  <span className="dot yellow"></span>
+                  <span className="dot green"></span>
+                </div>
+                <span className="arcade-crt-title">ARCADE_OS_v2.6 // CYBER_MATRIX</span>
+                <span className="arcade-crt-badge">60 FPS</span>
+              </div>
+
+              <div className="arcade-artwork-container">
+                <img 
+                  src="/hero-arcade-ai.jpg" 
+                  alt="Dramatic 90s AI Arcade Visual - AI Is Changing The World" 
+                  className="arcade-artwork-image"
+                />
+                
+                {/* Floating Retro Robot Mascot */}
+                <div className="arcade-mascot-badge">
+                  <img 
+                    src="/arcade-mascot.jpg" 
+                    alt="Stack AI Robot Companion" 
+                    className="arcade-mascot-thumb"
+                  />
+                  <div className="arcade-speech-bubble">
+                    <span>AI IS CHANGING THE WORLD! ⚡</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* View Toggle (Tools vs Prompts) */}
+        <div className="arcade-view-toggle">
           <button 
-            className={`toggle-btn ${activeTab === 'tools' ? 'active' : ''}`}
+            className={`arcade-toggle-btn ${activeTab === 'tools' ? 'active' : ''}`}
             onClick={() => { setActiveTab('tools'); setSelectedCategory('All'); }}
           >
             <Zap size={16} />
-            <span>AI Tools ({initialTools.length})</span>
+            <span>🕹️ Frontier AI Weapons ({initialTools.length})</span>
           </button>
           <button 
-            className={`toggle-btn ${activeTab === 'prompts' ? 'active' : ''}`}
+            className={`arcade-toggle-btn ${activeTab === 'prompts' ? 'active' : ''}`}
             onClick={() => { setActiveTab('prompts'); setSelectedCategory('All'); }}
           >
             <Sparkles size={16} />
-            <span>Prompt Library with Outputs ({initialPrompts.length})</span>
+            <span>🎨 Visual Prompt Spellbook ({initialPrompts.length})</span>
           </button>
         </div>
 
-        {/* Search Bar */}
-        <div className="search-container">
-          <Search size={20} className="search-icon-inside" />
+        {/* Arcade Search Bar */}
+        <div className="arcade-search-box">
+          <Search size={20} className="arcade-search-icon" />
           <input 
             type="text" 
-            className="search-input" 
-            placeholder={`Search ${activeTab === 'tools' ? '40+ tools by name, tag, or feature...' : 'prompts by keyword, Midjourney, Cursor, Claude...'}`}
+            className="arcade-search-input" 
+            placeholder={`INSERT QUERY: ${activeTab === 'tools' ? 'Search 85+ AI tools by name, tag, or superpower...' : 'Search 37 prompts by Midjourney, Cursor, Claude...'}`}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -195,18 +274,20 @@ export default function DirectoryView({
           )}
         </div>
 
-        {/* Category Pills */}
-        <div className="filter-pills">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              className={`filter-pill ${selectedCategory === cat ? 'active' : ''}`}
-              onClick={() => setSelectedCategory(cat)}
-            >
-              {CATEGORY_ICONS[cat]}
-              <span>{cat}</span>
-            </button>
-          ))}
+        {/* Responsive Horizontal Scroll Category Bar */}
+        <div className="filter-pills-scroll-wrapper">
+          <div className="filter-pills-carousel">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                className={`filter-pill-arcade ${selectedCategory === cat ? 'active' : ''}`}
+                onClick={() => setSelectedCategory(cat)}
+              >
+                {CATEGORY_ICONS[cat]}
+                <span>{cat}</span>
+              </button>
+            ))}
+          </div>
         </div>
       </header>
 
@@ -220,7 +301,7 @@ export default function DirectoryView({
                 className={`pricing-pill ${selectedPricing === p ? 'active' : ''}`}
                 onClick={() => setSelectedPricing(p)}
               >
-                {p === 'All' ? 'All Pricing' : p}
+                {p === 'All' ? '🎮 All Pricing' : p}
               </button>
             ))}
           </div>
@@ -232,9 +313,9 @@ export default function DirectoryView({
               onChange={(e) => setSortBy(e.target.value as any)}
               className="sort-select"
             >
-              <option value="featured">Most Popular & Featured</option>
-              <option value="rating">Highest Rated</option>
-              <option value="name">Alphabetical (A-Z)</option>
+              <option value="featured">⭐ Most Popular & Boss Tier</option>
+              <option value="rating">★ Highest Rated (God Mode)</option>
+              <option value="name">🔤 Alphabetical (A-Z)</option>
             </select>
           </div>
         </div>
@@ -246,7 +327,7 @@ export default function DirectoryView({
           <div className="pricing-filters">
             <span style={{ fontSize: 13, color: 'var(--text-muted)', display: 'inline-flex', alignItems: 'center', gap: 5, marginRight: 6 }}>
               <Filter size={13} />
-              <span>Target Model:</span>
+              <span>Target Engine:</span>
             </span>
             {TARGET_AI_FILTERS.map((ai) => (
               <button
@@ -269,8 +350,8 @@ export default function DirectoryView({
         <div className="section-title-wrap">
           <h2 className="section-title">
             {activeTab === 'tools' 
-              ? (selectedCategory === 'All' ? 'All Verified AI Tools' : `${selectedCategory} AI Tools`)
-              : (selectedCategory === 'All' ? 'Curated Prompts with Real Outputs' : `${selectedCategory} Prompts`)
+              ? (selectedCategory === 'All' ? '👾 Verified Frontier AI Software Inventory' : `${selectedCategory} AI Arsenal`)
+              : (selectedCategory === 'All' ? '🎨 Curated Visual Prompts with Real Output Previews' : `${selectedCategory} Prompt Recipes`)
             }
           </h2>
           {(selectedCategory !== 'All' || selectedPricing !== 'All' || selectedTargetAI !== 'All Models') && (
@@ -280,7 +361,7 @@ export default function DirectoryView({
           )}
         </div>
         <span className="tools-count">
-          {activeTab === 'tools' ? `${filteredTools.length} tools found` : `${filteredPrompts.length} prompts with outputs`}
+          {activeTab === 'tools' ? `${filteredTools.length} weapons loaded` : `${filteredPrompts.length} spells ready`}
         </span>
       </div>
 
@@ -288,28 +369,27 @@ export default function DirectoryView({
       <div className="tools-grid" style={{ display: activeTab === 'tools' ? 'grid' : 'none' }}>
         {filteredTools.length === 0 ? (
           <div className="empty-state">
-            <p>No AI tools matched your search criteria.</p>
+            <p>No AI tools matched your mission parameters.</p>
             <button className="btn btn-secondary" onClick={() => { setSearchQuery(''); setSelectedCategory('All'); setSelectedPricing('All'); }}>
-              Clear Filters
+              Reset Arsenal
             </button>
           </div>
         ) : (
           filteredTools.map((tool, index) => {
-            const delay = (index % 12) * 0.03;
+            const delay = (index % 12) * 0.025;
+            const rarity = getGamifiedRarity(tool);
+
             return (
               <div 
                 key={tool.id} 
                 className={`tool-card ${tool.featured ? 'tool-featured' : ''}`}
-                style={{ animation: `fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) both ${delay}s` }}
+                style={{ animation: `fadeInUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) both ${delay}s` }}
               >
                 <div className="card-top-bar">
                   <span className="tool-category-badge">{tool.category}</span>
-                  {tool.badge && (
-                    <div className="card-badge">
-                      <Flame size={12} />
-                      <span>{tool.badge}</span>
-                    </div>
-                  )}
+                  <span className={`card-rarity-badge ${rarity.class}`}>
+                    {rarity.label}
+                  </span>
                 </div>
 
                 <div className="tool-header">
@@ -354,7 +434,7 @@ export default function DirectoryView({
                   </div>
                 )}
 
-                {/* Card Footer / Affiliate CTA */}
+                {/* Card Footer / Gamified CTA */}
                 <div className="tool-footer">
                   <span className={`tool-price ${tool.priceClass}`}>
                     {tool.priceClass === 'freemium' ? '✨ ' : tool.priceClass === 'free' ? '🎁 ' : '💎 '}
@@ -366,15 +446,15 @@ export default function DirectoryView({
                       className="btn btn-secondary" 
                       style={{ padding: '6px 12px', fontSize: 12 }}
                     >
-                      Review
+                      Inspect
                     </Link>
                     <a 
                       href={`/go/${getToolSlug(tool)}`} 
                       target="_blank" 
                       rel="sponsored nofollow noopener" 
-                      className="tool-affiliate-cta"
+                      className="tool-affiliate-cta arcade-cta-press"
                     >
-                      <span>Try Free</span>
+                      <span>Equip Tool</span>
                       <ExternalLink size={13} />
                     </a>
                   </div>
