@@ -24,7 +24,7 @@ export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [soundOn, setSoundOn] = useState(false);
-  const [crtOn, setCrtOn] = useState(true);
+  const [crtOn, setCrtOn] = useState(false);
 
   useEffect(() => {
     setSoundOn(isAudioEnabled());
@@ -65,15 +65,17 @@ export default function Navbar() {
       <header className={`top-navbar-wrapper ${isScrolled ? 'scrolled' : ''}`}>
         <nav className="top-navbar-container">
           {/* Brand Logo */}
-          <Link href="/" className="topbar-brand" onClick={() => playCoinSound()}>
+          <Link href="/" className="topbar-brand">
             <div className="topbar-logo-icon">
-              <Gamepad2 size={18} color="#00f0ff" />
+              <Sparkles size={18} color="#6366f1" />
             </div>
             <div className="topbar-brand-text">
               <span className="topbar-brand-main">Stack AI</span>
               <span className="topbar-brand-sub">Tools</span>
             </div>
-            <span className="topbar-arcade-pill">90s ARCADE</span>
+            <span className="topbar-arcade-pill" style={{ color: '#818cf8', borderColor: 'rgba(99, 102, 241, 0.3)', background: 'rgba(99, 102, 241, 0.1)' }}>
+              2026 DIRECTORY
+            </span>
           </Link>
 
           {/* Desktop Navigation Links */}

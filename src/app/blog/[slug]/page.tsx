@@ -1,11 +1,13 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import VisualToolList from '@/app/components/VisualToolList';
 import { 
   getArticleBySlug, 
   getAllArticles, 
   getRelatedArticles, 
-  generateArticleContent 
+  generateArticleContent,
+  getVisualToolsForArticle
 } from '@/lib/blog';
 import { 
   Clock, 
@@ -92,6 +94,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
   const content = generateArticleContent(article);
   const relatedArticles = getRelatedArticles(article.slug, article.category, 3);
+  const visualTools = getVisualToolsForArticle(article);
 
   // Schema.org Article & FAQ JSON-LD
   const articleSchema = {
@@ -253,6 +256,13 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               {content.intro}
             </p>
           </section>
+
+          {/* The World's Cleanest Visual Tool List with Use Case Match Probability */}
+          <VisualToolList 
+            tools={visualTools}
+            title={`Top Rated Candidates for "${article.primaryKeyword}"`}
+            subtitle="Verified against real-world benchmark metrics, enterprise latency, and use case match probability."
+          />
 
           {/* Section 2: Paradigm Shift */}
           <section className="article-section">

@@ -4,7 +4,7 @@ import React, { useEffect, useState, useRef } from 'react';
 
 export default function InteractiveGameBg() {
   const [scrollProgress, setScrollProgress] = useState(0);
-  const [isCrtEnabled, setIsCrtEnabled] = useState(true);
+  const [isCrtEnabled, setIsCrtEnabled] = useState(false);
   const animFrameRef = useRef<number | null>(null);
 
   useEffect(() => {
