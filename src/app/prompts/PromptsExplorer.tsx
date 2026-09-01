@@ -11,7 +11,9 @@ import {
   Search, 
   X,
   SlidersHorizontal,
-  RotateCcw
+  RotateCcw,
+  Zap,
+  Flame
 } from 'lucide-react';
 
 interface PromptsExplorerProps {
@@ -32,6 +34,14 @@ const MODEL_ICONS: Record<string, string> = {
   'Suno v4': '🎵',
 };
 
+const SUGGESTED_SEARCHES = [
+  'Dragon on Cliff Edge',
+  'Vintage Tokyo Street',
+  'Full-Stack SaaS Dashboard',
+  'Dark Mode System Prompt',
+  'Flux.1 Hyper-realistic'
+];
+
 export default function PromptsExplorer({ initialPrompts }: PromptsExplorerProps) {
   const [selectedTarget, setSelectedTarget] = useState<string>('All Models');
   const [selectedType, setSelectedType] = useState<string>('all');
@@ -44,6 +54,28 @@ export default function PromptsExplorer({ initialPrompts }: PromptsExplorerProps
       if (p.targetAI) set.add(p.targetAI);
     });
     return ['All Models', ...Array.from(set)];
+  }, [initialPrompts]);
+
+  // Dynamic counts for models
+  const modelCounts = useMemo(() => {
+    const counts: Record<string, number> = { 'All Models': initialPrompts.length };
+    initialPrompts.forEach(p => {
+      if (p.targetAI) {
+        counts[p.targetAI] = (counts[p.targetAI] || 0) + 1;
+      }
+    });
+    return counts;
+  }, [initialPrompts]);
+
+  // Dynamic counts for output types
+  const typeCounts = useMemo(() => {
+    const counts = { all: initialPrompts.length, image: 0, code: 0, text: 0 };
+    initialPrompts.forEach(p => {
+      if (p.outputType === 'image') counts.image++;
+      else if (p.outputType === 'code') counts.code++;
+      else if (p.outputType === 'text') counts.text++;
+    });
+    return counts;
   }, [initialPrompts]);
 
   // Filtered prompts calculation
@@ -97,7 +129,7 @@ export default function PromptsExplorer({ initialPrompts }: PromptsExplorerProps
         <input
           type="text"
           className="prompts-search-input"
-          placeholder="Search 12+ battle-tested prompts by use case, style, syntax, or model..."
+          placeholder="Search 37+ production prompts by style, use case, model, or syntax..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
@@ -112,7 +144,41 @@ export default function PromptsExplorer({ initialPrompts }: PromptsExplorerProps
         )}
       </div>
 
-      {/* 2. Centered Target AI Model Filter Pills */}
+      {/* Quick Search Suggestions */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: 6, marginBottom: 20 }}>
+        <span style={{ fontSize: 12, color: 'var(--text-muted)', marginRight: 4, display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+          <Sparkles size={12} color="#818cf8" />
+          <span>Popular:</span>
+        </span>
+        {SUGGESTED_SEARCHES.map(term => (
+          <button
+            key={term}
+            onClick={() => setSearchQuery(term)}
+            style={{ 
+              background: 'rgba(255, 255, 255, 0.04)', 
+              border: '1px solid rgba(255, 255, 255, 0.08)', 
+              borderRadius: 100, 
+              padding: '3px 10px', 
+              fontSize: 11.5, 
+              color: 'var(--text-secondary)', 
+              cursor: 'pointer',
+              transition: 'all 0.15s ease'
+            }}
+            onMouseEnter={e => {
+              (e.currentTarget as HTMLElement).style.color = '#ffffff';
+              (e.currentTarget as HTMLElement).style.borderColor = 'rgba(99, 102, 241, 0.4)';
+            }}
+            onMouseLeave={e => {
+              (e.currentTarget as HTMLElement).style.color = 'var(--text-secondary)';
+              (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255, 255, 255, 0.08)';
+            }}
+          >
+            {term}
+          </button>
+        ))}
+      </div>
+
+      {/* 2. Target AI Model Filter Carousel with Live Counts */}
       <div className="prompts-model-pills">
         {availableModels.map((target) => (
           <button
@@ -122,6 +188,7 @@ export default function PromptsExplorer({ initialPrompts }: PromptsExplorerProps
           >
             <span>{MODEL_ICONS[target] || '✨'}</span>
             <span>{target}</span>
+            <span style={{ fontSize: 11, opacity: 0.75, marginLeft: 2 }}>({modelCounts[target] || 0})</span>
           </button>
         ))}
       </div>
@@ -133,7 +200,8 @@ export default function PromptsExplorer({ initialPrompts }: PromptsExplorerProps
             className={`prompts-type-pill ${selectedType === 'all' ? 'active' : ''}`}
             onClick={() => setSelectedType('all')}
           >
-            All Outputs ({initialPrompts.length})
+            <span>All Formats</span>
+            <span style={{ opacity: 0.7, fontSize: 11.5 }}>({typeCounts.all})</span>
           </button>
           <button
             className={`prompts-type-pill ${selectedType === 'image' ? 'active' : ''}`}
@@ -141,6 +209,7 @@ export default function PromptsExplorer({ initialPrompts }: PromptsExplorerProps
           >
             <ImageIcon size={13} />
             <span>Visual Images</span>
+            <span style={{ opacity: 0.7, fontSize: 11.5 }}>({typeCounts.image})</span>
           </button>
           <button
             className={`prompts-type-pill ${selectedType === 'code' ? 'active' : ''}`}
@@ -148,6 +217,7 @@ export default function PromptsExplorer({ initialPrompts }: PromptsExplorerProps
           >
             <Code2 size={13} />
             <span>Coding & Sandboxes</span>
+            <span style={{ opacity: 0.7, fontSize: 11.5 }}>({typeCounts.code})</span>
           </button>
           <button
             className={`prompts-type-pill ${selectedType === 'text' ? 'active' : ''}`}
@@ -155,6 +225,7 @@ export default function PromptsExplorer({ initialPrompts }: PromptsExplorerProps
           >
             <FileText size={13} />
             <span>Text & Reasoning</span>
+            <span style={{ opacity: 0.7, fontSize: 11.5 }}>({typeCounts.text})</span>
           </button>
         </div>
 
@@ -182,11 +253,11 @@ export default function PromptsExplorer({ initialPrompts }: PromptsExplorerProps
           ))}
         </div>
       ) : (
-        <div className="empty-state" style={{ padding: '60px 20px', textAlign: 'center' }}>
+        <div className="empty-state" style={{ padding: '60px 20px', textAlign: 'center', background: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: 16 }}>
           <div style={{ fontSize: 36, marginBottom: 12 }}>🔍</div>
           <h3 style={{ fontSize: 18, color: '#fff', marginBottom: 8 }}>No prompts matched your search</h3>
           <p style={{ color: 'var(--text-secondary)', fontSize: 14, maxWidth: 450, margin: '0 auto 16px' }}>
-            No recipes matched &ldquo;{searchQuery || selectedTarget}&rdquo;. Try broadening your keywords or resetting filters.
+            No prompt recipes matched &ldquo;{searchQuery || selectedTarget}&rdquo;. Try broadening your keywords or resetting filters.
           </p>
           <button
             className="btn btn-secondary"
