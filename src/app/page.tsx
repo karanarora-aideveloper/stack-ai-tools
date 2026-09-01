@@ -34,7 +34,12 @@ export default async function Home() {
     reviewsCount: t.reviewsCount,
     tags: t.tags || [],
     badge: t.badge,
-    featured: t.featured
+    featured: t.featured,
+    primaryUseCase: t.primaryUseCase,
+    useCases: t.useCases,
+    complexity: t.complexity,
+    idealFor: t.idealFor,
+    architectureStack: t.architectureStack
   }));
 
   const serializedPrompts = prompts.map(p => ({

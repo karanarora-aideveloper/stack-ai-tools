@@ -14,6 +14,11 @@ export interface AITool {
   tags: string[];
   badge?: string;
   featured?: boolean;
+  primaryUseCase?: string;
+  useCases?: string[];
+  complexity?: 'Intermediate' | 'Advanced' | 'Frontier Engineering';
+  idealFor?: string;
+  architectureStack?: string[];
 }
 
 export interface PromptItem {
@@ -33,37 +38,55 @@ export interface PromptItem {
 export const aiTools: AITool[] = [
   {
     id: 1,
-    name: 'ChatGPT (GPT-5.6 Frontier)',
-    category: 'Writing',
-    icon: '💬',
-    domain: 'openai.com',
-    logoUrl: 'https://www.google.com/s2/favicons?domain=openai.com&sz=128',
-    description: 'OpenAI\'s flagship frontier model series with unified real-time routing across ultra-fast responses and extended deep reasoning modes.',
-    pricingModel: 'Freemium',
-    priceClass: 'freemium',
-    link: 'https://chatgpt.com',
-    rating: 4.95,
-    reviewsCount: 22400,
-    tags: ['GPT-5.6', 'Autonomous Agents', 'Deep Research', 'Multimodal'],
-    badge: 'Most Popular',
-    featured: true
+    name: 'Devin AI (Cognition Labs)',
+    category: 'Code',
+    icon: '🤖',
+    domain: 'cognition.ai',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=cognition.ai&sz=128',
+    description: 'The world\'s first autonomous AI software engineer. Plans complex tasks, navigates repositories, executes shell commands, fixes bugs, and opens pull requests.',
+    pricingModel: 'Paid',
+    priceClass: 'paid',
+    link: 'https://cognition.ai',
+    rating: 4.96,
+    reviewsCount: 16800,
+    tags: ['Autonomous SWE', 'Shell Execution', 'GitHub PRs', 'Full Codebase'],
+    badge: 'Frontier AI Engineer',
+    featured: true,
+    primaryUseCase: 'Autonomous multi-file software engineering, bug fixing & PR creation',
+    useCases: [
+      'Solve GitHub issues autonomously without human supervision',
+      'Run terminal builds, compiler diagnostics, and test suites in sandboxes',
+      'End-to-end repository refactoring and third-party library migrations'
+    ],
+    complexity: 'Frontier Engineering',
+    idealFor: 'Software Architects, Engineering Leads, Rapid Scale Teams',
+    architectureStack: ['Sandboxed Linux Runtimes', 'AST Analysis', 'Self-Healing Test Loops']
   },
   {
     id: 2,
-    name: 'Claude Sonnet 5',
-    category: 'Writing',
-    icon: '🧠',
+    name: 'Claude Code (Anthropic CLI)',
+    category: 'Code',
+    icon: '💻',
     domain: 'anthropic.com',
-    logoUrl: 'https://www.google.com/s2/favicons?domain=claude.ai&sz=128',
-    description: 'Anthropic\'s premier 2026 intelligence model. Features unprecedented agentic coding, adaptive thinking, 1M context, and nuanced writing.',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=anthropic.com&sz=128',
+    description: 'Anthropic\'s agentic command-line software engineering tool. Understands entire codebases directly inside your terminal, refactors architecture, and fixes broken test suites.',
     pricingModel: 'Freemium',
     priceClass: 'freemium',
-    link: 'https://claude.ai',
+    link: 'https://docs.anthropic.com/en/docs/agents-and-tools/claude-code',
     rating: 4.97,
-    reviewsCount: 14800,
-    tags: ['Claude 5', 'Agentic Coding', 'Adaptive Thinking', '1M Context'],
-    badge: 'Editor\'s Choice',
-    featured: true
+    reviewsCount: 18200,
+    tags: ['CLI Agent', 'Claude 3.7', 'Terminal Tool', 'Architecture'],
+    badge: 'Developer #1',
+    featured: true,
+    primaryUseCase: 'Agentic terminal-native codebase refactoring, search & test execution',
+    useCases: [
+      'Navigate multi-thousand file codebases directly via terminal CLI',
+      'Run unit tests, inspect stack traces, and auto-correct failing assertions',
+      'Automate git commit messages and branch management from prompt'
+    ],
+    complexity: 'Frontier Engineering',
+    idealFor: 'Senior Developers, DevOps Engineers, Open Source Maintainers',
+    architectureStack: ['Terminal Agent Loop', 'Adaptive Reasoning', 'Local Git Integration']
   },
   {
     id: 3,
@@ -80,7 +103,16 @@ export const aiTools: AITool[] = [
     reviewsCount: 11900,
     tags: ['IDE', 'Composer Agents', 'Full Codebase', 'TypeScript'],
     badge: 'Developer #1',
-    featured: true
+    featured: true,
+    primaryUseCase: 'Multi-file code editing, repo indexing, and real-time tab autocomplete',
+    useCases: [
+      'Orchestrate multi-file refactors using Composer agents',
+      'Index entire enterprise mono-repos for semantic context retrieval',
+      'Predict next edits across related files with multi-line copilot'
+    ],
+    complexity: 'Advanced',
+    idealFor: 'Full-Stack Developers, Staff Engineers',
+    architectureStack: ['Custom VS Code Fork', 'Vector Embeddings', 'Shadow Workspace']
   },
   {
     id: 4,
@@ -97,7 +129,16 @@ export const aiTools: AITool[] = [
     reviewsCount: 17300,
     tags: ['v8.2 Engine', 'Photorealism', 'Edit Model', 'Graphic Design'],
     badge: 'Best Visuals',
-    featured: true
+    featured: true,
+    primaryUseCase: 'Photorealistic commercial concept art, branding & cinematic visuals',
+    useCases: [
+      'Render ultra-detailed photorealistic commercial product scenes',
+      'Generate crisp graphic design logos with embedded coherent typography',
+      'Iterate on visual concepts using inpainting, panning, and region re-rendering'
+    ],
+    complexity: 'Intermediate',
+    idealFor: 'Art Directors, Brand Designers, Creative Agencies',
+    architectureStack: ['Latent Diffusion Models', 'Web Canvas UI', 'GPU Clusters']
   },
   {
     id: 5,
@@ -114,24 +155,42 @@ export const aiTools: AITool[] = [
     reviewsCount: 13500,
     tags: ['Deep Research', 'Sonar 2.0', 'Live Citations', 'Academic'],
     badge: 'Top Search',
-    featured: true
+    featured: true,
+    primaryUseCase: 'Automated multi-source research dossiers, live citations & academic inquiries',
+    useCases: [
+      'Compile multi-hour comprehensive technical research reports with citations',
+      'Search live financial, academic, and clinical papers with verification',
+      'Synthesize real-time web intelligence into executive briefings'
+    ],
+    complexity: 'Advanced',
+    idealFor: 'Researchers, Founders, Strategy Analysts',
+    architectureStack: ['Sonar Neural Engine', 'Real-Time Web Indexing', 'Multi-Step Query Planning']
   },
   {
     id: 6,
-    name: 'Google Gemini 3.1 Pro',
-    category: 'Writing',
-    icon: '✨',
-    domain: 'gemini.google.com',
-    logoUrl: 'https://www.google.com/s2/favicons?domain=gemini.google.com&sz=128',
-    description: 'Google\'s flagship Pro-tier model featuring a 2M token context window, native multimodal reasoning, and deep Workspace agent orchestration.',
-    pricingModel: 'Paid',
-    priceClass: 'paid',
-    link: 'https://gemini.google.com',
-    rating: 4.91,
-    reviewsCount: 12200,
-    tags: ['Gemini 3', '2M Context', 'Google Workspace', 'Agentic'],
-    badge: '2M Context',
-    featured: true
+    name: 'Cartesia Sonic (Ultra-Low Latency Voice)',
+    category: 'Audio',
+    icon: '⚡',
+    domain: 'cartesia.ai',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=cartesia.ai&sz=128',
+    description: 'Frontier streaming speech synthesis engine delivering lifelike voice generation at sub-100ms time-to-first-audio for conversational voice agents.',
+    pricingModel: 'Freemium',
+    priceClass: 'freemium',
+    link: 'https://cartesia.ai',
+    rating: 4.94,
+    reviewsCount: 11400,
+    tags: ['Sub-100ms', 'WebSocket TTS', 'Conversational AI', 'Voice Bots'],
+    badge: 'Fastest Voice API',
+    featured: true,
+    primaryUseCase: 'Real-time conversational voice synthesis for live AI telephone & speech agents',
+    useCases: [
+      'Build sub-100ms conversational voice bots over WebSockets and WebRTC',
+      'Stream low-latency character voices in interactive gaming and robotics',
+      'Deploy human-sounding automated telephony customer care agents'
+    ],
+    complexity: 'Frontier Engineering',
+    idealFor: 'Voice Agent Developers, Telephony Engineers, Gaming Studios',
+    architectureStack: ['State Space Models (SSM)', 'Bidirectional Streaming', 'WebSocket API']
   },
   {
     id: 7,
@@ -169,19 +228,29 @@ export const aiTools: AITool[] = [
   },
   {
     id: 9,
-    name: 'Google Veo 2',
-    category: 'Video',
-    icon: '🎬',
-    domain: 'deepmind.google',
-    logoUrl: 'https://www.google.com/s2/favicons?domain=deepmind.google&sz=128',
-    description: 'Google DeepMind\'s cinematic 4K video foundation model with accurate physical motion and high-fidelity lighting dynamics.',
-    pricingModel: 'Paid',
-    priceClass: 'paid',
-    link: 'https://deepmind.google/technologies/veo/',
-    rating: 4.88,
-    reviewsCount: 5100,
-    tags: ['4K Video', 'DeepMind', 'Text-to-Video', 'Cinematic'],
-    badge: 'Trending'
+    name: 'ComfyUI Modular Diffusion',
+    category: 'Design',
+    icon: '🎨',
+    domain: 'github.com/comfyanonymous/ComfyUI',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=github.com&sz=128',
+    description: 'The premier open-source modular node-based visual graph interface for Stable Diffusion, Flux.1, ControlNet, and SDXL generative pipelines.',
+    pricingModel: 'Free',
+    priceClass: 'free',
+    link: 'https://github.com/comfyanonymous/ComfyUI',
+    rating: 4.96,
+    reviewsCount: 19400,
+    tags: ['Node Graph', 'Flux.1', 'LoRA', 'ControlNet', 'Open Source'],
+    badge: 'Open Source VFX',
+    featured: true,
+    primaryUseCase: 'Custom modular node-graph image generation, LoRA chaining & visual VFX pipelines',
+    useCases: [
+      'Design complex visual pipelines chaining ControlNet, IP-Adapter, and latent upscalers',
+      'Run cutting-edge Flux.1 and SDXL diffusion checkpoints with zero cloud lock-in',
+      'Automate batch image rendering through Python API and WebSocket scripts'
+    ],
+    complexity: 'Frontier Engineering',
+    idealFor: 'AI Artists, VFX Engineers, Technical Directors',
+    architectureStack: ['Node Graph Engine', 'Torch / CUDA Acceleration', 'Python Async Backend']
   },
   {
     id: 10,
@@ -210,10 +279,11 @@ export const aiTools: AITool[] = [
     pricingModel: 'Freemium',
     priceClass: 'freemium',
     link: 'https://suno.com',
-    rating: 4.91,
-    reviewsCount: 8200,
-    tags: ['Music Gen', 'Stem Separation', 'Studio Master', 'Vocals'],
-    badge: 'Viral'
+    rating: 4.95,
+    reviewsCount: 16400,
+    tags: ['Music Generation', 'Voice Synthesis', 'Stems', 'Mastering'],
+    badge: 'Best Music',
+    featured: true
   },
   {
     id: 12,
@@ -249,18 +319,29 @@ export const aiTools: AITool[] = [
   },
   {
     id: 14,
-    name: 'GitHub Copilot Enterprise',
+    name: 'DeepSeek-R1 (Open Reasoning Engine)',
     category: 'Code',
-    icon: '💻',
-    domain: 'github.com',
-    logoUrl: 'https://www.google.com/s2/favicons?domain=github.com&sz=128',
-    description: 'Enterprise AI code completion, automated pull request generation, and architectural analysis integrated directly across GitHub.',
-    pricingModel: 'Paid',
-    priceClass: 'paid',
-    link: 'https://github.com/features/copilot',
-    rating: 4.82,
-    reviewsCount: 18900,
-    tags: ['DevTools', 'VS Code', 'GitHub Native', 'Enterprise']
+    icon: '🧠',
+    domain: 'deepseek.com',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=deepseek.com&sz=128',
+    description: 'Frontier open-weights reasoning model with emergent chain-of-thought problem solving. Delivers performance matching closed reasoning models at 95% lower cost.',
+    pricingModel: 'Free',
+    priceClass: 'free',
+    link: 'https://deepseek.com',
+    rating: 4.95,
+    reviewsCount: 24500,
+    tags: ['Open Weights', 'Chain of Thought', 'Mathematical Reasoning', 'Self-Hosted'],
+    badge: 'Open Weights #1',
+    featured: true,
+    primaryUseCase: 'Complex mathematical logic, competitive algorithmic coding & self-hosted reasoning',
+    useCases: [
+      'Perform multi-step deductive reasoning and algorithm verification',
+      'Deploy completely open-source reasoning models on private enterprise VPCs',
+      'Distill high-accuracy knowledge into lightweight task-specific models'
+    ],
+    complexity: 'Frontier Engineering',
+    idealFor: 'AI Researchers, Algorithm Engineers, Data Privacy Teams',
+    architectureStack: ['Reinforcement Learning', 'Mixture of Experts (MoE)', 'Transparent CoT']
   },
   {
     id: 15,

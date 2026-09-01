@@ -7,23 +7,29 @@ import PromptCard, { PromptData } from './PromptCard';
 import ModernBackground from './ModernBackground';
 import { getToolSlug } from '@/lib/tools';
 import { 
+  COMPLEX_USE_CASE_PRESETS, 
+  matchToolsByUseCase, 
+  UseCaseMatchResult,
+  ComplexUseCasePreset 
+} from '@/lib/usecases';
+import { 
   Search, 
   Sparkles, 
   Star, 
   ExternalLink, 
-  SlidersHorizontal,
-  BadgeCheck,
-  Zap,
-  Code2,
-  PenTool,
-  Palette,
-  Video,
-  Mic,
-  Bot,
-  Layers,
-  ArrowRight,
-  TrendingUp,
-  X
+  BadgeCheck, 
+  Zap, 
+  Code2, 
+  PenTool, 
+  Palette, 
+  Video, 
+  Mic, 
+  Bot, 
+  ArrowRight, 
+  X, 
+  Wand2,
+  CheckCircle2,
+  Cpu
 } from 'lucide-react';
 
 interface ToolItem {
@@ -42,6 +48,11 @@ interface ToolItem {
   tags?: string[];
   badge?: string | null;
   featured?: boolean | null;
+  primaryUseCase?: string;
+  useCases?: string[];
+  complexity?: 'Intermediate' | 'Advanced' | 'Frontier Engineering';
+  idealFor?: string;
+  architectureStack?: string[];
 }
 
 interface DirectoryViewProps {
@@ -66,6 +77,10 @@ export default function DirectoryView({ initialTools, initialPrompts }: Director
   const [selectedPricing, setSelectedPricing] = useState('All');
   const [selectedTargetAI, setSelectedTargetAI] = useState('All Models');
 
+  // Use Case Solver state
+  const [useCaseQuery, setUseCaseQuery] = useState('');
+  const [activePreset, setActivePreset] = useState<ComplexUseCasePreset | null>(null);
+
   // Categories list
   const categories = useMemo(() => {
     const set = new Set<string>();
@@ -80,7 +95,21 @@ export default function DirectoryView({ initialTools, initialPrompts }: Director
     return ['All Models', ...Array.from(set)];
   }, [initialPrompts]);
 
-  // Filtered Tools
+  // Active query for usecase solver
+  const activeUseCaseQuery = useMemo(() => {
+    if (activePreset) return activePreset.query;
+    return useCaseQuery.trim();
+  }, [activePreset, useCaseQuery]);
+
+  // Computed use case matches
+  const useCaseMatches = useMemo(() => {
+    if (!activeUseCaseQuery) return null;
+    return matchToolsByUseCase(activeUseCaseQuery, initialTools);
+  }, [activeUseCaseQuery, initialTools]);
+
+  const isUseCaseActive = Boolean(activeUseCaseQuery && useCaseMatches && useCaseMatches.length > 0);
+
+  // Filtered Tools (when NOT in use case mode)
   const filteredTools = useMemo(() => {
     let result = initialTools;
 
@@ -102,6 +131,7 @@ export default function DirectoryView({ initialTools, initialPrompts }: Director
         (t) =>
           t.name.toLowerCase().includes(q) ||
           t.description.toLowerCase().includes(q) ||
+          (t.primaryUseCase && t.primaryUseCase.toLowerCase().includes(q)) ||
           (t.tags && t.tags.some((tag) => tag.toLowerCase().includes(q))) ||
           (t.badge && t.badge.toLowerCase().includes(q))
       );
@@ -141,6 +171,22 @@ export default function DirectoryView({ initialTools, initialPrompts }: Director
     return result;
   }, [initialPrompts, selectedCategory, selectedTargetAI, searchQuery]);
 
+  const handleSelectPreset = (preset: ComplexUseCasePreset) => {
+    if (activePreset?.id === preset.id) {
+      setActivePreset(null);
+      setUseCaseQuery('');
+    } else {
+      setActivePreset(preset);
+      setUseCaseQuery(preset.title);
+      setActiveTab('tools');
+    }
+  };
+
+  const handleClearUseCase = () => {
+    setActivePreset(null);
+    setUseCaseQuery('');
+  };
+
   return (
     <div className="directory-view-wrapper">
       {/* Sleek Modern Ambient Background */}
@@ -150,48 +196,116 @@ export default function DirectoryView({ initialTools, initialPrompts }: Director
       <header className="modern-hero">
         <div className="modern-hero-badge">
           <span className="badge-sparkle">✨</span>
-          <span>CURATED 2026 DIRECTORY • 85+ AUDITED FRONTIER TOOLS</span>
+          <span>CURATED FRONTIER AI • SPECIALIZED & COMPLEX SYSTEMS (2026)</span>
         </div>
 
         <h1 className="modern-hero-title">
-          Discover & Deploy the World&apos;s <span className="modern-hero-gradient">Best AI Software</span>
+          Discover & Deploy the World&apos;s <span className="modern-hero-gradient">Specialized AI Systems</span>
         </h1>
 
         <p className="modern-hero-subtitle">
-          The authoritative ecosystem of hand-vetted artificial intelligence platforms, autonomous coding agents, generative media models, and prompt libraries. Curated and benchmarked by <strong>Karan Arora</strong>.
+          Bypass generic chatbots. Find autonomous coding agents, node-based diffusion workflows, real-time voice streaming engines, and enterprise AI orchestration curated by <strong>Karan Arora</strong>.
         </p>
 
         {/* Clean Metrics Grid */}
         <div className="modern-metrics-row">
           <div className="modern-metric-item">
             <span className="metric-val">{initialTools.length}+</span>
-            <span className="metric-lbl">Audited Tools</span>
+            <span className="metric-lbl">Audited Frontier Tools</span>
+          </div>
+          <div className="modern-metric-divider" />
+          <div className="modern-metric-item">
+            <span className="metric-val">10</span>
+            <span className="metric-lbl">Complex Use Cases</span>
           </div>
           <div className="modern-metric-divider" />
           <div className="modern-metric-item">
             <span className="metric-val">1,000+</span>
-            <span className="metric-lbl">Research Guides</span>
-          </div>
-          <div className="modern-metric-divider" />
-          <div className="modern-metric-item">
-            <span className="metric-val">{initialPrompts.length}</span>
-            <span className="metric-lbl">Curated Prompts</span>
+            <span className="metric-lbl">Research Benchmarks</span>
           </div>
           <div className="modern-metric-divider" />
           <div className="modern-metric-item">
             <span className="metric-val">100%</span>
-            <span className="metric-lbl">Verified Free Index</span>
+            <span className="metric-lbl">Verified Independent</span>
           </div>
         </div>
 
-        {/* Modern Segmented Tab Switcher (Apple / Google Style) */}
+        {/* USE CASE INTELLIGENCE SOLVER CONSOLE */}
+        <div className="usecase-solver-card">
+          <div className="usecase-solver-top">
+            <div className="usecase-solver-title-group">
+              <span className="usecase-solver-badge">
+                <Wand2 size={13} />
+                <span>USE CASE SOLVER</span>
+              </span>
+              <h2 className="usecase-solver-heading">Match Specialized Tools by Your Exact Use Case</h2>
+            </div>
+            {isUseCaseActive && (
+              <button className="usecase-reset-btn" onClick={handleClearUseCase}>
+                <X size={14} />
+                <span>Reset to All Tools</span>
+              </button>
+            )}
+          </div>
+
+          <p className="usecase-solver-desc">
+            Type your specific technical challenge (e.g. <em>&ldquo;sub-100ms voice for phone agents&rdquo;</em>, <em>&ldquo;autonomous agent for GitHub PRs&rdquo;</em>, <em>&ldquo;generate 3D game meshes&rdquo;</em>) or click any preset below to find the most capable tools.
+          </p>
+
+          {/* Natural Language Use Case Input */}
+          <div className="usecase-input-container">
+            <Search size={17} style={{ color: 'var(--text-muted)', marginRight: 10, flexShrink: 0 }} />
+            <input 
+              type="text"
+              className="usecase-input-field"
+              placeholder="Describe what you want to build or automate..."
+              value={useCaseQuery}
+              onChange={(e) => {
+                setUseCaseQuery(e.target.value);
+                setActivePreset(null);
+                if (e.target.value) setActiveTab('tools');
+              }}
+            />
+            {useCaseQuery && (
+              <button 
+                onClick={handleClearUseCase}
+                style={{ color: 'var(--text-muted)', padding: 4 }}
+                aria-label="Clear use case query"
+              >
+                <X size={15} />
+              </button>
+            )}
+          </div>
+
+          {/* Curated Complex Presets Chips */}
+          <div>
+            <span className="usecase-presets-label">⚡ High-Impact Complex Use Cases:</span>
+            <div className="usecase-presets-grid">
+              {COMPLEX_USE_CASE_PRESETS.map((preset) => {
+                const isSelected = activePreset?.id === preset.id;
+                return (
+                  <button
+                    key={preset.id}
+                    className={`usecase-preset-btn ${isSelected ? 'active' : ''}`}
+                    onClick={() => handleSelectPreset(preset)}
+                  >
+                    <span>{preset.icon}</span>
+                    <span>{preset.title}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* Modern Segmented Tab Switcher */}
         <div className="modern-tab-switcher">
           <button 
             className={`tab-switch-btn ${activeTab === 'tools' ? 'active' : ''}`}
             onClick={() => { setActiveTab('tools'); setSelectedCategory('All'); }}
           >
             <Zap size={16} />
-            <span>AI Tools Directory ({initialTools.length})</span>
+            <span>Specialized Tools ({initialTools.length})</span>
           </button>
           <button 
             className={`tab-switch-btn ${activeTab === 'prompts' ? 'active' : ''}`}
@@ -202,54 +316,58 @@ export default function DirectoryView({ initialTools, initialPrompts }: Director
           </button>
         </div>
 
-        {/* Modern Search Input Container */}
-        <div className="modern-search-wrapper">
-          <div className="modern-search-bar">
-            <Search size={19} className="search-icon-svg" />
-            <input 
-              type="text" 
-              className="modern-search-input"
-              placeholder={
-                activeTab === 'tools'
-                  ? "Search 85+ frontier tools, categories, or use cases (e.g. Cursor, Voice, Video)..."
-                  : "Search 37+ prompts, visual styles, or AI targets (e.g. Midjourney, Claude)..."
-              }
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            {searchQuery && (
-              <button 
-                className="search-clear-btn" 
-                onClick={() => setSearchQuery('')}
-                aria-label="Clear search"
-              >
-                <X size={16} />
-              </button>
-            )}
-            <div className="search-shortcut-hint">
-              <span>⌘K</span>
+        {/* Global Keyword Search (Only shown if usecase is NOT active) */}
+        {!isUseCaseActive && (
+          <div className="modern-search-wrapper">
+            <div className="modern-search-bar">
+              <Search size={19} className="search-icon-svg" />
+              <input 
+                type="text" 
+                className="modern-search-input"
+                placeholder={
+                  activeTab === 'tools'
+                    ? "Keyword search (e.g. Cursor, LoRA, WebContainers, PagedAttention)..."
+                    : "Search prompts (e.g. Midjourney, Claude, Architecture)..."
+                }
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              {searchQuery && (
+                <button 
+                  className="search-clear-btn" 
+                  onClick={() => setSearchQuery('')}
+                  aria-label="Clear search"
+                >
+                  <X size={16} />
+                </button>
+              )}
+              <div className="search-shortcut-hint">
+                <span>⌘K</span>
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
-        {/* Category Pills Carousel */}
-        <div className="modern-categories-scroll">
-          <div className="modern-categories-list">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                className={`category-pill-btn ${selectedCategory === cat ? 'active' : ''}`}
-                onClick={() => setSelectedCategory(cat)}
-              >
-                {CATEGORY_ICONS[cat] || <Sparkles size={15} />}
-                <span>{cat === 'All' ? 'All Categories' : cat}</span>
-              </button>
-            ))}
+        {/* Category Pills (Only shown when not in use case mode) */}
+        {!isUseCaseActive && (
+          <div className="modern-categories-scroll">
+            <div className="modern-categories-list">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  className={`category-pill-btn ${selectedCategory === cat ? 'active' : ''}`}
+                  onClick={() => setSelectedCategory(cat)}
+                >
+                  {CATEGORY_ICONS[cat] || <Sparkles size={15} />}
+                  <span>{cat === 'All' ? 'All Categories' : cat}</span>
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
-        {/* Sub-Filters: Pricing (for tools) or Target AI (for prompts) */}
-        {activeTab === 'tools' ? (
+        {/* Sub-Filters: Pricing */}
+        {!isUseCaseActive && activeTab === 'tools' && (
           <div className="modern-subfilters-row">
             <span className="subfilter-label">Pricing:</span>
             <div className="subfilter-pills">
@@ -264,68 +382,66 @@ export default function DirectoryView({ initialTools, initialPrompts }: Director
               ))}
             </div>
           </div>
-        ) : (
-          <div className="modern-subfilters-row">
-            <span className="subfilter-label">Model Target:</span>
-            <div className="subfilter-pills">
-              {targetAIs.map((target) => (
-                <button
-                  key={target}
-                  className={`subfilter-pill ${selectedTargetAI === target ? 'active' : ''}`}
-                  onClick={() => setSelectedTargetAI(target)}
-                >
-                  {target}
-                </button>
-              ))}
-            </div>
-          </div>
         )}
       </header>
 
-      {/* Directory Results Counter */}
-      <div className="modern-results-bar">
-        <span className="results-count-text">
-          Showing <strong>{activeTab === 'tools' ? filteredTools.length : filteredPrompts.length}</strong> {activeTab === 'tools' ? 'verified tools' : 'curated prompts'}
-          {selectedCategory !== 'All' && ` in ${selectedCategory}`}
-          {searchQuery && ` matching "${searchQuery}"`}
-        </span>
-
-        {(selectedCategory !== 'All' || selectedPricing !== 'All' || searchQuery) && (
-          <button 
-            className="reset-filters-link"
-            onClick={() => { setSelectedCategory('All'); setSelectedPricing('All'); setSearchQuery(''); }}
-          >
-            Reset Filters
+      {/* ACTIVE USE CASE BANNER */}
+      {isUseCaseActive && (
+        <div className="usecase-active-banner">
+          <div className="usecase-banner-info">
+            <CheckCircle2 size={18} color="#10b981" />
+            <div className="usecase-banner-text">
+              Matching use case: <strong>&ldquo;{activePreset ? activePreset.title : useCaseQuery}&rdquo;</strong> — 
+              {' '}{useCaseMatches?.length} specialized tools ranked by capability match
+            </div>
+          </div>
+          <button className="usecase-reset-btn" onClick={handleClearUseCase}>
+            <span>View All Tools →</span>
           </button>
-        )}
-      </div>
+        </div>
+      )}
 
-      {/* TOOLS GRID */}
-      <div className="modern-tools-grid" style={{ display: activeTab === 'tools' ? 'grid' : 'none' }}>
-        {filteredTools.length === 0 ? (
-          <div className="modern-empty-state">
-            <p>No AI tools matched your filter criteria.</p>
+      {/* Directory Results Counter (When use case is not active) */}
+      {!isUseCaseActive && (
+        <div className="modern-results-bar">
+          <span className="results-count-text">
+            Showing <strong>{activeTab === 'tools' ? filteredTools.length : filteredPrompts.length}</strong> {activeTab === 'tools' ? 'specialized tools' : 'prompts'}
+            {selectedCategory !== 'All' && ` in ${selectedCategory}`}
+            {searchQuery && ` matching "${searchQuery}"`}
+          </span>
+
+          {(selectedCategory !== 'All' || selectedPricing !== 'All' || searchQuery) && (
             <button 
-              className="btn btn-secondary" 
-              onClick={() => { setSearchQuery(''); setSelectedCategory('All'); setSelectedPricing('All'); }}
+              className="reset-filters-link"
+              onClick={() => { setSelectedCategory('All'); setSelectedPricing('All'); setSearchQuery(''); }}
             >
               Reset Filters
             </button>
-          </div>
-        ) : (
-          filteredTools.map((tool) => {
+          )}
+        </div>
+      )}
+
+      {/* TOOLS GRID: USE CASE MATCHED MODE */}
+      {isUseCaseActive && activeTab === 'tools' && (
+        <div className="modern-tools-grid">
+          {useCaseMatches!.map(({ tool, matchScore, matchedUseCase, whyThisTool, complexity }) => {
             const slug = getToolSlug(tool);
+            const complexityClass = complexity === 'Frontier Engineering' ? 'frontier' : complexity === 'Advanced' ? 'advanced' : 'intermediate';
 
             return (
               <div 
                 key={tool.id} 
                 className={`modern-tool-card ${tool.featured ? 'featured' : ''}`}
+                style={{ borderColor: matchScore >= 95 ? 'rgba(99, 102, 241, 0.45)' : undefined }}
               >
-                {/* Card Top Row: Category & Pricing */}
+                {/* Top Row: Match Score & Complexity */}
                 <div className="card-top-row">
-                  <span className="modern-cat-tag">{tool.category}</span>
-                  <span className={`modern-price-tag ${tool.priceClass}`}>
-                    {tool.pricingModel}
+                  <span className="usecase-match-pill">
+                    <span>🎯</span>
+                    <span>{matchScore}% Match</span>
+                  </span>
+                  <span className={`usecase-complexity-tag ${complexityClass}`}>
+                    {complexity}
                   </span>
                 </div>
 
@@ -367,25 +483,31 @@ export default function DirectoryView({ initialTools, initialPrompts }: Director
                   </div>
                 </div>
 
+                {/* Why this tool fits this use case */}
+                <div className="usecase-why-card">
+                  <span className="usecase-why-label">Capability:</span>
+                  <span>{whyThisTool}</span>
+                </div>
+
                 {/* Description */}
                 <p className="card-tool-desc">{tool.description}</p>
 
                 {/* Tags */}
                 {tool.tags && tool.tags.length > 0 && (
                   <div className="card-tags-list">
-                    {tool.tags.slice(0, 3).map((tag) => (
+                    {tool.tags.slice(0, 3).map((tag: string) => (
                       <span key={tag} className="card-tag-item">{tag}</span>
                     ))}
                   </div>
                 )}
 
-                {/* Card Footer Actions */}
+                {/* Footer Actions */}
                 <div className="card-bottom-actions">
                   <Link 
                     href={`/tool/${slug}`} 
                     className="card-link-profile"
                   >
-                    <span>Details</span>
+                    <span>Architecture</span>
                     <ArrowRight size={13} />
                   </Link>
 
@@ -395,15 +517,130 @@ export default function DirectoryView({ initialTools, initialPrompts }: Director
                     rel="sponsored nofollow noopener" 
                     className="card-btn-visit"
                   >
-                    <span>Try Free</span>
+                    <span>Deploy Tool</span>
                     <ExternalLink size={13} />
                   </a>
                 </div>
               </div>
             );
-          })
-        )}
-      </div>
+          })}
+        </div>
+      )}
+
+      {/* TOOLS GRID: STANDARD BROWSE MODE */}
+      {!isUseCaseActive && (
+        <div className="modern-tools-grid" style={{ display: activeTab === 'tools' ? 'grid' : 'none' }}>
+          {filteredTools.length === 0 ? (
+            <div className="modern-empty-state">
+              <p>No specialized tools matched your criteria.</p>
+              <button 
+                className="btn btn-secondary" 
+                onClick={() => { setSearchQuery(''); setSelectedCategory('All'); setSelectedPricing('All'); }}
+              >
+                Reset Filters
+              </button>
+            </div>
+          ) : (
+            filteredTools.map((tool) => {
+              const slug = getToolSlug(tool);
+
+              return (
+                <div 
+                  key={tool.id} 
+                  className={`modern-tool-card ${tool.featured ? 'featured' : ''}`}
+                >
+                  {/* Card Top Row: Category & Pricing */}
+                  <div className="card-top-row">
+                    <span className="modern-cat-tag">{tool.category}</span>
+                    <span className={`modern-price-tag ${tool.priceClass}`}>
+                      {tool.pricingModel}
+                    </span>
+                  </div>
+
+                  {/* Card Main: Logo & Title */}
+                  <div className="card-main-header">
+                    <div className="card-logo-box">
+                      <ToolLogo 
+                        name={tool.name} 
+                        domain={tool.domain} 
+                        logoUrl={tool.logoUrl} 
+                        icon={tool.icon} 
+                        size={46} 
+                      />
+                    </div>
+                    <div className="card-header-details">
+                      <div className="card-title-group">
+                        <h3 className="card-tool-name">
+                          <Link href={`/tool/${slug}`}>
+                            {tool.name}
+                          </Link>
+                        </h3>
+                        <BadgeCheck size={16} className="card-verified-icon" />
+                      </div>
+
+                      {/* Rating row */}
+                      {tool.rating && (
+                        <div className="card-rating-row">
+                          <div className="card-stars">
+                            {[...Array(5)].map((_, i) => (
+                              <Star key={i} size={12} fill="#f59e0b" color="#f59e0b" />
+                            ))}
+                          </div>
+                          <span className="card-rating-val">{tool.rating.toFixed(1)}</span>
+                          {tool.reviewsCount && (
+                            <span className="card-rating-reviews">({tool.reviewsCount.toLocaleString()})</span>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Primary Use Case Tag if present */}
+                  {tool.primaryUseCase && (
+                    <div style={{ fontSize: 12, color: '#a5b4fc', marginBottom: 10, display: 'flex', alignItems: 'flex-start', gap: 5 }}>
+                      <span style={{ flexShrink: 0 }}>🎯</span>
+                      <span style={{ fontWeight: 500, lineHeight: 1.4 }}>{tool.primaryUseCase}</span>
+                    </div>
+                  )}
+
+                  {/* Description */}
+                  <p className="card-tool-desc">{tool.description}</p>
+
+                  {/* Tags */}
+                  {tool.tags && tool.tags.length > 0 && (
+                    <div className="card-tags-list">
+                      {tool.tags.slice(0, 3).map((tag) => (
+                        <span key={tag} className="card-tag-item">{tag}</span>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Card Footer Actions */}
+                  <div className="card-bottom-actions">
+                    <Link 
+                      href={`/tool/${slug}`} 
+                      className="card-link-profile"
+                    >
+                      <span>Details</span>
+                      <ArrowRight size={13} />
+                    </Link>
+
+                    <a 
+                      href={`/go/${slug}`} 
+                      target="_blank" 
+                      rel="sponsored nofollow noopener" 
+                      className="card-btn-visit"
+                    >
+                      <span>Explore Tool</span>
+                      <ExternalLink size={13} />
+                    </a>
+                  </div>
+                </div>
+              );
+            })
+          )}
+        </div>
+      )}
 
       {/* PROMPTS GRID */}
       <div className="modern-prompts-grid" style={{ display: activeTab === 'prompts' ? 'grid' : 'none' }}>

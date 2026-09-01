@@ -9,22 +9,46 @@ export function getPrisma(): PrismaClient {
   return prisma;
 }
 
+const EXCLUDED_COMMODITY_TOOLS = new Set([
+  'chatgpt',
+  'gemini',
+  'google-gemini',
+  'chatgpt-gpt-56-frontier',
+  'google-gemini-31-pro'
+]);
+
 // Curated slug mapping for cleaner, high-intent SEO URLs
 const SLUG_MAP: Record<string, string> = {
-  'ChatGPT (GPT-5.6 Frontier)': 'chatgpt',
-  'Claude Sonnet 5': 'claude',
+  'Devin AI (Cognition Labs)': 'devin',
+  'Claude Code (Anthropic CLI)': 'claude-code',
   'Cursor 3.0 (Composer Agents)': 'cursor',
   'Midjourney v8.2': 'midjourney',
   'Perplexity Pro (Deep Research 2.0)': 'perplexity',
-  'Google Gemini 3.1 Pro': 'gemini',
+  'Cartesia Sonic (Ultra-Low Latency Voice)': 'cartesia',
   'Runway Gen-4.5': 'runway',
   'ElevenLabs Gen-3 Voice Studio': 'elevenlabs',
-  'Google Veo 2': 'google-veo',
+  'ComfyUI Modular Diffusion': 'comfyui',
   'Devin 2.0 Autonomous Engineer': 'devin',
   'Suno v4.5': 'suno',
   'v0 by Vercel 2.0': 'v0',
+  'v0.dev by Vercel': 'v0',
+  'Bolt.new': 'bolt-new',
+  'Lovable.dev': 'lovable',
+  'Windsurf by Codeium': 'windsurf',
+  'Aider AI': 'aider',
+  'DeepSeek-R1 (Open Reasoning Engine)': 'deepseek-r1',
+  'Dify.ai Enterprise LLM': 'dify',
+  'CrewAI Multi-Agent Teams': 'crewai',
+  'LangGraph Stateful Orchestration': 'langgraph',
+  'Ollama': 'ollama',
+  'vLLM High-Throughput Serving': 'vllm',
+  'Deepgram Nova-3': 'deepgram',
+  'Tripo3D Fast Mesh Engine': 'tripo3d',
+  'Meshy.ai 3D Game Assets': 'meshy',
+  'Tavily AI Search Engine': 'tavily',
+  'Unstructured.io RAG ETL': 'unstructured',
+  'NotebookLM by Google': 'notebooklm',
   'n8n AI Agents 2.0': 'n8n',
-  'GitHub Copilot Enterprise': 'github-copilot',
   'Notion AI Workspace': 'notion-ai',
   'Synthesia 2.5 Avatars': 'synthesia',
   'Gamma 2.0': 'gamma',
@@ -43,14 +67,16 @@ const SLUG_MAP: Record<string, string> = {
   'Opus Clip 3.0': 'opus-clip',
   'Murf Speech Gen-2': 'murf-ai',
   'Readwise Reader AI': 'readwise',
-  'Grammarly AI Enterprise': 'grammarly',
   'Make.com Enterprise AI': 'make',
   'Krea AI Real-time 2.0': 'krea-ai',
   'Pika 2.2': 'pika',
   'Tabnine Private VPC': 'tabnine',
   'Superhuman AI Copilot': 'superhuman',
   'CapCut AI Studio 2.0': 'capcut',
-  'Zapier Central Agents': 'zapier-central'
+  'Zapier Central Agents': 'zapier-central',
+  'CodeRabbit': 'coderabbit',
+  'LlamaIndex': 'llamaindex',
+  'Langfuse': 'langfuse'
 };
 
 export function slugify(text: string): string {
@@ -76,6 +102,11 @@ export interface EnrichedTool extends AITool {
   keyUseCases?: string[];
   bestFor?: string;
   startingPrice?: string;
+  primaryUseCase?: string;
+  useCases?: string[];
+  complexity?: 'Intermediate' | 'Advanced' | 'Frontier Engineering';
+  architectureStack?: string[];
+  idealFor?: string;
 }
 
 export function enrichTool(tool: AITool): EnrichedTool {
@@ -100,11 +131,13 @@ export function enrichTool(tool: AITool): EnrichedTool {
     'Occasional rate limits during peak US work hours'
   ];
 
-  const defaultUseCases = [
-    'Accelerating daily professional workflows by 3x - 5x',
-    'Automating repetitive content and asset production',
-    'Cross-functional team collaboration and ideation'
-  ];
+  const defaultUseCases = tool.useCases && tool.useCases.length > 0 
+    ? tool.useCases 
+    : [
+        'Accelerating daily professional workflows by 3x - 5x',
+        'Automating repetitive content and asset production',
+        'Cross-functional team collaboration and ideation'
+      ];
 
   return {
     ...tool,
@@ -113,7 +146,12 @@ export function enrichTool(tool: AITool): EnrichedTool {
     pros: defaultPros,
     cons: defaultCons,
     keyUseCases: defaultUseCases,
-    bestFor: `${tool.category} professionals, startups, and modern engineering teams`
+    primaryUseCase: tool.primaryUseCase || tool.description,
+    useCases: defaultUseCases,
+    complexity: tool.complexity || 'Advanced',
+    architectureStack: tool.architectureStack || ['Enterprise Cloud', 'Neural Inference', 'API Integration'],
+    idealFor: tool.idealFor || `${tool.category} professionals, startups, and modern engineering teams`,
+    bestFor: tool.idealFor || `${tool.category} professionals, startups, and modern engineering teams`
   };
 }
 
@@ -167,14 +205,26 @@ export async function getAllTools(): Promise<EnrichedTool[]> {
         .filter(t => !existingSlugs.has(t.slug));
 
       const combined = [...enriched, ...newStatic];
-      toolsCache = { data: combined, timestamp: now };
-      return combined;
+      // Filter out generic commodity chatbots
+      const cleanTools = combined.filter(t => 
+        !EXCLUDED_COMMODITY_TOOLS.has(t.slug) && 
+        !EXCLUDED_COMMODITY_TOOLS.has(slugify(t.name))
+      );
+
+      toolsCache = { data: cleanTools, timestamp: now };
+      return cleanTools;
     }
   } catch (e) {
     // Graceful fallback to static dataset
   }
 
-  const staticEnriched = staticTools.map(enrichTool);
+  const staticEnriched = staticTools
+    .map(enrichTool)
+    .filter(t => 
+      !EXCLUDED_COMMODITY_TOOLS.has(t.slug) && 
+      !EXCLUDED_COMMODITY_TOOLS.has(slugify(t.name))
+    );
+
   toolsCache = { data: staticEnriched, timestamp: now };
   return staticEnriched;
 }
