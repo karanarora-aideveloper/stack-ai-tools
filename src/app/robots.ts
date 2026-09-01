@@ -8,7 +8,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/go/', '/api/'],
+        disallow: ['/go/', '/api/', '/admin'],
       },
       // OpenAI / ChatGPT Search & Citation Crawlers
       {

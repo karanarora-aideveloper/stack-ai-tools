@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client';
 import { aiTools as staticTools, promptLibrary as staticPrompts, AITool, PromptItem } from '@/data';
 
 let prisma: PrismaClient | null = null;
-function getPrisma(): PrismaClient {
+export function getPrisma(): PrismaClient {
   if (!prisma) {
     prisma = new PrismaClient();
   }
@@ -269,3 +269,51 @@ export async function getPromptsForTool(toolName: string): Promise<PromptItem[]>
     return target.includes(cleanName) || cleanName.includes(target.split(' ')[0]);
   });
 }
+
+export function invalidateToolsCache() {
+  toolsCache = null;
+  promptsCache = null;
+}
+
+export async function getPendingTools(): Promise<EnrichedTool[]> {
+  try {
+    const db = getPrisma();
+    const pending = await fetchWithTimeout(db.tool.findMany({
+      where: { status: 'pending' },
+      orderBy: { createdAt: 'desc' }
+    }), 2000);
+
+    if (pending && pending.length > 0) {
+      return pending.map(t => enrichTool({
+        id: t.id,
+        name: t.name,
+        category: t.category,
+        icon: t.icon || '✨',
+        logoUrl: t.logoUrl || `https://www.google.com/s2/favicons?domain=${t.domain || 'openai.com'}&sz=128`,
+        domain: t.domain || '',
+        description: t.description,
+        pricingModel: t.pricingModel,
+        priceClass: (t.priceClass as 'free' | 'freemium' | 'paid') || 'freemium',
+        link: t.link,
+        rating: t.rating,
+        reviewsCount: t.reviewsCount,
+        tags: t.tags || [],
+        badge: t.badge || undefined,
+        featured: t.featured
+      }));
+    }
+  } catch (e) {
+    // Return empty if offline
+  }
+  return [];
+}
+
+export async function getAllAdminTools(): Promise<{ approved: EnrichedTool[]; pending: EnrichedTool[] }> {
+  const [approved, pending] = await Promise.all([
+    getAllTools(),
+    getPendingTools()
+  ]);
+
+  return { approved, pending };
+}
+
