@@ -261,7 +261,16 @@ export async function getToolBySlug(slug: string): Promise<EnrichedTool | null> 
 export async function getToolsByCategory(category: string): Promise<EnrichedTool[]> {
   const tools = await getAllTools();
   const normCat = category.toLowerCase().trim();
-  return tools.filter(t => t.category.toLowerCase() === normCat);
+  const directMatches = tools.filter(t => t.category.toLowerCase() === normCat);
+  if (directMatches.length > 0) {
+    return directMatches;
+  }
+  // Secondary fallback for cross-cutting categories like 'marketing' or 'business'
+  return tools.filter(t => 
+    t.category.toLowerCase() === normCat || 
+    t.tags.some(tag => tag.toLowerCase().includes(normCat)) ||
+    t.description.toLowerCase().includes(normCat)
+  );
 }
 
 export async function getAlternativesForTool(slug: string, limit = 5): Promise<EnrichedTool[]> {
@@ -287,8 +296,10 @@ export async function getAlternativesForTool(slug: string, limit = 5): Promise<E
 
 export async function getAllCategories(): Promise<string[]> {
   const tools = await getAllTools();
-  const categories = Array.from(new Set(tools.map(t => t.category)));
-  return categories.sort();
+  const categories = new Set(tools.map(t => t.category));
+  categories.add('Marketing');
+  categories.add('Business');
+  return Array.from(categories).sort();
 }
 
 export async function getAllPrompts(): Promise<PromptItem[]> {
