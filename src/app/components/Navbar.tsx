@@ -13,16 +13,24 @@ import {
   Menu, 
   X, 
   Sparkles,
-  ExternalLink,
-  Flame
+  Volume2,
+  VolumeX,
+  Monitor
 } from 'lucide-react';
+import { toggleAudio, isAudioEnabled, playCoinSound } from '@/lib/arcadeSound';
 
 export default function Navbar() {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [soundOn, setSoundOn] = useState(false);
+  const [crtOn, setCrtOn] = useState(true);
 
   useEffect(() => {
+    setSoundOn(isAudioEnabled());
+    const savedCrt = localStorage.getItem('stackai_arcade_crt');
+    if (savedCrt !== null) setCrtOn(savedCrt === 'true');
+
     const handleScroll = () => {
       if (window.scrollY > 20) {
         setIsScrolled(true);
@@ -33,6 +41,18 @@ export default function Navbar() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const handleToggleSound = () => {
+    const next = toggleAudio();
+    setSoundOn(next);
+  };
+
+  const handleToggleCrt = () => {
+    const next = !crtOn;
+    setCrtOn(next);
+    localStorage.setItem('stackai_arcade_crt', String(next));
+    window.dispatchEvent(new CustomEvent('stackai:crt-toggle', { detail: next }));
+  };
 
   const isActive = (path: string) => {
     if (path === '/' && pathname === '/') return true;
@@ -45,7 +65,7 @@ export default function Navbar() {
       <header className={`top-navbar-wrapper ${isScrolled ? 'scrolled' : ''}`}>
         <nav className="top-navbar-container">
           {/* Brand Logo */}
-          <Link href="/" className="topbar-brand">
+          <Link href="/" className="topbar-brand" onClick={() => playCoinSound()}>
             <div className="topbar-logo-icon">
               <Gamepad2 size={18} color="#00f0ff" />
             </div>
@@ -95,6 +115,26 @@ export default function Navbar() {
 
           {/* Action Buttons (Right) */}
           <div className="topbar-actions">
+            {/* CRT Scanline Toggle */}
+            <button 
+              onClick={handleToggleCrt}
+              className={`topbar-btn-toggle ${crtOn ? 'active' : ''}`}
+              title={crtOn ? "CRT Scanlines Enabled" : "CRT Scanlines Disabled"}
+            >
+              <Monitor size={14} />
+              <span className="toggle-lbl">CRT</span>
+            </button>
+
+            {/* 8-Bit SFX Sound Toggle */}
+            <button 
+              onClick={handleToggleSound}
+              className={`topbar-btn-toggle ${soundOn ? 'active' : ''}`}
+              title={soundOn ? "8-Bit Sound FX Enabled" : "8-Bit Sound FX Muted"}
+            >
+              {soundOn ? <Volume2 size={14} color="#00ff66" /> : <VolumeX size={14} />}
+              <span className="toggle-lbl">{soundOn ? "SFX ON" : "SFX"}</span>
+            </button>
+
             <a 
               href="https://github.com/karanarora-aideveloper/stack-ai-tools" 
               target="_blank" 
@@ -102,13 +142,13 @@ export default function Navbar() {
               className="topbar-btn-github"
               title="Star on GitHub"
             >
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
               </svg>
               <span>GitHub</span>
             </a>
 
-            <Link href="/submit" className="topbar-btn-submit arcade-cta-press">
+            <Link href="/submit" className="topbar-btn-submit arcade-cta-press" onClick={() => playCoinSound()}>
               <PlusCircle size={15} />
               <span>Submit Tool</span>
             </Link>
@@ -147,6 +187,24 @@ export default function Navbar() {
               <div className="mobile-drawer-hero-pill">
                 <span className="live-dot"></span>
                 <span>AI IS CHANGING THE WORLD · LEVEL 2026</span>
+              </div>
+
+              {/* Mobile SFX & CRT Controls */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 20 }}>
+                <button 
+                  onClick={handleToggleSound}
+                  className={`mobile-control-pill ${soundOn ? 'active' : ''}`}
+                >
+                  {soundOn ? <Volume2 size={16} color="#00ff66" /> : <VolumeX size={16} />}
+                  <span>{soundOn ? "SFX: ON 🔊" : "SFX: MUTE 🔇"}</span>
+                </button>
+                <button 
+                  onClick={handleToggleCrt}
+                  className={`mobile-control-pill ${crtOn ? 'active' : ''}`}
+                >
+                  <Monitor size={16} color="#00f0ff" />
+                  <span>{crtOn ? "CRT: ON 📺" : "CRT: OFF"}</span>
+                </button>
               </div>
 
               <nav className="mobile-drawer-nav">

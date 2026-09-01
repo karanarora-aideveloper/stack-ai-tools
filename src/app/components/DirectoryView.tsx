@@ -5,6 +5,9 @@ import Link from 'next/link';
 import ToolLogo from './ToolLogo';
 import PromptCard, { PromptData } from './PromptCard';
 import ArcadeMarquee from './ArcadeMarquee';
+import InteractiveGameBg from './InteractiveGameBg';
+import AiEvolutionShowcase from './AiEvolutionShowcase';
+import { playCoinSound, playLaserSound, playLevelUpSound } from '@/lib/arcadeSound';
 import { getToolSlug } from '@/lib/tools';
 import { 
   Search, 
@@ -161,6 +164,9 @@ export default function DirectoryView({
 
   return (
     <div className="directory-view-wrapper">
+      {/* Scroll-Reactive 90s Game Background & 3D Perspective Grid */}
+      <InteractiveGameBg />
+
       {/* 90s Retro Arcade Breaking News Ticker */}
       <ArcadeMarquee />
 
@@ -245,14 +251,14 @@ export default function DirectoryView({
         <div className="arcade-view-toggle">
           <button 
             className={`arcade-toggle-btn ${activeTab === 'tools' ? 'active' : ''}`}
-            onClick={() => { setActiveTab('tools'); setSelectedCategory('All'); }}
+            onClick={() => { setActiveTab('tools'); setSelectedCategory('All'); playLaserSound(); }}
           >
             <Zap size={16} />
             <span>🕹️ Frontier AI Weapons ({initialTools.length})</span>
           </button>
           <button 
             className={`arcade-toggle-btn ${activeTab === 'prompts' ? 'active' : ''}`}
-            onClick={() => { setActiveTab('prompts'); setSelectedCategory('All'); }}
+            onClick={() => { setActiveTab('prompts'); setSelectedCategory('All'); playLaserSound(); }}
           >
             <Sparkles size={16} />
             <span>🎨 Visual Prompt Spellbook ({initialPrompts.length})</span>
@@ -281,7 +287,7 @@ export default function DirectoryView({
               <button
                 key={cat}
                 className={`filter-pill-arcade ${selectedCategory === cat ? 'active' : ''}`}
-                onClick={() => setSelectedCategory(cat)}
+                onClick={() => { setSelectedCategory(cat); playCoinSound(); }}
               >
                 {CATEGORY_ICONS[cat]}
                 <span>{cat}</span>
@@ -291,6 +297,9 @@ export default function DirectoryView({
         </div>
       </header>
 
+      {/* Dramatic Artistic Showcase: AI Is Changing The World Completely */}
+      <AiEvolutionShowcase />
+
       {/* Sub-Filters Bar (Pricing & Sorting for Tools) */}
       {activeTab === 'tools' && (
         <div className="sub-filters-bar">
@@ -299,7 +308,7 @@ export default function DirectoryView({
               <button
                 key={p}
                 className={`pricing-pill ${selectedPricing === p ? 'active' : ''}`}
-                onClick={() => setSelectedPricing(p)}
+                onClick={() => { setSelectedPricing(p); playCoinSound(); }}
               >
                 {p === 'All' ? '🎮 All Pricing' : p}
               </button>
@@ -453,6 +462,7 @@ export default function DirectoryView({
                       target="_blank" 
                       rel="sponsored nofollow noopener" 
                       className="tool-affiliate-cta arcade-cta-press"
+                      onClick={() => playLevelUpSound()}
                     >
                       <span>Equip Tool</span>
                       <ExternalLink size={13} />
