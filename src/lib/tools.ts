@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { aiTools as staticTools, promptLibrary as staticPrompts, AITool, PromptItem } from '@/data';
+import { getAffiliateInfo, AffiliateProgramInfo } from './affiliates';
 
 let prisma: PrismaClient | null = null;
 export function getPrisma(): PrismaClient {
@@ -107,10 +108,26 @@ export interface EnrichedTool extends AITool {
   complexity?: 'Intermediate' | 'Advanced' | 'Frontier Engineering';
   architectureStack?: string[];
   idealFor?: string;
+  affiliateProgramUrl?: string;
+  affiliateStatus?: 'active' | 'pending' | 'not_applied' | 'direct';
+  commissionRate?: string;
+  affiliateNetwork?: string;
+  affiliateNotes?: string;
+  cookieDays?: number;
 }
 
 export function enrichTool(tool: AITool): EnrichedTool {
   const slug = getToolSlug(tool);
+  const affInfo = getAffiliateInfo(slug, tool.name);
+  const hasCustomRef = Boolean(
+    tool.link && 
+    (tool.link.includes('via=') || 
+     tool.link.includes('ref=') || 
+     tool.link.includes('aff') || 
+     tool.link.includes('partner') || 
+     tool.link.includes('fp_ref') || 
+     tool.link.includes('r='))
+  );
 
   let startingPrice = 'Free Tier Available';
   if (tool.priceClass === 'paid') {
@@ -151,7 +168,13 @@ export function enrichTool(tool: AITool): EnrichedTool {
     complexity: tool.complexity || 'Advanced',
     architectureStack: tool.architectureStack || ['Enterprise Cloud', 'Neural Inference', 'API Integration'],
     idealFor: tool.idealFor || `${tool.category} professionals, startups, and modern engineering teams`,
-    bestFor: tool.idealFor || `${tool.category} professionals, startups, and modern engineering teams`
+    bestFor: tool.idealFor || `${tool.category} professionals, startups, and modern engineering teams`,
+    affiliateProgramUrl: affInfo.signupUrl,
+    affiliateStatus: hasCustomRef ? 'active' : affInfo.status,
+    commissionRate: affInfo.commissionRate,
+    affiliateNetwork: affInfo.network,
+    cookieDays: affInfo.cookieDays,
+    affiliateNotes: affInfo.notes
   };
 }
 

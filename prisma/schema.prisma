@@ -21,10 +21,15 @@ model Tool {
   rating       Float    @default(4.8)
   reviewsCount Int      @default(120)
   tags         String[]
-  badge        String?
-  featured     Boolean  @default(false)
-  status       String   @default("approved") // "approved" or "pending"
-  createdAt    DateTime @default(now())
+  badge            String?
+  featured         Boolean  @default(false)
+  status           String   @default("approved") // "approved" or "pending"
+  affiliateLink    String?
+  affiliateStatus  String?
+  commissionRate   String?
+  affiliateNetwork String?
+  affiliateNotes   String?
+  createdAt        DateTime @default(now())
 }
 
 model Prompt {

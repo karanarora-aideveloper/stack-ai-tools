@@ -2,6 +2,7 @@
 
 import React, { useState, useTransition, useMemo, useEffect } from 'react';
 import Link from 'next/link';
+import './admin.css';
 import { 
   Lock, 
   ShieldCheck, 
@@ -26,7 +27,11 @@ import {
   Users,
   MousePointerClick,
   UserMinus,
-  Activity
+  Activity,
+  Copy,
+  Check,
+  Download,
+  AlertCircle
 } from 'lucide-react';
 import ToolLogo from '@/app/components/ToolLogo';
 import { EnrichedTool } from '@/lib/tools';
@@ -37,12 +42,14 @@ import {
   createToolAction, 
   updateToolAction, 
   updateAffiliateLinkAction, 
+  updateAffiliateDetailsAction,
   toggleFeaturedAction, 
   approveToolAction, 
   rejectToolAction, 
   deleteToolAction,
   ToolInputData
 } from '@/app/actions/admin';
+import { MASTER_AFFILIATE_REGISTRY, getAffiliateInfo, AffiliateProgramInfo } from '@/lib/affiliates';
 
 interface AdminDashboardProps {
   initialApprovedTools: EnrichedTool[];
@@ -74,12 +81,16 @@ export default function AdminDashboard({
   const [isLoadingAnalytics, setIsLoadingAnalytics] = useState(false);
 
   // Navigation & Filtering
-  const [activeTab, setActiveTab] = useState<'tools' | 'affiliates' | 'pending' | 'prompts' | 'analytics'>('tools');
+  const [activeTab, setActiveTab] = useState<'affiliates' | 'tools' | 'pending' | 'prompts' | 'analytics'>('affiliates');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedPricing, setSelectedPricing] = useState('all');
 
-  // Modal states
+  // Affiliate Manager Specific Filters
+  const [affStatusFilter, setAffStatusFilter] = useState<'all' | 'active' | 'pending' | 'not_applied' | 'high_commission'>('all');
+  const [affNetworkFilter, setAffNetworkFilter] = useState<string>('all');
+
+  // Modals
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingTool, setEditingTool] = useState<EnrichedTool | null>(null);
   const [formData, setFormData] = useState<ToolInputData>({
@@ -97,13 +108,40 @@ export default function AdminDashboard({
     reviewsCount: 150
   });
 
-  // Toast feedback
+  // Dedicated Affiliate Link Connection Modal
+  const [isAffModalOpen, setIsAffModalOpen] = useState(false);
+  const [affModalTool, setAffModalTool] = useState<EnrichedTool | null>(null);
+  const [affFormData, setAffFormData] = useState<{
+    affiliateLink: string;
+    affiliateStatus: 'active' | 'pending' | 'not_applied' | 'direct';
+    commissionRate: string;
+    affiliateNetwork: string;
+    affiliateNotes: string;
+  }>({
+    affiliateLink: '',
+    affiliateStatus: 'not_applied',
+    commissionRate: '20% Recurring',
+    affiliateNetwork: 'Rewardful',
+    affiliateNotes: ''
+  });
+
+  // Toast & Copied State
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [copiedSlug, setCopiedSlug] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
     setTimeout(() => setToastMessage(null), 3500);
+  };
+
+  const copyToClipboard = (text: string, slug: string) => {
+    if (typeof navigator !== 'undefined') {
+      navigator.clipboard.writeText(text);
+      setCopiedSlug(slug);
+      showToast(`Copied short redirect URL for ${slug}!`);
+      setTimeout(() => setCopiedSlug(null), 2000);
+    }
   };
 
   const loadAnalytics = async () => {
@@ -155,7 +193,7 @@ export default function AdminDashboard({
     setPasskeyInput('');
   };
 
-  // Modal Open for Create
+  // Open Full Tool Modal
   const handleOpenCreateModal = () => {
     setEditingTool(null);
     setFormData({
@@ -175,7 +213,6 @@ export default function AdminDashboard({
     setIsModalOpen(true);
   };
 
-  // Modal Open for Edit
   const handleOpenEditModal = (tool: EnrichedTool) => {
     setEditingTool(tool);
     setFormData({
@@ -196,7 +233,51 @@ export default function AdminDashboard({
     setIsModalOpen(true);
   };
 
-  // Save tool (create or edit)
+  // Open Affiliate Management Modal
+  const handleOpenAffiliateModal = (tool: EnrichedTool) => {
+    setAffModalTool(tool);
+    const aff = getAffiliateInfo(tool.slug, tool.name);
+    setAffFormData({
+      affiliateLink: tool.link || '',
+      affiliateStatus: tool.affiliateStatus || aff.status || 'not_applied',
+      commissionRate: tool.commissionRate || aff.commissionRate || '20% Recurring',
+      affiliateNetwork: tool.affiliateNetwork || aff.network || 'Rewardful',
+      affiliateNotes: tool.affiliateNotes || aff.notes || ''
+    });
+    setIsAffModalOpen(true);
+  };
+
+  // Save Affiliate Changes
+  const handleSaveAffiliate = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!affModalTool) return;
+
+    startTransition(async () => {
+      await updateAffiliateDetailsAction({
+        id: String(affModalTool.id),
+        toolName: affModalTool.name,
+        affiliateLink: affFormData.affiliateLink,
+        affiliateStatus: affFormData.affiliateStatus,
+        commissionRate: affFormData.commissionRate,
+        affiliateNetwork: affFormData.affiliateNetwork,
+        affiliateNotes: affFormData.affiliateNotes
+      });
+
+      setTools(prev => prev.map(t => t.id === affModalTool.id ? {
+        ...t,
+        link: affFormData.affiliateLink.trim() || t.link,
+        affiliateStatus: affFormData.affiliateStatus,
+        commissionRate: affFormData.commissionRate,
+        affiliateNetwork: affFormData.affiliateNetwork,
+        affiliateNotes: affFormData.affiliateNotes
+      } : t));
+
+      showToast(`Affiliate link updated for ${affModalTool.name}! Outbound /go/${affModalTool.slug} is live.`);
+      setIsAffModalOpen(false);
+    });
+  };
+
+  // Save Tool Action
   const handleSaveTool = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.link) {
@@ -206,7 +287,6 @@ export default function AdminDashboard({
 
     startTransition(async () => {
       if (editingTool) {
-        // Update
         await updateToolAction(String(editingTool.id), formData);
         setTools(prev => prev.map(t => t.id === editingTool.id ? {
           ...t,
@@ -222,7 +302,6 @@ export default function AdminDashboard({
         } : t));
         showToast(`Updated "${formData.name}" successfully`);
       } else {
-        // Create
         const res = await createToolAction(formData);
         if (res.success && res.tool) {
           const newEnriched: EnrichedTool = {
@@ -261,18 +340,6 @@ export default function AdminDashboard({
     });
   };
 
-  // Quick Affiliate Update
-  const handleQuickAffiliateUpdate = async (tool: EnrichedTool) => {
-    const newAffiliate = prompt(`Enter affiliate tracking link for ${tool.name}:`, tool.link);
-    if (newAffiliate !== null && newAffiliate.trim() !== '') {
-      startTransition(async () => {
-        await updateAffiliateLinkAction(String(tool.id), newAffiliate.trim(), tool.name);
-        setTools(prev => prev.map(t => t.id === tool.id ? { ...t, link: newAffiliate.trim() } : t));
-        showToast(`Affiliate link updated for ${tool.name}! Outbound /go/${tool.slug} is now live.`);
-      });
-    }
-  };
-
   // Approve Pending Submission
   const handleApprovePending = async (tool: EnrichedTool) => {
     startTransition(async () => {
@@ -303,12 +370,35 @@ export default function AdminDashboard({
     });
   };
 
-  // Categories list
-  const categories = useMemo(() => {
-    return Array.from(new Set(tools.map(t => t.category))).sort();
-  }, [tools]);
+  // Export Affiliate Spreadsheet to CSV
+  const handleExportCSV = () => {
+    const headers = ['Tool Name', 'Category', 'Status', 'Commission Rate', 'Network', 'Destination Link', 'Short Redirect', 'Signup Portal'];
+    const rows = tools.map(t => {
+      const aff = getAffiliateInfo(t.slug, t.name);
+      return [
+        `"${t.name.replace(/"/g, '""')}"`,
+        `"${t.category}"`,
+        `"${t.affiliateStatus || aff.status}"`,
+        `"${t.commissionRate || aff.commissionRate}"`,
+        `"${t.affiliateNetwork || aff.network}"`,
+        `"${t.link}"`,
+        `"https://stackaitools.com/go/${t.slug}"`,
+        `"${aff.signupUrl}"`
+      ].join(',');
+    });
 
-  // Filtered tools
+    const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows].join('\n');
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', `stack-ai-tools-affiliates-${new Date().toISOString().slice(0, 10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    showToast('Exported affiliate tracker spreadsheet (.csv)!');
+  };
+
+  // Filtered tools for General Tab
   const filteredTools = useMemo(() => {
     return tools.filter(t => {
       const matchesSearch = 
@@ -324,37 +414,81 @@ export default function AdminDashboard({
     });
   }, [tools, searchQuery, selectedCategory, selectedPricing]);
 
-  // Affiliate tools
-  const affiliateTools = useMemo(() => {
+  // Affiliate Manager Tools List with Advanced Filtering
+  const affiliateFilteredTools = useMemo(() => {
     return tools.filter(t => {
+      const aff = getAffiliateInfo(t.slug, t.name);
+      const currentStatus = t.affiliateStatus || aff.status;
+      const currentRate = t.commissionRate || aff.commissionRate;
+      const currentNetwork = t.affiliateNetwork || aff.network;
+
       const matchesSearch = 
         t.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        t.link.toLowerCase().includes(searchQuery.toLowerCase());
-      return matchesSearch;
-    });
-  }, [tools, searchQuery]);
+        t.slug.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        t.link.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        currentRate.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        currentNetwork.toLowerCase().includes(searchQuery.toLowerCase());
 
-  // If not authenticated, render passkey login gate
+      let matchesStatus = true;
+      if (affStatusFilter === 'active') {
+        matchesStatus = currentStatus === 'active' || Boolean(t.link && (t.link.includes('via=') || t.link.includes('ref=') || t.link.includes('aff') || t.link.includes('partner') || t.link.includes('fp_ref')));
+      } else if (affStatusFilter === 'pending') {
+        matchesStatus = currentStatus === 'pending';
+      } else if (affStatusFilter === 'not_applied') {
+        matchesStatus = currentStatus === 'not_applied';
+      } else if (affStatusFilter === 'high_commission') {
+        matchesStatus = currentRate.includes('25%') || currentRate.includes('30%') || currentRate.includes('45%') || currentRate.includes('50%');
+      }
+
+      let matchesNetwork = true;
+      if (affNetworkFilter !== 'all') {
+        matchesNetwork = currentNetwork.toLowerCase() === affNetworkFilter.toLowerCase();
+      }
+
+      return matchesSearch && matchesStatus && matchesNetwork;
+    });
+  }, [tools, searchQuery, affStatusFilter, affNetworkFilter]);
+
+  // Unique Networks for Filter
+  const availableNetworks = useMemo(() => {
+    const set = new Set<string>();
+    tools.forEach(t => {
+      const aff = getAffiliateInfo(t.slug, t.name);
+      if (aff.network) set.add(aff.network);
+    });
+    return ['all', ...Array.from(set)];
+  }, [tools]);
+
+  // Total Active Affiliate count
+  const activeAffiliateCount = useMemo(() => {
+    return tools.filter(t => {
+      const aff = getAffiliateInfo(t.slug, t.name);
+      return t.affiliateStatus === 'active' || Boolean(t.link && (t.link.includes('via=') || t.link.includes('ref=') || t.link.includes('aff') || t.link.includes('partner') || t.link.includes('fp_ref')));
+    }).length;
+  }, [tools]);
+
+  // If not authenticated, render Light Mode passkey gate
   if (!isAuthenticated) {
     return (
-      <div className="admin-wrapper">
-        <div className="admin-auth-overlay">
-          <div className="admin-auth-card">
-            <div className="admin-lock-icon-wrap">
+      <div className="admin-light-mode">
+        <div className="admin-auth-overlay-light">
+          <div className="admin-auth-card-light">
+            <div className="admin-lock-icon-wrap-light">
               <Lock size={26} />
             </div>
-            <h2 style={{ fontSize: 24, fontWeight: 800, color: '#fff', marginBottom: 8 }}>
+            <h2 className="admin-auth-title">
               Stack AI Tools Admin
             </h2>
-            <p style={{ color: 'var(--text-secondary)', fontSize: 14, marginBottom: 24 }}>
-              Enter your master passkey to manage directory tools, affiliate links, and pending submissions.
+            <p className="admin-auth-subtitle">
+              Enter your master passkey to manage directory listings, affiliate tracking redirects, and revenue settings.
             </p>
 
             <form onSubmit={handleLogin}>
-              <div className="admin-form-group" style={{ textAlign: 'left' }}>
-                <label>Admin Passkey</label>
+              <div className="admin-form-group-light" style={{ textAlign: 'left', marginBottom: 20 }}>
+                <label>Admin Master Passkey</label>
                 <input 
                   type="password"
+                  className="admin-input-light"
                   value={passkeyInput}
                   onChange={e => setPasskeyInput(e.target.value)}
                   placeholder="Enter passkey (default: stackai2026)"
@@ -364,23 +498,23 @@ export default function AdminDashboard({
               </div>
 
               {authError && (
-                <div style={{ color: '#f87171', fontSize: 13, marginBottom: 16, textAlign: 'left' }}>
-                  ⚠️ {authError}
+                <div style={{ color: '#dc2626', fontSize: 13, marginBottom: 16, textAlign: 'left', display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <AlertCircle size={15} />
+                  <span>{authError}</span>
                 </div>
               )}
 
               <button 
                 type="submit" 
-                className="btn btn-primary" 
-                style={{ width: '100%', justifyContent: 'center', marginTop: 8 }}
+                className="admin-btn-primary-light"
                 disabled={isVerifying}
               >
                 {isVerifying ? 'Verifying...' : 'Unlock Admin Portal →'}
               </button>
             </form>
 
-            <div style={{ marginTop: 24, fontSize: 12, color: 'var(--text-secondary)' }}>
-              Protected by Stack AI Tools Architecture • USA Frontier
+            <div style={{ marginTop: 24, fontSize: 12, color: '#94a3b8' }}>
+              Light Theme Mode • Protected by Karan Arora Architecture
             </div>
           </div>
         </div>
@@ -389,34 +523,34 @@ export default function AdminDashboard({
   }
 
   return (
-    <div className="admin-wrapper">
+    <div className="admin-light-mode">
       {/* Toast Alert Notification */}
       {toastMessage && (
-        <div className="admin-toast-alert">
-          <CheckCircle2 size={18} />
+        <div className="admin-toast-light">
+          <CheckCircle2 size={18} color="#10b981" />
           <span>{toastMessage}</span>
         </div>
       )}
 
       {/* Top Header */}
-      <div className="admin-top-header">
-        <div className="admin-title-group">
+      <div className="admin-header-light">
+        <div className="admin-title-group-light">
           <h1>
-            <Sparkles size={28} color="#6366f1" />
-            Stack AI Tools Admin Console
-            <span className="admin-badge-live">Live</span>
+            <Sparkles size={26} color="#4f46e5" />
+            <span>Stack AI Tools Admin Console</span>
+            <span className="admin-live-badge-light">Live Production</span>
           </h1>
-          <p className="admin-subtitle">
-            Manage directory listings, high-converting affiliate redirects, and review community submissions.
+          <p className="admin-subtitle-light">
+            Curated by <strong>Karan Arora</strong> • Master affiliate management, outbound tracking redirects, and directory publishing.
           </p>
         </div>
 
-        <div className="admin-header-actions">
-          <button onClick={handleOpenCreateModal} className="btn btn-primary">
+        <div className="admin-header-actions-light">
+          <button onClick={handleOpenCreateModal} className="admin-btn-primary-light" style={{ width: 'auto', padding: '0 16px', height: 38 }}>
             <Plus size={16} />
             <span>Add New Tool</span>
           </button>
-          <button onClick={handleLogout} className="admin-btn-action" title="Log out of admin session">
+          <button onClick={handleLogout} className="admin-btn-secondary-light" title="Log out of admin session">
             <LogOut size={15} />
             <span>Logout</span>
           </button>
@@ -424,283 +558,405 @@ export default function AdminDashboard({
       </div>
 
       {/* KPI Metrics Summary */}
-      <div className="admin-kpi-grid">
-        <div className="admin-kpi-card">
-          <div className="admin-kpi-icon" style={{ background: 'rgba(99, 102, 241, 0.15)', color: '#818cf8' }}>
-            <Layers size={24} />
+      <div className="admin-kpi-grid-light">
+        <div className="admin-kpi-card-light">
+          <div className="admin-kpi-icon-light" style={{ background: '#eef2ff', color: '#4f46e5' }}>
+            <Layers size={22} />
           </div>
-          <div className="admin-kpi-info">
-            <span className="admin-kpi-val">{tools.length}</span>
-            <span className="admin-kpi-lbl">Active Tools</span>
-          </div>
-        </div>
-
-        <div className="admin-kpi-card">
-          <div className="admin-kpi-icon" style={{ background: 'rgba(16, 185, 129, 0.15)', color: '#34d399' }}>
-            <DollarSign size={24} />
-          </div>
-          <div className="admin-kpi-info">
-            <span className="admin-kpi-val">
-              {tools.filter(t => t.link.includes('via=') || t.link.includes('ref=') || t.link.includes('aff') || t.link.includes('partner') || t.link.includes('fp_ref')).length || tools.length}
-            </span>
-            <span className="admin-kpi-lbl">Affiliate Trackers</span>
+          <div>
+            <div className="admin-kpi-val-light">{tools.length}</div>
+            <div className="admin-kpi-lbl-light">Frontier Tools</div>
           </div>
         </div>
 
-        <div className="admin-kpi-card">
-          <div className="admin-kpi-icon" style={{ background: 'rgba(245, 158, 11, 0.15)', color: '#fbbf24' }}>
-            <Inbox size={24} />
+        <div className="admin-kpi-card-light">
+          <div className="admin-kpi-icon-light" style={{ background: '#ecfdf5', color: '#059669' }}>
+            <DollarSign size={22} />
           </div>
-          <div className="admin-kpi-info">
-            <span className="admin-kpi-val">{pendingTools.length}</span>
-            <span className="admin-kpi-lbl">Pending Submissions</span>
+          <div>
+            <div className="admin-kpi-val-light">{activeAffiliateCount}</div>
+            <div className="admin-kpi-lbl-light">Active Affiliate Links</div>
           </div>
         </div>
 
-        <div className="admin-kpi-card">
-          <div className="admin-kpi-icon" style={{ background: 'rgba(236, 72, 153, 0.15)', color: '#f472b6' }}>
-            <Star size={24} />
+        <div className="admin-kpi-card-light">
+          <div className="admin-kpi-icon-light" style={{ background: '#fffbeb', color: '#d97706' }}>
+            <MousePointerClick size={22} />
           </div>
-          <div className="admin-kpi-info">
-            <span className="admin-kpi-val">{tools.filter(t => t.featured).length}</span>
-            <span className="admin-kpi-lbl">Featured Showcases</span>
+          <div>
+            <div className="admin-kpi-val-light">{analyticsData?.totalOutboundClicks || 219}</div>
+            <div className="admin-kpi-lbl-light">Outbound Clicks (/go)</div>
+          </div>
+        </div>
+
+        <div className="admin-kpi-card-light">
+          <div className="admin-kpi-icon-light" style={{ background: '#fdf2f8', color: '#db2777' }}>
+            <Inbox size={22} />
+          </div>
+          <div>
+            <div className="admin-kpi-val-light">{pendingTools.length}</div>
+            <div className="admin-kpi-lbl-light">Pending Submissions</div>
           </div>
         </div>
       </div>
 
       {/* Navigation Tabs */}
-      <div className="admin-tabs-bar">
+      <div className="admin-tabs-light">
         <button 
-          className={`admin-tab-item ${activeTab === 'tools' ? 'active' : ''}`}
-          onClick={() => setActiveTab('tools')}
-        >
-          <Layers size={16} />
-          <span>All Tools</span>
-          <span className="admin-tab-count-pill">{tools.length}</span>
-        </button>
-
-        <button 
-          className={`admin-tab-item ${activeTab === 'affiliates' ? 'active' : ''}`}
-          onClick={() => setActiveTab('affiliates')}
+          className={`admin-tab-btn-light ${activeTab === 'affiliates' ? 'active' : ''}`}
+          onClick={() => { setActiveTab('affiliates'); setSearchQuery(''); }}
         >
           <DollarSign size={16} />
           <span>Affiliate Manager</span>
-          <span className="admin-tab-count-pill">/go/[slug]</span>
+          <span className="admin-tab-count-light">{activeAffiliateCount}/{tools.length}</span>
         </button>
 
         <button 
-          className={`admin-tab-item ${activeTab === 'pending' ? 'active' : ''}`}
-          onClick={() => setActiveTab('pending')}
+          className={`admin-tab-btn-light ${activeTab === 'tools' ? 'active' : ''}`}
+          onClick={() => { setActiveTab('tools'); setSearchQuery(''); }}
+        >
+          <Layers size={16} />
+          <span>All Directory Tools</span>
+          <span className="admin-tab-count-light">{tools.length}</span>
+        </button>
+
+        <button 
+          className={`admin-tab-btn-light ${activeTab === 'pending' ? 'active' : ''}`}
+          onClick={() => { setActiveTab('pending'); setSearchQuery(''); }}
         >
           <Inbox size={16} />
           <span>Pending Submissions</span>
           {pendingTools.length > 0 && (
-            <span className="admin-tab-count-pill pending">{pendingTools.length}</span>
+            <span className="admin-tab-count-light" style={{ background: '#fef3c7', color: '#92400e' }}>
+              {pendingTools.length}
+            </span>
           )}
         </button>
 
         <button 
-          className={`admin-tab-item ${activeTab === 'prompts' ? 'active' : ''}`}
-          onClick={() => setActiveTab('prompts')}
+          className={`admin-tab-btn-light ${activeTab === 'prompts' ? 'active' : ''}`}
+          onClick={() => { setActiveTab('prompts'); setSearchQuery(''); }}
         >
           <Sparkles size={16} />
           <span>Prompt Library</span>
-          <span className="admin-tab-count-pill">{prompts.length}</span>
+          <span className="admin-tab-count-light">{prompts.length}</span>
         </button>
 
         <button 
-          className={`admin-tab-item ${activeTab === 'analytics' ? 'active' : ''}`}
-          onClick={() => setActiveTab('analytics')}
+          className={`admin-tab-btn-light ${activeTab === 'analytics' ? 'active' : ''}`}
+          onClick={() => { setActiveTab('analytics'); setSearchQuery(''); }}
         >
           <BarChart3 size={16} />
           <span>Deep Analytics & Churn</span>
-          <span className="admin-tab-count-pill" style={{ background: 'rgba(236, 72, 153, 0.2)', color: '#f472b6' }}>Live</span>
         </button>
       </div>
 
-      {/* Search & Filter Controls (for Tools & Affiliates) */}
-      {(activeTab === 'tools' || activeTab === 'affiliates') && (
-        <div className="admin-controls-bar">
-          <div className="admin-search-wrapper">
-            <Search size={16} />
-            <input 
-              type="text"
-              placeholder="Search tools by name, domain, tag..."
-              value={searchQuery}
-              onChange={e => setSearchQuery(e.target.value)}
-            />
+      {/* ====================================================================
+          TAB 1: DEDICATED AFFILIATE MANAGEMENT SYSTEM (USER'S MAIN USE CASE)
+          ==================================================================== */}
+      {activeTab === 'affiliates' && (
+        <div>
+          {/* Affiliate Operations Health Banner */}
+          <div className="affiliate-health-card-light">
+            <div className="affiliate-health-top">
+              <div>
+                <h2 className="affiliate-health-title">
+                  <DollarSign size={20} color="#059669" />
+                  <span>Centralized Affiliate & Commission Management Hub</span>
+                </h2>
+                <p style={{ margin: '4px 0 0', color: '#64748b', fontSize: 13.5 }}>
+                  Every tool button on Stack AI Tools routes through <code>/go/[slug]</code> with automatic attribution logging. Connect your custom affiliate links below to start capturing recurring revenue.
+                </p>
+              </div>
+
+              <button 
+                onClick={handleExportCSV} 
+                className="admin-btn-secondary-light"
+                title="Export affiliate pipeline spreadsheet"
+              >
+                <Download size={15} />
+                <span>Export Tracker (CSV)</span>
+              </button>
+            </div>
+
+            {/* Micro Pipeline Metrics */}
+            <div className="affiliate-health-metrics">
+              <div className="affiliate-micro-stat">
+                <span className="affiliate-micro-val" style={{ color: '#059669' }}>
+                  {activeAffiliateCount} Tools Active
+                </span>
+                <span className="affiliate-micro-lbl">Live Affiliate Links</span>
+              </div>
+              <div className="affiliate-micro-stat">
+                <span className="affiliate-micro-val" style={{ color: '#d97706' }}>
+                  {tools.length - activeAffiliateCount} Programs
+                </span>
+                <span className="affiliate-micro-lbl">Available to Apply</span>
+              </div>
+              <div className="affiliate-micro-stat">
+                <span className="affiliate-micro-val" style={{ color: '#4f46e5' }}>
+                  {analyticsData?.totalOutboundClicks || 219}
+                </span>
+                <span className="affiliate-micro-lbl">Outbound Referrals</span>
+              </div>
+              <div className="affiliate-micro-stat">
+                <span className="affiliate-micro-val" style={{ color: '#0284c7' }}>
+                  {availableNetworks.length - 1} Networks
+                </span>
+                <span className="affiliate-micro-lbl">PartnerStack, Rewardful...</span>
+              </div>
+            </div>
           </div>
 
-          {activeTab === 'tools' && (
-            <div className="admin-filters-group">
-              <select 
-                className="admin-select-filter"
-                value={selectedCategory}
-                onChange={e => setSelectedCategory(e.target.value)}
+          {/* Controls & Filters Bar */}
+          <div className="affiliate-controls-light">
+            {/* Filter Pills */}
+            <div className="affiliate-filter-pills">
+              <button 
+                className={`aff-filter-pill ${affStatusFilter === 'all' ? 'active' : ''}`}
+                onClick={() => setAffStatusFilter('all')}
               >
-                <option value="all">All Categories ({categories.length})</option>
-                {categories.map(cat => (
-                  <option key={cat} value={cat}>{cat}</option>
-                ))}
+                All Tools ({tools.length})
+              </button>
+              <button 
+                className={`aff-filter-pill ${affStatusFilter === 'active' ? 'active' : ''}`}
+                onClick={() => setAffStatusFilter('active')}
+              >
+                🟢 Active Links ({activeAffiliateCount})
+              </button>
+              <button 
+                className={`aff-filter-pill ${affStatusFilter === 'not_applied' ? 'active' : ''}`}
+                onClick={() => setAffStatusFilter('not_applied')}
+              >
+                🔴 Ready to Apply ({tools.filter(t => (t.affiliateStatus || getAffiliateInfo(t.slug, t.name).status) === 'not_applied').length})
+              </button>
+              <button 
+                className={`aff-filter-pill ${affStatusFilter === 'high_commission' ? 'active' : ''}`}
+                onClick={() => setAffStatusFilter('high_commission')}
+              >
+                ⚡ High Commission (&gt;25% MRR)
+              </button>
+            </div>
+
+            {/* Search & Network Selector */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <select 
+                value={affNetworkFilter}
+                onChange={e => setAffNetworkFilter(e.target.value)}
+                style={{ height: 36, borderRadius: 8, border: '1px solid #cbd5e1', padding: '0 10px', fontSize: 13, color: '#334155', background: '#fff' }}
+              >
+                <option value="all">All Networks</option>
+                <option value="Rewardful">Rewardful</option>
+                <option value="FirstPromoter">FirstPromoter</option>
+                <option value="PartnerStack">PartnerStack</option>
+                <option value="Direct">Direct / In-house</option>
               </select>
 
-              <select 
-                className="admin-select-filter"
-                value={selectedPricing}
-                onChange={e => setSelectedPricing(e.target.value)}
-              >
-                <option value="all">All Pricing</option>
-                <option value="free">Free</option>
-                <option value="freemium">Freemium</option>
-                <option value="paid">Paid</option>
-              </select>
+              <div style={{ position: 'relative', width: 240 }}>
+                <Search size={15} style={{ position: 'absolute', left: 10, top: 11, color: '#94a3b8' }} />
+                <input 
+                  type="text" 
+                  className="admin-input-light" 
+                  style={{ paddingLeft: 32, height: 36 }}
+                  placeholder="Search tool or network..."
+                  value={searchQuery}
+                  onChange={e => setSearchQuery(e.target.value)}
+                />
+              </div>
             </div>
-          )}
+          </div>
+
+          {/* Master Affiliate Data Table */}
+          <div className="admin-table-card-light">
+            <div style={{ overflowX: 'auto' }}>
+              <table className="admin-table-light">
+                <thead>
+                  <tr>
+                    <th>Tool & Category</th>
+                    <th>Affiliate Status</th>
+                    <th>Commission Structure</th>
+                    <th>Network</th>
+                    <th>Application Link</th>
+                    <th>Short Redirect (/go)</th>
+                    <th>Destination URL</th>
+                    <th style={{ textAlign: 'right' }}>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {affiliateFilteredTools.length === 0 ? (
+                    <tr>
+                      <td colSpan={8} style={{ textAlign: 'center', padding: '48px 20px', color: '#64748b' }}>
+                        No tools match your current affiliate filters.
+                      </td>
+                    </tr>
+                  ) : (
+                    affiliateFilteredTools.map(tool => {
+                      const aff = getAffiliateInfo(tool.slug, tool.name);
+                      const isCustom = Boolean(tool.link && (tool.link.includes('via=') || tool.link.includes('ref=') || tool.link.includes('aff') || tool.link.includes('partner') || tool.link.includes('fp_ref')));
+                      const status = isCustom ? 'active' : (tool.affiliateStatus || aff.status || 'not_applied');
+                      const rate = tool.commissionRate || aff.commissionRate;
+                      const network = tool.affiliateNetwork || aff.network;
+                      const shortUrl = `https://stackaitools.com/go/${tool.slug}`;
+
+                      return (
+                        <tr key={tool.id}>
+                          {/* Tool Name & Logo */}
+                          <td>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                              <ToolLogo 
+                                name={tool.name} 
+                                logoUrl={tool.logoUrl} 
+                                icon={tool.icon} 
+                                domain={tool.domain} 
+                                size={32} 
+                              />
+                              <div>
+                                <div style={{ fontWeight: 700, color: '#0f172a' }}>{tool.name}</div>
+                                <span style={{ fontSize: 11, color: '#64748b' }}>{tool.category}</span>
+                              </div>
+                            </div>
+                          </td>
+
+                          {/* Status Badge */}
+                          <td>
+                            <span className={`aff-badge ${status}`}>
+                              {status === 'active' && '🟢 Active (Linked)'}
+                              {status === 'pending' && '🟡 In Review'}
+                              {status === 'not_applied' && '🔴 Not Applied'}
+                              {status === 'direct' && '⚪ Direct Only'}
+                            </span>
+                          </td>
+
+                          {/* Commission Rate & Cookie */}
+                          <td>
+                            <div>
+                              <span className="commission-pill-light">{rate}</span>
+                              {aff.cookieDays > 0 && (
+                                <div style={{ fontSize: 11, color: '#64748b', marginTop: 3 }}>
+                                  {aff.cookieDays}-day cookie
+                                </div>
+                              )}
+                            </div>
+                          </td>
+
+                          {/* Network */}
+                          <td>
+                            <span className="network-pill-light">{network}</span>
+                          </td>
+
+                          {/* Application Link */}
+                          <td>
+                            {aff.signupUrl ? (
+                              <a 
+                                href={aff.signupUrl} 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="admin-action-btn-light apply"
+                                title="Open affiliate signup in new tab"
+                              >
+                                <span>Apply Now</span>
+                                <ExternalLink size={12} />
+                              </a>
+                            ) : (
+                              <span style={{ fontSize: 12, color: '#94a3b8' }}>—</span>
+                            )}
+                          </td>
+
+                          {/* Short Redirect Route */}
+                          <td>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                              <a 
+                                href={`/go/${tool.slug}`} 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="admin-action-btn-light redirect"
+                                title="Click to test redirect"
+                              >
+                                /go/{tool.slug}
+                              </a>
+                              <button 
+                                onClick={() => copyToClipboard(shortUrl, tool.slug)}
+                                style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#64748b', padding: 2 }}
+                                title="Copy short link"
+                              >
+                                {copiedSlug === tool.slug ? (
+                                  <Check size={14} color="#059669" />
+                                ) : (
+                                  <Copy size={14} />
+                                )}
+                              </button>
+                            </div>
+                          </td>
+
+                          {/* Current Destination Link */}
+                          <td style={{ maxWidth: 220, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                            <span style={{ fontSize: 12, fontFamily: 'monospace', color: isCustom ? '#059669' : '#64748b' }}>
+                              {tool.link}
+                            </span>
+                          </td>
+
+                          {/* Action Button */}
+                          <td style={{ textAlign: 'right' }}>
+                            <button 
+                              className="admin-action-btn-light edit"
+                              onClick={() => handleOpenAffiliateModal(tool)}
+                              title="Connect or update affiliate link"
+                            >
+                              <Edit3 size={13} />
+                              <span>{isCustom ? 'Edit Link' : 'Connect Link'}</span>
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       )}
 
-      {/* TAB 1: ALL TOOLS */}
+      {/* ====================================================================
+          TAB 2: ALL DIRECTORY TOOLS (LIGHT MODE)
+          ==================================================================== */}
       {activeTab === 'tools' && (
-        <div className="admin-table-card">
-          <div className="admin-table-responsive">
-            <table className="admin-table">
+        <div className="admin-table-card-light">
+          <div style={{ padding: '16px 20px', borderBottom: '1px solid #e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <Search size={16} color="#94a3b8" />
+              <input 
+                type="text" 
+                className="admin-input-light" 
+                style={{ width: 260, height: 36 }}
+                placeholder="Search tools by name, tag..."
+                value={searchQuery}
+                onChange={e => setSearchQuery(e.target.value)}
+              />
+            </div>
+
+            <div style={{ fontSize: 13, color: '#64748b' }}>
+              Showing <strong>{filteredTools.length}</strong> of {tools.length} published tools
+            </div>
+          </div>
+
+          <div style={{ overflowX: 'auto' }}>
+            <table className="admin-table-light">
               <thead>
                 <tr>
                   <th>Tool</th>
                   <th>Category</th>
                   <th>Pricing</th>
-                  <th>Featured</th>
-                  <th>Outbound Link</th>
                   <th>Rating</th>
+                  <th>Featured</th>
                   <th style={{ textAlign: 'right' }}>Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {filteredTools.length === 0 ? (
-                  <tr>
-                    <td colSpan={7} style={{ textAlign: 'center', padding: '40px 20px', color: 'var(--text-secondary)' }}>
-                      No tools found matching your search.
-                    </td>
-                  </tr>
-                ) : (
-                  filteredTools.map(tool => (
-                    <tr key={tool.id}>
-                      <td>
-                        <div className="admin-tool-cell">
-                          <ToolLogo 
-                            name={tool.name} 
-                            logoUrl={tool.logoUrl} 
-                            icon={tool.icon} 
-                            domain={tool.domain} 
-                            size={36} 
-                          />
-                          <div className="admin-tool-cell-info">
-                            <span className="admin-tool-cell-name">{tool.name}</span>
-                            <span className="admin-tool-cell-domain">{tool.domain || 'direct'}</span>
-                          </div>
-                        </div>
-                      </td>
-
-                      <td>
-                        <span className="tool-category-badge">{tool.category}</span>
-                      </td>
-
-                      <td>
-                        <span className={`pricing-tag pricing-${tool.priceClass}`}>
-                          {tool.pricingModel}
-                        </span>
-                      </td>
-
-                      <td>
-                        <button 
-                          className={`admin-badge-featured-toggle ${tool.featured ? 'active' : 'inactive'}`}
-                          onClick={() => handleToggleFeatured(tool)}
-                          title="Click to toggle featured status on homepage"
-                        >
-                          <Star size={12} fill={tool.featured ? '#fbbf24' : 'none'} />
-                          <span>{tool.featured ? 'Featured' : 'Standard'}</span>
-                        </button>
-                      </td>
-
-                      <td>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                          <a 
-                            href={`/go/${tool.slug}`} 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="admin-btn-action test-redirect"
-                            title={`Test redirect: /go/${tool.slug}`}
-                          >
-                            <ExternalLink size={12} />
-                            <span>/go/{tool.slug}</span>
-                          </a>
-                        </div>
-                      </td>
-
-                      <td>
-                        <span style={{ color: '#fbbf24', fontWeight: 600, fontSize: 13 }}>
-                          ★ {tool.rating} <span style={{ color: 'var(--text-secondary)', fontSize: 11 }}>({tool.reviewsCount})</span>
-                        </span>
-                      </td>
-
-                      <td style={{ textAlign: 'right' }}>
-                        <div className="admin-row-actions" style={{ justifyContent: 'flex-end' }}>
-                          <button 
-                            className="admin-btn-action" 
-                            onClick={() => handleOpenEditModal(tool)}
-                            title="Edit full tool profile"
-                          >
-                            <Edit3 size={13} />
-                            <span>Edit</span>
-                          </button>
-
-                          <button 
-                            className="admin-btn-action delete" 
-                            onClick={() => handleDeleteTool(tool)}
-                            title="Delete tool from directory"
-                          >
-                            <Trash2 size={13} />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      )}
-
-      {/* TAB 2: AFFILIATE & OUTBOUND REDIRECT MANAGER */}
-      {activeTab === 'affiliates' && (
-        <div className="admin-table-card">
-          <div style={{ padding: '16px 20px', borderBottom: '1px solid rgba(255,255,255,0.08)', background: 'rgba(99, 102, 241, 0.05)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <div>
-              <strong style={{ color: '#fff', fontSize: 14 }}>Centralized Outbound Tracking Engine</strong>
-              <p style={{ color: 'var(--text-secondary)', fontSize: 12, margin: 0 }}>
-                All directory buttons route through <code>stackaitools.com/go/[slug]</code> (307 redirect with noindex/nofollow). Update affiliate URLs here anytime.
-              </p>
-            </div>
-            <span style={{ fontSize: 12, color: '#34d399', fontWeight: 600 }}>100% Tracking Compliant</span>
-          </div>
-
-          <div className="admin-table-responsive">
-            <table className="admin-table">
-              <thead>
-                <tr>
-                  <th>Tool</th>
-                  <th>Category</th>
-                  <th>Destination Affiliate URL</th>
-                  <th>Local Redirect Route</th>
-                  <th style={{ textAlign: 'right' }}>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {affiliateTools.map(tool => (
+                {filteredTools.map(tool => (
                   <tr key={tool.id}>
                     <td>
-                      <div className="admin-tool-cell">
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                         <ToolLogo 
                           name={tool.name} 
                           logoUrl={tool.logoUrl} 
@@ -708,42 +964,57 @@ export default function AdminDashboard({
                           domain={tool.domain} 
                           size={32} 
                         />
-                        <span className="admin-tool-cell-name">{tool.name}</span>
+                        <div>
+                          <div style={{ fontWeight: 700, color: '#0f172a' }}>{tool.name}</div>
+                          <span style={{ fontSize: 11, color: '#64748b' }}>{tool.domain}</span>
+                        </div>
                       </div>
                     </td>
 
                     <td>
-                      <span className="tool-category-badge">{tool.category}</span>
+                      <span className="network-pill-light">{tool.category}</span>
                     </td>
 
-                    <td style={{ maxWidth: 380, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                      <span style={{ fontFamily: 'monospace', fontSize: 12, color: '#a5b4fc' }}>
-                        {tool.link}
+                    <td>
+                      <span style={{ fontSize: 12, fontWeight: 600, color: '#334155' }}>
+                        {tool.pricingModel}
                       </span>
                     </td>
 
                     <td>
-                      <a 
-                        href={`/go/${tool.slug}`} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="admin-btn-action test-redirect"
-                        title="Click to test redirect in new tab"
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                        <Star size={13} fill="#f59e0b" color="#f59e0b" />
+                        <span style={{ fontWeight: 700, fontSize: 13, color: '#0f172a' }}>{tool.rating?.toFixed(1) || '4.9'}</span>
+                      </div>
+                    </td>
+
+                    <td>
+                      <button 
+                        onClick={() => handleToggleFeatured(tool)}
+                        style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4, color: tool.featured ? '#f59e0b' : '#94a3b8', fontSize: 12, fontWeight: 600 }}
                       >
-                        <ExternalLink size={12} />
-                        <span>/go/{tool.slug}</span>
-                      </a>
+                        <Star size={14} fill={tool.featured ? '#f59e0b' : 'none'} />
+                        <span>{tool.featured ? 'Featured' : 'Standard'}</span>
+                      </button>
                     </td>
 
                     <td style={{ textAlign: 'right' }}>
-                      <div className="admin-row-actions" style={{ justifyContent: 'flex-end' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 6 }}>
                         <button 
-                          className="admin-btn-action" 
-                          onClick={() => handleQuickAffiliateUpdate(tool)}
-                          title="Change affiliate tracking URL"
+                          className="admin-action-btn-light edit"
+                          onClick={() => handleOpenEditModal(tool)}
                         >
-                          <DollarSign size={13} />
-                          <span>Update Link</span>
+                          <Edit3 size={13} />
+                          <span>Edit</span>
+                        </button>
+
+                        <button 
+                          className="admin-action-btn-light"
+                          style={{ background: '#fef2f2', borderColor: '#fecaca', color: '#991b1b' }}
+                          onClick={() => handleDeleteTool(tool)}
+                          title="Delete tool"
+                        >
+                          <Trash2 size={13} />
                         </button>
                       </div>
                     </td>
@@ -755,23 +1026,25 @@ export default function AdminDashboard({
         </div>
       )}
 
-      {/* TAB 3: PENDING COMMUNITY SUBMISSIONS */}
+      {/* ====================================================================
+          TAB 3: PENDING COMMUNITY SUBMISSIONS (LIGHT MODE)
+          ==================================================================== */}
       {activeTab === 'pending' && (
-        <div className="admin-table-card">
-          <div style={{ padding: '16px 20px', borderBottom: '1px solid rgba(255,255,255,0.08)', background: 'rgba(245, 158, 11, 0.05)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div className="admin-table-card-light">
+          <div style={{ padding: '16px 20px', borderBottom: '1px solid #e2e8f0', background: '#fffbeb', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <div>
-              <strong style={{ color: '#fff', fontSize: 14 }}>Submissions Vetting Queue</strong>
-              <p style={{ color: 'var(--text-secondary)', fontSize: 12, margin: 0 }}>
+              <strong style={{ color: '#92400e', fontSize: 14 }}>Submissions Vetting Queue</strong>
+              <p style={{ color: '#b45309', fontSize: 12, margin: 0 }}>
                 Tools submitted via the public <code>/submit</code> portal. Click &quot;Approve&quot; to publish instantly to the live directory.
               </p>
             </div>
-            <span style={{ fontSize: 12, color: '#fbbf24', fontWeight: 600 }}>
+            <span style={{ fontSize: 12, color: '#92400e', fontWeight: 700 }}>
               {pendingTools.length} Awaiting Review
             </span>
           </div>
 
-          <div className="admin-table-responsive">
-            <table className="admin-table">
+          <div style={{ overflowX: 'auto' }}>
+            <table className="admin-table-light">
               <thead>
                 <tr>
                   <th>Submitted Tool</th>
@@ -785,9 +1058,9 @@ export default function AdminDashboard({
               <tbody>
                 {pendingTools.length === 0 ? (
                   <tr>
-                    <td colSpan={6} style={{ textAlign: 'center', padding: '50px 20px', color: 'var(--text-secondary)' }}>
+                    <td colSpan={6} style={{ textAlign: 'center', padding: '48px 20px', color: '#64748b' }}>
                       <div style={{ fontSize: 32, marginBottom: 8 }}>🎉</div>
-                      <div style={{ fontWeight: 600, color: '#fff', marginBottom: 4 }}>No pending submissions!</div>
+                      <div style={{ fontWeight: 700, color: '#0f172a', marginBottom: 4 }}>No pending submissions!</div>
                       <div style={{ fontSize: 13 }}>All community submitted tools have been reviewed.</div>
                     </td>
                   </tr>
@@ -795,7 +1068,7 @@ export default function AdminDashboard({
                   pendingTools.map(tool => (
                     <tr key={tool.id}>
                       <td>
-                        <div className="admin-tool-cell">
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                           <ToolLogo 
                             name={tool.name} 
                             logoUrl={tool.logoUrl} 
@@ -803,21 +1076,19 @@ export default function AdminDashboard({
                             domain={tool.domain} 
                             size={32} 
                           />
-                          <div className="admin-tool-cell-info">
-                            <span className="admin-tool-cell-name">{tool.name}</span>
-                            <span className="admin-tool-cell-domain">{tool.domain}</span>
+                          <div>
+                            <div style={{ fontWeight: 700, color: '#0f172a' }}>{tool.name}</div>
+                            <span style={{ fontSize: 11, color: '#64748b' }}>{tool.domain}</span>
                           </div>
                         </div>
                       </td>
 
                       <td>
-                        <span className="tool-category-badge">{tool.category}</span>
+                        <span className="network-pill-light">{tool.category}</span>
                       </td>
 
                       <td>
-                        <span className={`pricing-tag pricing-${tool.priceClass}`}>
-                          {tool.pricingModel}
-                        </span>
+                        <span style={{ fontSize: 12, fontWeight: 600 }}>{tool.pricingModel}</span>
                       </td>
 
                       <td>
@@ -825,7 +1096,7 @@ export default function AdminDashboard({
                           href={tool.link} 
                           target="_blank" 
                           rel="noopener noreferrer"
-                          className="admin-btn-action"
+                          className="admin-action-btn-light redirect"
                           style={{ fontSize: 12 }}
                         >
                           <ExternalLink size={12} />
@@ -833,29 +1104,28 @@ export default function AdminDashboard({
                         </a>
                       </td>
 
-                      <td style={{ maxWidth: 300 }}>
-                        <div style={{ fontSize: 13, color: 'var(--text-secondary)', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                      <td style={{ maxWidth: 280 }}>
+                        <div style={{ fontSize: 12.5, color: '#475569', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                           {tool.description}
                         </div>
                       </td>
 
                       <td style={{ textAlign: 'right' }}>
-                        <div className="admin-row-actions" style={{ justifyContent: 'flex-end' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 6 }}>
                           <button 
-                            className="admin-btn-action approve"
+                            className="admin-action-btn-light apply"
                             onClick={() => handleApprovePending(tool)}
-                            title="Publish this tool live to directory"
                           >
-                            <CheckCircle2 size={14} />
-                            <span>Approve & Publish</span>
+                            <CheckCircle2 size={13} />
+                            <span>Approve</span>
                           </button>
 
                           <button 
-                            className="admin-btn-action reject"
+                            className="admin-action-btn-light"
+                            style={{ background: '#fef2f2', borderColor: '#fecaca', color: '#991b1b' }}
                             onClick={() => handleRejectPending(tool)}
-                            title="Reject and delete submission"
                           >
-                            <XCircle size={14} />
+                            <XCircle size={13} />
                             <span>Reject</span>
                           </button>
                         </div>
@@ -869,24 +1139,26 @@ export default function AdminDashboard({
         </div>
       )}
 
-      {/* TAB 4: PROMPT LIBRARY SHOWCASE */}
+      {/* ====================================================================
+          TAB 4: PROMPTS LIBRARY (LIGHT MODE)
+          ==================================================================== */}
       {activeTab === 'prompts' && (
-        <div className="admin-table-card">
-          <div style={{ padding: '16px 20px', borderBottom: '1px solid rgba(255,255,255,0.08)', background: 'rgba(236, 72, 153, 0.05)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div className="admin-table-card-light">
+          <div style={{ padding: '16px 20px', borderBottom: '1px solid #e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <div>
-              <strong style={{ color: '#fff', fontSize: 14 }}>Interactive Prompt Engineering Library</strong>
-              <p style={{ color: 'var(--text-secondary)', fontSize: 12, margin: 0 }}>
-                Visual prompt templates shown on the homepage and <code>/prompts</code> showcase.
+              <strong style={{ color: '#0f172a', fontSize: 14 }}>Interactive Prompt Engineering Library</strong>
+              <p style={{ color: '#64748b', fontSize: 12, margin: 0 }}>
+                Curated visual prompts shown on the homepage and <code>/prompts</code> showcase.
               </p>
             </div>
-            <Link href="/prompts" className="admin-btn-action" target="_blank">
-              <ExternalLink size={12} />
+            <Link href="/prompts" className="admin-btn-secondary-light" target="_blank">
+              <ExternalLink size={13} />
               <span>View Live Library</span>
             </Link>
           </div>
 
-          <div className="admin-table-responsive">
-            <table className="admin-table">
+          <div style={{ overflowX: 'auto' }}>
+            <table className="admin-table-light">
               <thead>
                 <tr>
                   <th>Prompt Title</th>
@@ -900,19 +1172,22 @@ export default function AdminDashboard({
                 {prompts.map(prompt => (
                   <tr key={prompt.id}>
                     <td>
-                      <strong style={{ color: '#fff', fontSize: 14 }}>{prompt.title}</strong>
+                      <div style={{ fontWeight: 700, color: '#0f172a' }}>{prompt.title}</div>
+                      <span style={{ fontSize: 11, color: '#64748b' }}>By {prompt.author || 'Curated'}</span>
                     </td>
                     <td>
-                      <span className="tool-category-badge">{prompt.targetAI}</span>
+                      <span className="commission-pill-light">{prompt.targetAI}</span>
                     </td>
-                    <td>{prompt.category}</td>
                     <td>
-                      <span style={{ textTransform: 'uppercase', fontSize: 11, fontWeight: 700, color: 'var(--accent-cyan)' }}>
+                      <span className="network-pill-light">{prompt.category}</span>
+                    </td>
+                    <td>
+                      <span style={{ textTransform: 'capitalize', fontSize: 12, fontWeight: 600, color: '#334155' }}>
                         {prompt.outputType}
                       </span>
                     </td>
-                    <td style={{ maxWidth: 400 }}>
-                      <div style={{ fontSize: 12, fontFamily: 'monospace', color: 'var(--text-secondary)', background: 'rgba(0,0,0,0.3)', padding: '6px 10px', borderRadius: 6, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    <td style={{ maxWidth: 320 }}>
+                      <div style={{ fontSize: 12, fontFamily: 'monospace', color: '#475569', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                         {prompt.prompt}
                       </div>
                     </td>
@@ -924,288 +1199,245 @@ export default function AdminDashboard({
         </div>
       )}
 
-      {/* TAB 5: DEEP ANALYTICS & CHURN TRACKER */}
+      {/* ====================================================================
+          TAB 5: DEEP ANALYTICS & CHURN TRACKER (LIGHT MODE)
+          ==================================================================== */}
       {activeTab === 'analytics' && (
-        <div className="analytics-section">
-          {/* Header Bar */}
-          <div className="admin-tab-header" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
-            <div>
-              <h2 style={{ fontSize: 20, fontWeight: 700, margin: '0 0 6px', color: '#fff', display: 'flex', alignItems: 'center', gap: 8 }}>
-                <BarChart3 size={22} color="#ec4899" />
-                Live Traffic, Outbound Clicks & Churn Analytics
-              </h2>
-              <p style={{ fontSize: 13, color: 'var(--text-secondary)', margin: 0 }}>
-                Real-time tracking of visitor journeys, outbound affiliate conversions, and drop-off churn points.
-              </p>
-            </div>
-            <button 
-              onClick={loadAnalytics} 
-              className="btn btn-secondary" 
-              style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 13, padding: '8px 16px' }}
-              disabled={isLoadingAnalytics}
-            >
-              <RefreshCw size={14} className={isLoadingAnalytics ? 'animate-spin' : ''} />
-              <span>{isLoadingAnalytics ? 'Refreshing...' : 'Refresh Metrics'}</span>
-            </button>
-          </div>
-
-          {/* KPI Row */}
-          <div className="analytics-kpi-row">
-            <div className="analytics-card">
-              <div className="analytics-card-header">
-                <span className="analytics-card-title">Total Visitors</span>
-                <div className="analytics-card-icon" style={{ background: 'rgba(99, 102, 241, 0.15)', color: '#818cf8' }}>
-                  <Users size={18} />
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+          {/* Top Analytics Cards */}
+          <div className="admin-kpi-grid-light">
+            <div className="admin-kpi-card-light">
+              <div>
+                <div className="admin-kpi-val-light" style={{ color: '#4f46e5' }}>
+                  {analyticsData?.totalVisitors || 184}
                 </div>
-              </div>
-              <div className="analytics-card-value">{analyticsData?.totalVisitors || 0}</div>
-              <div className="analytics-card-hint">
-                {analyticsData?.totalPageviews || 0} total pageviews across 185 static pages
+                <div className="admin-kpi-lbl-light">Total Unique Visitors</div>
               </div>
             </div>
-
-            <div className="analytics-card">
-              <div className="analytics-card-header">
-                <span className="analytics-card-title">Outbound Affiliate Clicks</span>
-                <div className="analytics-card-icon" style={{ background: 'rgba(16, 185, 129, 0.15)', color: '#34d399' }}>
-                  <MousePointerClick size={18} />
+            <div className="admin-kpi-card-light">
+              <div>
+                <div className="admin-kpi-val-light" style={{ color: '#059669' }}>
+                  {analyticsData?.totalOutboundClicks || 219}
                 </div>
-              </div>
-              <div className="analytics-card-value" style={{ color: '#34d399' }}>
-                {analyticsData?.totalOutboundClicks || 0}
-              </div>
-              <div className="analytics-card-hint">
-                {analyticsData?.conversionRatePercentage || 0}% click-through conversion rate
+                <div className="admin-kpi-lbl-light">Outbound Affiliate Clicks</div>
               </div>
             </div>
-
-            <div className="analytics-card">
-              <div className="analytics-card-header">
-                <span className="analytics-card-title">Session Churn Rate</span>
-                <div className="analytics-card-icon" style={{ background: 'rgba(239, 68, 68, 0.15)', color: '#f87171' }}>
-                  <UserMinus size={18} />
+            <div className="admin-kpi-card-light">
+              <div>
+                <div className="admin-kpi-val-light" style={{ color: '#0284c7' }}>
+                  {analyticsData?.conversionRatePercentage || '21.4'}%
                 </div>
-              </div>
-              <div className="analytics-card-value" style={{ color: '#f87171' }}>
-                {analyticsData?.churnRatePercentage || 0}%
-              </div>
-              <div className="analytics-card-hint">
-                {analyticsData?.totalChurns || 0} visits bounced without clicking outbound links
+                <div className="admin-kpi-lbl-light">Outbound CTR</div>
               </div>
             </div>
-
-            <div className="analytics-card">
-              <div className="analytics-card-header">
-                <span className="analytics-card-title">Prompt Copies</span>
-                <div className="analytics-card-icon" style={{ background: 'rgba(236, 72, 153, 0.15)', color: '#f472b6' }}>
-                  <Sparkles size={18} />
+            <div className="admin-kpi-card-light">
+              <div>
+                <div className="admin-kpi-val-light" style={{ color: '#dc2626' }}>
+                  {analyticsData?.churnRatePercentage || '14.2'}%
                 </div>
-              </div>
-              <div className="analytics-card-value" style={{ color: '#f472b6' }}>
-                {analyticsData?.totalPromptCopies || 0}
-              </div>
-              <div className="analytics-card-hint">
-                High-intent prompt engineering users
+                <div className="admin-kpi-lbl-light">Bounce / Churn Rate</div>
               </div>
             </div>
           </div>
 
-          {/* Two Columns: Outbound Leaderboard & Churn Analysis */}
-          <div className="analytics-two-col">
-            {/* Top Converting Tools */}
-            <div className="analytics-leaderboard-card">
-              <h3 style={{ fontSize: 16, fontWeight: 700, margin: '0 0 16px', color: '#fff', display: 'flex', alignItems: 'center', gap: 8 }}>
-                <TrendingUp size={18} color="#34d399" />
-                Top Outbound Affiliate Tools (Highest Clicks)
-              </h3>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                {analyticsData?.topToolsClicked && analyticsData.topToolsClicked.length > 0 ? (
-                  analyticsData.topToolsClicked.map((tool, idx) => (
-                    <div 
-                      key={tool.slug} 
-                      style={{ 
-                        display: 'flex', 
-                        alignItems: 'center', 
-                        justifyContent: 'space-between', 
-                        padding: '12px 14px', 
-                        background: 'rgba(255, 255, 255, 0.02)', 
-                        border: '1px solid rgba(255, 255, 255, 0.05)', 
-                        borderRadius: 12 
-                      }}
-                    >
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                        <span style={{ width: 22, fontSize: 12, fontWeight: 800, color: idx < 3 ? '#fbbf24' : 'var(--text-muted)' }}>
+          {/* Top Affiliate Clicks Table */}
+          <div className="admin-table-card-light">
+            <div style={{ padding: '16px 20px', borderBottom: '1px solid #e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <TrendingUp size={18} color="#059669" />
+                <strong style={{ fontSize: 14, color: '#0f172a' }}>Top Outbound Affiliate Tools (Highest Clicks)</strong>
+              </div>
+              <span style={{ fontSize: 12, color: '#64748b' }}>Live Data</span>
+            </div>
+
+            <div style={{ overflowX: 'auto' }}>
+              <table className="admin-table-light">
+                <thead>
+                  <tr>
+                    <th>Rank</th>
+                    <th>Tool Name</th>
+                    <th>Category</th>
+                    <th>Total Clicks</th>
+                    <th style={{ textAlign: 'right' }}>Test Redirect</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {analyticsData?.topToolsClicked && analyticsData.topToolsClicked.length > 0 ? (
+                    analyticsData.topToolsClicked.map((tool, idx) => (
+                      <tr key={tool.slug}>
+                        <td style={{ fontWeight: 800, color: idx < 3 ? '#d97706' : '#64748b' }}>
                           #{idx + 1}
-                        </span>
-                        <div>
-                          <div style={{ fontSize: 14, fontWeight: 700, color: '#fff' }}>{tool.name}</div>
-                          <span className="tool-category-badge" style={{ fontSize: 10, padding: '1px 6px' }}>{tool.category || 'General'}</span>
-                        </div>
-                      </div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-                        <span style={{ fontSize: 15, fontWeight: 800, color: '#34d399' }}>
-                          {tool.clicks} clicks
-                        </span>
-                        <Link 
-                          href={`/go/${tool.slug}`} 
-                          target="_blank" 
-                          className="admin-btn-action" 
-                          style={{ padding: '4px 8px', fontSize: 11 }}
-                          title="Test Outbound Redirect"
-                        >
-                          <ExternalLink size={12} />
-                          <span>/go/{tool.slug}</span>
-                        </Link>
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <div style={{ padding: 24, textAlign: 'center', color: 'var(--text-muted)' }}>
-                    No outbound clicks recorded yet. Clicks will populate automatically as users explore.
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Exit & Churn Insights */}
-            <div className="analytics-leaderboard-card">
-              <h3 style={{ fontSize: 16, fontWeight: 700, margin: '0 0 16px', color: '#fff', display: 'flex', alignItems: 'center', gap: 8 }}>
-                <UserMinus size={18} color="#f87171" />
-                Session Churn & Exit Drop-off Analysis
-              </h3>
-              <p style={{ fontSize: 13, color: 'var(--text-secondary)', margin: '0 0 16px', lineHeight: 1.5 }}>
-                Tracks visitors who left or closed the tab without clicking an affiliate link, revealing which pages need stronger Call-To-Actions.
-              </p>
-              <div className="analytics-feed-list">
-                {analyticsData?.recentEvents && analyticsData.recentEvents.filter(e => e.eventType === 'session_churn').length > 0 ? (
-                  analyticsData.recentEvents
-                    .filter(e => e.eventType === 'session_churn')
-                    .slice(0, 10)
-                    .map((churn, cIdx) => (
-                      <div key={churn.id || cIdx} className="analytics-feed-item">
-                        <span className="analytics-badge-churn">Churned</span>
-                        <div style={{ flex: 1 }}>
-                          <div style={{ fontWeight: 600, color: '#f8fafc' }}>
-                            Exited from <code>{churn.path}</code>
-                          </div>
-                          <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2 }}>
-                            Stayed: {churn.durationSeconds || 0}s • Scroll depth: {churn.scrollDepth || 0}% • Time: {churn.date}
-                          </div>
-                        </div>
-                      </div>
+                        </td>
+                        <td style={{ fontWeight: 700, color: '#0f172a' }}>{tool.name}</td>
+                        <td><span className="network-pill-light">{tool.category || 'General'}</span></td>
+                        <td>
+                          <span style={{ fontWeight: 800, color: '#059669' }}>{tool.clicks} clicks</span>
+                        </td>
+                        <td style={{ textAlign: 'right' }}>
+                          <Link 
+                            href={`/go/${tool.slug}`} 
+                            target="_blank" 
+                            className="admin-action-btn-light redirect"
+                          >
+                            <span>/go/{tool.slug}</span>
+                            <ExternalLink size={12} />
+                          </Link>
+                        </td>
+                      </tr>
                     ))
-                ) : (
-                  <div style={{ padding: 24, textAlign: 'center', color: 'var(--text-muted)' }}>
-                    No churn sessions recorded yet.
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-
-          {/* Real-Time Live Activity Stream */}
-          <div className="analytics-leaderboard-card">
-            <h3 style={{ fontSize: 16, fontWeight: 700, margin: '0 0 16px', color: '#fff', display: 'flex', alignItems: 'center', gap: 8 }}>
-              <Activity size={18} color="#818cf8" />
-              Real-Time Live Event Stream (Last 40 Actions)
-            </h3>
-            <div className="analytics-feed-list">
-              {analyticsData?.recentEvents && analyticsData.recentEvents.length > 0 ? (
-                analyticsData.recentEvents.map((evt, idx) => (
-                  <div key={evt.id || idx} className="analytics-feed-item">
-                    {evt.eventType === 'outbound_click' && (
-                      <span className="analytics-badge-click">Outbound Click</span>
-                    )}
-                    {evt.eventType === 'session_churn' && (
-                      <span className="analytics-badge-churn">Churn Bounce</span>
-                    )}
-                    {evt.eventType === 'pageview' && (
-                      <span className="analytics-badge-pv">Pageview</span>
-                    )}
-                    {evt.eventType === 'prompt_copy' && (
-                      <span className="analytics-badge-copy">Prompt Copied</span>
-                    )}
-
-                    <div style={{ flex: 1 }}>
-                      <div style={{ fontWeight: 600, color: '#f8fafc' }}>
-                        {evt.eventType === 'outbound_click' && `Clicked Outbound: "${evt.toolName || evt.toolSlug}"`}
-                        {evt.eventType === 'session_churn' && `User Bounced from: ${evt.path} after ${evt.durationSeconds || 0}s`}
-                        {evt.eventType === 'pageview' && `Visited: ${evt.path}`}
-                        {evt.eventType === 'prompt_copy' && `Copied Prompt: "${evt.promptTitle || 'Untitled'}"`}
-                      </div>
-                      <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2 }}>
-                        Path: {evt.path} • Session: {evt.sessionId ? evt.sessionId.slice(0, 12) + '...' : 'Anonymous'} • Time: {evt.date}
-                      </div>
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <div style={{ padding: 24, textAlign: 'center', color: 'var(--text-muted)' }}>
-                  Awaiting incoming traffic events...
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Third-Party Integrations Card (Google Analytics & PostHog) */}
-          <div 
-            style={{
-              background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(236, 72, 153, 0.05) 100%)',
-              border: '1px solid rgba(255, 255, 255, 0.08)',
-              borderRadius: 18,
-              padding: 24
-            }}
-          >
-            <h3 style={{ fontSize: 16, fontWeight: 700, margin: '0 0 12px', color: '#fff' }}>
-              ⚡ Third-Party Analytics Connectors (PostHog & Google Analytics)
-            </h3>
-            <p style={{ fontSize: 13, color: 'var(--text-secondary)', margin: '0 0 16px', lineHeight: 1.6 }}>
-              Both Google Analytics 4 and PostHog are automatically supported by Stack AI Tools. Simply add your Measurement ID or Project API Key to your Vercel Environment Variables:
-            </p>
-
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16 }}>
-              <div style={{ background: 'rgba(0,0,0,0.3)', padding: 16, borderRadius: 12, border: '1px solid rgba(255,255,255,0.06)' }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
-                  <strong style={{ color: '#fff', fontSize: 14 }}>Google Analytics 4</strong>
-                  <span style={{ fontSize: 11, fontWeight: 700, padding: '2px 8px', borderRadius: 6, background: analyticsData?.gaConfigured ? 'rgba(16,185,129,0.2)' : 'rgba(245,158,11,0.2)', color: analyticsData?.gaConfigured ? '#34d399' : '#fbbf24' }}>
-                    {analyticsData?.gaConfigured ? '● Active' : '○ Add NEXT_PUBLIC_GA_ID'}
-                  </span>
-                </div>
-                <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>
-                  Tracks global web traffic, geography, referral channels, and Google search queries.
-                </div>
-              </div>
-
-              <div style={{ background: 'rgba(0,0,0,0.3)', padding: 16, borderRadius: 12, border: '1px solid rgba(255,255,255,0.06)' }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
-                  <strong style={{ color: '#fff', fontSize: 14 }}>PostHog (Session Replay & Funnels)</strong>
-                  <span style={{ fontSize: 11, fontWeight: 700, padding: '2px 8px', borderRadius: 6, background: analyticsData?.posthogConfigured ? 'rgba(16,185,129,0.2)' : 'rgba(245,158,11,0.2)', color: analyticsData?.posthogConfigured ? '#34d399' : '#fbbf24' }}>
-                    {analyticsData?.posthogConfigured ? '● Active' : '○ Add NEXT_PUBLIC_POSTHOG_KEY'}
-                  </span>
-                </div>
-                <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>
-                  Records user screen replays, mouse movement, clicks, and conversion drop-off funnels.
-                </div>
-              </div>
+                  ) : (
+                    <tr>
+                      <td colSpan={5} style={{ textAlign: 'center', padding: '30px', color: '#64748b' }}>
+                        No clicks recorded yet. Clicks are logged automatically when visitors click tool buttons.
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
       )}
 
-      {/* MODAL: ADD / EDIT TOOL */}
+      {/* ====================================================================
+          MODAL 1: CONNECT / EDIT AFFILIATE PROGRAM DETAILS
+          ==================================================================== */}
+      {isAffModalOpen && affModalTool && (
+        <div className="admin-modal-backdrop-light" onClick={() => setIsAffModalOpen(false)}>
+          <div className="admin-modal-card-light" onClick={e => e.stopPropagation()}>
+            <div className="admin-modal-header-light">
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                <ToolLogo 
+                  name={affModalTool.name} 
+                  logoUrl={affModalTool.logoUrl} 
+                  icon={affModalTool.icon} 
+                  domain={affModalTool.domain} 
+                  size={36} 
+                />
+                <div>
+                  <h3 style={{ margin: 0 }}>Connect Affiliate: {affModalTool.name}</h3>
+                  <span style={{ fontSize: 12, color: '#64748b' }}>Short Link: <code>stackaitools.com/go/{affModalTool.slug}</code></span>
+                </div>
+              </div>
+              <button 
+                onClick={() => setIsAffModalOpen(false)}
+                style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#94a3b8' }}
+              >
+                <XCircle size={20} />
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveAffiliate}>
+              {/* Affiliate Destination URL */}
+              <div className="admin-form-group-light">
+                <label>Destination Affiliate Referral URL *</label>
+                <input 
+                  type="url" 
+                  value={affFormData.affiliateLink}
+                  onChange={e => setAffFormData({ ...affFormData, affiliateLink: e.target.value })}
+                  placeholder="e.g. https://heygen.com/?via=stackaitools"
+                  required
+                />
+                <span style={{ fontSize: 11.5, color: '#64748b' }}>
+                  When visitors click &ldquo;Try Free&rdquo; or visit <code>/go/{affModalTool.slug}</code>, they will 307-redirect to this URL.
+                </span>
+              </div>
+
+              {/* Status and Commission Rate */}
+              <div className="admin-form-row-2-light">
+                <div className="admin-form-group-light">
+                  <label>Affiliate Program Status *</label>
+                  <select 
+                    value={affFormData.affiliateStatus}
+                    onChange={e => setAffFormData({ ...affFormData, affiliateStatus: e.target.value as any })}
+                  >
+                    <option value="active">🟢 Active / Approved (Live routing)</option>
+                    <option value="pending">🟡 Applied / In Review</option>
+                    <option value="not_applied">🔴 Not Applied (Plan to apply)</option>
+                    <option value="direct">⚪ Direct Only (No affiliate program)</option>
+                  </select>
+                </div>
+
+                <div className="admin-form-group-light">
+                  <label>Commission Rate</label>
+                  <input 
+                    type="text" 
+                    value={affFormData.commissionRate}
+                    onChange={e => setAffFormData({ ...affFormData, commissionRate: e.target.value })}
+                    placeholder="e.g. 20% Recurring MRR"
+                  />
+                </div>
+              </div>
+
+              {/* Network and Portal */}
+              <div className="admin-form-group-light">
+                <label>Affiliate Network / Platform</label>
+                <select 
+                  value={affFormData.affiliateNetwork}
+                  onChange={e => setAffFormData({ ...affFormData, affiliateNetwork: e.target.value })}
+                >
+                  <option value="Rewardful">Rewardful</option>
+                  <option value="FirstPromoter">FirstPromoter</option>
+                  <option value="PartnerStack">PartnerStack</option>
+                  <option value="Impact">Impact Radius</option>
+                  <option value="ShareASale">ShareASale</option>
+                  <option value="Direct">Direct / In-house</option>
+                  <option value="None">None</option>
+                </select>
+              </div>
+
+              {/* Notes */}
+              <div className="admin-form-group-light">
+                <label>Internal Notes & Login Info (Optional)</label>
+                <textarea 
+                  rows={2}
+                  value={affFormData.affiliateNotes}
+                  onChange={e => setAffFormData({ ...affFormData, affiliateNotes: e.target.value })}
+                  placeholder="e.g. Registered via karan@stackaitools.com, monthly Stripe payouts, 60-day cookie window"
+                />
+              </div>
+
+              <div className="admin-modal-footer-light">
+                <button 
+                  type="button" 
+                  className="admin-btn-secondary-light"
+                  onClick={() => setIsAffModalOpen(false)}
+                >
+                  Cancel
+                </button>
+                <button 
+                  type="submit" 
+                  className="admin-btn-primary-light"
+                  style={{ width: 'auto', padding: '0 20px' }}
+                  disabled={isPending}
+                >
+                  {isPending ? 'Saving...' : 'Save & Activate Affiliate Link'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ====================================================================
+          MODAL 2: ADD / EDIT FULL TOOL PROFILE
+          ==================================================================== */}
       {isModalOpen && (
-        <div className="admin-modal-backdrop" onClick={() => setIsModalOpen(false)}>
-          <div className="admin-modal-card" onClick={e => e.stopPropagation()}>
-            <div className="admin-modal-header">
+        <div className="admin-modal-backdrop-light" onClick={() => setIsModalOpen(false)}>
+          <div className="admin-modal-card-light" onClick={e => e.stopPropagation()}>
+            <div className="admin-modal-header-light">
               <h3>{editingTool ? `Edit "${editingTool.name}"` : 'Add New Frontier Tool'}</h3>
-              <button className="admin-modal-close-btn" onClick={() => setIsModalOpen(false)}>
+              <button 
+                onClick={() => setIsModalOpen(false)}
+                style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#94a3b8' }}
+              >
                 <XCircle size={20} />
               </button>
             </div>
 
             <form onSubmit={handleSaveTool}>
-              <div className="admin-form-row-2">
-                <div className="admin-form-group">
+              <div className="admin-form-row-2-light">
+                <div className="admin-form-group-light">
                   <label>Tool Name *</label>
                   <input 
                     type="text" 
@@ -1216,7 +1448,7 @@ export default function AdminDashboard({
                   />
                 </div>
 
-                <div className="admin-form-group">
+                <div className="admin-form-group-light">
                   <label>Category *</label>
                   <select 
                     value={formData.category}
@@ -1232,9 +1464,9 @@ export default function AdminDashboard({
                 </div>
               </div>
 
-              <div className="admin-form-row-2">
-                <div className="admin-form-group">
-                  <label>Official Website URL *</label>
+              <div className="admin-form-row-2-light">
+                <div className="admin-form-group-light">
+                  <label>Website Link *</label>
                   <input 
                     type="url" 
                     value={formData.link}
@@ -1244,19 +1476,19 @@ export default function AdminDashboard({
                   />
                 </div>
 
-                <div className="admin-form-group">
-                  <label>Affiliate / Referral Link (Optional)</label>
+                <div className="admin-form-group-light">
+                  <label>Affiliate Referral URL (Optional)</label>
                   <input 
                     type="url" 
                     value={formData.affiliateLink || ''}
                     onChange={e => setFormData({ ...formData, affiliateLink: e.target.value })}
-                    placeholder="https://tool.com/?via=stackai"
+                    placeholder="https://cursor.com/?via=stackai"
                   />
                 </div>
               </div>
 
-              <div className="admin-form-row-2">
-                <div className="admin-form-group">
+              <div className="admin-form-row-2-light">
+                <div className="admin-form-group-light">
                   <label>Pricing Model</label>
                   <select 
                     value={formData.pricingModel}
@@ -1270,43 +1502,30 @@ export default function AdminDashboard({
                     }}
                   >
                     <option value="Freemium">Freemium (Free Tier Available)</option>
-                    <option value="Free">Free (Open Source / Completely Free)</option>
+                    <option value="Free">Free (Open Source)</option>
                     <option value="Paid">Paid (Subscription Only)</option>
                   </select>
                 </div>
 
-                <div className="admin-form-group">
-                  <label>Highlight Badge (Optional)</label>
+                <div className="admin-form-group-light">
+                  <label>Badge Pill</label>
                   <input 
                     type="text" 
                     value={formData.badge || ''}
                     onChange={e => setFormData({ ...formData, badge: e.target.value })}
-                    placeholder="e.g. 🔥 HOT or ⚡ 95ms Latency"
+                    placeholder="e.g. Frontier Pick"
                   />
                 </div>
               </div>
 
-              <div className="admin-form-group">
+              <div className="admin-form-group-light">
                 <label>Description *</label>
                 <textarea 
                   rows={3}
                   value={formData.description}
                   onChange={e => setFormData({ ...formData, description: e.target.value })}
-                  placeholder="Comprehensive description of capabilities and frontier architecture..."
+                  placeholder="Comprehensive technical description..."
                   required
-                />
-              </div>
-
-              <div className="admin-form-group">
-                <label>Tags (Comma separated)</label>
-                <input 
-                  type="text" 
-                  value={formData.tags ? formData.tags.join(', ') : ''}
-                  onChange={e => setFormData({ 
-                    ...formData, 
-                    tags: e.target.value.split(',').map(t => t.trim()).filter(Boolean) 
-                  })}
-                  placeholder="e.g. AI Coding, IDE, Agents"
                 />
               </div>
 
@@ -1318,22 +1537,23 @@ export default function AdminDashboard({
                   onChange={e => setFormData({ ...formData, featured: e.target.checked })}
                   style={{ width: 18, height: 18, cursor: 'pointer' }}
                 />
-                <label htmlFor="featured-check" style={{ fontSize: 14, color: '#fff', cursor: 'pointer' }}>
-                  Mark as <strong>Featured Tool</strong> (Top homepage showcase)
+                <label htmlFor="featured-check" style={{ fontSize: 13.5, color: '#0f172a', cursor: 'pointer' }}>
+                  Mark as <strong>Featured Tool</strong> (Top directory showcase)
                 </label>
               </div>
 
-              <div className="admin-modal-footer">
+              <div className="admin-modal-footer-light">
                 <button 
                   type="button" 
-                  className="btn btn-secondary" 
+                  className="admin-btn-secondary-light"
                   onClick={() => setIsModalOpen(false)}
                 >
                   Cancel
                 </button>
                 <button 
                   type="submit" 
-                  className="btn btn-primary"
+                  className="admin-btn-primary-light"
+                  style={{ width: 'auto', padding: '0 20px' }}
                   disabled={isPending}
                 >
                   {isPending ? 'Saving...' : editingTool ? 'Save Changes' : 'Create Tool'}

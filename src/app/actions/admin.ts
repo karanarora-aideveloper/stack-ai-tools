@@ -184,6 +184,56 @@ export async function updateAffiliateLinkAction(id: string, affiliateUrl: string
   return { success: true };
 }
 
+export interface AffiliateUpdateInput {
+  id: string;
+  toolName?: string;
+  affiliateLink: string;
+  affiliateStatus: 'active' | 'pending' | 'not_applied' | 'direct';
+  commissionRate?: string;
+  affiliateNetwork?: string;
+  affiliateNotes?: string;
+}
+
+export async function updateAffiliateDetailsAction(data: AffiliateUpdateInput) {
+  const db = getPrisma();
+  const isObjectId = /^[0-9a-fA-F]{24}$/.test(data.id);
+
+  if (isObjectId) {
+    await db.tool.update({
+      where: { id: data.id },
+      data: {
+        link: data.affiliateLink.trim(),
+        affiliateLink: data.affiliateLink.trim(),
+        affiliateStatus: data.affiliateStatus,
+        commissionRate: data.commissionRate?.trim(),
+        affiliateNetwork: data.affiliateNetwork?.trim(),
+        affiliateNotes: data.affiliateNotes?.trim()
+      }
+    });
+  } else if (data.toolName) {
+    const existing = await db.tool.findFirst({ where: { name: data.toolName } });
+    if (existing) {
+      await db.tool.update({
+        where: { id: existing.id },
+        data: {
+          link: data.affiliateLink.trim(),
+          affiliateLink: data.affiliateLink.trim(),
+          affiliateStatus: data.affiliateStatus,
+          commissionRate: data.commissionRate?.trim(),
+          affiliateNetwork: data.affiliateNetwork?.trim(),
+          affiliateNotes: data.affiliateNotes?.trim()
+        }
+      });
+    }
+  }
+
+  invalidateToolsCache();
+  revalidatePath('/');
+  revalidatePath('/admin');
+
+  return { success: true };
+}
+
 export async function toggleFeaturedAction(id: string, featured: boolean, toolName?: string) {
   const db = getPrisma();
   const isObjectId = /^[0-9a-fA-F]{24}$/.test(id);

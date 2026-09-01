@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getToolBySlug } from '@/lib/tools';
+import { recordServerEvent } from '@/lib/analytics';
 
 export async function GET(
   request: NextRequest,
@@ -15,6 +16,20 @@ export async function GET(
 
   // Outbound affiliate link tracking header
   const destinationUrl = tool.link;
+
+  try {
+    recordServerEvent({
+      eventType: 'outbound_click',
+      path: `/go/${slug}`,
+      toolSlug: slug,
+      toolName: tool.name,
+      destinationUrl,
+      category: tool.category,
+      referrer: request.headers.get('referer') || 'direct'
+    });
+  } catch {
+    // Non-blocking telemetry
+  }
 
   return NextResponse.redirect(destinationUrl, {
     status: 307,
