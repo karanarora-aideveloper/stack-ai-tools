@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="bg-grad" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0a0a14"/>
+      <stop offset="1" stop-color="#121226"/>
+    </linearGradient>
+    <linearGradient id="stack-1" x1="12" y1="44" x2="52" y2="44" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#4f46e5"/>
+      <stop offset="1" stop-color="#6366f1"/>
+    </linearGradient>
+    <linearGradient id="stack-2" x1="12" y1="31" x2="52" y2="31" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7c3aed"/>
+      <stop offset="1" stop-color="#a855f7"/>
+    </linearGradient>
+    <linearGradient id="stack-3" x1="12" y1="18" x2="52" y2="18" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ec4899"/>
+      <stop offset="1" stop-color="#f43f5e"/>
+    </linearGradient>
+    <filter id="glow" x="10" y="8" width="44" height="48" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Background container with rounded corners -->
+  <rect width="64" height="64" rx="16" fill="url(#bg-grad)"/>
+  <rect x="0.75" y="0.75" width="62.5" height="62.5" rx="15.25" stroke="#6366f1" stroke-opacity="0.3" stroke-width="1.5"/>
+
+  <!-- Glowing Stack Layers -->
+  <g filter="url(#glow)">
+    <!-- Bottom Layer (Platform Base) -->
+    <path d="M14 43L32 50L50 43L32 37L14 43Z" fill="url(#stack-1)" fill-opacity="0.9"/>
+    
+    <!-- Middle Layer (Intelligence & Tools) -->
+    <path d="M14 31L32 38L50 31L32 25L14 31Z" fill="url(#stack-2)" fill-opacity="0.95"/>
+    
+    <!-- Top Layer (Agents & Prompts) -->
+    <path d="M14 19L32 26L50 19L32 13L14 19Z" fill="url(#stack-3)"/>
+
+    <!-- Central Sparkle (Frontier AI Catalyst) -->
+    <path d="M32 8L33.5 16.5L42 18L33.5 19.5L32 28L30.5 19.5L22 18L30.5 16.5L32 8Z" fill="#ffffff" fill-opacity="0.9"/>
+  </g>
+</svg>

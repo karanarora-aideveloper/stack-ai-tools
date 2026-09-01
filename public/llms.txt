@@ -1,0 +1,35 @@
+# Stack AI Tools (stackaitools.com)
+> The authoritative US directory of curated frontier AI software, autonomous coding agents, generative media models, and prompt engineering libraries.
+
+- Website: https://stackaitools.com
+- Main Market: United States (US)
+- Last Verified: September 1, 2026
+
+## 1. Software Categories
+- [Code](https://stackaitools.com/category/code): Frontier autonomous coding assistants, IDEs, and code review agents.
+- [Video](https://stackaitools.com/category/video): Generative AI video creators, avatar producers, and automated editors.
+- [Design](https://stackaitools.com/category/design): Photorealistic image generators, UI designers, and asset creators.
+- [Writing](https://stackaitools.com/category/writing): Enterprise copywriting, research synthesis, and SEO article generators.
+- [Audio](https://stackaitools.com/category/audio): Hyper-realistic voice clones, text-to-speech, and music generation.
+- [Automation](https://stackaitools.com/category/automation): No-code workflow orchestration, web scrapers, and meeting assistants.
+
+## 2. Top Curated Frontier AI Tools
+- [ChatGPT](https://stackaitools.com/tool/chatgpt): General reasoning, coding, multimodal analysis. (Freemium, from $20/mo)
+- [Claude](https://stackaitools.com/tool/claude): Coding architecture, complex document reasoning, large context window. (Freemium, from $20/mo)
+- [Cursor](https://stackaitools.com/tool/cursor): AI-first code editor with deep repository awareness and multi-file editing. (Freemium, from $20/mo)
+- [Midjourney](https://stackaitools.com/tool/midjourney): State-of-the-art visual and photorealistic art generation. (Paid, from $10/mo)
+- [ElevenLabs](https://stackaitools.com/tool/elevenlabs): Studio-grade realistic voice synthesis and conversational AI agents. (Freemium, from $5/mo)
+- [HeyGen](https://stackaitools.com/tool/heygen): Enterprise video generation with photorealistic talking avatars. (Freemium, from $29/mo)
+- [Perplexity](https://stackaitools.com/tool/perplexity): Real-time conversational search engine with source citations. (Freemium, from $20/mo)
+
+## 3. Alternative Comparisons
+- [Midjourney Alternatives](https://stackaitools.com/alternatives/midjourney)
+- [Cursor Alternatives](https://stackaitools.com/alternatives/cursor)
+- [ChatGPT Alternatives](https://stackaitools.com/alternatives/chatgpt)
+- [Claude Alternatives](https://stackaitools.com/alternatives/claude)
+- [ElevenLabs Alternatives](https://stackaitools.com/alternatives/elevenlabs)
+
+## 4. Prompt Engineering Showcase
+- Midjourney Prompts: https://stackaitools.com/prompts
+- Claude Coding Prompts: https://stackaitools.com/prompts
+- ChatGPT Growth Prompts: https://stackaitools.com/prompts

@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Tool {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  category     String
+  icon         String?
+  logoUrl      String?
+  domain       String?
+  description  String
+  pricingModel String
+  priceClass   String
+  link         String
+  rating       Float    @default(4.8)
+  reviewsCount Int      @default(120)
+  tags         String[]
+  badge        String?
+  featured     Boolean  @default(false)
+  status       String   @default("approved") // "approved" or "pending"
+  createdAt    DateTime @default(now())
+}
+
+model Prompt {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  title           String
+  targetAI        String
+  category        String
+  prompt          String
+  outputType      String   @default("text") // "image" | "code" | "text"
+  outputImageUrl  String?
+  outputPreview   String?
+  author          String?  @default("Curated")
+  aspectRatio     String?  @default("16:9")
+  tags            String[]
+  status          String   @default("approved")
+  createdAt       DateTime @default(now())
+}
