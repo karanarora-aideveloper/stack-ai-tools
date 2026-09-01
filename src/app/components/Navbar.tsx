@@ -106,6 +106,12 @@ export default function Navbar() {
               </span>
             </Link>
             <Link 
+              href="/blog" 
+              className={`topbar-nav-pill ${isActive('/blog') ? 'active' : ''}`}
+            >
+              <span>Blog</span>
+            </Link>
+            <Link 
               href="/about" 
               className={`topbar-nav-pill ${isActive('/about') ? 'active' : ''}`}
             >
@@ -242,6 +248,15 @@ export default function Navbar() {
                 >
                   <GitCompare size={18} color="#a855f7" />
                   <span>⚔️ Versus Mode (Alternatives)</span>
+                </Link>
+
+                <Link 
+                  href="/blog" 
+                  className={`mobile-drawer-link ${isActive('/blog') ? 'active' : ''}`}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <BookOpen size={18} color="#38bdf8" />
+                  <span>📰 Research Blog (1,000+ Guides)</span>
                 </Link>
 
                 <Link 

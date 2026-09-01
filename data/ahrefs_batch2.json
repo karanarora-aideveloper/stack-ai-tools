@@ -1,0 +1,39 @@
+{
+  "source": "Ahrefs Keywords Explorer (google/us)",
+  "workspace": "Spencer Bailey's workspace",
+  "batch": 2,
+  "country": "us",
+  "totalKeywords": 45,
+  "totalSearchVolumeUS": 32000,
+  "totalGlobalSearchVolume": 110000,
+  "lastUpdated": "2026-09-01",
+  "highlights": {
+    "highestCpc": {
+      "keyword": "claude vs chatgpt coding",
+      "cpc": 80.00,
+      "sv": 150,
+      "gsv": 500,
+      "opportunity": "RECORD CPC ($80.00)! Phenomenal commercial value per click in US."
+    },
+    "zeroKdGems": [
+      { "keyword": "best ai search engine", "kd": 0, "sv": 1500, "tp": 17000, "cpc": 1.30 },
+      { "keyword": "suno vs udio", "kd": 0, "sv": 500, "tp": 200, "cpc": 0.25 },
+      { "keyword": "otter ai alternatives", "kd": 0, "sv": 300, "tp": 900, "cpc": 2.50 },
+      { "keyword": "heygen vs d-id", "kd": 0, "sv": 200, "tp": 40, "cpc": 2.00 }
+    ],
+    "singleDigitKdGems": [
+      { "keyword": "github copilot alternatives", "kd": 1, "sv": 200, "cpc": 3.50 },
+      { "keyword": "copy ai alternatives", "kd": 1, "sv": 150, "cpc": 3.50 },
+      { "keyword": "elevenlabs vs murf", "kd": 1, "sv": 70, "cpc": 1.50 },
+      { "keyword": "replit alternatives", "kd": 3, "sv": 1300, "cpc": 6.00 },
+      { "keyword": "best ai tools for real estate", "kd": 3, "sv": 200, "cpc": 4.00 }
+    ],
+    "highCpcB2B": [
+      { "keyword": "best ai tools for sales", "cpc": 14.00, "kd": 42, "sv": 350 },
+      { "keyword": "ai code review tools", "cpc": 10.00, "kd": 39, "sv": 700 },
+      { "keyword": "ai app builder no code", "cpc": 7.00, "kd": 63, "sv": 400 },
+      { "keyword": "replit alternatives", "cpc": 6.00, "kd": 3, "sv": 1300 },
+      { "keyword": "best ai tools for developers", "cpc": 6.00, "kd": 17, "sv": 300 }
+    ]
+  }
+}
