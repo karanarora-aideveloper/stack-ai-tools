@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useTransition, useMemo } from 'react';
+import React, { useState, useTransition, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import { 
   Lock, 
@@ -21,11 +21,17 @@ import {
   ArrowRight,
   LogOut,
   SlidersHorizontal,
-  RefreshCw
+  RefreshCw,
+  BarChart3,
+  Users,
+  MousePointerClick,
+  UserMinus,
+  Activity
 } from 'lucide-react';
 import ToolLogo from '@/app/components/ToolLogo';
 import { EnrichedTool } from '@/lib/tools';
 import { PromptItem } from '@/data';
+import { AnalyticsSummary } from '@/lib/analytics';
 import { 
   verifyAdminPasskey, 
   createToolAction, 
@@ -64,9 +70,11 @@ export default function AdminDashboard({
   const [tools, setTools] = useState<EnrichedTool[]>(initialApprovedTools);
   const [pendingTools, setPendingTools] = useState<EnrichedTool[]>(initialPendingTools);
   const [prompts] = useState<PromptItem[]>(initialPrompts);
+  const [analyticsData, setAnalyticsData] = useState<AnalyticsSummary | null>(null);
+  const [isLoadingAnalytics, setIsLoadingAnalytics] = useState(false);
 
   // Navigation & Filtering
-  const [activeTab, setActiveTab] = useState<'tools' | 'affiliates' | 'pending' | 'prompts'>('tools');
+  const [activeTab, setActiveTab] = useState<'tools' | 'affiliates' | 'pending' | 'prompts' | 'analytics'>('tools');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedPricing, setSelectedPricing] = useState('all');
@@ -97,6 +105,27 @@ export default function AdminDashboard({
     setToastMessage(msg);
     setTimeout(() => setToastMessage(null), 3500);
   };
+
+  const loadAnalytics = async () => {
+    setIsLoadingAnalytics(true);
+    try {
+      const res = await fetch('/api/analytics');
+      if (res.ok) {
+        const data = await res.json();
+        setAnalyticsData(data);
+      }
+    } catch {
+      // ignore error
+    } finally {
+      setIsLoadingAnalytics(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      loadAnalytics();
+    }
+  }, [isAuthenticated, activeTab]);
 
   // Passkey Login Handler
   const handleLogin = async (e: React.FormEvent) => {
@@ -477,6 +506,15 @@ export default function AdminDashboard({
           <Sparkles size={16} />
           <span>Prompt Library</span>
           <span className="admin-tab-count-pill">{prompts.length}</span>
+        </button>
+
+        <button 
+          className={`admin-tab-item ${activeTab === 'analytics' ? 'active' : ''}`}
+          onClick={() => setActiveTab('analytics')}
+        >
+          <BarChart3 size={16} />
+          <span>Deep Analytics & Churn</span>
+          <span className="admin-tab-count-pill" style={{ background: 'rgba(236, 72, 153, 0.2)', color: '#f472b6' }}>Live</span>
         </button>
       </div>
 
@@ -882,6 +920,274 @@ export default function AdminDashboard({
                 ))}
               </tbody>
             </table>
+          </div>
+        </div>
+      )}
+
+      {/* TAB 5: DEEP ANALYTICS & CHURN TRACKER */}
+      {activeTab === 'analytics' && (
+        <div className="analytics-section">
+          {/* Header Bar */}
+          <div className="admin-tab-header" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
+            <div>
+              <h2 style={{ fontSize: 20, fontWeight: 700, margin: '0 0 6px', color: '#fff', display: 'flex', alignItems: 'center', gap: 8 }}>
+                <BarChart3 size={22} color="#ec4899" />
+                Live Traffic, Outbound Clicks & Churn Analytics
+              </h2>
+              <p style={{ fontSize: 13, color: 'var(--text-secondary)', margin: 0 }}>
+                Real-time tracking of visitor journeys, outbound affiliate conversions, and drop-off churn points.
+              </p>
+            </div>
+            <button 
+              onClick={loadAnalytics} 
+              className="btn btn-secondary" 
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 13, padding: '8px 16px' }}
+              disabled={isLoadingAnalytics}
+            >
+              <RefreshCw size={14} className={isLoadingAnalytics ? 'animate-spin' : ''} />
+              <span>{isLoadingAnalytics ? 'Refreshing...' : 'Refresh Metrics'}</span>
+            </button>
+          </div>
+
+          {/* KPI Row */}
+          <div className="analytics-kpi-row">
+            <div className="analytics-card">
+              <div className="analytics-card-header">
+                <span className="analytics-card-title">Total Visitors</span>
+                <div className="analytics-card-icon" style={{ background: 'rgba(99, 102, 241, 0.15)', color: '#818cf8' }}>
+                  <Users size={18} />
+                </div>
+              </div>
+              <div className="analytics-card-value">{analyticsData?.totalVisitors || 0}</div>
+              <div className="analytics-card-hint">
+                {analyticsData?.totalPageviews || 0} total pageviews across 185 static pages
+              </div>
+            </div>
+
+            <div className="analytics-card">
+              <div className="analytics-card-header">
+                <span className="analytics-card-title">Outbound Affiliate Clicks</span>
+                <div className="analytics-card-icon" style={{ background: 'rgba(16, 185, 129, 0.15)', color: '#34d399' }}>
+                  <MousePointerClick size={18} />
+                </div>
+              </div>
+              <div className="analytics-card-value" style={{ color: '#34d399' }}>
+                {analyticsData?.totalOutboundClicks || 0}
+              </div>
+              <div className="analytics-card-hint">
+                {analyticsData?.conversionRatePercentage || 0}% click-through conversion rate
+              </div>
+            </div>
+
+            <div className="analytics-card">
+              <div className="analytics-card-header">
+                <span className="analytics-card-title">Session Churn Rate</span>
+                <div className="analytics-card-icon" style={{ background: 'rgba(239, 68, 68, 0.15)', color: '#f87171' }}>
+                  <UserMinus size={18} />
+                </div>
+              </div>
+              <div className="analytics-card-value" style={{ color: '#f87171' }}>
+                {analyticsData?.churnRatePercentage || 0}%
+              </div>
+              <div className="analytics-card-hint">
+                {analyticsData?.totalChurns || 0} visits bounced without clicking outbound links
+              </div>
+            </div>
+
+            <div className="analytics-card">
+              <div className="analytics-card-header">
+                <span className="analytics-card-title">Prompt Copies</span>
+                <div className="analytics-card-icon" style={{ background: 'rgba(236, 72, 153, 0.15)', color: '#f472b6' }}>
+                  <Sparkles size={18} />
+                </div>
+              </div>
+              <div className="analytics-card-value" style={{ color: '#f472b6' }}>
+                {analyticsData?.totalPromptCopies || 0}
+              </div>
+              <div className="analytics-card-hint">
+                High-intent prompt engineering users
+              </div>
+            </div>
+          </div>
+
+          {/* Two Columns: Outbound Leaderboard & Churn Analysis */}
+          <div className="analytics-two-col">
+            {/* Top Converting Tools */}
+            <div className="analytics-leaderboard-card">
+              <h3 style={{ fontSize: 16, fontWeight: 700, margin: '0 0 16px', color: '#fff', display: 'flex', alignItems: 'center', gap: 8 }}>
+                <TrendingUp size={18} color="#34d399" />
+                Top Outbound Affiliate Tools (Highest Clicks)
+              </h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                {analyticsData?.topToolsClicked && analyticsData.topToolsClicked.length > 0 ? (
+                  analyticsData.topToolsClicked.map((tool, idx) => (
+                    <div 
+                      key={tool.slug} 
+                      style={{ 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        justifyContent: 'space-between', 
+                        padding: '12px 14px', 
+                        background: 'rgba(255, 255, 255, 0.02)', 
+                        border: '1px solid rgba(255, 255, 255, 0.05)', 
+                        borderRadius: 12 
+                      }}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                        <span style={{ width: 22, fontSize: 12, fontWeight: 800, color: idx < 3 ? '#fbbf24' : 'var(--text-muted)' }}>
+                          #{idx + 1}
+                        </span>
+                        <div>
+                          <div style={{ fontSize: 14, fontWeight: 700, color: '#fff' }}>{tool.name}</div>
+                          <span className="tool-category-badge" style={{ fontSize: 10, padding: '1px 6px' }}>{tool.category || 'General'}</span>
+                        </div>
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+                        <span style={{ fontSize: 15, fontWeight: 800, color: '#34d399' }}>
+                          {tool.clicks} clicks
+                        </span>
+                        <Link 
+                          href={`/go/${tool.slug}`} 
+                          target="_blank" 
+                          className="admin-btn-action" 
+                          style={{ padding: '4px 8px', fontSize: 11 }}
+                          title="Test Outbound Redirect"
+                        >
+                          <ExternalLink size={12} />
+                          <span>/go/{tool.slug}</span>
+                        </Link>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div style={{ padding: 24, textAlign: 'center', color: 'var(--text-muted)' }}>
+                    No outbound clicks recorded yet. Clicks will populate automatically as users explore.
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Exit & Churn Insights */}
+            <div className="analytics-leaderboard-card">
+              <h3 style={{ fontSize: 16, fontWeight: 700, margin: '0 0 16px', color: '#fff', display: 'flex', alignItems: 'center', gap: 8 }}>
+                <UserMinus size={18} color="#f87171" />
+                Session Churn & Exit Drop-off Analysis
+              </h3>
+              <p style={{ fontSize: 13, color: 'var(--text-secondary)', margin: '0 0 16px', lineHeight: 1.5 }}>
+                Tracks visitors who left or closed the tab without clicking an affiliate link, revealing which pages need stronger Call-To-Actions.
+              </p>
+              <div className="analytics-feed-list">
+                {analyticsData?.recentEvents && analyticsData.recentEvents.filter(e => e.eventType === 'session_churn').length > 0 ? (
+                  analyticsData.recentEvents
+                    .filter(e => e.eventType === 'session_churn')
+                    .slice(0, 10)
+                    .map((churn, cIdx) => (
+                      <div key={churn.id || cIdx} className="analytics-feed-item">
+                        <span className="analytics-badge-churn">Churned</span>
+                        <div style={{ flex: 1 }}>
+                          <div style={{ fontWeight: 600, color: '#f8fafc' }}>
+                            Exited from <code>{churn.path}</code>
+                          </div>
+                          <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2 }}>
+                            Stayed: {churn.durationSeconds || 0}s • Scroll depth: {churn.scrollDepth || 0}% • Time: {churn.date}
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                ) : (
+                  <div style={{ padding: 24, textAlign: 'center', color: 'var(--text-muted)' }}>
+                    No churn sessions recorded yet.
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Real-Time Live Activity Stream */}
+          <div className="analytics-leaderboard-card">
+            <h3 style={{ fontSize: 16, fontWeight: 700, margin: '0 0 16px', color: '#fff', display: 'flex', alignItems: 'center', gap: 8 }}>
+              <Activity size={18} color="#818cf8" />
+              Real-Time Live Event Stream (Last 40 Actions)
+            </h3>
+            <div className="analytics-feed-list">
+              {analyticsData?.recentEvents && analyticsData.recentEvents.length > 0 ? (
+                analyticsData.recentEvents.map((evt, idx) => (
+                  <div key={evt.id || idx} className="analytics-feed-item">
+                    {evt.eventType === 'outbound_click' && (
+                      <span className="analytics-badge-click">Outbound Click</span>
+                    )}
+                    {evt.eventType === 'session_churn' && (
+                      <span className="analytics-badge-churn">Churn Bounce</span>
+                    )}
+                    {evt.eventType === 'pageview' && (
+                      <span className="analytics-badge-pv">Pageview</span>
+                    )}
+                    {evt.eventType === 'prompt_copy' && (
+                      <span className="analytics-badge-copy">Prompt Copied</span>
+                    )}
+
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontWeight: 600, color: '#f8fafc' }}>
+                        {evt.eventType === 'outbound_click' && `Clicked Outbound: "${evt.toolName || evt.toolSlug}"`}
+                        {evt.eventType === 'session_churn' && `User Bounced from: ${evt.path} after ${evt.durationSeconds || 0}s`}
+                        {evt.eventType === 'pageview' && `Visited: ${evt.path}`}
+                        {evt.eventType === 'prompt_copy' && `Copied Prompt: "${evt.promptTitle || 'Untitled'}"`}
+                      </div>
+                      <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2 }}>
+                        Path: {evt.path} • Session: {evt.sessionId ? evt.sessionId.slice(0, 12) + '...' : 'Anonymous'} • Time: {evt.date}
+                      </div>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div style={{ padding: 24, textAlign: 'center', color: 'var(--text-muted)' }}>
+                  Awaiting incoming traffic events...
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Third-Party Integrations Card (Google Analytics & PostHog) */}
+          <div 
+            style={{
+              background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(236, 72, 153, 0.05) 100%)',
+              border: '1px solid rgba(255, 255, 255, 0.08)',
+              borderRadius: 18,
+              padding: 24
+            }}
+          >
+            <h3 style={{ fontSize: 16, fontWeight: 700, margin: '0 0 12px', color: '#fff' }}>
+              ⚡ Third-Party Analytics Connectors (PostHog & Google Analytics)
+            </h3>
+            <p style={{ fontSize: 13, color: 'var(--text-secondary)', margin: '0 0 16px', lineHeight: 1.6 }}>
+              Both Google Analytics 4 and PostHog are automatically supported by Stack AI Tools. Simply add your Measurement ID or Project API Key to your Vercel Environment Variables:
+            </p>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16 }}>
+              <div style={{ background: 'rgba(0,0,0,0.3)', padding: 16, borderRadius: 12, border: '1px solid rgba(255,255,255,0.06)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
+                  <strong style={{ color: '#fff', fontSize: 14 }}>Google Analytics 4</strong>
+                  <span style={{ fontSize: 11, fontWeight: 700, padding: '2px 8px', borderRadius: 6, background: analyticsData?.gaConfigured ? 'rgba(16,185,129,0.2)' : 'rgba(245,158,11,0.2)', color: analyticsData?.gaConfigured ? '#34d399' : '#fbbf24' }}>
+                    {analyticsData?.gaConfigured ? '● Active' : '○ Add NEXT_PUBLIC_GA_ID'}
+                  </span>
+                </div>
+                <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>
+                  Tracks global web traffic, geography, referral channels, and Google search queries.
+                </div>
+              </div>
+
+              <div style={{ background: 'rgba(0,0,0,0.3)', padding: 16, borderRadius: 12, border: '1px solid rgba(255,255,255,0.06)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
+                  <strong style={{ color: '#fff', fontSize: 14 }}>PostHog (Session Replay & Funnels)</strong>
+                  <span style={{ fontSize: 11, fontWeight: 700, padding: '2px 8px', borderRadius: 6, background: analyticsData?.posthogConfigured ? 'rgba(16,185,129,0.2)' : 'rgba(245,158,11,0.2)', color: analyticsData?.posthogConfigured ? '#34d399' : '#fbbf24' }}>
+                    {analyticsData?.posthogConfigured ? '● Active' : '○ Add NEXT_PUBLIC_POSTHOG_KEY'}
+                  </span>
+                </div>
+                <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>
+                  Records user screen replays, mouse movement, clicks, and conversion drop-off funnels.
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       )}

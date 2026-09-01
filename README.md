@@ -246,6 +246,23 @@ We welcome open-source contributions from founders, maintainers, and prompt engi
 4. Commit your changes and open a Pull Request with the title: `feat: add [Tool Name] to directory`.
 5. Or submit directly on our web portal: [stackaitools.com/submit](https://stack-ai-tools.vercel.app/submit).
 
+## 👨‍💻 Founder & Editorial Architect
+
+**Stack AI Tools** was founded, architected, and curated by **[Karan Arora](https://stack-ai-tools.vercel.app/about)**.
+
+- 🌐 **Founder Profile**: [About Karan Arora (Story, Vision & E-E-A-T)](https://stack-ai-tools.vercel.app/about)
+- 💻 **GitHub Profile**: [@karanarora-aideveloper](https://github.com/karanarora-aideveloper)
+- ✉️ **Contact Email**: `karan@stackaitools.com`
+
+---
+
+## 📊 Analytics & Conversion Tracking
+
+Stack AI Tools implements a 3-layer real-time analytics & churn architecture:
+1. **In-House Event Engine**: Zero-latency logging of outbound affiliate clicks, bounce exits, and prompt copies in `/admin`.
+2. **PostHog**: Integrated for session replays, visual heatmaps, and funnel drop-off analysis.
+3. **Google Analytics 4**: Configured for global search keyword tracking and geographic breakdown.
+
 ---
 
 ## 📄 License

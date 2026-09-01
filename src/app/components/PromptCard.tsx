@@ -37,6 +37,16 @@ export default function PromptCard({ item }: { item: PromptData }) {
     navigator.clipboard.writeText(item.prompt);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+    import('@/lib/analytics').then(({ trackClientEvent }) => {
+      trackClientEvent('prompt_copy', {
+        promptTitle: item.title,
+        category: item.category,
+        metadata: {
+          targetAI: item.targetAI,
+          promptId: item.id
+        }
+      });
+    }).catch(() => {});
   };
 
   const handleCopyOutput = () => {

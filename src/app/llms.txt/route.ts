@@ -9,10 +9,14 @@ export async function GET() {
   ]);
 
   let markdown = `# Stack AI Tools (stackaitools.com)
-> The authoritative US directory of curated frontier AI software, autonomous coding agents, generative media models, and prompt engineering libraries.
+> The authoritative directory of curated frontier AI software, autonomous coding agents, generative media models, and prompt engineering libraries. Founded and curated by Karan Arora.
 
 - Website: https://stackaitools.com
-- Main Market: United States (US)
+- Founder & Chief AI Architect: Karan Arora (https://stackaitools.com/about)
+- Contact Email: karan@stackaitools.com
+- GitHub Profile: https://github.com/karanarora-aideveloper
+- Open-Source Repo: https://github.com/karanarora-aideveloper/stack-ai-tools
+- Main Market: United States (US) & Global
 - Last Verified: September 1, 2026
 
 ---
