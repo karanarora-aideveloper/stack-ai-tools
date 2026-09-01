@@ -7,9 +7,7 @@ import { Article } from '@/lib/blog';
 import { 
   Search, 
   Sparkles, 
-  Flame, 
   Clock, 
-  Calendar, 
   ArrowRight, 
   TrendingUp,
   Video,
@@ -18,11 +16,10 @@ import {
   Palette,
   Bot,
   PenTool,
-  SlidersHorizontal,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  X
 } from 'lucide-react';
-import { playCoinSound, playLaserSound } from '@/lib/arcadeSound';
 
 interface BlogViewProps {
   articles: Article[];
@@ -68,56 +65,58 @@ export default function BlogView({ articles }: BlogViewProps) {
   const handleCategorySelect = (cat: string) => {
     setSelectedCategory(cat);
     setCurrentPage(1);
-    playCoinSound();
   };
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
     window.scrollTo({ top: 400, behavior: 'smooth' });
-    playLaserSound();
   };
 
   return (
     <div className="blog-hub-container">
       {/* Blog Hero */}
       <header className="blog-hero">
-        <div className="arcade-status-tag" style={{ margin: '0 auto 16px' }}>
-          <span className="arcade-blink-dot"></span>
-          <span>THE INTELLIGENCE CHRONICLES · 1,000+ BENCHMARKED GUIDES</span>
+        <div className="modern-hero-badge" style={{ margin: '0 auto 16px' }}>
+          <span className="badge-sparkle">✨</span>
+          <span>FRONTIER AI RESEARCH • 1,000+ BENCHMARKED GUIDES</span>
         </div>
         <h1 className="blog-hero-title">
-          FRONTIER AI <span className="arcade-glow-gradient">RESEARCH & GUIDES</span>
+          Frontier AI <span className="modern-hero-gradient">Research & Guides</span>
         </h1>
         <p className="blog-hero-desc">
-          Deep-dive benchmark tests, head-to-head model showdowns, and programmatic playbooks curated by <strong>Karan Arora</strong> to help US founders and engineers deploy superintelligence.
+          Deep-dive benchmark audits, model showdowns, and architectural playbooks curated by <strong>Karan Arora</strong> to help founders and engineering leaders deploy production intelligence.
         </p>
 
         {/* Search Bar */}
-        <div className="arcade-search-box" style={{ maxWidth: 640, margin: '24px auto 20px' }}>
-          <Search size={18} className="arcade-search-icon" />
-          <input 
-            type="text"
-            className="arcade-search-input"
-            placeholder="Search 1,000+ AI guides, model showdowns, and tutorials..."
-            value={searchQuery}
-            onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
-          />
-          {searchQuery && (
-            <button className="clear-search-btn" onClick={() => setSearchQuery('')}>✕</button>
-          )}
+        <div className="modern-search-wrapper" style={{ maxWidth: 640, margin: '24px auto 20px' }}>
+          <div className="modern-search-bar">
+            <Search size={18} className="search-icon-svg" />
+            <input 
+              type="text"
+              className="modern-search-input"
+              placeholder="Search 1,000+ AI guides, model showdowns, and tutorials..."
+              value={searchQuery}
+              onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
+            />
+            {searchQuery && (
+              <button className="search-clear-btn" onClick={() => setSearchQuery('')}>
+                <X size={15} />
+              </button>
+            )}
+          </div>
         </div>
 
         {/* Category Pills */}
-        <div className="filter-pills-scroll-wrapper" style={{ justifyContent: 'center' }}>
-          <div className="filter-pills-carousel" style={{ justifyContent: 'center' }}>
+        <div className="modern-categories-scroll">
+          <div className="modern-categories-list">
             {categories.map((cat) => (
               <button
                 key={cat}
-                className={`filter-pill-arcade ${selectedCategory === cat ? 'active' : ''}`}
+                className={`category-pill-btn ${selectedCategory === cat ? 'active' : ''}`}
                 onClick={() => handleCategorySelect(cat)}
               >
                 {CATEGORY_ICONS[cat]}
-                <span style={{ textTransform: 'capitalize' }}>{cat}</span>
+                <span style={{ textTransform: 'capitalize' }}>{cat === 'all' ? 'All Guides' : cat}</span>
               </button>
             ))}
           </div>
@@ -134,19 +133,19 @@ export default function BlogView({ articles }: BlogViewProps) {
                 alt={featuredArticle.title}
                 className="featured-article-img"
               />
-              <span className="featured-badge-pill">👑 TOP PICK 2026</span>
+              <span className="featured-badge-pill">★ TOP BENCHMARK</span>
             </div>
 
             <div className="featured-article-body">
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
-                <span className="arcade-crt-badge" style={{ color: 'var(--arcade-cyan)', background: 'rgba(0, 240, 255, 0.12)' }}>
+                <span className="modern-cat-tag">
                   {featuredArticle.category.toUpperCase()}
                 </span>
                 <span style={{ fontSize: 13, color: 'var(--text-muted)', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
                   <Clock size={13} />
                   {featuredArticle.readTime}
                 </span>
-                <span style={{ fontSize: 13, color: 'var(--arcade-gold)', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                <span style={{ fontSize: 13, color: 'var(--accent-amber)', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
                   <TrendingUp size={13} />
                   {featuredArticle.searchVolume.toLocaleString()} US Vol/mo
                 </span>
@@ -193,8 +192,8 @@ export default function BlogView({ articles }: BlogViewProps) {
         </div>
 
         {displayedArticles.length === 0 ? (
-          <div className="empty-state">
-            <p style={{ color: 'var(--text-secondary)' }}>No articles found matching &ldquo;{searchQuery}&rdquo;.</p>
+          <div className="modern-empty-state">
+            <p>No articles found matching &ldquo;{searchQuery}&rdquo;.</p>
             <button className="btn btn-secondary" onClick={() => { setSearchQuery(''); setSelectedCategory('all'); }}>
               Reset Filters
             </button>
@@ -243,7 +242,7 @@ export default function BlogView({ articles }: BlogViewProps) {
                     </div>
 
                     <Link href={`/blog/${article.slug}`} className="article-read-link">
-                      <span>Read</span>
+                      <span>Read Guide</span>
                       <ArrowRight size={13} />
                     </Link>
                   </div>

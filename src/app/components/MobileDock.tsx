@@ -4,17 +4,16 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { 
-  Gamepad2, 
+  Compass, 
   Layers, 
   BookOpen, 
   GitCompare, 
   User, 
-  PlusCircle, 
+  Plus, 
   Menu, 
   X, 
   Sparkles,
-  ExternalLink,
-  ShieldCheck
+  ArrowRight
 } from 'lucide-react';
 
 export default function MobileDock() {
@@ -34,33 +33,30 @@ export default function MobileDock() {
         <div className="mobile-drawer-backdrop" onClick={() => setIsDrawerOpen(false)}>
           <div className="mobile-drawer-panel" onClick={(e) => e.stopPropagation()}>
             <div className="mobile-drawer-header">
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span className="retro-arcade-badge">ARCADE v2.0</span>
-                <span style={{ fontWeight: 800, color: '#fff', fontSize: 16 }}>Stack AI Tools</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <div className="topbar-logo-mark" style={{ width: 28, height: 28 }}>
+                  <Sparkles size={14} color="#ffffff" />
+                </div>
+                <span style={{ fontWeight: 700, color: '#fff', fontSize: 16 }}>Stack AI Tools</span>
               </div>
               <button 
                 className="mobile-drawer-close"
                 onClick={() => setIsDrawerOpen(false)}
                 aria-label="Close menu"
               >
-                <X size={20} />
+                <X size={18} />
               </button>
             </div>
 
             <div className="mobile-drawer-content">
-              <div className="mobile-drawer-hero-pill">
-                <span className="live-dot"></span>
-                <span>AI IS CHANGING THE WORLD · LEVEL 2026</span>
-              </div>
-
               <nav className="mobile-drawer-nav">
                 <Link 
                   href="/" 
                   className={`mobile-drawer-link ${isActive('/') ? 'active' : ''}`}
                   onClick={() => setIsDrawerOpen(false)}
                 >
-                  <Gamepad2 size={18} color="#00f0ff" />
-                  <span>🕹️ Game Lobby (Explore 85+ Tools)</span>
+                  <Compass size={18} color="#6366f1" />
+                  <span>Explore 85+ Tools</span>
                 </Link>
 
                 <Link 
@@ -68,17 +64,8 @@ export default function MobileDock() {
                   className={`mobile-drawer-link ${isActive('/categories') ? 'active' : ''}`}
                   onClick={() => setIsDrawerOpen(false)}
                 >
-                  <Layers size={18} color="#ff007f" />
-                  <span>⚡ Software Skill Tree (Categories)</span>
-                </Link>
-
-                <Link 
-                  href="/prompts" 
-                  className={`mobile-drawer-link ${isActive('/prompts') ? 'active' : ''}`}
-                  onClick={() => setIsDrawerOpen(false)}
-                >
-                  <BookOpen size={18} color="#fbbf24" />
-                  <span>🎨 Visual Prompt Vault (37 Recipes)</span>
+                  <Layers size={18} color="#0ea5e9" />
+                  <span>Categories</span>
                 </Link>
 
                 <Link 
@@ -86,8 +73,26 @@ export default function MobileDock() {
                   className={`mobile-drawer-link ${isActive('/alternatives') ? 'active' : ''}`}
                   onClick={() => setIsDrawerOpen(false)}
                 >
-                  <GitCompare size={18} color="#a855f7" />
-                  <span>⚔️ Versus Mode (Alternatives)</span>
+                  <GitCompare size={18} color="#8b5cf6" />
+                  <span>Alternatives</span>
+                </Link>
+
+                <Link 
+                  href="/prompts" 
+                  className={`mobile-drawer-link ${isActive('/prompts') ? 'active' : ''}`}
+                  onClick={() => setIsDrawerOpen(false)}
+                >
+                  <BookOpen size={18} color="#f59e0b" />
+                  <span>Prompt Library</span>
+                </Link>
+
+                <Link 
+                  href="/blog" 
+                  className={`mobile-drawer-link ${isActive('/blog') ? 'active' : ''}`}
+                  onClick={() => setIsDrawerOpen(false)}
+                >
+                  <Sparkles size={18} color="#10b981" />
+                  <span>Research & Benchmarks</span>
                 </Link>
 
                 <Link 
@@ -95,17 +100,8 @@ export default function MobileDock() {
                   className={`mobile-drawer-link ${isActive('/about') ? 'active' : ''}`}
                   onClick={() => setIsDrawerOpen(false)}
                 >
-                  <User size={18} color="#34d399" />
-                  <span>👾 Player 1 Profile (About Karan Arora)</span>
-                </Link>
-
-                <Link 
-                  href="/submit" 
-                  className={`mobile-drawer-link ${isActive('/submit') ? 'active' : ''}`}
-                  onClick={() => setIsDrawerOpen(false)}
-                >
-                  <PlusCircle size={18} color="#ec4899" />
-                  <span>🚀 Drop Your Tool (+XP)</span>
+                  <User size={18} color="#a855f7" />
+                  <span>About Karan Arora</span>
                 </Link>
               </nav>
 
@@ -113,60 +109,50 @@ export default function MobileDock() {
                 <Link 
                   href="/submit" 
                   className="btn btn-primary" 
-                  style={{ width: '100%', justifyContent: 'center', padding: '12px' }}
+                  style={{ width: '100%', justifyContent: 'center', padding: '10px 16px' }}
                   onClick={() => setIsDrawerOpen(false)}
                 >
-                  <Sparkles size={16} />
-                  <span>Submit AI Tool for Review</span>
+                  <Plus size={15} />
+                  <span>Submit AI Tool</span>
                 </Link>
-
-                <a 
-                  href="https://github.com/karanarora-aideveloper/stack-ai-tools"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn btn-secondary"
-                  style={{ width: '100%', justifyContent: 'center', marginTop: 10, padding: '10px', fontSize: 13 }}
-                >
-                  <span>Star on GitHub ⭐</span>
-                </a>
               </div>
             </div>
           </div>
         </div>
       )}
 
-      {/* Floating Bottom App Dock (Visible on mobile screens < 768px) */}
+      {/* Floating Bottom App Dock (Clean Apple / Google style) */}
       <nav className="mobile-bottom-dock" aria-label="Mobile navigation">
         <Link 
           href="/" 
           className={`mobile-dock-btn ${isActive('/') ? 'active' : ''}`}
         >
-          <Gamepad2 size={20} />
-          <span>Lobby</span>
+          <Compass size={19} />
+          <span>Explore</span>
         </Link>
 
         <Link 
           href="/categories" 
           className={`mobile-dock-btn ${isActive('/categories') ? 'active' : ''}`}
         >
-          <Layers size={20} />
-          <span>Skills</span>
+          <Layers size={19} />
+          <span>Categories</span>
         </Link>
 
         <Link 
           href="/prompts" 
           className={`mobile-dock-btn ${isActive('/prompts') ? 'active' : ''}`}
         >
-          <BookOpen size={20} />
+          <BookOpen size={19} />
           <span>Prompts</span>
         </Link>
 
         <Link 
-          href="/about" 
-          className={`mobile-dock-btn ${isActive('/about') ? 'active' : ''}`}
+          href="/blog" 
+          className={`mobile-dock-btn ${isActive('/blog') ? 'active' : ''}`}
         >
-          <User size={20} />
-          <span>Karan</span>
+          <Sparkles size={19} />
+          <span>Research</span>
         </Link>
 
         <button 
@@ -174,8 +160,8 @@ export default function MobileDock() {
           onClick={() => setIsDrawerOpen(!isDrawerOpen)}
           aria-label="Open full menu"
         >
-          <Menu size={20} />
-          <span>Menu</span>
+          <Menu size={19} />
+          <span>More</span>
         </button>
       </nav>
     </>

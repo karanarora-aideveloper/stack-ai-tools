@@ -167,7 +167,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       {/* Article Header */}
       <header className="article-post-header">
         <div className="article-header-meta">
-          <span className="arcade-crt-badge" style={{ color: 'var(--arcade-cyan)', background: 'rgba(0, 240, 255, 0.12)' }}>
+          <span className="modern-cat-tag">
             {article.category.toUpperCase()}
           </span>
           <span className="article-stat-pill">
@@ -178,7 +178,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             <Calendar size={13} />
             Updated {article.updatedAt}
           </span>
-          <span className="article-stat-pill" style={{ color: 'var(--arcade-gold)' }}>
+          <span className="article-stat-pill" style={{ color: 'var(--accent-amber)' }}>
             <TrendingUp size={13} />
             {article.searchVolume.toLocaleString()} US Searches/mo
           </span>
@@ -380,13 +380,13 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         <aside className="article-sidebar">
           {/* Quick Directory CTA */}
           <div className="sidebar-card">
-            <span className="retro-arcade-badge" style={{ marginBottom: 12, display: 'inline-block' }}>ARCADE DIRECTORY</span>
+            <span className="modern-badge-pill" style={{ marginBottom: 12, display: 'inline-flex' }}>AI DIRECTORY</span>
             <h4 style={{ color: '#fff', margin: '0 0 8px', fontSize: 16 }}>Explore 85+ Tested Tools</h4>
             <p style={{ color: 'var(--text-secondary)', fontSize: 13, margin: '0 0 16px', lineHeight: 1.5 }}>
-              Browse hand-vetted tools with verified pricing tiers, alternatives, and prompt spellbooks.
+              Browse hand-vetted frontier models with verified pricing tiers, capability benchmarks, and alternatives.
             </p>
             <Link href="/" className="btn btn-primary" style={{ width: '100%', justifyContent: 'center' }}>
-              <span>Enter Game Lobby</span>
+              <span>Explore AI Directory →</span>
             </Link>
           </div>
 
