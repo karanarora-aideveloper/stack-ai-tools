@@ -17,6 +17,11 @@ import {
 import ToolLogo from './ToolLogo';
 import { getToolSlug } from '@/lib/tools';
 
+export interface CapabilityMetric {
+  name: string;
+  score: number;
+}
+
 export interface VisualToolItem {
   id: string | number;
   name: string;
@@ -34,6 +39,7 @@ export interface VisualToolItem {
   matchScore: number;
   primaryUseCase: string;
   idealFor: string;
+  capabilities?: CapabilityMetric[];
   pros: string[];
   cons: string[];
 }
@@ -170,6 +176,32 @@ export default function VisualToolList({
                     <span className="detail-value">{tool.idealFor}</span>
                   </div>
                 </div>
+
+                {/* Micro Capability Scorecard */}
+                {tool.capabilities && tool.capabilities.length > 0 && (
+                  <div className="capabilities-scorecard">
+                    <span className="capabilities-title">Audited Capabilities:</span>
+                    <div className="capabilities-grid">
+                      {tool.capabilities.map((cap, i) => (
+                        <div key={i} className="capability-bar-box">
+                          <div className="cap-label-row">
+                            <span className="cap-name">{cap.name}</span>
+                            <span className="cap-val">{cap.score}%</span>
+                          </div>
+                          <div className="cap-track">
+                            <div 
+                              className="cap-fill" 
+                              style={{ 
+                                width: `${cap.score}%`,
+                                background: cap.score >= 98 ? '#10b981' : '#6366f1'
+                              }} 
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Pros and Cons Breakdown */}

@@ -126,15 +126,271 @@ export function getVisualToolsForArticle(article: Article): VisualToolItem[] {
     selectedTools.push(...featured.slice(0, 3 - selectedTools.length));
   }
 
+interface ToolCustomMeta {
+  primaryUseCase: string;
+  idealFor: string;
+  matchScore: number;
+  capabilities: { name: string; score: number }[];
+  pros: string[];
+  cons: string[];
+}
+
+const TOOL_KNOWLEDGE_BASE: Record<string, ToolCustomMeta> = {
+  heygen: {
+    primaryUseCase: 'Studio-Grade Multilingual Talking Avatars & 1-Click Video Translation with Lip-Sync',
+    idealFor: 'Growth Marketers, Global Course Creators & Product Demo Teams',
+    matchScore: 99,
+    capabilities: [
+      { name: 'Avatar Facial Realism', score: 99 },
+      { name: 'Multilingual Lip-Sync (175+ langs)', score: 98 },
+      { name: 'Video Generation Speed', score: 95 }
+    ],
+    pros: [
+      'Near-perfect lip-synchronization and micro-facial expressions in 2026',
+      'Instant voice cloning in 40+ accents and natural intonations',
+      'Direct screen-recording and video translation pipelines'
+    ],
+    cons: [
+      'Higher pricing for 4K video exports on introductory tiers'
+    ]
+  },
+  synthesia: {
+    primaryUseCase: 'Enterprise Compliance Training, HR Onboarding & Multilingual Corporate Learning',
+    idealFor: 'Enterprise L&D Directors, Corporate Trainers & Fortune 500 Teams',
+    matchScore: 97,
+    capabilities: [
+      { name: 'Enterprise LMS Integration', score: 99 },
+      { name: 'Security & Compliance (SOC2 / GDPR)', score: 99 },
+      { name: 'Custom Brand Avatars', score: 96 }
+    ],
+    pros: [
+      'Gold standard in enterprise security, SCORM course exports, and access control',
+      'Over 160+ diverse verified digital human avatars',
+      'Collaborative workspace with approval workflows for large teams'
+    ],
+    cons: [
+      'Less suited for informal social media clips compared to consumer tools'
+    ]
+  },
+  runway: {
+    primaryUseCase: 'Cinematic Gen-3/4 Video Synthesis, Camera Motion Control & Generative VFX',
+    idealFor: 'Filmmakers, VFX Artists, Creative Directors & Advertising Agencies',
+    matchScore: 98,
+    capabilities: [
+      { name: 'Cinematic Visual Fidelity', score: 99 },
+      { name: 'Director Mode Camera Control', score: 97 },
+      { name: 'Consistent Physics & Lighting', score: 95 }
+    ],
+    pros: [
+      'Unrivaled cinematic lighting, depth of field, and camera trajectory control',
+      'Advanced motion brush and localized video-in-video repainting',
+      'Industry benchmark for high-concept storytelling and music videos'
+    ],
+    cons: [
+      'High GPU credit consumption on 4K upscaled renders'
+    ]
+  },
+  cursor: {
+    primaryUseCase: 'Whole-Repository Contextual AI Coding, Multi-File Edits & Agentic Refactoring',
+    idealFor: 'Full-Stack Developers, Next.js / Python Engineers & Technical Founders',
+    matchScore: 99,
+    capabilities: [
+      { name: 'Multi-File Agentic Edits', score: 99 },
+      { name: 'Codebase Vector Indexing', score: 98 },
+      { name: 'Tab Prediction Speed', score: 97 }
+    ],
+    pros: [
+      'Instant vector indexing across entire multi-repo codebases with zero lag',
+      'Composer agent modifies 10+ interrelated files in a single coherent turn',
+      'Native VS Code fork with 100% extensions and keybinding compatibility'
+    ],
+    cons: [
+      'Requires Pro subscription ($20/mo) for unlimited fast frontier requests'
+    ]
+  },
+  claude: {
+    primaryUseCase: 'Hybrid Thinking Architecture, Complex Logic Verification & Multi-Modal Code Synthesis',
+    idealFor: 'Staff Software Engineers, System Architects & Data Scientists',
+    matchScore: 99,
+    capabilities: [
+      { name: 'Architectural Reasoning', score: 99 },
+      { name: 'Extended Thinking Mode', score: 98 },
+      { name: 'Context Window Retention (200k)', score: 99 }
+    ],
+    pros: [
+      'State-of-the-art SWE-bench benchmark scores for real software bugs',
+      'Extremely nuanced instruction adherence with zero sycophancy',
+      'Massive 200,000-token context window with perfect needle-in-haystack recall'
+    ],
+    cons: [
+      'Rate limits can trigger during peak US engineering business hours'
+    ]
+  },
+  chatgpt: {
+    primaryUseCase: 'Deep Multidisciplinary Research, Reasoning (o3/o1), and Multi-Turn Workflows',
+    idealFor: 'Product Managers, Generalist Builders, Students & Executives',
+    matchScore: 98,
+    capabilities: [
+      { name: 'Broad Domain Knowledge', score: 99 },
+      { name: 'Advanced Voice & Vision', score: 98 },
+      { name: 'Complex Math & Chain-of-Thought', score: 97 }
+    ],
+    pros: [
+      'Comprehensive frontier ecosystem with Custom GPTs and deep web browsing',
+      'Advanced Voice mode with real-time conversational inflection',
+      'Best-in-class general reasoning on competitive benchmarks'
+    ],
+    cons: [
+      'Code generation may require manual steering across complex monorepos'
+    ]
+  },
+  copilot: {
+    primaryUseCase: 'Native IDE Inline Autocomplete, PR Summaries & Enterprise GitHub Integration',
+    idealFor: 'Enterprise Dev Teams, DevOps Engineers & VS Code / JetBrains Users',
+    matchScore: 94,
+    capabilities: [
+      { name: 'GitHub Ecosystem Integration', score: 99 },
+      { name: 'Inline Autocomplete Latency', score: 96 },
+      { name: 'Multi-Repo Context', score: 91 }
+    ],
+    pros: [
+      'Seamlessly baked into GitHub pull requests, issues, and enterprise governance',
+      'Supports every major IDE including VS Code, Visual Studio, and JetBrains',
+      'Robust enterprise compliance with strict copyright and telemetry filters'
+    ],
+    cons: [
+      'Multi-file refactoring lag behind autonomous agents like Cursor'
+    ]
+  },
+  elevenlabs: {
+    primaryUseCase: 'Ultra-Expressive Neural Voice Synthesis, Zero-Shot Voice Cloning & Audio Dubbing',
+    idealFor: 'Podcasters, Audiobook Narrators, Game Developers & Video Creators',
+    matchScore: 99,
+    capabilities: [
+      { name: 'Emotional Inflection & Accent', score: 99 },
+      { name: 'Voice Clone Latency (Turbo v2)', score: 98 },
+      { name: 'Sound Effects & Ambient Foley', score: 96 }
+    ],
+    pros: [
+      'Industry benchmark for realistic breathing, pauses, and emotional nuances',
+      'Instant 1-minute voice cloning with pinpoint acoustic match',
+      'Ultra-low sub-200ms latency on developer WebSocket streaming APIs'
+    ],
+    cons: [
+      'Character credit limits can scale quickly on long-form audiobooks'
+    ]
+  },
+  suno: {
+    primaryUseCase: 'End-to-End Broadcast-Quality Song Generation with Vocals, Lyrics & Mastered Stems',
+    idealFor: 'Music Producers, YouTubers, Indie Game Developers & Ad Agencies',
+    matchScore: 98,
+    capabilities: [
+      { name: 'Vocal Melody & Tone Realism', score: 99 },
+      { name: 'Full Musical Structure (Intro/Chorus)', score: 97 },
+      { name: 'Audio Fidelity & Mastering', score: 96 }
+    ],
+    pros: [
+      'Generates complete 4-minute songs in seconds across 100+ music genres',
+      'Clean vocal delivery with rhyming lyrics and believable vocalists',
+      'Commercial rights included on Pro and Premier subscriber plans'
+    ],
+    cons: [
+      'Occasional sonic artifacts when rendering complex heavy metal or EDM drops'
+    ]
+  },
+  make: {
+    primaryUseCase: 'Visual Multi-Step API Automation, Error Routing & Large-Scale Webhook Pipelines',
+    idealFor: 'RevOps Specialists, Growth Engineers & No-Code Systems Architects',
+    matchScore: 98,
+    capabilities: [
+      { name: 'Visual Canvas Workflow Control', score: 99 },
+      { name: 'Data Transformation & JSON Parsing', score: 98 },
+      { name: 'Execution Throughput & Cost', score: 97 }
+    ],
+    pros: [
+      'Infinitely scalable visual router canvas for complex branching logic',
+      'Significantly lower cost-per-operation than Zapier on heavy data loads',
+      'Real-time execution debugger with historical payload inspection'
+    ],
+    cons: [
+      'Slightly steeper learning curve than simple 2-step automation tools'
+    ]
+  },
+  midjourney: {
+    primaryUseCase: 'Photorealistic Visual Aesthetics, Cinematic Concept Art & Editorial Design',
+    idealFor: 'Art Directors, Brand Designers, VFX Artists & Creative Agencies',
+    matchScore: 99,
+    capabilities: [
+      { name: 'Artistic Lighting & Composition', score: 99 },
+      { name: 'Photorealistic Skin & Material Textures', score: 98 },
+      { name: 'Inpainting & Region Variation', score: 96 }
+    ],
+    pros: [
+      'Unsurpassed aesthetic quality, photorealistic grain, and atmospheric lighting',
+      'Vast community showcase with millions of prompt variations to reference',
+      'Powerful character consistency and style reference parameters'
+    ],
+    cons: [
+      'Discord-based bot interface (web interface rolled out gradually)'
+    ]
+  },
+  flux1: {
+    primaryUseCase: 'Open-Weights High-Fidelity Image Generation with Pinpoint Prompt Adherence',
+    idealFor: 'AI Researchers, Commercial Designers & Self-Hosted Infrastructure',
+    matchScore: 98,
+    capabilities: [
+      { name: 'Text & Typography in Images', score: 99 },
+      { name: 'Complex Prompt Following', score: 98 },
+      { name: 'Photorealism & Anatomy', score: 97 }
+    ],
+    pros: [
+      'Flawless rendering of legible typography, signs, and labels inside images',
+      'Accurate anatomy rendering including realistic hands and fingers',
+      'Available as open weights for local ComfyUI deployment'
+    ],
+    cons: [
+      'Requires high-end GPU VRAM (16GB+) for local Schnell/Dev models'
+    ]
+  },
+  perplexity: {
+    primaryUseCase: 'Real-Time Web Intelligence Synthesis with Academic & Live Verified Citations',
+    idealFor: 'Researchers, Technical Founders, Financial Analysts & Journalists',
+    matchScore: 99,
+    capabilities: [
+      { name: 'Citation Accuracy & Source Verification', score: 99 },
+      { name: 'Deep Research Multi-Step Synthesis', score: 98 },
+      { name: 'Multi-Model Selection (Claude/GPT)', score: 97 }
+    ],
+    pros: [
+      'Zero hallucinations on current news, stock movements, and live filings',
+      'Every assertion backed by direct clickable footnote citations',
+      'Pro plan allows toggling between Claude 3.7, Sonnet, GPT-4o, and DeepSeek'
+    ],
+    cons: [
+      'Not designed for code generation beyond short explanatory snippets'
+    ]
+  }
+};
+
   const BADGES = [
     '🏆 #1 Best Overall',
     '⚡ Top Speed & Accuracy',
     '💎 Best Enterprise Value'
   ];
 
-  const MATCH_SCORES = [98, 95, 91];
-
   return selectedTools.map((tool, idx) => {
+    // Check if we have tailored knowledge for this tool
+    const toolKey = Object.keys(TOOL_KNOWLEDGE_BASE).find((k) =>
+      tool.name.toLowerCase().includes(k) || (tool.domain && tool.domain.toLowerCase().includes(k))
+    );
+    const customMeta = toolKey ? TOOL_KNOWLEDGE_BASE[toolKey] : null;
+
+    const defaultCapabilities = [
+      { name: 'Execution Speed & Latency', score: 97 - idx * 2 },
+      { name: 'Contextual Accuracy', score: 98 - idx * 2 },
+      { name: 'Enterprise Integration', score: 95 - idx * 3 }
+    ];
+
     return {
       id: tool.id,
       name: tool.name,
@@ -149,8 +405,10 @@ export function getVisualToolsForArticle(article: Article): VisualToolItem[] {
       reviewsCount: tool.reviewsCount || 12400,
       rank: idx + 1,
       awardBadge: BADGES[idx] || '⭐ Top Vetted',
-      matchScore: MATCH_SCORES[idx] || 89,
-      primaryUseCase: tool.category === 'Video' 
+      matchScore: customMeta ? customMeta.matchScore : 98 - idx * 3,
+      primaryUseCase: customMeta
+        ? customMeta.primaryUseCase
+        : tool.category === 'Video'
         ? 'Enterprise Multilingual Video Avatars & Studio Generation'
         : tool.category === 'Code'
         ? 'Autonomous Multi-File Software Development & Fast Refactoring'
@@ -161,19 +419,26 @@ export function getVisualToolsForArticle(article: Article): VisualToolItem[] {
         : tool.category === 'Automation'
         ? 'Multi-Step API Orchestration & Automated Workflows'
         : 'Context-Aware Technical Reasoning & High-Volume Writing',
-      idealFor: tool.category === 'Code'
+      idealFor: customMeta
+        ? customMeta.idealFor
+        : tool.category === 'Code'
         ? 'Founders, Full-Stack Engineers & DevOps Teams'
         : tool.category === 'Video'
         ? 'Content Creators, Corporate Trainers & Growth Marketers'
         : 'Product Teams, Creators & Digital Agencies',
-      pros: [
-        `Industry-leading execution speed and contextual accuracy in 2026 benchmarks`,
-        `Direct integration with modern web pipelines and enterprise SSO`,
-        `Generous ${tool.pricingModel.toLowerCase()} tier allowing full sandboxing`
-      ],
-      cons: [
-        `Advanced features require upgrading to higher subscription tiers for unlimited compute`
-      ]
+      capabilities: customMeta ? customMeta.capabilities : defaultCapabilities,
+      pros: customMeta
+        ? customMeta.pros
+        : [
+            `Industry-leading execution speed and contextual accuracy in 2026 benchmarks`,
+            `Direct integration with modern web pipelines and enterprise SSO`,
+            `Generous ${tool.pricingModel.toLowerCase()} tier allowing full sandboxing`
+          ],
+      cons: customMeta
+        ? customMeta.cons
+        : [
+            `Advanced features require upgrading to higher subscription tiers for unlimited compute`
+          ]
     };
   });
 }
