@@ -61,6 +61,7 @@ export default function PromptCard({ item }: { item: PromptData }) {
               alt={`Generated result for ${item.title}`} 
               className="prompt-result-image"
               loading="lazy"
+              referrerPolicy="no-referrer"
             />
             <div className="prompt-image-overlay">
               <span className="output-tag">

@@ -20,6 +20,8 @@ interface PromptsExplorerProps {
 
 const MODEL_ICONS: Record<string, string> = {
   'All Models': '✨',
+  'Midjourney v7': '🔥',
+  'Midjourney v6.1': '🖼️',
   'Midjourney v8.2': '🎨',
   'Flux.1': '⚡',
   'Cursor 3.0': '💻',
