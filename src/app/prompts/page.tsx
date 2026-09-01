@@ -32,16 +32,16 @@ export default async function PromptsPage() {
 
   return (
     <div>
-      <div className="page-header" style={{ marginBottom: 40 }}>
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: '#ec4899', fontSize: 13, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 8 }}>
-          <Sparkles size={16} />
+      <div className="page-header" style={{ maxWidth: 740, margin: '0 auto 36px', textAlign: 'center' }}>
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: '#ec4899', fontSize: 13, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 10, background: 'rgba(236, 72, 153, 0.12)', padding: '4px 12px', borderRadius: 20, border: '1px solid rgba(236, 72, 153, 0.3)' }}>
+          <Sparkles size={15} />
           <span>Interactive Prompt Engineering Vault</span>
         </div>
-        <h1 className="page-title">
+        <h1 className="page-title" style={{ fontSize: 36, fontWeight: 800, letterSpacing: '-0.02em', marginBottom: 12 }}>
           Curated Frontier AI Prompts Library
         </h1>
-        <p className="page-subtitle">
-          Copy-paste production-ready prompts tested across Midjourney v8.2, Cursor 3.0, Claude Sonnet 5, and GPT-5.6 with real live output previews.
+        <p className="page-subtitle" style={{ fontSize: 16, color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+          Copy-paste production-ready prompts tested across Midjourney v8.2, Flux.1, Cursor 3.0, Claude Sonnet 5, and GPT-5.6 with live real output previews.
         </p>
       </div>
 
