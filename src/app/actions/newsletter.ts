@@ -418,6 +418,12 @@ export async function checkDomainDnsAction(passkey: string): Promise<{
     const apiKey = setting?.value || process.env.BREVO_API_KEY;
     if (!apiKey) return { success: false, error: 'BREVO_API_KEY not configured' };
 
+    // Attempt to trigger authenticate probe first so Brevo queries current DNS
+    await fetch('https://api.brevo.com/v3/senders/domains/stackaitools.com/authenticate', {
+      method: 'PUT',
+      headers: { 'api-key': apiKey, 'accept': 'application/json' }
+    }).catch(() => {});
+
     const res = await fetch('https://api.brevo.com/v3/senders/domains/stackaitools.com', {
       headers: { 'api-key': apiKey, 'accept': 'application/json' }
     });

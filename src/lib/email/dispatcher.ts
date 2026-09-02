@@ -215,6 +215,36 @@ async function sendViaBrevo(options: SendEmailOptions): Promise<DispatchResult> 
   const senderEmail = (await getSettingOrEnv('EMAIL_FROM')) || 'karan@stackaitools.com';
   const senderName = (await getSettingOrEnv('EMAIL_FROM_NAME')) || 'Karan Arora | Stack AI Tools';
 
+  // Pre-flight check: If using custom domain, verify domain authentication
+  const domain = senderEmail.split('@')[1];
+  if (domain && !['gmail.com', 'yahoo.com', 'outlook.com', 'hotmail.com'].includes(domain.toLowerCase())) {
+    try {
+      const domainCheck = await fetch(`https://api.brevo.com/v3/senders/domains/${domain}`, {
+        headers: { 'accept': 'application/json', 'api-key': apiKey }
+      });
+      if (domainCheck.ok) {
+        const domData = await domainCheck.json();
+        if (!domData.authenticated) {
+          // Attempt on-the-fly verification probe
+          const authProbe = await fetch(`https://api.brevo.com/v3/senders/domains/${domain}/authenticate`, {
+            method: 'PUT',
+            headers: { 'accept': 'application/json', 'api-key': apiKey }
+          });
+          const authData = await authProbe.json().catch(() => ({}));
+          // If still not authenticated, fail explicitly
+          if (!authProbe.ok || authData.message?.includes('failed') || authData.message?.includes('not authenticated')) {
+            throw new Error(`Domain "${domain}" is not authenticated on Brevo yet. Please add the required DNS records (SPF/DKIM/DMARC) in your domain registrar first.`);
+          }
+        }
+      }
+    } catch (checkErr: any) {
+      if (checkErr.message.includes('not authenticated on Brevo')) {
+        throw checkErr;
+      }
+      console.warn('[Brevo Preflight Check Warning]', checkErr.message);
+    }
+  }
+
   const res = await fetch('https://api.brevo.com/v3/smtp/email', {
     method: 'POST',
     headers: {
@@ -236,7 +266,30 @@ async function sendViaBrevo(options: SendEmailOptions): Promise<DispatchResult> 
   }
 
   const data = await res.json();
-  return { success: true, providerUsed: 'brevo', messageId: data.messageId };
+  const messageId = data.messageId;
+
+  // Post-flight delivery verification: Query Brevo events store to detect immediate asynchronous rejection
+  if (messageId) {
+    try {
+      await new Promise(resolve => setTimeout(resolve, 1200));
+      const eventRes = await fetch(`https://api.brevo.com/v3/smtp/statistics/events?messageId=${encodeURIComponent(messageId)}`, {
+        headers: { 'accept': 'application/json', 'api-key': apiKey }
+      });
+      if (eventRes.ok) {
+        const eventData = await eventRes.json();
+        const errEvent = eventData.events?.find((e: any) => e.event === 'error');
+        if (errEvent) {
+          throw new Error(`Brevo delivery rejected: ${errEvent.reason || 'Sender or domain not validated'}`);
+        }
+      }
+    } catch (verifErr: any) {
+      if (verifErr.message.includes('Brevo delivery rejected')) {
+        throw verifErr;
+      }
+    }
+  }
+
+  return { success: true, providerUsed: 'brevo', messageId };
 }
 
 // 2. Send via Resend Free API
@@ -351,6 +404,7 @@ export async function sendEmailCascade(options: SendEmailOptions): Promise<Dispa
       await logSuccess(options, res, db);
       return res;
     } catch (err: any) {
+      await logFailure(options, 'brevo', err.message, db);
       return { success: false, providerUsed: 'brevo', error: `Brevo error: ${err.message}` };
     }
   }
@@ -361,6 +415,7 @@ export async function sendEmailCascade(options: SendEmailOptions): Promise<Dispa
       await logSuccess(options, res, db);
       return res;
     } catch (err: any) {
+      await logFailure(options, 'resend', err.message, db);
       return { success: false, providerUsed: 'resend', error: `Resend error: ${err.message}` };
     }
   }
@@ -371,6 +426,7 @@ export async function sendEmailCascade(options: SendEmailOptions): Promise<Dispa
       await logSuccess(options, res, db);
       return res;
     } catch (err: any) {
+      await logFailure(options, 'mailersend', err.message, db);
       return { success: false, providerUsed: 'mailersend', error: `MailerSend error: ${err.message}` };
     }
   }
@@ -381,6 +437,7 @@ export async function sendEmailCascade(options: SendEmailOptions): Promise<Dispa
       await logSuccess(options, res, db);
       return res;
     } catch (err: any) {
+      await logFailure(options, 'smtp', err.message, db);
       return { success: false, providerUsed: 'smtp', error: `SMTP error: ${err.message}` };
     }
   }
@@ -412,18 +469,22 @@ export async function sendEmailCascade(options: SendEmailOptions): Promise<Dispa
 
   // IF NO PROVIDER IS CONFIGURED: STRICTLY FAIL WITH CLEAR ERROR
   if (!anyProviderConfigured) {
+    const errMsg = 'Cannot dispatch: No email providers are activated! Please paste your free Brevo API key, Resend key, or SMTP credentials in the setup panel above.';
+    await logFailure(options, 'none', errMsg, db);
     return {
       success: false,
       providerUsed: 'none',
-      error: 'Cannot dispatch: No email providers are activated! Please paste your free Brevo API key, Resend key, or SMTP credentials in the setup panel above.'
+      error: errMsg
     };
   }
 
   // If providers were configured but all failed
+  const failMsg = `All active providers failed: ${errors.join(' | ')}`;
+  await logFailure(options, 'cascade_failed', failMsg, db);
   return {
     success: false,
     providerUsed: 'cascade_failed',
-    error: `All active providers failed: ${errors.join(' | ')}`
+    error: failMsg
   };
 }
 
@@ -444,6 +505,19 @@ async function logSuccess(options: SendEmailOptions, result: DispatchResult, db:
       lastSentAt: new Date(),
       lastProviderUsed: result.providerUsed,
       emailsSentCount: { increment: 1 }
+    }
+  }).catch(() => {});
+}
+
+async function logFailure(options: SendEmailOptions, provider: string, errorMsg: string, db: PrismaClient) {
+  await db.emailDispatchLog.create({
+    data: {
+      campaignId: options.campaignId || null,
+      recipient: options.to,
+      provider: provider,
+      status: 'failed',
+      errorMsg: errorMsg,
+      sentAt: new Date()
     }
   }).catch(() => {});
 }
