@@ -202,7 +202,7 @@ let toolsCache: { data: EnrichedTool[]; timestamp: number } | null = null;
 let promptsCache: { data: PromptItem[]; timestamp: number } | null = null;
 const CACHE_TTL_MS = 60 * 1000;
 
-async function fetchWithTimeout<T>(promise: Promise<T>, ms = 5000): Promise<T> {
+async function fetchWithTimeout<T>(promise: Promise<T>, ms = 15000): Promise<T> {
   return Promise.race([
     promise,
     new Promise<T>((_, reject) => setTimeout(() => reject(new Error('DB query timeout')), ms))
@@ -220,7 +220,7 @@ export async function getAllTools(): Promise<EnrichedTool[]> {
     const dbTools = await fetchWithTimeout(db.tool.findMany({
       where: { status: 'approved' },
       orderBy: [{ featured: 'desc' }, { reviewsCount: 'desc' }]
-    }), 5000);
+    }), 15000);
 
     if (dbTools && dbTools.length > 0) {
       const enriched = dbTools.map(t => enrichTool({

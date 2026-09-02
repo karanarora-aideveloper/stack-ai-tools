@@ -56,9 +56,37 @@ model Prompt {
 }
 
 model Subscriber {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  email     String   @unique
-  status    String   @default("active") // "active" | "unsubscribed"
-  source    String?  @default("website")
-  createdAt DateTime @default(now())
+  id                 String    @id @default(auto()) @map("_id") @db.ObjectId
+  email              String    @unique
+  status             String    @default("active") // "active" | "unsubscribed"
+  source             String?   @default("website")
+  lastSentAt         DateTime?
+  lastProviderUsed   String?
+  emailsSentCount    Int       @default(0)
+  createdAt          DateTime  @default(now())
+}
+
+model EmailCampaign {
+  id              String    @id @default(auto()) @map("_id") @db.ObjectId
+  subject         String
+  previewText     String?
+  bodyHtml        String
+  scheduledFor    DateTime?
+  sentAt          DateTime?
+  status          String    @default("draft") // "draft" | "sent" | "failed"
+  totalRecipients Int       @default(0)
+  successfulSent  Int       @default(0)
+  failedCount     Int       @default(0)
+  providersUsed   String[]  @default([])
+  createdAt       DateTime  @default(now())
+}
+
+model EmailDispatchLog {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  campaignId  String?
+  recipient   String
+  provider    String   // "brevo" | "resend" | "mailersend" | "mailjet" | "sendgrid" | "smtp" | "simulation"
+  status      String   // "delivered" | "failed" | "simulated"
+  errorMsg    String?
+  sentAt      DateTime @default(now())
 }

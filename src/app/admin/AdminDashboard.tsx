@@ -31,9 +31,11 @@ import {
   Copy,
   Check,
   Download,
-  AlertCircle
+  AlertCircle,
+  Mail
 } from 'lucide-react';
 import ToolLogo from '@/app/components/ToolLogo';
+import AdminNewsletterView from './AdminNewsletterView';
 import { EnrichedTool } from '@/lib/tools';
 import { PromptItem } from '@/data';
 import { AnalyticsSummary } from '@/lib/analytics';
@@ -80,8 +82,15 @@ export default function AdminDashboard({
   const [analyticsData, setAnalyticsData] = useState<AnalyticsSummary | null>(null);
   const [isLoadingAnalytics, setIsLoadingAnalytics] = useState(false);
 
+  const [passkey, setPasskey] = useState<string>(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('stackai_admin_passkey') || 'stackaitools2026';
+    }
+    return 'stackaitools2026';
+  });
+
   // Navigation & Filtering
-  const [activeTab, setActiveTab] = useState<'affiliates' | 'tools' | 'pending' | 'prompts' | 'analytics'>('affiliates');
+  const [activeTab, setActiveTab] = useState<'affiliates' | 'tools' | 'pending' | 'prompts' | 'analytics' | 'newsletter'>('affiliates');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedPricing, setSelectedPricing] = useState('all');
@@ -176,6 +185,8 @@ export default function AdminDashboard({
       if (res.success) {
         setIsAuthenticated(true);
         localStorage.setItem('stackai_admin_session', 'true');
+        localStorage.setItem('stackai_admin_passkey', passkeyInput);
+        setPasskey(passkeyInput);
         showToast('Admin session unlocked successfully');
       } else {
         setAuthError(res.error || 'Invalid credentials');
@@ -189,6 +200,7 @@ export default function AdminDashboard({
 
   const handleLogout = () => {
     localStorage.removeItem('stackai_admin_session');
+    localStorage.removeItem('stackai_admin_passkey');
     setIsAuthenticated(false);
     setPasskeyInput('');
   };
@@ -648,6 +660,14 @@ export default function AdminDashboard({
         >
           <BarChart3 size={16} />
           <span>Deep Analytics & Churn</span>
+        </button>
+
+        <button 
+          className={`admin-tab-btn-light ${activeTab === 'newsletter' ? 'active' : ''}`}
+          onClick={() => { setActiveTab('newsletter'); setSearchQuery(''); }}
+        >
+          <Mail size={16} />
+          <span>Newsletter & Free Email Dispatch</span>
         </button>
       </div>
 
@@ -1297,6 +1317,13 @@ export default function AdminDashboard({
             </div>
           </div>
         </div>
+      )}
+
+      {/* ====================================================================
+          TAB 6: NEWSLETTER & MULTI-PROVIDER FREE BROADCAST DISPATCH ENGINE
+          ==================================================================== */}
+      {activeTab === 'newsletter' && (
+        <AdminNewsletterView passkey={passkey} />
       )}
 
       {/* ====================================================================
