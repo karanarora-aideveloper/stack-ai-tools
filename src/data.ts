@@ -67,6 +67,21 @@ export const aiTools: AITool[] = [
     ],
     complexity: 'Frontier Engineering',
     idealFor: 'Software Architects, Engineering Leads, Rapid Scale Teams',
+    bestFor: 'Engineering leaders looking to delegate backlog bug fixes, dependency updates, and boilerplate migrations',
+    editorialReview: "Devin is not a code autocomplete tool; it is an autonomous digital software engineer. Equipped with its own sandboxed cloud environment, browser, shell, and editor, Devin plans multi-step architecture, writes code, resolves compiler errors, and performs manual QA in an emulated browser before submitting a PR. It is particularly effective for upgrading deprecated npm packages and writing boilerplate integrations.",
+    zapierVerdict: "Zapier rates Devin as the pioneer of the 'autonomous software engineer' class—capable of solving real GitHub issues from prompt to verified pull request.",
+    authoritySummary: "Scored highest on the SWE-bench benchmark for autonomous issue resolution upon release. Backed by Founders Fund and Peter Thiel.",
+    verifiedBy: "SWE-bench Benchmark Leader • Bloomberg Enterprise Pick",
+    pros: [
+      "Full autonomy: solves complete GitHub issues without human intervention during execution",
+      "Built-in sandboxed browser allows it to visually verify web application frontend builds",
+      "Handles end-to-end tasks from API specification to automated test verification",
+      "Learns new libraries dynamically by reading online documentation"
+    ],
+    cons: [
+      "High cost ($500+/mo) makes it primarily suited for enterprise engineering teams",
+      "Complex business logic with subtle domain nuances still requires human review"
+    ],
     architectureStack: ['Sandboxed Linux Runtimes', 'AST Analysis', 'Self-Healing Test Loops']
   },
   {
@@ -93,7 +108,22 @@ export const aiTools: AITool[] = [
     ],
     complexity: 'Frontier Engineering',
     idealFor: 'Senior Developers, DevOps Engineers, Open Source Maintainers',
-    architectureStack: ['Terminal Agent Loop', 'Adaptive Reasoning', 'Local Git Integration']
+    bestFor: 'Senior engineers, DevOps practitioners, and backend developers who live in the terminal',
+    editorialReview: "Operating directly inside your terminal, Claude Code acts as a senior software engineer pair programming via CLI. It reads your project structure, executes terminal commands, runs tests, fixes failing assertions, and drafts clean git commits autonomously. Its integration with Claude 3.7 Sonnet's hybrid reasoning makes it unmatched at untangling legacy spaghetti code and circular dependencies.",
+    zapierVerdict: "Tested by Zapier's developer team: Claude Code is the most capable command-line agent for autonomous git issue resolution and multi-step test debugging.",
+    authoritySummary: "Anthropic's flagship agentic coding tool. Praised across Twitter and Reddit for its honest error handling, bash execution safety, and lack of code hallucination.",
+    verifiedBy: "Anthropic Official • GitHub Verified",
+    pros: [
+      "Zero UI overhead: runs natively inside your existing terminal workflow",
+      "Autonomous error loops: runs tests, catches stack traces, and iterates until passing",
+      "State-of-the-art hybrid reasoning with Claude 3.7 Sonnet",
+      "Strict security safeguards requiring explicit user confirmation for destructive commands"
+    ],
+    cons: [
+      "Requires familiarity with command-line tools and API key management",
+      "High token consumption when analyzing very large monorepos (100k+ lines)"
+    ],
+    architectureStack: ['Terminal Subprocess Execution', 'Hybrid Reasoning Mode', 'Agent Loop AST']
   },
   {
     id: 3,
@@ -119,6 +149,21 @@ export const aiTools: AITool[] = [
     ],
     complexity: 'Advanced',
     idealFor: 'Full-Stack Developers, Staff Engineers',
+    bestFor: 'Software engineers, full-stack builders, and startup technical founders seeking 3x–5x shipping velocity',
+    editorialReview: "Cursor is a direct fork of VS Code engineered from the ground up for LLM-assisted software architecture. Its killer capability—Composer (Cmd+I)—indexes your entire repository via AST embeddings, allowing it to execute coordinated edits across dozens of files simultaneously. It effortlessly handles dependency migrations, test suite generation, and complex API refactoring with surgical precision.",
+    zapierVerdict: "Zapier and leading tech analysts rank Cursor as the pinnacle of modern AI coding assistants, outpacing standard single-line completions with native multi-file codebase indexing.",
+    authoritySummary: "Top-rated developer tool on Hacker News and ProductHunt Golden Kitty Winner 2024. Over 100,000 active software engineers cite Cursor Composer as their primary productivity multiplier.",
+    verifiedBy: "Zapier Recommended • ProductHunt #1 Product of the Year",
+    pros: [
+      "Native full-codebase context indexing allows precise multi-file edits",
+      "Instant migration from existing VS Code setups (all extensions, keybindings, and themes carry over)",
+      "Multi-model flexibility: switch seamlessly between Claude 3.5/3.7 Sonnet and GPT-4o",
+      "Cursor Tab predicts your next 3-5 keystrokes based on live git diffs"
+    ],
+    cons: [
+      "Heavy repository indexing can spike local CPU/RAM on older laptops",
+      "Fast query allowances (500/mo on Pro) can run out quickly during intensive coding sprints"
+    ],
     architectureStack: ['Custom VS Code Fork', 'Vector Embeddings', 'Shadow Workspace']
   },
   {

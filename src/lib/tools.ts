@@ -22,9 +22,26 @@ const EXCLUDED_COMMODITY_TOOLS = new Set([
 const SLUG_MAP: Record<string, string> = {
   'Devin AI (Cognition Labs)': 'devin',
   'Claude Code (Anthropic CLI)': 'claude-code',
+  'Claude 3.7 Sonnet & Artifacts (Anthropic)': 'claude',
+  'ChatGPT Plus & Team (OpenAI)': 'chatgpt',
   'Cursor 3.0 (Composer Agents)': 'cursor',
+  'Cursor AI (Anysphere)': 'cursor',
   'Midjourney v8.2': 'midjourney',
   'Perplexity Pro (Deep Research 2.0)': 'perplexity',
+  'Perplexity AI': 'perplexity',
+  'Runway Gen-3 Alpha': 'runway',
+  'HeyGen AI Video': 'heygen',
+  'ElevenLabs Voice AI': 'elevenlabs',
+  'Flux.1 by Black Forest Labs': 'flux',
+  'Suno v4 AI Music': 'suno',
+  'Fireflies.ai Meeting Copilot': 'fireflies',
+  'Fathom Video Notetaker': 'fathom',
+  'Clay.com AI B2B Data Engine': 'clay',
+  'Make.com (Integromat)': 'make',
+  'Aider AI Pair Programmer': 'aider',
+  'AutoGPT (Autonomous AGI Agent)': 'autogpt',
+  'LangChain & LangGraph': 'langchain',
+  'Surfer SEO': 'surfer-seo',
   'Cartesia Sonic (Ultra-Low Latency Voice)': 'cartesia',
   'Runway Gen-4.5': 'runway',
   'ElevenLabs Gen-3 Voice Studio': 'elevenlabs',
@@ -185,7 +202,7 @@ let toolsCache: { data: EnrichedTool[]; timestamp: number } | null = null;
 let promptsCache: { data: PromptItem[]; timestamp: number } | null = null;
 const CACHE_TTL_MS = 60 * 1000;
 
-async function fetchWithTimeout<T>(promise: Promise<T>, ms = 1500): Promise<T> {
+async function fetchWithTimeout<T>(promise: Promise<T>, ms = 5000): Promise<T> {
   return Promise.race([
     promise,
     new Promise<T>((_, reject) => setTimeout(() => reject(new Error('DB query timeout')), ms))
@@ -203,7 +220,7 @@ export async function getAllTools(): Promise<EnrichedTool[]> {
     const dbTools = await fetchWithTimeout(db.tool.findMany({
       where: { status: 'approved' },
       orderBy: [{ featured: 'desc' }, { reviewsCount: 'desc' }]
-    }), 1500);
+    }), 5000);
 
     if (dbTools && dbTools.length > 0) {
       const enriched = dbTools.map(t => enrichTool({
@@ -221,7 +238,14 @@ export async function getAllTools(): Promise<EnrichedTool[]> {
         reviewsCount: t.reviewsCount,
         tags: t.tags || [],
         badge: t.badge || undefined,
-        featured: t.featured
+        featured: t.featured,
+        editorialReview: t.editorialReview || undefined,
+        zapierVerdict: t.zapierVerdict || undefined,
+        authoritySummary: t.authoritySummary || undefined,
+        pros: t.pros || [],
+        cons: t.cons || [],
+        bestFor: t.bestFor || undefined,
+        verifiedBy: t.verifiedBy || undefined
       }));
 
       // Seamlessly merge any newly curated static tools not yet in database
