@@ -253,7 +253,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           <div className="article-takeaways-box">
             <div className="takeaways-header">
               <Sparkles size={18} color="var(--arcade-gold)" />
-              <h3>Executive Telemetry & Master Takeaways (September 2, 2026)</h3>
+              <h3>Key Takeaways ({content.telemetryDate})</h3>
             </div>
             <ul className="takeaways-list">
               {content.takeaways.map((point, idx) => (
