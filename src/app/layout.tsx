@@ -287,6 +287,8 @@ gtag('config', 'G-WCL9JTB6TC');`
                 <div className="footer-col">
                   <h4 className="footer-heading">Ecosystem & Community</h4>
                   <ul className="footer-links-list">
+                    <li><Link href="/claude-connectors" style={{ color: '#38bdf8', fontWeight: 600 }}>Claude Connectors & MCP</Link></li>
+                    <li><Link href="/blog">Frontier AI Research Blog</Link></li>
                     <li><Link href="/about">About Karan Arora</Link></li>
                     <li><Link href="/prompts">Visual Prompt Showcase</Link></li>
                     <li><Link href="/categories">All Software Categories</Link></li>

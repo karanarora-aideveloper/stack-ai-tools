@@ -14,7 +14,8 @@ import {
   X, 
   Compass,
   ArrowRight,
-  ExternalLink
+  ExternalLink,
+  Terminal
 } from 'lucide-react';
 
 export default function Navbar() {
@@ -86,6 +87,14 @@ export default function Navbar() {
               className={`topbar-nav-pill ${isActive('/blog') ? 'active' : ''}`}
             >
               <span>Research</span>
+            </Link>
+            <Link 
+              href="/claude-connectors" 
+              className={`topbar-nav-pill ${isActive('/claude-connectors') ? 'active' : ''}`}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
+            >
+              <span>Claude Connectors</span>
+              <span style={{ fontSize: 9.5, padding: '1px 5px', borderRadius: 6, background: 'rgba(168, 85, 247, 0.25)', color: '#c084fc', border: '1px solid rgba(168, 85, 247, 0.4)', fontWeight: 700 }}>NEW</span>
             </Link>
             <Link 
               href="/about" 
@@ -192,6 +201,15 @@ export default function Navbar() {
                 >
                   <Sparkles size={18} color="#10b981" />
                   <span>Research & Benchmarks</span>
+                </Link>
+
+                <Link 
+                  href="/claude-connectors" 
+                  className={`mobile-drawer-link ${isActive('/claude-connectors') ? 'active' : ''}`}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <Terminal size={18} color="#38bdf8" />
+                  <span>Claude Connectors & MCP</span>
                 </Link>
 
                 <Link 
