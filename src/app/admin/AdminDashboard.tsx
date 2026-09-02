@@ -1259,9 +1259,15 @@ export default function AdminDashboard({
                 </p>
               </div>
               <div style={{ fontSize: 12, color: '#334155', lineHeight: 1.5 }}>
-                <strong style={{ color: '#0284c7' }}>3. PostHog Session Replays (🟢 Active & Connected):</strong>
+                <strong style={{ color: '#0284c7' }}>3. PostHog Session Replays (🟢 Active):</strong>
                 <p style={{ margin: '3px 0 0 0', color: '#64748b' }}>
-                  Connected to Project <strong>364108</strong> (US Cloud). Recording visual heatmaps, visitor journeys, user funnels, and prompt engagement directly in your <a href="https://us.posthog.com/project/364108" target="_blank" rel="noopener noreferrer" style={{ color: '#0284c7', textDecoration: 'underline' }}>PostHog Dashboard ↗</a>.
+                  Connected to Project <strong>364108</strong> (US Cloud). Recording visual heatmaps, visitor journeys, user funnels, and prompt engagement in your <a href="https://us.posthog.com/project/364108" target="_blank" rel="noopener noreferrer" style={{ color: '#0284c7', textDecoration: 'underline' }}>PostHog Dashboard ↗</a>.
+                </p>
+              </div>
+              <div style={{ fontSize: 12, color: '#334155', lineHeight: 1.5 }}>
+                <strong style={{ color: '#ea580c' }}>4. Google Analytics 4 (🟢 Active):</strong>
+                <p style={{ margin: '3px 0 0 0', color: '#64748b' }}>
+                  Tracking active sessions, acquisition channels, and search referrals via Measurement ID <strong>G-WCL9JTB6TC</strong> directly in your <a href="https://analytics.google.com" target="_blank" rel="noopener noreferrer" style={{ color: '#ea580c', textDecoration: 'underline' }}>Google Analytics Console ↗</a>.
                 </p>
               </div>
             </div>
