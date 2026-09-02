@@ -11,7 +11,10 @@ import {
   ArrowRight, 
   ShieldCheck, 
   Sparkles,
-  HelpCircle
+  HelpCircle,
+  CheckCircle2,
+  Zap,
+  TrendingUp
 } from 'lucide-react';
 
 interface CategoryPageProps {
@@ -28,8 +31,8 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
   const { category } = await params;
   const capitalized = category.charAt(0).toUpperCase() + category.slice(1);
-  const title = `Best AI ${capitalized} Tools (2026) | Vetted Software & Agents`;
-  const description = `Discover the top-rated AI ${capitalized.toLowerCase()} software, autonomous agents, and models tested for US professionals. Compare pricing, reviews, and free tiers.`;
+  const title = `Top AI ${capitalized} Tools & Autonomous Agents (2026) | Stack AI Tools`;
+  const description = `Explore the top-rated AI ${capitalized.toLowerCase()} software, autonomous coding agents, and frontier models. Compare verified ratings, pricing tiers, pros & cons, and free access.`;
 
   return {
     title,
@@ -37,8 +40,11 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
     openGraph: {
       title,
       description,
-      url: `https://stackaitools.com/category/${category.toLowerCase()}`,
+      url: `https://www.stackaitools.com/category/${category.toLowerCase()}`,
       type: 'website'
+    },
+    alternates: {
+      canonical: `https://www.stackaitools.com/category/${category.toLowerCase()}`
     }
   };
 }
@@ -46,37 +52,54 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
 export default async function CategoryPage({ params }: CategoryPageProps) {
   const { category } = await params;
   const tools = await getToolsByCategory(category);
+  const allCategories = await getAllCategories();
 
   if (!tools || tools.length === 0) {
     notFound();
   }
 
   const categoryName = tools[0].category;
+  const freeToolsCount = tools.filter(t => t.priceClass === 'free' || t.priceClass === 'freemium').length;
+
+  const categoryDescriptions: Record<string, string> = {
+    code: 'Frontier AI coding assistants, autonomous software engineering agents, and terminal copilots benchmarked for zero-shot accuracy, latency, and full-stack repo execution.',
+    writing: 'Next-generation copywriters, research summarizers, and long-form editorial agents engineered to accelerate high-volume publishing and marketing workflows.',
+    design: 'Generative UI builders, vector design studios, and neural concept rendering engines designed to turn natural language into production-ready design systems.',
+    video: 'AI video generators, hyper-realistic avatar actors, and automatic viral repurposing engines transforming text into studio-grade media.',
+    audio: 'State-of-the-art voice synthesis, vocal stem isolation, and full-length broadcast music generation platforms for creators and developers.',
+    automation: 'Self-hosted and cloud workflow automation platforms powered by autonomous agent reasoning and multi-tool orchestration.',
+    marketing: 'Autonomous growth agents, SEO intelligence, and outbound campaign generators built to maximize customer acquisition and MRR.',
+    business: 'Enterprise AI assistants, meeting intelligence engines, and automated contract analyzers streamlining operations.'
+  };
 
   const faqs = [
     {
-      question: `What is the best AI tool for ${categoryName.toLowerCase()} in 2026?`,
-      answer: `The top-rated tool based on US user reviews and latency benchmarks is ${tools[0].name}, currently holding a ${tools[0].rating}/5.0 score with over ${tools[0].reviewsCount.toLocaleString()} verified reviews.`
+      question: `What is the best AI software for ${categoryName.toLowerCase()} in 2026?`,
+      answer: `Based on verified benchmark evaluations and user reviews, ${tools[0].name} leads the ${categoryName} category with an outstanding ${tools[0].rating}/5.0 score across ${tools[0].reviewsCount.toLocaleString()} verified user reviews.`
     },
     {
-      question: `Are there free AI ${categoryName.toLowerCase()} tools available?`,
-      answer: `Yes, multiple tools in this directory feature generous free tiers or free trials, including ${tools.filter(t => t.priceClass === 'free' || t.priceClass === 'freemium').map(t => t.name.split(' ')[0]).slice(0, 3).join(', ')}.`
+      question: `Which AI ${categoryName.toLowerCase()} tools offer free tiers?`,
+      answer: `There are ${freeToolsCount} tools in this category offering free tiers or free trials, including ${tools.filter(t => t.priceClass === 'free' || t.priceClass === 'freemium').map(t => t.name).slice(0, 4).join(', ')}.`
     },
     {
-      question: `How does Stack AI Tools verify ${categoryName.toLowerCase()} software?`,
-      answer: `Every tool listed on stackaitools.com undergoes continuous evaluation for model accuracy, latency, pricing honesty, and data security compliance.`
+      question: `How are ${categoryName.toLowerCase()} tools evaluated and verified?`,
+      answer: `The Stack AI Tools research team evaluates tools across 4 core criteria: model intelligence & reasoning accuracy, API/execution latency, pricing honesty (no hidden charges), and enterprise security compliance.`
+    },
+    {
+      question: `Can I submit a new ${categoryName.toLowerCase()} AI tool to this directory?`,
+      answer: `Yes! Creators and founders can submit tools via our public submission portal at /submit for editorial vetting and listing inclusion.`
     }
   ];
 
   const faqSchema = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    'mainEntity': faqs.map(faq => ({
+    mainEntity: faqs.map(faq => ({
       '@type': 'Question',
-      'name': faq.question,
-      'acceptedAnswer': {
+      name: faq.question,
+      acceptedAnswer: {
         '@type': 'Answer',
-        'text': faq.answer
+        text: faq.answer
       }
     }))
   };
@@ -84,30 +107,31 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   const breadcrumbSchema = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
-    'itemListElement': [
+    itemListElement: [
       {
         '@type': 'ListItem',
-        'position': 1,
-        'name': 'Home',
-        'item': 'https://stackaitools.com'
+        position: 1,
+        name: 'Home',
+        item: 'https://www.stackaitools.com'
       },
       {
         '@type': 'ListItem',
-        'position': 2,
-        'name': 'Categories',
-        'item': 'https://stackaitools.com/categories'
+        position: 2,
+        name: 'Categories',
+        item: 'https://www.stackaitools.com/categories'
       },
       {
         '@type': 'ListItem',
-        'position': 3,
-        'name': categoryName,
-        'item': `https://stackaitools.com/category/${category.toLowerCase()}`
+        position: 3,
+        name: categoryName,
+        item: `https://www.stackaitools.com/category/${category.toLowerCase()}`
       }
     ]
   };
 
   return (
-    <div>
+    <div className="category-page-container">
+      {/* Schema.org Injections */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
@@ -123,43 +147,80 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
         <ChevronRight size={14} />
         <Link href="/categories">Categories</Link>
         <ChevronRight size={14} />
-        <span>{categoryName}</span>
+        <span style={{ color: 'var(--arcade-cyan)', fontWeight: 600 }}>{categoryName}</span>
       </nav>
 
-      {/* Category Header */}
-      <div className="page-header" style={{ textAlign: 'left', marginBottom: 40 }}>
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: '#818cf8', fontSize: 13, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 8 }}>
-          <Layers size={15} />
-          <span>Curated Software Category</span>
+      {/* Hero Banner */}
+      <header className="category-hero-header">
+        <div className="category-hero-pill">
+          <Sparkles size={14} color="#00f0ff" />
+          <span>Curated Category Leaderboard</span>
         </div>
-        <h1 className="page-title" style={{ fontSize: 36 }}>
-          Top AI {categoryName} Tools & Agents (2026)
+
+        <h1 className="category-hero-title">
+          Top AI {categoryName} Software & Agents (2026)
         </h1>
-        <p className="page-subtitle" style={{ maxWidth: 800 }}>
-          Explore {tools.length} hand-vetted {categoryName.toLowerCase()} solutions. Benchmarked for accuracy, pricing transparency, and high-velocity workflow integration.
+
+        <p className="category-hero-subtitle">
+          {categoryDescriptions[category.toLowerCase()] || `Explore ${tools.length} hand-vetted ${categoryName.toLowerCase()} solutions benchmarked for accuracy, speed, and production integration.`}
         </p>
-      </div>
+
+        {/* Stats Pill Row */}
+        <div className="category-stats-bar">
+          <div className="cat-stat-chip">
+            <span className="stat-highlight">{tools.length}</span>
+            <span>Vetted Tools</span>
+          </div>
+          <span className="stat-separator">•</span>
+          <div className="cat-stat-chip">
+            <span className="stat-highlight" style={{ color: '#34d399' }}>{freeToolsCount}</span>
+            <span>Free Tiers Available</span>
+          </div>
+          <span className="stat-separator">•</span>
+          <div className="cat-stat-chip" style={{ color: '#34d399' }}>
+            <ShieldCheck size={14} />
+            <span>Verified 2026 Audit</span>
+          </div>
+        </div>
+
+        {/* Quick Category Switcher Tabs */}
+        <div className="category-switcher-scroll">
+          {allCategories.map((cat) => {
+            const isActive = cat.toLowerCase() === category.toLowerCase();
+            return (
+              <Link
+                key={cat}
+                href={`/category/${cat.toLowerCase()}`}
+                className={`category-switch-tab ${isActive ? 'active' : ''}`}
+              >
+                <span>{cat}</span>
+              </Link>
+            );
+          })}
+        </div>
+      </header>
 
       {/* Tools Grid */}
-      <div className="tools-grid">
-        {tools.map((tool, index) => (
-          <div key={tool.id} className="tool-card" style={{ animationDelay: `${index * 0.05}s` }}>
-            <div className="tool-card-header">
-              <div className="tool-header-left">
+      <main className="category-tools-grid">
+        {tools.map((tool) => (
+          <div key={tool.id} className="category-tool-card">
+            {/* Card Header */}
+            <div className="cat-card-header">
+              <div className="cat-card-identity">
                 <ToolLogo 
                   name={tool.name}
                   domain={tool.domain}
                   logoUrl={tool.logoUrl}
                   icon={tool.icon}
-                  size={44}
+                  size={46}
                 />
-                <div>
-                  <h3 className="tool-name">
-                    <Link href={`/tool/${tool.slug}`} style={{ color: 'inherit' }}>
+                <div className="cat-card-titles">
+                  <h3 className="cat-card-name">
+                    <Link href={`/tool/${tool.slug}`}>
                       {tool.name}
                     </Link>
                   </h3>
-                  <div className="tool-meta">
+                  <div className="cat-card-badges">
                     <span className="tool-category-tag">{tool.category}</span>
                     <span className={`tool-price-tag price-${tool.priceClass}`}>
                       {tool.pricingModel}
@@ -167,38 +228,44 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
                   </div>
                 </div>
               </div>
-              <div className="tool-rating-box">
+
+              <div className="cat-card-rating">
                 <Star size={13} className="star-icon" fill="currentColor" />
-                <span className="rating-num">{tool.rating}</span>
-                <span className="reviews-count">({tool.reviewsCount.toLocaleString()})</span>
+                <span className="rating-val">{tool.rating.toFixed(1)}</span>
+                <span className="review-val">({tool.reviewsCount.toLocaleString()})</span>
               </div>
             </div>
 
+            {/* Editorial / Zapier Pill if available */}
             {tool.zapierVerdict && (
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: 11, color: '#fbbf24', background: 'rgba(251, 191, 36, 0.1)', padding: '2px 8px', borderRadius: 6, marginBottom: 8, border: '1px solid rgba(251, 191, 36, 0.2)' }}>
-                <ShieldCheck size={11} />
-                <span>Zapier & Editorial Reviewed</span>
+              <div className="cat-card-verdict">
+                <ShieldCheck size={12} color="#fbbf24" />
+                <span>Zapier & Editorial Verified</span>
               </div>
             )}
 
-            <p className="tool-desc">{tool.description}</p>
+            {/* Description */}
+            <p className="cat-card-desc">
+              {tool.description}
+            </p>
 
-            <div className="tool-tags">
+            {/* Tags List */}
+            <div className="cat-card-tags">
               {tool.tags.slice(0, 3).map((tag) => (
                 <span key={tag} className="tag-pill">#{tag}</span>
               ))}
             </div>
 
-            <div className="tool-card-footer">
-              <Link href={`/tool/${tool.slug}`} className="btn btn-secondary" style={{ padding: '8px 14px', fontSize: 13 }}>
+            {/* Card Footer Actions */}
+            <div className="cat-card-footer">
+              <Link href={`/tool/${tool.slug}`} className="cat-btn-review">
                 <span>In-depth Review</span>
               </Link>
               <a 
                 href={`/go/${tool.slug}`} 
                 target="_blank" 
                 rel="sponsored nofollow noopener"
-                className="btn btn-primary"
-                style={{ padding: '8px 16px', fontSize: 13 }}
+                className="cat-btn-try"
               >
                 <span>Try Free</span>
                 <ArrowRight size={14} />
@@ -206,29 +273,26 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
             </div>
           </div>
         ))}
-      </div>
+      </main>
 
       {/* FAQ & Buying Guide */}
-      <div style={{ marginTop: 60, display: 'grid', gridTemplateColumns: '1fr', gap: 32 }}>
+      <section className="category-faq-section">
         <div className="tool-card-box">
           <h2 className="tool-box-title">
-            <HelpCircle size={20} color="#818cf8" />
+            <HelpCircle size={20} color="#00f0ff" />
             Frequently Asked Questions: {categoryName} AI Software
           </h2>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+          <div className="category-faq-list">
             {faqs.map((faq, idx) => (
-              <div key={idx} style={{ borderBottom: idx !== faqs.length - 1 ? '1px solid rgba(255, 255, 255, 0.06)' : 'none', paddingBottom: 16 }}>
-                <h3 style={{ fontSize: 16, fontWeight: 600, color: '#fff', marginBottom: 6 }}>
-                  {faq.question}
-                </h3>
-                <p style={{ fontSize: 14, color: 'var(--text-secondary)', lineHeight: 1.6 }}>
-                  {faq.answer}
-                </p>
+              <div key={idx} className="category-faq-item">
+                <h3>{faq.question}</h3>
+                <p>{faq.answer}</p>
               </div>
             ))}
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 }
+
