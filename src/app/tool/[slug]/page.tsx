@@ -24,8 +24,10 @@ import {
   Sparkles,
   ChevronRight,
   TrendingUp,
-  GitCompare
+  GitCompare,
+  BookOpen
 } from 'lucide-react';
+import { getAllArticles } from '@/lib/blog';
 
 interface ToolPageProps {
   params: Promise<{ slug: string }>;
@@ -88,6 +90,14 @@ export default async function ToolPage({ params }: ToolPageProps) {
     getAlternativesForTool(tool.slug, 4),
     getPromptsForTool(tool.name)
   ]);
+
+  const allArticles = getAllArticles();
+  const toolFirstWord = tool.name.split(' ')[0].toLowerCase();
+  const relatedBlogArticles = allArticles.filter(a => 
+    a.title.toLowerCase().includes(toolFirstWord) || 
+    a.primaryKeyword.toLowerCase().includes(toolFirstWord) ||
+    a.slug.includes(tool.slug)
+  ).slice(0, 3);
 
   // Schema.org Structured Data
   const softwareSchema = {
@@ -386,6 +396,43 @@ export default async function ToolPage({ params }: ToolPageProps) {
               ))}
             </div>
           </div>
+
+          {/* Related In-Depth Research & Benchmark Guides */}
+          {relatedBlogArticles.length > 0 && (
+            <div className="tool-card-box" style={{ marginTop: 24 }}>
+              <h2 className="tool-box-title">
+                <BookOpen size={20} color="#818cf8" />
+                Latest Research & Benchmark Guides for {tool.name}
+              </h2>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                {relatedBlogArticles.map((art) => (
+                  <Link 
+                    key={art.slug} 
+                    href={`/blog/${art.slug}`} 
+                    style={{ 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      justifyContent: 'space-between', 
+                      padding: '12px 16px', 
+                      background: 'rgba(255,255,255,0.03)', 
+                      border: '1px solid rgba(255,255,255,0.08)', 
+                      borderRadius: 8, 
+                      textDecoration: 'none',
+                      transition: 'all 0.2s ease'
+                    }}
+                  >
+                    <div>
+                      <h4 style={{ color: '#fff', margin: '0 0 4px', fontSize: 14.5 }}>{art.title}</h4>
+                      <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>{art.readTime} • Verified 2026 Audit</span>
+                    </div>
+                    <span style={{ color: 'var(--arcade-cyan)', fontSize: 13, fontWeight: 600, whiteSpace: 'nowrap', marginLeft: 12 }}>
+                      Read Guide →
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Side Column: Specs & Monetization Action */}

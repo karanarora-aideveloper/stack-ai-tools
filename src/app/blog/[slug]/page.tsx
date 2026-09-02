@@ -276,12 +276,47 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             subtitle="Benchmarked on real-world latency, context retention %, and US enterprise compliance."
           />
 
+          {/* Bidirectional Internal Linking Hub */}
+          {content.matchedTool && (
+            <div style={{ margin: '28px 0', padding: '16px 20px', background: 'rgba(15, 23, 42, 0.7)', border: '1px solid rgba(56, 189, 248, 0.25)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
+              <div>
+                <span style={{ fontSize: 11, color: '#38bdf8', fontWeight: 700, textTransform: 'uppercase' }}>VERIFIED DIRECTORY HUB</span>
+                <h4 style={{ margin: '3px 0 0', color: '#fff', fontSize: 15 }}>{content.matchedTool.name} In-Depth Benchmark Profile</h4>
+              </div>
+              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                <Link href={`/tool/${content.matchedTool.slug}`} className="btn btn-secondary" style={{ padding: '6px 12px', fontSize: 12 }}>
+                  Tool Profile →
+                </Link>
+                <Link href={`/alternatives/${content.matchedTool.slug}`} className="btn btn-secondary" style={{ padding: '6px 12px', fontSize: 12 }}>
+                  Top Alternatives →
+                </Link>
+                <Link href={`/category/${article.category}`} className="btn btn-primary" style={{ padding: '6px 12px', fontSize: 12 }}>
+                  All {article.category.toUpperCase()} Tools →
+                </Link>
+              </div>
+            </div>
+          )}
+
           {/* Render Deep Content Sections */}
           {content.sections.map((sec, idx) => (
             <section key={idx} id={`section-${idx + 1}`} className="article-section" style={{ marginBottom: 36 }}>
               <h2 style={{ fontSize: '1.45rem', fontWeight: 700, color: '#f8fafc', marginBottom: 14 }}>
                 {sec.heading}
               </h2>
+
+              {/* Direct Answer Box for Google AI Overviews & Featured Snippets */}
+              {sec.directAnswer && (
+                <div style={{ background: 'linear-gradient(135deg, rgba(56, 189, 248, 0.08), rgba(99, 102, 241, 0.05))', borderLeft: '3px solid var(--arcade-cyan)', padding: '12px 16px', borderRadius: '0 8px 8px 0', margin: '0 0 16px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4, fontSize: 11, color: '#38bdf8', fontWeight: 700, textTransform: 'uppercase' }}>
+                    <Zap size={12} />
+                    <span>Quick Summary & Direct Answer</span>
+                  </div>
+                  <p style={{ margin: 0, color: '#f1f5f9', fontSize: '0.96rem', fontWeight: 500, lineHeight: 1.6 }}>
+                    {sec.directAnswer}
+                  </p>
+                </div>
+              )}
+
               <p style={{ color: '#cbd5e1', lineHeight: 1.75, fontSize: '1.02rem', marginBottom: 16 }}>
                 {sec.content}
               </p>
