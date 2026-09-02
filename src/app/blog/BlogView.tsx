@@ -78,7 +78,7 @@ export default function BlogView({ articles }: BlogViewProps) {
       <header className="blog-hero">
         <div className="modern-hero-badge" style={{ margin: '0 auto 16px' }}>
           <span className="badge-sparkle">✨</span>
-          <span>FRONTIER AI RESEARCH • 1,800+ BENCHMARKED GUIDES</span>
+          <span>FRONTIER AI RESEARCH • 10,000+ BENCHMARKED GUIDES</span>
         </div>
         <h1 className="blog-hero-title">
           Frontier AI <span className="modern-hero-gradient">Research & Guides</span>
@@ -94,7 +94,7 @@ export default function BlogView({ articles }: BlogViewProps) {
             <input 
               type="text"
               className="modern-search-input"
-              placeholder="Search 1,800+ AI guides, Claude updates, and tutorials..."
+              placeholder="Search 10,000+ AI guides, Claude updates, and tutorials..."
               value={searchQuery}
               onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
             />
