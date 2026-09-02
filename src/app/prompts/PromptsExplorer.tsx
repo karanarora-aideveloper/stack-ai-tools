@@ -144,7 +144,7 @@ export default function PromptsExplorer({ initialPrompts }: PromptsExplorerProps
         <input
           type="text"
           className="prompts-search-input"
-          placeholder="Search 45+ prompts (e.g. 'Gmail MCP', 'GitHub PR review', 'Midjourney v8', 'Cursor 3.0')..."
+          placeholder="Search 45+ prompts (e.g. 'Gmail MCP', 'GitHub PR review', 'Midjourney v8', 'Cursor 3.1')..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />

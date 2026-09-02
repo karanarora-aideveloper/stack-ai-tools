@@ -32,15 +32,16 @@ export async function generateMetadata({ params }: AlternativePageProps): Promis
 
   if (!tool) {
     return {
-      title: 'Alternatives Not Found | Stack AI Tools',
+      title: { absolute: 'Alternatives Not Found | Stack AI Tools' },
     };
   }
 
-  const title = `Top 5 Best ${tool.name} Alternatives in 2026 (Tested & Ranked)`;
+  const baseName = tool.name.replace(/\s*\([^)]*\)\s*$/, '').trim();
+  const title = `Best ${baseName} Alternatives (2026)`;
   const description = `Looking for the best alternatives to ${tool.name}? Explore vetted competitors, compare pricing, free tier options, and performance benchmarks.`;
 
   return {
-    title,
+    title: { absolute: title },
     description,
     openGraph: {
       title,

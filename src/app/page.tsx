@@ -3,10 +3,10 @@ import { Metadata } from 'next';
 import { getAllTools, getAllPrompts } from '@/lib/tools';
 
 export const metadata: Metadata = {
-  title: 'Stack AI Tools | Curated Directory of 40+ Frontier AI Software & Agents (2026)',
+  title: { absolute: 'Stack AI Tools | 200+ AI Tools & Prompts Directory (2026)' },
   description: 'Discover the world\'s best artificial intelligence software, autonomous coding agents, generative media models, and tested prompt templates. Updated September 2026.',
   openGraph: {
-    title: 'Stack AI Tools | Curated Directory of 40+ Frontier AI Software & Agents (2026)',
+    title: 'Stack AI Tools | 200+ AI Tools & Prompts Directory (2026)',
     description: 'Explore the definitive expert-curated directory of 2026 AI tools, coding agents, and prompt libraries.',
     url: 'https://stackaitools.com',
     type: 'website',

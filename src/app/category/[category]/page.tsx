@@ -31,11 +31,11 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
   const { category } = await params;
   const capitalized = category.charAt(0).toUpperCase() + category.slice(1);
-  const title = `Top AI ${capitalized} Tools & Autonomous Agents (2026) | Stack AI Tools`;
+  const title = `Best AI ${capitalized} Tools (2026)`;
   const description = `Explore the top-rated AI ${capitalized.toLowerCase()} software, autonomous coding agents, and frontier models. Compare verified ratings, pricing tiers, pros & cons, and free access.`;
 
   return {
-    title,
+    title: { absolute: `${title} | Stack AI Tools` },
     description,
     openGraph: {
       title,

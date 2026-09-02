@@ -15,7 +15,7 @@ import {
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Karan Arora | Founder & Chief AI Architect — Stack AI Tools',
+  title: { absolute: 'Karan Arora | Founder, Stack AI Tools' },
   description: 'Official profile of Karan Arora, founder and lead architect behind Stack AI Tools (stackaitools.com). Software engineer, builder, and frontier AI researcher.',
   keywords: [
     'Karan Arora',

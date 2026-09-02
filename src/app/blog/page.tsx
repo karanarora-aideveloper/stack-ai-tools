@@ -3,7 +3,7 @@ import BlogView from './BlogView';
 import { getAllArticles } from '@/lib/blog';
 
 export const metadata: Metadata = {
-  title: 'Frontier AI Blog & Research Guides (10,000+ Tested Reviews & Claude Updates) | Stack AI Tools',
+  title: { absolute: 'AI Tools Blog & Reviews (2026) | Stack AI Tools' },
   description: 'Authoritative research, benchmark tests, and software showdowns comparing the top AI video generators, coding assistants, voice cloners, Claude 3.7 reasoning updates, and autonomous agents in 2026. Curated by Karan Arora.',
   keywords: [
     'best ai tools 2026',

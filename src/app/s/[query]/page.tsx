@@ -64,11 +64,11 @@ export async function generateMetadata({ params }: SearchHubPageProps): Promise<
   const hub = getSearchHubBySlug(query);
   const formattedTitle = formatQueryTitle(hub ? hub.query : query);
 
-  const title = `[Tested 2026] Best ${formattedTitle} AI Tools & Software`;
+  const title = `Best ${formattedTitle} AI Tools (2026)`;
   const description = `Compare top-rated ${formattedTitle} AI tools in 2026. Explore verified user ratings, transparent pricing plans, free tiers, and tested alternatives. Curated by Karan Arora.`;
 
   return {
-    title,
+    title: { absolute: title },
     description,
     keywords: [
       hub ? hub.query : query,

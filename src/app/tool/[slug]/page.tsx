@@ -46,15 +46,19 @@ export async function generateMetadata({ params }: ToolPageProps): Promise<Metad
 
   if (!tool) {
     return {
-      title: 'Tool Not Found | Stack AI Tools',
+      title: { absolute: 'Tool Not Found | Stack AI Tools' },
     };
   }
 
-  const title = `[Tested 2026] ${tool.name} Review: Pricing, Features & Alternatives`;
+  // Strip a trailing parenthetical (e.g. "DeepSeek V4 (Open Reasoning Engine)" -> "DeepSeek V4")
+  // so the SEO title tag stays under Google's ~60-char display limit; the full display name
+  // is used everywhere else on the page.
+  const baseName = tool.name.replace(/\s*\([^)]*\)\s*$/, '').trim();
+  const title = `${baseName} Review 2026: Pricing & Alternatives`;
   const description = `In-depth 2026 review of ${tool.name}. Explore verified user ratings (${tool.rating}/5), pricing plans (${tool.pricingModel}), core capabilities, pros & cons, and top alternatives. Try free →`;
 
   return {
-    title,
+    title: { absolute: title },
     description,
     keywords: [tool.name, `${tool.name} review`, `${tool.name} pricing`, `${tool.name} alternatives`, tool.category, 'AI tools 2026', ...(tool.tags || [])],
     alternates: {

@@ -5,11 +5,11 @@ import ModernBackground from '@/app/components/ModernBackground';
 import { Sparkles, Terminal, Image as ImageIcon, Flame, CheckCircle2, Zap } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Curated AI Prompts Library (2026) | Midjourney, Cursor & Claude',
-  description: 'Explore 37+ production-grade prompts for Midjourney v8 photorealism, Flux.1 Schnell, Cursor 3.0 autonomous coding, and Claude Sonnet 5 with live output previews.',
+  title: { absolute: 'AI Prompts Library (2026) | Stack AI Tools' },
+  description: 'Explore 37+ production-grade prompts for Midjourney v8 photorealism, Flux.1 Schnell, Cursor 3.1 autonomous coding, and Claude Sonnet 5 with live output previews.',
   openGraph: {
-    title: 'Frontier AI Prompts Vault (2026) | Stack AI Tools',
-    description: 'Battle-tested prompts for Midjourney v8, Flux.1, Cursor 3.0, Claude, and GPT-5.',
+    title: 'AI Prompts Library (2026) | Stack AI Tools',
+    description: 'Battle-tested prompts for Midjourney v8, Flux.1, Cursor 3.1, Claude, and GPT-5.',
     url: 'https://stackaitools.com/prompts',
   }
 };
@@ -77,7 +77,7 @@ export default async function PromptsPage() {
           maxWidth: 700, 
           margin: '0 auto 28px' 
         }}>
-          Battle-tested prompts engineered for <strong>Gmail MCP</strong>, <strong>GitHub MCP</strong>, <strong>PostgreSQL</strong>, Midjourney v8, Flux.1, and Cursor 3.0 agents. Includes verified outputs, executable MCP config JSON, and one-click copy.
+          Battle-tested prompts engineered for <strong>Gmail MCP</strong>, <strong>GitHub MCP</strong>, <strong>PostgreSQL</strong>, Midjourney v8, Flux.1, and Cursor 3.1 agents. Includes verified outputs, executable MCP config JSON, and one-click copy.
         </p>
 
         {/* 4-Column Metric Ribbon */}

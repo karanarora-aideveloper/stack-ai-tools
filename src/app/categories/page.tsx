@@ -5,7 +5,7 @@ import ModernBackground from '@/app/components/ModernBackground';
 import { Sparkles, Layers, ShieldCheck, Zap } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'All AI Software Categories (2026) | Verified Tools & Prompts Index',
+  title: { absolute: 'AI Software Categories (2026) | Stack AI Tools' },
   description: 'Explore 8 core AI software ecosystems across autonomous coding, generative video, voice cloning, workflow automation, and enterprise intelligence. Compare verified pricing and features.',
   openGraph: {
     title: 'Explore AI Software by Category | Stack AI Tools',

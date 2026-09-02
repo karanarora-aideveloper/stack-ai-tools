@@ -5,7 +5,7 @@ import { getAllConnectors } from '@/data/claude-connectors';
 import { Sparkles, Terminal, ShieldCheck, Zap } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Top Claude Connectors & Plugins (2026): 40+ Verified MCP Servers',
+  title: { absolute: 'Claude Connectors & MCP Servers (2026)' },
   description: 'Curated directory of top Claude connectors, plugins, and Model Context Protocol (MCP) servers on GitHub in 2026. One-click Claude Desktop configs for GitHub, PostgreSQL, Notion, Slack, and web search. Curated by Karan Arora.',
   keywords: [
     'claude connectors',

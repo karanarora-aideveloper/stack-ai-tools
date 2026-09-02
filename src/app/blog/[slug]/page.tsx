@@ -51,7 +51,7 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
 
   if (!article) {
     return {
-      title: 'Article Not Found | Stack AI Tools',
+      title: { absolute: 'Article Not Found | Stack AI Tools' },
     };
   }
 
@@ -59,7 +59,10 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
   const description = article.excerpt;
 
   return {
-    title,
+    // Long-tail article titles already carry the full keyword phrase and average ~50 chars;
+    // bypass the root layout's " | Stack AI Tools" template (absolute) so they stay under
+    // Google's ~60-char display limit instead of averaging ~67 chars with the suffix appended.
+    title: { absolute: title },
     description,
     keywords: [article.primaryKeyword, article.category, 'AI tools 2026', 'review', 'guide', 'Claude 3.7', 'Karan Arora'],
     openGraph: {
