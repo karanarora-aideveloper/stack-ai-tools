@@ -322,6 +322,39 @@ serve(async (req) => {
     };
   }
 
+  // Ground the technical claim in the matched tool's real, verified data instead of a fixed
+  // fabricated benchmark percentage repeated identically across every article in the category.
+  if (matchedToolData) {
+    specificMetrics.dim1 = 'Verified Community Rating';
+    specificMetrics.v1 = `${matchedToolData.rating.toFixed(1)}/5.0 across ${matchedToolData.reviewsCount.toLocaleString()} verified reviews`;
+  }
+
+  const toolBestFor = matchedToolData?.bestFor || matchedToolData?.idealFor;
+  const toolPros = matchedToolData?.pros && matchedToolData.pros.length > 0 ? matchedToolData.pros : undefined;
+  const toolCons = matchedToolData?.cons && matchedToolData.cons.length > 0 ? matchedToolData.cons : undefined;
+
+  // Real pricing facts instead of a fixed "$165k-$220k salary, $18,400/year" ROI figure
+  // repeated identically regardless of which tool the article is actually about.
+  const priceClassLabel: Record<string, string> = {
+    free: 'completely free',
+    freemium: 'free to start, with paid tiers for production use',
+    paid: 'a paid product with no permanent free tier'
+  };
+  const pricingRealityLine = matchedToolData
+    ? `${matchedToolData.name} is ${priceClassLabel[matchedToolData.priceClass] || 'available under a ' + matchedToolData.pricingModel + ' model'}${matchedToolData.startingPrice ? `, starting at ${matchedToolData.startingPrice}` : ''}.`
+    : `Most tools in this space follow a ${cat === 'automation' ? 'usage-based or seat-based' : 'freemium'} pricing model.`;
+
+  // Editorial verdict recommendation tied to the tool's actual rating tier, instead of
+  // "Must-Deploy in 2026" on literally every single article regardless of quality.
+  const ratingForVerdict = matchedToolData?.rating ?? 4.5;
+  const recommendation = ratingForVerdict >= 4.85
+    ? 'Must-Deploy in 2026'
+    : ratingForVerdict >= 4.6
+      ? 'Strong Recommendation'
+      : ratingForVerdict >= 4.3
+        ? 'Solid Contender'
+        : 'Worth Evaluating for Specific Use Cases';
+
   // Dynamic Prompt Template
   const promptTemplate = {
     model: isClaudeTopic ? 'Claude 3.7 Sonnet (Thinking Mode)' : 'Frontier Reasoning Agent',
@@ -371,7 +404,9 @@ Analyze latency, accuracy metrics, and expected ROI for engineering teams.
       {
         heading: `1. The 2026 State of the Art: Why ${article.title} Matters`,
         directAnswer: `In 2026, ${article.primaryKeyword} represents an essential competitive capability. The top frontier solutions eliminate manual overhead by up to 85% through sub-200ms latency, native multi-modal execution, and autonomous self-correcting agent loops verified under enterprise SOC2 compliance standards.`,
-        content: `Software engineering, generative video, and automated workflow pipelines have evolved from reactive chatbots into proactive autonomous engines. When evaluating options for ${article.primaryKeyword}, teams must consider three critical dimensions: API throughput, contextual coherence across long-running tasks, and downstream ROI per user seat.`,
+        content: matchedToolData
+          ? `${matchedToolData.name} is one of the leading options here: ${matchedToolData.description} ${toolBestFor ? `It's best suited for ${toolBestFor.toLowerCase()}.` : ''} When evaluating options for ${article.primaryKeyword}, teams must consider three critical dimensions: API throughput, contextual coherence across long-running tasks, and downstream ROI per user seat.`
+          : `Software engineering, generative video, and automated workflow pipelines have evolved from reactive chatbots into proactive autonomous engines. When evaluating options for ${article.primaryKeyword}, teams must consider three critical dimensions: API throughput, contextual coherence across long-running tasks, and downstream ROI per user seat.`,
         subsections: [
           {
             title: 'From Single-Turn Prompts to Autonomous Plan-and-Solve Loops',
@@ -435,16 +470,20 @@ Analyze latency, accuracy metrics, and expected ROI for engineering teams.
       },
       {
         heading: `7. Pricing Economics, Compute Overhead & Capital ROI Breakdown`,
-        directAnswer: `Operating ${article.primaryKeyword} in production delivers an estimated 1,200%+ annual ROI for engineering teams. Saving just 4.5 hours per developer weekly yields over $18,400 per engineer annually, far exceeding software licensing and compute token costs.`,
-        content: `A common failure mode is underestimating operational compute overhead. While introductory freemium tiers are compelling for testing, commercial workloads require transparent budgeting. At typical US compensation benchmarks ($165k - $220k/yr per senior engineer), saving just 4.5 hours per engineer each week yields an annual labor ROI of over $18,400 per seat.`,
+        directAnswer: pricingRealityLine + ` Saving even a few hours of manual work per week typically justifies the cost for a production team, but the real break-even point depends on your usage volume and team size.`,
+        content: `A common failure mode is underestimating operational compute overhead. ${pricingRealityLine} While introductory freemium tiers are compelling for testing, commercial workloads require transparent budgeting against your actual usage pattern rather than a generic industry average.`,
         subsections: [
           {
-            title: 'Free vs Pro Tier Utility',
-            text: 'Free tiers offer essential sandboxing but impose daily token caps. Production commercial workloads require paid pro tiers to access dedicated compute pipelines and zero-data-retention guarantees.'
+            title: matchedToolData?.priceClass === 'free' ? 'What "Free" Actually Includes' : 'Free vs Paid Tier Utility',
+            text: matchedToolData?.priceClass === 'free'
+              ? `${matchedToolData.name} has no paid tier at all — the tradeoff is usually fewer enterprise features (SSO, dedicated support, SLAs) rather than usage caps.`
+              : `Free/trial tiers offer essential sandboxing but impose usage caps. Production commercial workloads with ${matchedToolData?.name || 'this class of tool'} typically require a paid plan (${matchedToolData?.pricingModel || 'freemium'}) to access dedicated capacity and stronger data-handling guarantees.`
           },
           {
-            title: 'Token Economics & Annual Breakeven',
-            text: 'By implementing prompt caching and intelligent context compression, high-volume teams can operate production workloads for under $120/month while serving thousands of end-user sessions.'
+            title: 'Real-World Cost Signal',
+            text: matchedToolData
+              ? `With ${matchedToolData.reviewsCount.toLocaleString()} verified reviews and a ${matchedToolData.rating.toFixed(1)}/5.0 rating, ${matchedToolData.name}'s pricing has held up to sustained real-world usage rather than just launch-week hype.`
+              : 'Look for tools with a large, sustained review base rather than launch-week hype — it is a better signal that the pricing holds up under real-world usage.'
           }
         ]
       },
@@ -521,8 +560,10 @@ Analyze latency, accuracy metrics, and expected ROI for engineering teams.
     },
     editorialVerdict: {
       score: editorialScore,
-      recommendation: 'Must-Deploy in 2026',
-      quote: `"${article.title} represents the pinnacle of 2026 artificial intelligence engineering. When paired with disciplined prompt architecture and automated telemetry, it delivers an extraordinary competitive moat." — Karan Arora`
+      recommendation,
+      quote: matchedToolData
+        ? `"${matchedToolData.name} earns a ${matchedToolData.rating.toFixed(1)}/5.0 across ${matchedToolData.reviewsCount.toLocaleString()} verified reviews.${toolPros ? ` Its biggest strength: ${toolPros[0].toLowerCase()}.` : ''}${toolCons ? ` The main tradeoff to weigh: ${toolCons[0].toLowerCase()}.` : ''}" — Karan Arora`
+        : `"${article.title} represents a genuinely useful capability for 2026 engineering teams. When paired with disciplined prompt architecture and automated telemetry, it delivers a real competitive edge." — Karan Arora`
     },
     faqs: [
       {
