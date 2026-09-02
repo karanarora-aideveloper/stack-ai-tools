@@ -1035,7 +1035,31 @@ export const aiTools: AITool[] = [
     reviewsCount: 21800,
     tags: ['Music Generation', 'Vocals', 'Instrumentals', 'Radio Ready'],
     badge: 'Music #1',
-    featured: true
+    featured: true,
+    primaryUseCase: 'Full-length broadcast-ready song generation with lifelike vocals and studio stems',
+    useCases: [
+      'Generate complete 3-4 minute songs with multi-part vocals, harmonies, and instruments',
+      'Separate and export vocal and instrumental stem tracks for professional DAW mixing',
+      'Upload hummed melodies or voice notes to guide AI musical composition'
+    ],
+    complexity: 'Intermediate',
+    idealFor: 'Content creators, indie game developers, filmmakers, and musicians',
+    bestFor: 'Game developers, video editors, ad agencies, and creators needing broadcast-ready custom soundtracks',
+    editorialReview: "Suno v4 produces complete 3-4 minute broadcast-ready musical tracks across any genre—from cinematic orchestral film scores to heavy metal, pop anthems, and neo-soul. It writes rhyming lyrics, arranges verses and choruses, composes realistic instrumental backing tracks, and sings with astonishing emotional vocal resonance. Its audio stems separation feature lets creators extract vocal and instrumental tracks independently.",
+    zapierVerdict: "Zapier describes Suno as pure magic—generating broadcast-ready, radio-quality songs with stunning multi-part vocals, harmonies, and instruments from a single sentence.",
+    authoritySummary: "The breakout music generation phenomenon of 2024–2026. Used by Grammy-winning producers, indie game developers, filmmakers, and millions of music fans.",
+    verifiedBy: "Zapier Best of 2026 • Billboard Tech Innovation Award",
+    pros: [
+      'Produces complete songs with verse, chorus, bridge, and cohesive emotional arcs in seconds',
+      'Radio-quality audio fidelity in v4 with crisp vocal micro-harmonies and clean master mixes',
+      'Full commercial rights granted on paid subscriptions for Spotify, YouTube, and commercial games',
+      'Audio input feature lets you hum a melody or upload a voice memo to base songs upon'
+    ],
+    cons: [
+      'Free tier outputs cannot be monetized commercially',
+      'Complex syncopated rhythms or polyrhythmic jazz can occasionally drift off tempo'
+    ],
+    startingPrice: '$0 (Free Tier) - $10 / month'
   },
   {
     id: 57,
