@@ -86,19 +86,28 @@ Incoming agents working on this project should focus on executing the programmat
 
 ## 5. Monetization & Earning Sources
 
-Stack AI Tools implements a 5-pillar monetization model engineered for high recurring revenue in the US market:
+Stack AI Tools implements a 5-pillar monetization model engineered for high recurring revenue in the US market. **Rollout sequencing matters more than the revenue split below implies** — see the phase note before building any pillar.
 
-1. **Recurring Affiliate Commissions (Primary Engine - 65% of Projected Revenue)**:
+### Rollout Phasing (read this before implementing monetization)
+The site is pre-trust and pre-SEO-authority right now (domain not yet connected, no ranking history, no backlink profile). Building paid/checkout surfaces before the site has earned search trust and traffic would be premature — it adds friction and legal/financial surface area (Stripe, tax handling, payout logic) before there's demand to justify it, and paid placements on a zero-authority site convert poorly anyway.
+
+**Current phase — Trust & SEO first:**
+- Pillar 1 (Recurring Affiliate Commissions) is active and in progress: wiring real affiliate program links into `data.ts` / `affiliates.ts` (no checkout or account infra required — this is link-swapping plus applying to partner programs).
+- All other monetization work (content depth, schema correctness, canonical/sitemap hygiene, backlinks, programmatic page quality) should be in service of earning organic rankings and reader trust.
+- **Do not build Stripe checkout, paid submission tiers, or sponsored placement infrastructure yet.** Treat pillars 2–4 below as the **last stage**, gated behind: domain purchased + connected, meaningful organic traffic established, and a real trust signal (backlinks, reviews, consistent indexing) in place. Revisit only when explicitly asked.
+- Pillar 5 (Prompt Packs) is a later add-on, not a near-term priority.
+
+1. **Recurring Affiliate Commissions (Primary Engine - 65% of Projected Revenue) — ACTIVE NOW**:
    - High-converting outbound affiliate links on tool cards, detailed profile pages, and category leaderboards.
    - Targeting SaaS tools with monthly/annual recurring payouts (20% to 50% recurring MRR).
-2. **Paid Tool Submissions & Expedited Review (20% of Revenue)**:
+2. **Paid Tool Submissions & Expedited Review (20% of Revenue) — DEFERRED, LAST STAGE**:
    - Standard Review: Free (queued for editorial vetting).
    - Fast-Track Review (24h turnaround + "Featured" badge): $49 - $99 one-time.
    - Permanent Do-Follow SEO Backlink + Verified Checkmark: $149 - $199 one-time.
-3. **Sponsored Category Placements & Promoted Banners (10% of Revenue)**:
+3. **Sponsored Category Placements & Promoted Banners (10% of Revenue) — DEFERRED, LAST STAGE**:
    - Top 3 Sticky placement in high-intent categories (e.g. "Coding Agents", "AI Video"): $199 - $499/month.
    - Homepage Hero Featured Spot: $350 - $750/month.
-4. **Programmatic Ad Networks (5% of Revenue at Scale)**:
+4. **Programmatic Ad Networks (5% of Revenue at Scale) — DEFERRED, LAST STAGE**:
    - Mediavine / Raptive / Google AdSense once organic US traffic exceeds 50k pageviews/mo (US tech/SaaS RPMs range between $28 - $45).
 5. **Prompt Packs & Prompt Engineering Guides**:
    - Digital downloads of curated prompt packs (Midjourney v8 prompts, Claude 5 developer prompts) priced at $19 - $39.
