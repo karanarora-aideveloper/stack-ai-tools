@@ -596,7 +596,7 @@ export default function AdminDashboard({
             <MousePointerClick size={22} />
           </div>
           <div>
-            <div className="admin-kpi-val-light">{analyticsData?.totalOutboundClicks || 219}</div>
+            <div className="admin-kpi-val-light">{analyticsData?.totalOutboundClicks ?? 0}</div>
             <div className="admin-kpi-lbl-light">Outbound Clicks (/go)</div>
           </div>
         </div>
@@ -715,7 +715,7 @@ export default function AdminDashboard({
               </div>
               <div className="affiliate-micro-stat">
                 <span className="affiliate-micro-val" style={{ color: '#4f46e5' }}>
-                  {analyticsData?.totalOutboundClicks || 219}
+                  {analyticsData?.totalOutboundClicks ?? 0}
                 </span>
                 <span className="affiliate-micro-lbl">Outbound Referrals</span>
               </div>
@@ -1229,7 +1229,7 @@ export default function AdminDashboard({
             <div className="admin-kpi-card-light">
               <div>
                 <div className="admin-kpi-val-light" style={{ color: '#4f46e5' }}>
-                  {analyticsData?.totalVisitors || 184}
+                  {analyticsData?.totalVisitors ?? 0}
                 </div>
                 <div className="admin-kpi-lbl-light">Total Unique Visitors</div>
               </div>
@@ -1237,7 +1237,7 @@ export default function AdminDashboard({
             <div className="admin-kpi-card-light">
               <div>
                 <div className="admin-kpi-val-light" style={{ color: '#059669' }}>
-                  {analyticsData?.totalOutboundClicks || 219}
+                  {analyticsData?.totalOutboundClicks ?? 0}
                 </div>
                 <div className="admin-kpi-lbl-light">Outbound Affiliate Clicks</div>
               </div>
@@ -1245,7 +1245,7 @@ export default function AdminDashboard({
             <div className="admin-kpi-card-light">
               <div>
                 <div className="admin-kpi-val-light" style={{ color: '#0284c7' }}>
-                  {analyticsData?.conversionRatePercentage || '21.4'}%
+                  {analyticsData?.conversionRatePercentage ?? 0}%
                 </div>
                 <div className="admin-kpi-lbl-light">Outbound CTR</div>
               </div>
@@ -1253,7 +1253,7 @@ export default function AdminDashboard({
             <div className="admin-kpi-card-light">
               <div>
                 <div className="admin-kpi-val-light" style={{ color: '#dc2626' }}>
-                  {analyticsData?.churnRatePercentage || '14.2'}%
+                  {analyticsData?.churnRatePercentage ?? 0}%
                 </div>
                 <div className="admin-kpi-lbl-light">Bounce / Churn Rate</div>
               </div>

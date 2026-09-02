@@ -97,3 +97,18 @@ model SystemSetting {
   value     String
   updatedAt DateTime @updatedAt
 }
+
+model AnalyticsEvent {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  eventType       String   // "pageview" | "outbound_click" | "prompt_copy" | "session_churn"
+  path            String
+  toolSlug        String?
+  toolName        String?
+  category        String?
+  destinationUrl  String?
+  sessionId       String?
+  durationSeconds Int?
+  scrollDepth     Int?
+  referrer        String?
+  createdAt       DateTime @default(now())
+}

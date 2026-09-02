@@ -16,11 +16,13 @@ import Analytics from '@/app/components/Analytics';
 import MobileDock from '@/app/components/MobileDock';
 import Navbar from '@/app/components/Navbar';
 import NewsletterCapture from '@/app/components/NewsletterCapture';
+import { Analytics as VercelAnalytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://stackaitools.com'),
   title: {
-    default: 'Stack AI Tools | Top 85+ Curated AI Tools, Autonomous Agents & Prompt Directory (2026)',
+    default: 'Stack AI Tools | Curated Directory of 200+ Frontier AI Tools, Autonomous Agents & Prompt Index (2026)',
     template: '%s | Stack AI Tools'
   },
   description: 'The authoritative directory of top artificial intelligence software, autonomous coding agents, generative media, and ready-to-use prompt templates. Founded and curated by Karan Arora.',
@@ -166,6 +168,8 @@ export default function RootLayout({
       </head>
       <body>
         <Analytics />
+        <VercelAnalytics />
+        <SpeedInsights />
         <MobileDock />
         <div id="app" className="app-container">
           <Navbar />

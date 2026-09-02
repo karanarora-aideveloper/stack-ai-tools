@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
-    const recorded = recordServerEvent(payload);
+    const recorded = await recordServerEvent(payload);
     return NextResponse.json({ success: true, eventId: recorded.id });
   } catch (err) {
     return NextResponse.json({ error: 'Failed to record event' }, { status: 500 });
@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
 
 export async function GET() {
   try {
-    const summary = getAnalyticsSummary();
+    const summary = await getAnalyticsSummary();
     return NextResponse.json(summary);
   } catch (err) {
     return NextResponse.json({ error: 'Failed to fetch analytics summary' }, { status: 500 });
