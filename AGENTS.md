@@ -16,11 +16,11 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - **Vercel Project**: `karanprojects1/stack-ai-tools` (`prj_T3HBpATYFw4aFmU4f2y3b5cf7Oiv`)
 - **Founder & Chief AI Architect**: **Karan Arora** (`karan@stackaitools.com`, `https://stackaitools.com/about`)
 - **Admin Portal**: `/admin` (Passkey protected via `ADMIN_PASSWORD`, includes Deep Analytics & Churn Tracker)
-- **Catalog Size**: 85 Frontier AI Tools, 37 Curated Prompts & 186 Prerendered Static Pages
-- **Analytics**: Dual Engine (Google Analytics 4 + PostHog) & Real-Time In-House Churn Event Store (`/api/analytics`)
+- **Catalog Size**: 222 Frontier AI Tools, 45 Curated Prompts & 500+ Prerendered Static Pages
+- **Analytics**: Triple Engine (Google Analytics 4 + PostHog + MongoDB Event Store)
 - **Primary Market**: United States (USA) & Global
 - **Status**: Live in Production on Vercel (Edge SSG & Prerendered)
-- **Last Updated**: September 1, 2026
+- **Last Updated**: September 2, 2026
 
 ### Domain Connection Instructions (When domain purchase completes)
 Once `stackaitools.com` is purchased, run:
