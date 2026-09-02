@@ -1,7 +1,38 @@
 import articlesData from '../../data/articles.json';
-import { aiTools, AITool } from '../data';
 import { VisualToolItem } from '../app/components/VisualToolList';
-import { getToolSlug, getPrisma } from './tools';
+import { getToolSlug, getPrisma, getAllTools, EnrichedTool } from './tools';
+
+// Match an article to the best real tool from the full live catalog (DB-backed, ~216 tools,
+// falling back to the ~98-tool static list only if the DB is unreachable) rather than the
+// static list alone. Tries progressively looser matches so a longer, more specific name match
+// wins over an accidental short first-word collision.
+function matchToolForArticle(article: Article, tools: EnrichedTool[]): EnrichedTool | undefined {
+  const titleLower = article.title.toLowerCase();
+  const slugLower = article.slug.toLowerCase();
+
+  // 1. Exact slug containment (most reliable — slugs are unique and specific)
+  let match = tools.find((t) => slugLower.includes(t.slug));
+  if (match) return match;
+
+  // 2. Full tool name appears in the article title (e.g. "Cursor 3.1" in a title)
+  match = tools.find((t) => titleLower.includes(t.name.toLowerCase()));
+  if (match) return match;
+
+  // 3. First two words of the tool name (reduces false positives vs. a single-word match,
+  // e.g. "Notion AI" vs. just "Notion")
+  match = tools.find((t) => {
+    const twoWords = t.name.split(' ').slice(0, 2).join(' ').toLowerCase();
+    return twoWords.length > 3 && titleLower.includes(twoWords);
+  });
+  if (match) return match;
+
+  // 4. First word only, as a last resort before falling back to category
+  match = tools.find((t) => {
+    const firstWord = t.name.split(' ')[0].toLowerCase();
+    return firstWord.length > 3 && titleLower.includes(firstWord);
+  });
+  return match;
+}
 
 export interface Article {
   id: number;
@@ -155,20 +186,20 @@ export interface DeepArticleContent {
   };
 }
 
-export function generateArticleContent(article: Article): DeepArticleContent {
+export async function generateArticleContent(article: Article): Promise<DeepArticleContent> {
   const isClaudeTopic = article.title.toLowerCase().includes('claude') || article.tags.some(t => t.toLowerCase().includes('claude'));
   const cat = article.category.toLowerCase();
 
-  // Match closest tool from directory for bidirectional linking
-  let matchedToolData: AITool | undefined = aiTools.find((t) => 
-    article.title.toLowerCase().includes(t.name.split(' ')[0].toLowerCase()) ||
-    article.slug.includes(getToolSlug(t))
-  );
+  // Match against the full live catalog (~216 tools, DB-backed) rather than the ~98-tool
+  // static list, so more articles resolve to a real, specific tool instead of falling back
+  // to a generic category default.
+  const allTools = await getAllTools();
+  let matchedToolData: EnrichedTool | undefined = matchToolForArticle(article, allTools);
 
   if (!matchedToolData) {
-    matchedToolData = aiTools.find((t) => t.category.toLowerCase() === cat) || aiTools[0];
+    matchedToolData = allTools.find((t) => t.category.toLowerCase() === cat) || allTools[0];
   }
-  const matchedToolSlug = getToolSlug(matchedToolData);
+  const matchedToolSlug = matchedToolData.slug;
 
   // Category-specific technical data and code snippets (0 boilerplate duplication)
   let codeSnippet = {
@@ -590,7 +621,7 @@ Analyze latency, accuracy metrics, and expected ROI for engineering teams.
   };
 }
 
-export function getVisualToolsForArticle(article: Article): VisualToolItem[] {
+export async function getVisualToolsForArticle(article: Article): Promise<VisualToolItem[]> {
   const categoryMap: Record<string, string> = {
     video: 'Video',
     code: 'Code',
@@ -602,22 +633,20 @@ export function getVisualToolsForArticle(article: Article): VisualToolItem[] {
 
   const targetCategory = categoryMap[article.category.toLowerCase()] || 'Code';
 
-  const matchedTools: AITool[] = [];
-  aiTools.forEach((t) => {
-    const firstName = t.name.split(' ')[0].toLowerCase();
-    if (article.title.toLowerCase().includes(firstName)) {
-      matchedTools.push(t);
-    }
-  });
+  // Match against the full live catalog (~216 tools) rather than the ~98-tool static list.
+  const allTools = await getAllTools();
 
-  const categoryTools = aiTools.filter(
-    (t) => t.category.toLowerCase() === targetCategory.toLowerCase() && !matchedTools.some((m) => m.name === t.name)
-  );
+  const directMatch = matchToolForArticle(article, allTools);
+  const matchedTools = directMatch ? [directMatch] : [];
+
+  const categoryTools = allTools
+    .filter((t) => t.category.toLowerCase() === targetCategory.toLowerCase() && !matchedTools.some((m) => m.slug === t.slug))
+    .sort((a, b) => b.reviewsCount - a.reviewsCount);
 
   const selectedTools = [...matchedTools, ...categoryTools].slice(0, 3);
 
   if (selectedTools.length < 3) {
-    const featured = aiTools.filter((t) => !selectedTools.some((s) => s.name === t.name));
+    const featured = allTools.filter((t) => !selectedTools.some((s) => s.slug === t.slug));
     selectedTools.push(...featured.slice(0, 3 - selectedTools.length));
   }
 
@@ -630,26 +659,26 @@ export function getVisualToolsForArticle(article: Article): VisualToolItem[] {
     description: tool.description || 'Frontier AI platform for autonomous workflows and enterprise productivity.',
     pricingModel: tool.pricingModel || 'Freemium',
     priceClass: tool.priceClass || 'Freemium',
-    link: tool.link,
+    link: `/go/${tool.slug}`,
     rating: tool.rating || 4.9,
     reviewsCount: tool.reviewsCount || 1200,
     rank: idx + 1,
     awardBadge: idx === 0 ? '🏆 #1 TOP PICK' : (idx === 1 ? '⚡ BEST VALUE' : '🚀 INNOVATOR'),
     primaryUseCase: tool.description || 'Frontier AI platform for autonomous workflows and enterprise productivity.',
-    idealFor: 'Engineers, Founders & Creative Operators',
+    idealFor: tool.bestFor || tool.idealFor || 'Engineers, Founders & Creative Operators',
     matchScore: tool.rating ? Math.round(tool.rating * 20) : 98,
     capabilities: [
-      { name: 'Core Accuracy & Logic', score: 98 },
-      { name: 'Execution Latency', score: 96 },
-      { name: 'API Flexibility', score: 95 }
+      { name: 'User Rating', score: Math.round((tool.rating || 4.9) * 20) },
+      { name: 'Review Volume', score: Math.min(100, Math.round(Math.log10((tool.reviewsCount || 1200) + 1) * 20)) },
+      { name: 'Category Fit', score: tool.category.toLowerCase() === targetCategory.toLowerCase() ? 100 : 80 }
     ],
-    pros: [
-      'State-of-the-art benchmark results in 2026 evaluations',
-      'Ultra-responsive latency with native streaming protocols',
-      'Tested and vetted by Karan Arora for high-volume production'
+    pros: (tool.pros && tool.pros.length > 0) ? tool.pros.slice(0, 3) : [
+      `Real user rating of ${(tool.rating || 4.9).toFixed(1)}/5.0 across ${(tool.reviewsCount || 1200).toLocaleString()} reviews`,
+      `Available under a ${tool.pricingModel || 'freemium'} pricing model`,
+      'Actively maintained and listed in the Stack AI Tools directory'
     ],
-    cons: [
-      'Advanced features require paid tier for dedicated GPU priority'
+    cons: (tool.cons && tool.cons.length > 0) ? tool.cons.slice(0, 2) : [
+      'Advanced/enterprise features may require a paid tier'
     ]
   }));
 }

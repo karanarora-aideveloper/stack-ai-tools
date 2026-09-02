@@ -103,9 +103,11 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     notFound();
   }
 
-  const content = generateArticleContent(article);
-  const relatedArticles = await getRelatedArticles(article.slug, article.category, 4);
-  const visualTools = getVisualToolsForArticle(article);
+  const [content, relatedArticles, visualTools] = await Promise.all([
+    generateArticleContent(article),
+    getRelatedArticles(article.slug, article.category, 4),
+    getVisualToolsForArticle(article)
+  ]);
 
   // Schema.org Article & FAQ JSON-LD
   const articleSchema = {
