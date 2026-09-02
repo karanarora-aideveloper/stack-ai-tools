@@ -1,7 +1,13 @@
 'use server';
 
 import { PrismaClient } from '@prisma/client';
-import { getEmailProvidersStatus, sendEmailCascade, saveProviderKey, EmailProviderConfig } from '@/lib/email/dispatcher';
+import { 
+  getEmailProvidersStatus, 
+  sendEmailCascade, 
+  saveProviderKey, 
+  testProviderConnection, 
+  EmailProviderConfig 
+} from '@/lib/email/dispatcher';
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'stackaitools2026';
 
@@ -60,6 +66,7 @@ export interface NewsletterDashboardPayload {
     unsubscribedCount: number;
     totalEmailsSent: number;
     freeCapacityPerMonth: number;
+    activeProvidersCount: number;
   };
 }
 
@@ -81,7 +88,8 @@ export async function getNewsletterDataAction(passkey: string): Promise<{ succes
     const activeCount = subscribers.filter(s => s.status === 'active').length;
     const unsubCount = subscribers.filter(s => s.status === 'unsubscribed').length;
     const totalSent = subscribers.reduce((acc, s) => acc + (s.emailsSentCount || 0), 0);
-    const freeCapacity = providers.reduce((acc, p) => acc + p.freeMonthlyLimit, 0);
+    const activeProviders = providers.filter(p => p.isConfigured);
+    const freeCapacity = activeProviders.reduce((acc, p) => acc + p.freeMonthlyLimit, 0);
 
     return {
       success: true,
@@ -123,7 +131,8 @@ export async function getNewsletterDataAction(passkey: string): Promise<{ succes
           activeSubscribers: activeCount,
           unsubscribedCount: unsubCount,
           totalEmailsSent: totalSent,
-          freeCapacityPerMonth: freeCapacity
+          freeCapacityPerMonth: freeCapacity,
+          activeProvidersCount: activeProviders.length
         }
       }
     };
@@ -181,7 +190,38 @@ export async function saveProviderKeyAction(
   }
 }
 
-// 4. Dispatch Broadcast or Test Campaign
+// 4. Save SMTP Configuration
+export async function saveSmtpConfigAction(
+  passkey: string,
+  config: { host: string; port: string; user: string; pass: string; emailFrom?: string }
+): Promise<{ success: boolean; message?: string; error?: string }> {
+  if (!verifyAuth(passkey)) return { success: false, error: 'Unauthorized' };
+
+  try {
+    const db = getPrisma();
+    await Promise.all([
+      db.systemSetting.upsert({ where: { key: 'SMTP_HOST' }, update: { value: config.host.trim() }, create: { key: 'SMTP_HOST', value: config.host.trim() } }),
+      db.systemSetting.upsert({ where: { key: 'SMTP_PORT' }, update: { value: config.port.trim() }, create: { key: 'SMTP_PORT', value: config.port.trim() } }),
+      db.systemSetting.upsert({ where: { key: 'SMTP_USER' }, update: { value: config.user.trim() }, create: { key: 'SMTP_USER', value: config.user.trim() } }),
+      db.systemSetting.upsert({ where: { key: 'SMTP_PASS' }, update: { value: config.pass.trim() }, create: { key: 'SMTP_PASS', value: config.pass.trim() } }),
+      config.emailFrom ? db.systemSetting.upsert({ where: { key: 'EMAIL_FROM' }, update: { value: config.emailFrom.trim() }, create: { key: 'EMAIL_FROM', value: config.emailFrom.trim() } }) : Promise.resolve()
+    ]);
+    return { success: true, message: 'SMTP settings saved securely!' };
+  } catch (err: any) {
+    return { success: false, error: err.message || 'Failed to save SMTP settings' };
+  }
+}
+
+// 5. Test Live Provider Connection
+export async function testProviderConnectionAction(
+  passkey: string,
+  providerId: string
+): Promise<{ success: boolean; message?: string; error?: string }> {
+  if (!verifyAuth(passkey)) return { success: false, error: 'Unauthorized' };
+  return await testProviderConnection(providerId);
+}
+
+// 6. Dispatch Broadcast or Test Campaign with STRICT Real-World Execution
 export async function sendBroadcastCampaignAction(
   passkey: string,
   payload: {
@@ -202,8 +242,6 @@ export async function sendBroadcastCampaignAction(
     return { success: false, error: 'Subject and Email Content are required' };
   }
 
-  const db = getPrisma();
-
   // A. If it's a test send
   if (isTest) {
     const target = testEmail?.trim() || 'arorakaran869@gmail.com';
@@ -215,20 +253,51 @@ export async function sendBroadcastCampaignAction(
       preferredProvider
     });
 
+    if (!result.success) {
+      return {
+        success: false,
+        error: result.error || `Failed to dispatch test email via ${result.providerUsed}`
+      };
+    }
+
+    if (result.isSimulation) {
+      return {
+        success: true,
+        message: '🧪 [DRY RUN TEST]: Dry run passed. No actual email was sent across the internet because no providers are connected.'
+      };
+    }
+
     return {
-      success: result.success,
-      message: `Test email sent to ${target} via ${result.providerUsed}`
+      success: true,
+      message: `✅ Test email successfully sent across the internet to ${target} via ${result.providerUsed.toUpperCase()}!`
     };
   }
 
   // B. Full Broadcast to Active Subscribers
   try {
+    const db = getPrisma();
     const activeSubscribers = await db.subscriber.findMany({
       where: { status: 'active' }
     });
 
     if (activeSubscribers.length === 0) {
       return { success: false, error: 'No active subscribers found in database' };
+    }
+
+    // Attempt test send on first subscriber to verify provider before creating campaign
+    const probe = await sendEmailCascade({
+      to: activeSubscribers[0].email,
+      subject,
+      html,
+      previewText,
+      preferredProvider
+    });
+
+    if (!probe.success) {
+      return {
+        success: false,
+        error: probe.error || 'Cannot broadcast: No active providers could send the email. Please verify credentials.'
+      };
     }
 
     // Create campaign record
@@ -243,11 +312,13 @@ export async function sendBroadcastCampaignAction(
       }
     });
 
-    let successfulSent = 0;
+    let successfulSent = 1; // probe succeeded
     let failedCount = 0;
-    const providersUsedSet = new Set<string>();
+    const providersUsedSet = new Set<string>([probe.providerUsed]);
 
-    for (const sub of activeSubscribers) {
+    // Send to the rest
+    for (let i = 1; i < activeSubscribers.length; i++) {
+      const sub = activeSubscribers[i];
       try {
         const res = await sendEmailCascade({
           to: sub.email,
@@ -283,7 +354,7 @@ export async function sendBroadcastCampaignAction(
 
     return {
       success: true,
-      message: `Broadcast completed! Sent to ${successfulSent} subscribers via ${Array.from(providersUsedSet).join(', ') || 'dispatcher'}.`
+      message: `Broadcast completed! Dispatched to ${successfulSent} subscribers via ${Array.from(providersUsedSet).join(', ')}.`
     };
   } catch (err: any) {
     console.error('Broadcast failed:', err);
@@ -291,7 +362,7 @@ export async function sendBroadcastCampaignAction(
   }
 }
 
-// 5. Toggle subscriber status
+// 7. Toggle subscriber status
 export async function toggleSubscriberStatusAction(
   passkey: string,
   subscriberId: string
@@ -316,7 +387,7 @@ export async function toggleSubscriberStatusAction(
   }
 }
 
-// 6. Delete subscriber
+// 8. Delete subscriber
 export async function deleteSubscriberAction(
   passkey: string,
   subscriberId: string

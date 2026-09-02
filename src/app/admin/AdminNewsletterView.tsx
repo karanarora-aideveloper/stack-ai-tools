@@ -11,20 +11,17 @@ import {
   RefreshCw, 
   Trash2, 
   Search, 
-  ShieldCheck, 
-  Info, 
-  Clock, 
   Server, 
-  Layers, 
+  Clock, 
   AlertCircle,
   Eye,
-  FileText,
   Plus,
   Key,
   ExternalLink,
-  Save,
+  Zap,
+  Lock,
   Check,
-  Zap
+  Activity
 } from 'lucide-react';
 import { 
   getNewsletterDataAction, 
@@ -33,6 +30,8 @@ import {
   deleteSubscriberAction,
   addSubscriberAction,
   saveProviderKeyAction,
+  saveSmtpConfigAction,
+  testProviderConnectionAction,
   NewsletterDashboardPayload 
 } from '@/app/actions/newsletter';
 
@@ -69,7 +68,7 @@ const TEMPLATES = {
     </div>
 
     <hr style="border: none; border-top: 1px solid rgba(255,255,255,0.08); margin: 28px 0;" />
-    <p style="font-size: 12px; color: #64748b; text-align: center; margin: 0;">You received this because you subscribed to Stack AI Tools (stackaitools.com).<br />Built & Curated by Karan Arora • Zero spam guarantee.</p>
+    <p style="font-size: 12px; color: #64748b; text-align: center; margin: 0;">You received this because you subscribed to Stack AI Tools (stackaitools.com).<br />Curated by Karan Arora • Zero spam guarantee.</p>
   </div>
 </div>`
   },
@@ -98,7 +97,6 @@ export default function AdminNewsletterView({ passkey }: AdminNewsletterViewProp
 
   // Modals & Panels
   const [showAddSubModal, setShowAddSubModal] = useState(false);
-  const [showKeyConfigModal, setShowKeyConfigModal] = useState(false);
   const [newSubEmail, setNewSubEmail] = useState('');
   const [newSubSource, setNewSubSource] = useState('admin_manual');
 
@@ -107,6 +105,16 @@ export default function AdminNewsletterView({ passkey }: AdminNewsletterViewProp
   const [resendKeyInput, setResendKeyInput] = useState('');
   const [mailersendKeyInput, setMailersendKeyInput] = useState('');
   const [savingKeyId, setSavingKeyId] = useState<string | null>(null);
+  const [testingKeyId, setTestingKeyId] = useState<string | null>(null);
+  const [testConnectionResults, setTestConnectionResults] = useState<Record<string, { success: boolean; msg: string }>>({});
+
+  // SMTP Configuration state
+  const [showSmtpDrawer, setShowSmtpDrawer] = useState(false);
+  const [smtpHost, setSmtpHost] = useState('');
+  const [smtpPort, setSmtpPort] = useState('587');
+  const [smtpUser, setSmtpUser] = useState('');
+  const [smtpPass, setSmtpPass] = useState('');
+  const [smtpFrom, setSmtpFrom] = useState('karan@stackaitools.com');
 
   // Composer State
   const [selectedTemplateKey, setSelectedTemplateKey] = useState<'frontier_dispatch' | 'new_tool_alert'>('frontier_dispatch');
@@ -136,6 +144,8 @@ export default function AdminNewsletterView({ passkey }: AdminNewsletterViewProp
   useEffect(() => {
     loadData();
   }, [passkey]);
+
+  const activeProvidersCount = data?.stats.activeProvidersCount || 0;
 
   const handleTemplateChange = (key: 'frontier_dispatch' | 'new_tool_alert') => {
     setSelectedTemplateKey(key);
@@ -184,12 +194,67 @@ export default function AdminNewsletterView({ passkey }: AdminNewsletterViewProp
     }
   };
 
+  const handleSaveSmtp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!smtpHost || !smtpUser || !smtpPass) {
+      setErrorMsg('SMTP Host, Username and Password are required');
+      return;
+    }
+    setSavingKeyId('smtp');
+    setErrorMsg('');
+
+    const res = await saveSmtpConfigAction(passkey, {
+      host: smtpHost,
+      port: smtpPort,
+      user: smtpUser,
+      pass: smtpPass,
+      emailFrom: smtpFrom
+    });
+    setSavingKeyId(null);
+    if (res.success) {
+      setStatusMsg(`✅ ${res.message}`);
+      setShowSmtpDrawer(false);
+      loadData();
+    } else {
+      setErrorMsg(res.error || 'Failed to save SMTP settings');
+    }
+  };
+
+  const handleTestConnection = async (providerId: string) => {
+    setTestingKeyId(providerId);
+    setErrorMsg('');
+    setStatusMsg('');
+
+    const res = await testProviderConnectionAction(passkey, providerId);
+    setTestingKeyId(null);
+    if (res.success) {
+      setTestConnectionResults(prev => ({
+        ...prev,
+        [providerId]: { success: true, msg: res.message || 'Connection verified successfully!' }
+      }));
+      setStatusMsg(res.message || 'Connection verified successfully!');
+      loadData();
+    } else {
+      setTestConnectionResults(prev => ({
+        ...prev,
+        [providerId]: { success: false, msg: res.error || 'Connection failed' }
+      }));
+      setErrorMsg(res.error || 'Connection failed');
+    }
+  };
+
   const handleSendTest = () => {
     if (!testEmail) {
       setErrorMsg('Please enter a test email address');
       return;
     }
-    setStatusMsg(`Dispatching test preview to ${testEmail} using module: ${preferredProvider.toUpperCase()}...`);
+
+    if (activeProvidersCount === 0 && preferredProvider !== 'simulation') {
+      setErrorMsg('❌ Cannot send: No live email providers are activated! Connect Brevo, Resend, or SMTP below first.');
+      return;
+    }
+
+    setStatusMsg(`Dispatching test preview to ${testEmail}...`);
     setErrorMsg('');
 
     startTransition(async () => {
@@ -203,7 +268,7 @@ export default function AdminNewsletterView({ passkey }: AdminNewsletterViewProp
       });
 
       if (res.success) {
-        setStatusMsg(`✅ ${res.message}`);
+        setStatusMsg(res.message || 'Test email dispatched successfully!');
         loadData();
       } else {
         setErrorMsg(res.error || 'Failed to send test email');
@@ -218,11 +283,16 @@ export default function AdminNewsletterView({ passkey }: AdminNewsletterViewProp
       return;
     }
 
+    if (activeProvidersCount === 0 && preferredProvider !== 'simulation') {
+      setErrorMsg('❌ Cannot broadcast: No active email providers are connected! Please configure at least one free provider (Brevo, Resend, or SMTP) below.');
+      return;
+    }
+
     if (!confirm(`Are you sure you want to broadcast this campaign to all ${activeCount} active subscribers using module: ${preferredProvider.toUpperCase()}?`)) {
       return;
     }
 
-    setStatusMsg(`Broadcasting to ${activeCount} subscribers via ${preferredProvider === 'auto' ? 'cascading free providers' : preferredProvider}...`);
+    setStatusMsg(`Broadcasting to ${activeCount} subscribers...`);
     setErrorMsg('');
 
     startTransition(async () => {
@@ -282,7 +352,7 @@ export default function AdminNewsletterView({ passkey }: AdminNewsletterViewProp
             Email Dispatch & Subscriber Hub
           </h2>
           <p style={{ color: '#64748b', fontSize: 13, margin: '4px 0 0 0' }}>
-            Multi-provider cascading broadcast engine. Send free newsletters to thousands using pooled provider limits.
+            Multi-provider broadcasting engine. Real external email delivery via free tiers of Brevo, Resend, or direct SMTP.
           </p>
         </div>
 
@@ -297,12 +367,12 @@ export default function AdminNewsletterView({ passkey }: AdminNewsletterViewProp
           </button>
 
           <button 
-            onClick={() => setShowKeyConfigModal(!showKeyConfigModal)}
+            onClick={() => setShowSmtpDrawer(!showSmtpDrawer)}
             className="admin-btn-light"
             style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
           >
-            <Key size={15} color="#a855f7" />
-            <span>Configure Provider Keys</span>
+            <Server size={15} color="#059669" />
+            <span>Configure SMTP Relay</span>
           </button>
 
           <button 
@@ -316,6 +386,44 @@ export default function AdminNewsletterView({ passkey }: AdminNewsletterViewProp
           </button>
         </div>
       </div>
+
+      {/* Connection Alert Banner */}
+      {activeProvidersCount === 0 ? (
+        <div style={{
+          padding: '16px 20px',
+          background: '#fffbeb',
+          border: '1px solid #fde68a',
+          borderRadius: 10,
+          color: '#92400e',
+          fontSize: 13,
+          display: 'flex',
+          alignItems: 'center',
+          gap: 12
+        }}>
+          <AlertCircle size={20} color="#d97706" style={{ flexShrink: 0 }} />
+          <div>
+            <strong>No Live Email Providers Connected Yet:</strong> Email sending is locked to prevent false dispatches.
+            Connect your free Brevo API key (300 emails/day free) or enter your SMTP credentials in the section below to unlock live broadcasting!
+          </div>
+        </div>
+      ) : (
+        <div style={{
+          padding: '12px 18px',
+          background: '#ecfdf5',
+          border: '1px solid #a7f3d0',
+          borderRadius: 10,
+          color: '#065f46',
+          fontSize: 13,
+          display: 'flex',
+          alignItems: 'center',
+          gap: 10
+        }}>
+          <CheckCircle2 size={18} color="#059669" />
+          <span>
+            <strong>{activeProvidersCount} Active Email Provider(s) Connected:</strong> Live broadcasting is unlocked across your connected free quotas.
+          </span>
+        </div>
+      )}
 
       {statusMsg && (
         <div style={{ padding: '12px 18px', background: 'rgba(16, 185, 129, 0.1)', border: '1px solid rgba(16, 185, 129, 0.3)', borderRadius: 8, color: '#059669', fontSize: 13, fontWeight: 600 }}>
@@ -344,21 +452,23 @@ export default function AdminNewsletterView({ passkey }: AdminNewsletterViewProp
         </div>
 
         <div className="admin-stat-card-light">
-          <div className="stat-title-light">Unsubscribed</div>
-          <div className="stat-val-light" style={{ color: '#94a3b8' }}>{data?.stats.unsubscribedCount || 0}</div>
-          <div className="stat-sub-light">Opted out</div>
+          <div className="stat-title-light">Active Providers</div>
+          <div className="stat-val-light" style={{ color: activeProvidersCount > 0 ? '#059669' : '#d97706' }}>
+            {activeProvidersCount} / 4
+          </div>
+          <div className="stat-sub-light">{activeProvidersCount > 0 ? 'Ready to dispatch' : 'Setup needed below'}</div>
         </div>
 
         <div className="admin-stat-card-light">
-          <div className="stat-title-light">Total Delivered</div>
+          <div className="stat-title-light">Genuine Delivered</div>
           <div className="stat-val-light" style={{ color: '#a855f7' }}>{data?.stats.totalEmailsSent || 0}</div>
-          <div className="stat-sub-light">Lifetime emails</div>
+          <div className="stat-sub-light">Zero fake logs</div>
         </div>
 
         <div className="admin-stat-card-light">
-          <div className="stat-title-light">Pooled Free Capacity</div>
-          <div className="stat-val-light" style={{ color: '#06b6d4' }}>21,000+</div>
-          <div className="stat-sub-light">Free emails / month</div>
+          <div className="stat-title-light">Active Free Capacity</div>
+          <div className="stat-val-light" style={{ color: '#06b6d4' }}>{data?.stats.freeCapacityPerMonth || 0}</div>
+          <div className="stat-sub-light">Available emails/month</div>
         </div>
       </div>
 
@@ -368,10 +478,10 @@ export default function AdminNewsletterView({ passkey }: AdminNewsletterViewProp
           <div>
             <h3 style={{ fontSize: 16, fontWeight: 700, color: '#0f172a', margin: 0, display: 'flex', alignItems: 'center', gap: 6 }}>
               <Server size={18} color="#6366f1" />
-              Email Provider Modules & Direct Key Setup
+              Email Provider Modules & Live Verification
             </h3>
             <span style={{ fontSize: 12, color: '#64748b' }}>
-              Click any provider dashboard link to get your free API key, then save it below or in Vercel.
+              Add free API keys or SMTP. Click <strong>Test Connection</strong> to verify with the vendor servers before sending.
             </span>
           </div>
 
@@ -386,9 +496,9 @@ export default function AdminNewsletterView({ passkey }: AdminNewsletterViewProp
           </a>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 16 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 18 }}>
           {/* A. Brevo */}
-          <div style={{ padding: '16px 18px', borderRadius: 10, border: '1px solid #e2e8f0', background: '#f8fafc', display: 'flex', flexDirection: 'column', gap: 10 }}>
+          <div style={{ padding: '18px 20px', borderRadius: 10, border: '1px solid #e2e8f0', background: '#f8fafc', display: 'flex', flexDirection: 'column', gap: 10 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <strong style={{ fontSize: 15, color: '#0f172a' }}>1. Brevo (Sendinblue)</strong>
               <span style={{
@@ -396,14 +506,14 @@ export default function AdminNewsletterView({ passkey }: AdminNewsletterViewProp
                 fontWeight: 700,
                 padding: '2px 8px',
                 borderRadius: 12,
-                background: data?.providers.find(p => p.id === 'brevo')?.isConfigured ? 'rgba(16, 185, 129, 0.15)' : 'rgba(245, 158, 11, 0.15)',
-                color: data?.providers.find(p => p.id === 'brevo')?.isConfigured ? '#059669' : '#d97706'
+                background: data?.providers.find(p => p.id === 'brevo')?.isConfigured ? 'rgba(16, 185, 129, 0.15)' : 'rgba(239, 68, 68, 0.12)',
+                color: data?.providers.find(p => p.id === 'brevo')?.isConfigured ? '#059669' : '#dc2626'
               }}>
-                {data?.providers.find(p => p.id === 'brevo')?.isConfigured ? '🟢 Active & Ready' : '🟡 Key Needed'}
+                {data?.providers.find(p => p.id === 'brevo')?.isConfigured ? '🟢 Active & Ready' : '🔴 Not Configured'}
               </span>
             </div>
             <div style={{ fontSize: 12, color: '#6366f1', fontWeight: 600 }}>
-              300 free emails/day • 9,000 free/mo • Unlimited contacts
+              300 free emails/day • 9,000 free/mo • Zero cost forever
             </div>
             <p style={{ fontSize: 12, color: '#64748b', margin: 0 }}>
               1. Sign up on Brevo. 2. Go to SMTP & API &gt; Generate API Key.
@@ -417,6 +527,7 @@ export default function AdminNewsletterView({ passkey }: AdminNewsletterViewProp
               <span>Get Free Brevo Key (app.brevo.com)</span>
               <ExternalLink size={12} />
             </a>
+
             <div style={{ display: 'flex', gap: 6, marginTop: 4 }}>
               <input 
                 type="password"
@@ -433,10 +544,47 @@ export default function AdminNewsletterView({ passkey }: AdminNewsletterViewProp
                 {savingKeyId === 'BREVO_API_KEY' ? 'Saving...' : 'Save'}
               </button>
             </div>
+
+            {data?.providers.find(p => p.id === 'brevo')?.isConfigured && (
+              <button
+                type="button"
+                onClick={() => handleTestConnection('brevo')}
+                disabled={testingKeyId === 'brevo'}
+                style={{
+                  padding: '6px 12px',
+                  borderRadius: 6,
+                  border: '1px solid #cbd5e1',
+                  background: '#ffffff',
+                  fontSize: 12,
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 6
+                }}
+              >
+                <Activity size={13} className={testingKeyId === 'brevo' ? 'animate-spin' : ''} />
+                <span>{testingKeyId === 'brevo' ? 'Testing Live Connection...' : 'Test Connection with Brevo'}</span>
+              </button>
+            )}
+
+            {testConnectionResults['brevo'] && (
+              <div style={{
+                fontSize: 11,
+                padding: '6px 10px',
+                borderRadius: 6,
+                background: testConnectionResults['brevo'].success ? '#ecfdf5' : '#fef2f2',
+                color: testConnectionResults['brevo'].success ? '#065f46' : '#991b1b',
+                fontWeight: 600
+              }}>
+                {testConnectionResults['brevo'].msg}
+              </div>
+            )}
           </div>
 
           {/* B. Resend */}
-          <div style={{ padding: '16px 18px', borderRadius: 10, border: '1px solid #e2e8f0', background: '#f8fafc', display: 'flex', flexDirection: 'column', gap: 10 }}>
+          <div style={{ padding: '18px 20px', borderRadius: 10, border: '1px solid #e2e8f0', background: '#f8fafc', display: 'flex', flexDirection: 'column', gap: 10 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <strong style={{ fontSize: 15, color: '#0f172a' }}>2. Resend</strong>
               <span style={{
@@ -444,10 +592,10 @@ export default function AdminNewsletterView({ passkey }: AdminNewsletterViewProp
                 fontWeight: 700,
                 padding: '2px 8px',
                 borderRadius: 12,
-                background: data?.providers.find(p => p.id === 'resend')?.isConfigured ? 'rgba(16, 185, 129, 0.15)' : 'rgba(245, 158, 11, 0.15)',
-                color: data?.providers.find(p => p.id === 'resend')?.isConfigured ? '#059669' : '#d97706'
+                background: data?.providers.find(p => p.id === 'resend')?.isConfigured ? 'rgba(16, 185, 129, 0.15)' : 'rgba(239, 68, 68, 0.12)',
+                color: data?.providers.find(p => p.id === 'resend')?.isConfigured ? '#059669' : '#dc2626'
               }}>
-                {data?.providers.find(p => p.id === 'resend')?.isConfigured ? '🟢 Active & Ready' : '🟡 Key Needed'}
+                {data?.providers.find(p => p.id === 'resend')?.isConfigured ? '🟢 Active & Ready' : '🔴 Not Configured'}
               </span>
             </div>
             <div style={{ fontSize: 12, color: '#6366f1', fontWeight: 600 }}>
@@ -465,6 +613,7 @@ export default function AdminNewsletterView({ passkey }: AdminNewsletterViewProp
               <span>Get Free Resend Key (resend.com)</span>
               <ExternalLink size={12} />
             </a>
+
             <div style={{ display: 'flex', gap: 6, marginTop: 4 }}>
               <input 
                 type="password"
@@ -481,54 +630,122 @@ export default function AdminNewsletterView({ passkey }: AdminNewsletterViewProp
                 {savingKeyId === 'RESEND_API_KEY' ? 'Saving...' : 'Save'}
               </button>
             </div>
+
+            {data?.providers.find(p => p.id === 'resend')?.isConfigured && (
+              <button
+                type="button"
+                onClick={() => handleTestConnection('resend')}
+                disabled={testingKeyId === 'resend'}
+                style={{
+                  padding: '6px 12px',
+                  borderRadius: 6,
+                  border: '1px solid #cbd5e1',
+                  background: '#ffffff',
+                  fontSize: 12,
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 6
+                }}
+              >
+                <Activity size={13} className={testingKeyId === 'resend' ? 'animate-spin' : ''} />
+                <span>{testingKeyId === 'resend' ? 'Testing Live Connection...' : 'Test Connection with Resend'}</span>
+              </button>
+            )}
+
+            {testConnectionResults['resend'] && (
+              <div style={{
+                fontSize: 11,
+                padding: '6px 10px',
+                borderRadius: 6,
+                background: testConnectionResults['resend'].success ? '#ecfdf5' : '#fef2f2',
+                color: testConnectionResults['resend'].success ? '#065f46' : '#991b1b',
+                fontWeight: 600
+              }}>
+                {testConnectionResults['resend'].msg}
+              </div>
+            )}
           </div>
 
-          {/* C. MailerSend */}
-          <div style={{ padding: '16px 18px', borderRadius: 10, border: '1px solid #e2e8f0', background: '#f8fafc', display: 'flex', flexDirection: 'column', gap: 10 }}>
+          {/* C. Direct SMTP Relay (Gmail or Domain SMTP) */}
+          <div style={{ padding: '18px 20px', borderRadius: 10, border: '1px solid #e2e8f0', background: '#f8fafc', display: 'flex', flexDirection: 'column', gap: 10 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <strong style={{ fontSize: 15, color: '#0f172a' }}>3. MailerSend</strong>
+              <strong style={{ fontSize: 15, color: '#0f172a' }}>3. Direct SMTP Relay (Gmail / Custom)</strong>
               <span style={{
                 fontSize: 11,
                 fontWeight: 700,
                 padding: '2px 8px',
                 borderRadius: 12,
-                background: data?.providers.find(p => p.id === 'mailersend')?.isConfigured ? 'rgba(16, 185, 129, 0.15)' : 'rgba(245, 158, 11, 0.15)',
-                color: data?.providers.find(p => p.id === 'mailersend')?.isConfigured ? '#059669' : '#d97706'
+                background: data?.providers.find(p => p.id === 'smtp')?.isConfigured ? 'rgba(16, 185, 129, 0.15)' : 'rgba(239, 68, 68, 0.12)',
+                color: data?.providers.find(p => p.id === 'smtp')?.isConfigured ? '#059669' : '#dc2626'
               }}>
-                {data?.providers.find(p => p.id === 'mailersend')?.isConfigured ? '🟢 Active & Ready' : '🟡 Key Needed'}
+                {data?.providers.find(p => p.id === 'smtp')?.isConfigured ? '🟢 Active & Ready' : '🔴 Not Configured'}
               </span>
             </div>
             <div style={{ fontSize: 12, color: '#6366f1', fontWeight: 600 }}>
-              100 free emails/day • 3,000 free/mo • Deliverability
+              500 free emails/day (15,000/mo) via Gmail or Custom SMTP
             </div>
             <p style={{ fontSize: 12, color: '#64748b', margin: 0 }}>
-              1. Sign up on MailerSend. 2. Email &gt; API Tokens &gt; Create Token.
+              Use Gmail with a 16-character Google App Password, or Brevo's free SMTP relay (smtp-relay.brevo.com).
             </p>
-            <a 
-              href="https://app.mailersend.com/api-tokens" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              style={{ fontSize: 12, color: '#0284c7', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 4 }}
-            >
-              <span>Get Free MailerSend Token</span>
-              <ExternalLink size={12} />
-            </a>
-            <div style={{ display: 'flex', gap: 6, marginTop: 4 }}>
-              <input 
-                type="password"
-                placeholder="Paste MAILERSEND_API_KEY..."
-                value={mailersendKeyInput}
-                onChange={e => setMailersendKeyInput(e.target.value)}
-                style={{ flex: 1, padding: '7px 10px', borderRadius: 6, border: '1px solid #cbd5e1', fontSize: 12 }}
-              />
+            <div style={{ display: 'flex', gap: 8, marginTop: 4 }}>
               <button 
-                onClick={() => handleSaveKey('MAILERSEND_API_KEY', mailersendKeyInput)}
-                disabled={savingKeyId === 'MAILERSEND_API_KEY'}
-                style={{ padding: '7px 12px', borderRadius: 6, background: '#059669', color: '#fff', border: 'none', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}
+                type="button"
+                onClick={() => setShowSmtpDrawer(true)}
+                style={{
+                  flex: 1,
+                  padding: '7px 12px',
+                  borderRadius: 6,
+                  background: '#6366f1',
+                  color: '#fff',
+                  border: 'none',
+                  fontSize: 12,
+                  fontWeight: 600,
+                  cursor: 'pointer'
+                }}
               >
-                {savingKeyId === 'MAILERSEND_API_KEY' ? 'Saving...' : 'Save'}
+                Configure SMTP Credentials
               </button>
             </div>
+
+            {data?.providers.find(p => p.id === 'smtp')?.isConfigured && (
+              <button
+                type="button"
+                onClick={() => handleTestConnection('smtp')}
+                disabled={testingKeyId === 'smtp'}
+                style={{
+                  padding: '6px 12px',
+                  borderRadius: 6,
+                  border: '1px solid #cbd5e1',
+                  background: '#ffffff',
+                  fontSize: 12,
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 6
+                }}
+              >
+                <Activity size={13} className={testingKeyId === 'smtp' ? 'animate-spin' : ''} />
+                <span>{testingKeyId === 'smtp' ? 'Verifying SMTP Handshake...' : 'Test SMTP Connection'}</span>
+              </button>
+            )}
+
+            {testConnectionResults['smtp'] && (
+              <div style={{
+                fontSize: 11,
+                padding: '6px 10px',
+                borderRadius: 6,
+                background: testConnectionResults['smtp'].success ? '#ecfdf5' : '#fef2f2',
+                color: testConnectionResults['smtp'].success ? '#065f46' : '#991b1b',
+                fontWeight: 600
+              }}>
+                {testConnectionResults['smtp'].msg}
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -542,7 +759,7 @@ export default function AdminNewsletterView({ passkey }: AdminNewsletterViewProp
               Broadcast Campaign Composer
             </h3>
             <p style={{ color: '#64748b', fontSize: 13, margin: '4px 0 0 0' }}>
-              Draft your weekly frontier dispatch, choose pre-tested templates, and choose your dispatch module.
+              Draft your weekly frontier dispatch, choose pre-tested templates, and select your dispatch module.
             </p>
           </div>
 
@@ -570,7 +787,7 @@ export default function AdminNewsletterView({ passkey }: AdminNewsletterViewProp
         <div style={{ padding: '12px 16px', background: '#f1f5f9', borderRadius: 8, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
           <span style={{ fontSize: 13, fontWeight: 700, color: '#334155', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
             <Zap size={14} color="#6366f1" />
-            Dispatch Module / Provider:
+            Active Dispatch Module:
           </span>
 
           <select 
@@ -586,19 +803,19 @@ export default function AdminNewsletterView({ passkey }: AdminNewsletterViewProp
               color: '#0f172a'
             }}
           >
-            <option value="auto">🔀 Auto-Cascade (Brevo → Resend → MailerSend → Sandbox)</option>
+            <option value="auto">🔀 Auto-Cascade (Brevo → Resend → MailerSend → SMTP)</option>
             <option value="brevo">🔵 Brevo API (Free: 300/day, 9,000/mo)</option>
             <option value="resend">🟣 Resend API (Free: 100/day, 3,000/mo)</option>
             <option value="mailersend">🟢 MailerSend API (Free: 100/day, 3,000/mo)</option>
-            <option value="smtp">🟡 Direct Custom SMTP Relay</option>
-            <option value="simulation">🧪 Sandbox Simulation (Test Mode - Zero cost)</option>
+            <option value="smtp">🟡 Direct SMTP Relay</option>
+            <option value="simulation">🧪 Dry-Run Mode (Test logic without external calls)</option>
           </select>
 
           <span style={{ fontSize: 12, color: '#64748b' }}>
-            {preferredProvider === 'auto' && 'Cascades automatically if daily limits are reached.'}
-            {preferredProvider === 'simulation' && 'Simulates full delivery without calling external APIs.'}
-            {preferredProvider === 'brevo' && 'Routes strictly through Brevo free tier.'}
-            {preferredProvider === 'resend' && 'Routes strictly through Resend free tier.'}
+            {preferredProvider === 'auto' && (activeProvidersCount > 0 ? 'Cascades across your active providers.' : '⚠️ No providers active yet.')}
+            {preferredProvider === 'brevo' && (data?.providers.find(p => p.id === 'brevo')?.isConfigured ? 'Ready to send via Brevo.' : '⚠️ Brevo key needed above.')}
+            {preferredProvider === 'resend' && (data?.providers.find(p => p.id === 'resend')?.isConfigured ? 'Ready to send via Resend.' : '⚠️ Resend key needed above.')}
+            {preferredProvider === 'smtp' && (data?.providers.find(p => p.id === 'smtp')?.isConfigured ? 'Ready to send via SMTP.' : '⚠️ SMTP setup needed above.')}
           </span>
         </div>
 
@@ -721,25 +938,31 @@ export default function AdminNewsletterView({ passkey }: AdminNewsletterViewProp
 
             <button 
               type="button"
-              disabled={isPending || (data?.stats.activeSubscribers || 0) === 0}
+              disabled={isPending || (data?.stats.activeSubscribers || 0) === 0 || (activeProvidersCount === 0 && preferredProvider !== 'simulation')}
               onClick={handleSendBroadcast}
               style={{
                 padding: '11px 24px',
                 borderRadius: 8,
-                background: 'linear-gradient(135deg, #6366f1 0%, #a855f7 100%)',
+                background: (activeProvidersCount > 0 || preferredProvider === 'simulation') 
+                  ? 'linear-gradient(135deg, #6366f1 0%, #a855f7 100%)' 
+                  : '#94a3b8',
                 color: '#ffffff',
                 border: 'none',
                 fontWeight: 700,
                 fontSize: 14,
-                cursor: 'pointer',
+                cursor: (activeProvidersCount > 0 || preferredProvider === 'simulation') ? 'pointer' : 'not-allowed',
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: 8,
-                boxShadow: '0 4px 14px rgba(99, 102, 241, 0.3)'
+                boxShadow: (activeProvidersCount > 0) ? '0 4px 14px rgba(99, 102, 241, 0.3)' : 'none'
               }}
             >
-              <Send size={15} />
-              <span>Broadcast to All {data?.stats.activeSubscribers || 0} Subscribers</span>
+              {activeProvidersCount === 0 && preferredProvider !== 'simulation' ? <Lock size={15} /> : <Send size={15} />}
+              <span>
+                {activeProvidersCount === 0 && preferredProvider !== 'simulation'
+                  ? 'Locked (Connect Provider Above to Broadcast)'
+                  : `Broadcast to All ${data?.stats.activeSubscribers || 0} Subscribers`}
+              </span>
             </button>
           </div>
         </div>
@@ -759,7 +982,6 @@ export default function AdminNewsletterView({ passkey }: AdminNewsletterViewProp
           </div>
 
           <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-            {/* Quick Add Button */}
             <button 
               onClick={() => setShowAddSubModal(true)}
               style={{
@@ -780,7 +1002,6 @@ export default function AdminNewsletterView({ passkey }: AdminNewsletterViewProp
               <span>Add Subscriber</span>
             </button>
 
-            {/* Status Filter */}
             <select 
               value={subStatusFilter} 
               onChange={(e) => setSubStatusFilter(e.target.value as any)}
@@ -791,7 +1012,6 @@ export default function AdminNewsletterView({ passkey }: AdminNewsletterViewProp
               <option value="unsubscribed">Unsubscribed</option>
             </select>
 
-            {/* Email Search */}
             <div style={{ position: 'relative', minWidth: 200 }}>
               <Search size={14} style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
               <input 
@@ -971,6 +1191,111 @@ export default function AdminNewsletterView({ passkey }: AdminNewsletterViewProp
         </div>
       )}
 
+      {/* MODAL: CONFIGURE SMTP CREDENTIALS */}
+      {showSmtpDrawer && (
+        <div className="admin-modal-backdrop-light" onClick={() => setShowSmtpDrawer(false)}>
+          <div className="admin-modal-card-light" onClick={e => e.stopPropagation()} style={{ maxWidth: 480 }}>
+            <div className="admin-modal-header-light">
+              <h3 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
+                <Server size={18} color="#059669" />
+                Configure SMTP Server Credentials
+              </h3>
+              <button onClick={() => setShowSmtpDrawer(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#94a3b8' }}>
+                <XCircle size={20} />
+              </button>
+            </div>
+            <form onSubmit={handleSaveSmtp} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+              <div style={{ fontSize: 12, color: '#64748b', background: '#f8fafc', padding: 10, borderRadius: 6 }}>
+                💡 <strong>Tip for Gmail:</strong> Host: <code>smtp.gmail.com</code>, Port: <code>587</code>, Username: your gmail address, Password: 16-character Google App Password (not your normal password).
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 10 }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: 12, fontWeight: 700, color: '#334155', marginBottom: 4 }}>
+                    SMTP Host *
+                  </label>
+                  <input 
+                    type="text" 
+                    placeholder="e.g. smtp.gmail.com or smtp.stackaitools.com"
+                    value={smtpHost}
+                    onChange={e => setSmtpHost(e.target.value)}
+                    required
+                    style={{ width: '100%', padding: '8px 10px', borderRadius: 6, border: '1px solid #cbd5e1', fontSize: 13 }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: 12, fontWeight: 700, color: '#334155', marginBottom: 4 }}>
+                    Port *
+                  </label>
+                  <input 
+                    type="text" 
+                    placeholder="587"
+                    value={smtpPort}
+                    onChange={e => setSmtpPort(e.target.value)}
+                    required
+                    style={{ width: '100%', padding: '8px 10px', borderRadius: 6, border: '1px solid #cbd5e1', fontSize: 13 }}
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: 12, fontWeight: 700, color: '#334155', marginBottom: 4 }}>
+                  SMTP Username / Email *
+                </label>
+                <input 
+                  type="text" 
+                  placeholder="e.g. karan@stackaitools.com or arorakaran869@gmail.com"
+                  value={smtpUser}
+                  onChange={e => setSmtpUser(e.target.value)}
+                  required
+                  style={{ width: '100%', padding: '8px 10px', borderRadius: 6, border: '1px solid #cbd5e1', fontSize: 13 }}
+                />
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: 12, fontWeight: 700, color: '#334155', marginBottom: 4 }}>
+                  SMTP Password / App Password *
+                </label>
+                <input 
+                  type="password" 
+                  placeholder="App Password or SMTP password"
+                  value={smtpPass}
+                  onChange={e => setSmtpPass(e.target.value)}
+                  required
+                  style={{ width: '100%', padding: '8px 10px', borderRadius: 6, border: '1px solid #cbd5e1', fontSize: 13 }}
+                />
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: 12, fontWeight: 700, color: '#334155', marginBottom: 4 }}>
+                  Sender From Address
+                </label>
+                <input 
+                  type="email" 
+                  placeholder="karan@stackaitools.com"
+                  value={smtpFrom}
+                  onChange={e => setSmtpFrom(e.target.value)}
+                  style={{ width: '100%', padding: '8px 10px', borderRadius: 6, border: '1px solid #cbd5e1', fontSize: 13 }}
+                />
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, marginTop: 10 }}>
+                <button type="button" onClick={() => setShowSmtpDrawer(false)} className="admin-btn-light">
+                  Cancel
+                </button>
+                <button 
+                  type="submit" 
+                  disabled={savingKeyId === 'smtp'}
+                  style={{ padding: '8px 18px', borderRadius: 6, background: '#059669', color: '#fff', border: 'none', fontWeight: 600, cursor: 'pointer' }}
+                >
+                  {savingKeyId === 'smtp' ? 'Saving...' : 'Save Credentials'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
       {/* 5. Campaign History & Dispatch Logs */}
       <div className="admin-table-card-light" style={{ padding: 20 }}>
         <h3 style={{ fontSize: 16, fontWeight: 700, color: '#0f172a', margin: '0 0 12px 0', display: 'flex', alignItems: 'center', gap: 6 }}>
@@ -980,7 +1305,7 @@ export default function AdminNewsletterView({ passkey }: AdminNewsletterViewProp
 
         {(data?.campaigns || []).length === 0 ? (
           <p style={{ color: '#64748b', fontSize: 13, margin: '8px 0 0 0' }}>
-            No broadcast campaigns sent yet. Send your first broadcast above!
+            No broadcast campaigns sent yet. Connect a provider above to launch your first dispatch!
           </p>
         ) : (
           <div style={{ overflowX: 'auto' }}>
