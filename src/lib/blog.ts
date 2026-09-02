@@ -6,6 +6,12 @@ import { getToolSlug, getPrisma, getAllTools, EnrichedTool } from './tools';
 // falling back to the ~98-tool static list only if the DB is unreachable) rather than the
 // static list alone. Tries progressively looser matches so a longer, more specific name match
 // wins over an accidental short first-word collision.
+// Strip a bare-domain-style suffix (e.g. "Lindy.ai" -> "Lindy") so a title that just says
+// "Lindy Review" still matches a tool whose catalog name carries a ".ai"/".io" suffix.
+function stripDomainSuffix(name: string): string {
+  return name.replace(/\.(ai|io|dev|app|co)\b/gi, '').trim();
+}
+
 function matchToolForArticle(article: Article, tools: EnrichedTool[]): EnrichedTool | undefined {
   const titleLower = article.title.toLowerCase();
   const slugLower = article.slug.toLowerCase();
@@ -14,21 +20,25 @@ function matchToolForArticle(article: Article, tools: EnrichedTool[]): EnrichedT
   let match = tools.find((t) => slugLower.includes(t.slug));
   if (match) return match;
 
-  // 2. Full tool name appears in the article title (e.g. "Cursor 3.1" in a title)
-  match = tools.find((t) => titleLower.includes(t.name.toLowerCase()));
+  // 2. Full tool name appears in the article title (e.g. "Cursor 3.1" in a title),
+  // trying both the raw name and the name with a bare ".ai"/".io" suffix stripped.
+  match = tools.find((t) => {
+    const nameLower = t.name.toLowerCase();
+    return titleLower.includes(nameLower) || titleLower.includes(stripDomainSuffix(nameLower));
+  });
   if (match) return match;
 
   // 3. First two words of the tool name (reduces false positives vs. a single-word match,
   // e.g. "Notion AI" vs. just "Notion")
   match = tools.find((t) => {
-    const twoWords = t.name.split(' ').slice(0, 2).join(' ').toLowerCase();
+    const twoWords = stripDomainSuffix(t.name).split(' ').slice(0, 2).join(' ').toLowerCase();
     return twoWords.length > 3 && titleLower.includes(twoWords);
   });
   if (match) return match;
 
   // 4. First word only, as a last resort before falling back to category
   match = tools.find((t) => {
-    const firstWord = t.name.split(' ')[0].toLowerCase();
+    const firstWord = stripDomainSuffix(t.name).split(' ')[0].toLowerCase();
     return firstWord.length > 3 && titleLower.includes(firstWord);
   });
   return match;
