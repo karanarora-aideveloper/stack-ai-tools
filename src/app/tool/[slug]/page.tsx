@@ -10,6 +10,7 @@ import {
 } from '@/lib/tools';
 import ToolLogo from '@/app/components/ToolLogo';
 import PromptCard from '@/app/components/PromptCard';
+import NewsletterCapture from '@/app/components/NewsletterCapture';
 import { 
   Star, 
   ExternalLink, 
@@ -231,11 +232,19 @@ export default async function ToolPage({ params }: ToolPageProps) {
           <div className="tool-card-box">
             <h2 className="tool-box-title">
               <Sparkles size={20} color="#818cf8" />
-              Overview & Core Capabilities
+              Genuine Editorial Review & Analysis
             </h2>
-            <p style={{ color: 'var(--text-secondary)', lineHeight: 1.7, fontSize: 15, marginBottom: 20 }}>
-              {tool.name} is classified under <strong>{tool.category}</strong> software. Engineered to support high-velocity workflows, it offers intuitive integration, deep contextual reasoning, and optimized throughput designed for modern creator and engineering stacks.
+            <p style={{ color: 'var(--text-secondary)', lineHeight: 1.75, fontSize: 15, marginBottom: 20 }}>
+              {tool.editorialReview || (
+                `${tool.name} is classified under ${tool.category} software. Engineered to support high-velocity workflows, it offers intuitive integration, deep contextual reasoning, and optimized throughput designed for modern creator and engineering stacks.`
+              )}
             </p>
+            {tool.bestFor && (
+              <div style={{ padding: '12px 16px', borderRadius: 10, background: 'rgba(99, 102, 241, 0.08)', border: '1px solid rgba(99, 102, 241, 0.2)', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 10 }}>
+                <span style={{ fontSize: 13, fontWeight: 700, color: '#a5b4fc', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Ideal For:</span>
+                <span style={{ fontSize: 14, color: '#e2e8f0' }}>{tool.bestFor}</span>
+              </div>
+            )}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               {tool.keyUseCases?.map((useCase, idx) => (
                 <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 14, color: '#e2e8f0' }}>
@@ -245,6 +254,41 @@ export default async function ToolPage({ params }: ToolPageProps) {
               ))}
             </div>
           </div>
+
+          {/* Zapier & Authority Verdict Box */}
+          {(tool.zapierVerdict || tool.authoritySummary) && (
+            <div className="tool-card-box authority-verdict-box" style={{ border: '1px solid rgba(245, 158, 11, 0.3)', background: 'linear-gradient(180deg, rgba(245, 158, 11, 0.06) 0%, rgba(15, 23, 42, 0.7) 100%)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14, flexWrap: 'wrap', gap: 8 }}>
+                <h2 className="tool-box-title" style={{ margin: 0, color: '#fef08a' }}>
+                  <ShieldCheck size={20} color="#f59e0b" />
+                  Zapier & Authority Review Verdict
+                </h2>
+                <span style={{ fontSize: 12, padding: '4px 10px', borderRadius: 20, background: 'rgba(245, 158, 11, 0.15)', color: '#fbbf24', fontWeight: 600, border: '1px solid rgba(245, 158, 11, 0.3)' }}>
+                  {tool.verifiedBy || 'Editorial Vetted'}
+                </span>
+              </div>
+              {tool.zapierVerdict && (
+                <div style={{ marginBottom: 14 }}>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: '#f59e0b', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 6 }}>
+                    Tested & Verified by Zapier Editorial:
+                  </div>
+                  <blockquote style={{ margin: 0, color: '#f8fafc', fontSize: 14.5, lineHeight: 1.65, fontStyle: 'italic', background: 'rgba(0,0,0,0.3)', padding: '14px 16px', borderRadius: 8, borderLeft: '4px solid #f59e0b' }}>
+                    "{tool.zapierVerdict}"
+                  </blockquote>
+                </div>
+              )}
+              {tool.authoritySummary && (
+                <div>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 4 }}>
+                    Industry Consensus (G2 / GitHub / ProductHunt):
+                  </div>
+                  <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: 14, lineHeight: 1.6 }}>
+                    {tool.authoritySummary}
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
 
           {/* Pros & Limitations Grid */}
           <div className="tool-card-box">
@@ -410,6 +454,15 @@ export default async function ToolPage({ params }: ToolPageProps) {
             </p>
           </div>
         </aside>
+      </div>
+
+      {/* Newsletter VIP Capture */}
+      <div style={{ marginTop: 40, marginBottom: 40 }}>
+        <NewsletterCapture 
+          source={`tool_profile_${tool.slug}`} 
+          headline={`Stay Ahead in ${tool.category} AI & Automation`}
+          subheadline={`Get weekly benchmark updates on ${tool.name}, top frontier model releases, and verified SaaS discounts delivered every Tuesday.`}
+        />
       </div>
 
       {/* Mobile Sticky CTA Bar */}

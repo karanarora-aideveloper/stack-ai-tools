@@ -15,6 +15,7 @@ import {
 import Analytics from '@/app/components/Analytics';
 import MobileDock from '@/app/components/MobileDock';
 import Navbar from '@/app/components/Navbar';
+import NewsletterCapture from '@/app/components/NewsletterCapture';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://stackaitools.com'),
@@ -217,6 +218,15 @@ export default function RootLayout({
                     <span>karan@stackaitools.com</span>
                   </a>
                 </div>
+              </div>
+
+              {/* Global Newsletter Capture */}
+              <div style={{ marginBottom: 48 }}>
+                <NewsletterCapture 
+                  source="global_footer"
+                  headline="Stay Ahead of the AI Frontier"
+                  subheadline="Subscribe to the free weekly intelligence briefing covering newly benchmarked tools, autonomous agents, and exclusive SaaS discount codes."
+                />
               </div>
 
               <div className="footer-grid">

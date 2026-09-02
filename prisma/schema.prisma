@@ -24,6 +24,13 @@ model Tool {
   badge            String?
   featured         Boolean  @default(false)
   status           String   @default("approved") // "approved" or "pending"
+  editorialReview  String?
+  zapierVerdict    String?
+  authoritySummary String?
+  pros             String[]
+  cons             String[]
+  bestFor          String?
+  verifiedBy       String?
   affiliateLink    String?
   affiliateStatus  String?
   commissionRate   String?
@@ -46,4 +53,12 @@ model Prompt {
   tags            String[]
   status          String   @default("approved")
   createdAt       DateTime @default(now())
+}
+
+model Subscriber {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  email     String   @unique
+  status    String   @default("active") // "active" | "unsubscribed"
+  source    String?  @default("website")
+  createdAt DateTime @default(now())
 }

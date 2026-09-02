@@ -19,6 +19,13 @@ export interface AITool {
   complexity?: 'Intermediate' | 'Advanced' | 'Frontier Engineering';
   idealFor?: string;
   architectureStack?: string[];
+  editorialReview?: string;
+  zapierVerdict?: string;
+  authoritySummary?: string;
+  verifiedBy?: string;
+  bestFor?: string;
+  pros?: string[];
+  cons?: string[];
 }
 
 export interface PromptItem {

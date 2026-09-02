@@ -174,6 +174,13 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
               </div>
             </div>
 
+            {tool.zapierVerdict && (
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: 11, color: '#fbbf24', background: 'rgba(251, 191, 36, 0.1)', padding: '2px 8px', borderRadius: 6, marginBottom: 8, border: '1px solid rgba(251, 191, 36, 0.2)' }}>
+                <ShieldCheck size={11} />
+                <span>Zapier & Editorial Reviewed</span>
+              </div>
+            )}
+
             <p className="tool-desc">{tool.description}</p>
 
             <div className="tool-tags">
