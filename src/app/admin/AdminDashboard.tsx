@@ -1259,9 +1259,9 @@ export default function AdminDashboard({
                 </p>
               </div>
               <div style={{ fontSize: 12, color: '#334155', lineHeight: 1.5 }}>
-                <strong style={{ color: '#0284c7' }}>3. Google Analytics 4 & PostHog:</strong>
+                <strong style={{ color: '#0284c7' }}>3. PostHog Session Replays (🟢 Active & Connected):</strong>
                 <p style={{ margin: '3px 0 0 0', color: '#64748b' }}>
-                  Client event forwarding is pre-wired in <code>Analytics.tsx</code>. Simply set <code>NEXT_PUBLIC_GA_ID</code> (GA4) or <code>NEXT_PUBLIC_POSTHOG_KEY</code> in Vercel to activate external visual funnels and session replays.
+                  Connected to Project <strong>364108</strong> (US Cloud). Recording visual heatmaps, visitor journeys, user funnels, and prompt engagement directly in your <a href="https://us.posthog.com/project/364108" target="_blank" rel="noopener noreferrer" style={{ color: '#0284c7', textDecoration: 'underline' }}>PostHog Dashboard ↗</a>.
                 </p>
               </div>
             </div>
