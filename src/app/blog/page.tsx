@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Frontier AI Blog & Research Guides (10,000+ Guides) | Stack AI Tools',
     description: '10,000+ benchmarked AI guides, Claude updates, model showdowns, and programmatic reviews for US founders and developers.',
-    url: 'https://www.stackaitools.com/blog',
+    url: 'https://stackaitools.com/blog',
     siteName: 'Stack AI Tools',
     images: [
       {

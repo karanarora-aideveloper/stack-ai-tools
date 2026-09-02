@@ -291,15 +291,25 @@ Analyze latency, accuracy metrics, and expected ROI for engineering teams.
     parameters: 'temperature=0.2 • max_tokens=16000 • thinking_budget=8000 • top_p=0.95'
   };
 
+  const updatedAtDate = new Date(article.updatedAt);
+  const formattedUpdatedAt = isNaN(updatedAtDate.getTime())
+    ? article.updatedAt
+    : updatedAtDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+  // Derive a per-tool editorial score from the matched tool's real rating (5-pt scale -> /10)
+  // instead of a fixed value repeated across every article.
+  const editorialScoreValue = matchedToolData ? Math.min(10, matchedToolData.rating * 2) : 9.4;
+  const editorialScore = `${editorialScoreValue.toFixed(1)} / 10`;
+
   return {
-    telemetryDate: 'September 2, 2026, 3:54 PM IST (Live Telemetry)',
-    intro: `As of **September 2, 2026**, artificial intelligence software has transitioned from passive assistance to mission-critical autonomous execution. Searching for **"${article.primaryKeyword}"** reflects an urgent commercial mandate among founders, software architects, and engineering leaders: to deploy verified, cost-efficient, and low-latency systems that deliver immediate capital ROI. Curated, audited, and benchmarked by **Karan Arora**, this master guide synthesizes empirical telemetry from over 222 frontier AI tools to provide an actionable, battle-tested blueprint.`,
+    telemetryDate: `Last verified ${formattedUpdatedAt}`,
+    intro: `As of **${formattedUpdatedAt}**, artificial intelligence software has transitioned from passive assistance to mission-critical autonomous execution. Searching for **"${article.primaryKeyword}"** reflects an urgent commercial mandate among founders, software architects, and engineering leaders: to deploy verified, cost-efficient, and low-latency systems that deliver immediate capital ROI. Curated, audited, and benchmarked by **Karan Arora**, this master guide synthesizes empirical telemetry from over 222 frontier AI tools to provide an actionable, battle-tested blueprint.`,
     takeaways: [
       `US monthly search intent for "${article.primaryKeyword}" commands ${article.searchVolume.toLocaleString()} queries with an average commercial CPC of $${typeof article.cpc === 'number' ? article.cpc.toFixed(2) : article.cpc}.`,
       `Frontier model architectures in 2026 have converged on hybrid reasoning (extended thinking budgets combined with sub-200ms streaming execution).`,
       `Deploying verified workflows around "${article.primaryKeyword}" reduces manual development, media synthesis, and audit latency by up to 85%.`,
       `All benchmarked tools in this research report comply with US enterprise zero-data-retention (ZDR), SOC2 Type II, and HIPAA audit constraints.`,
-      `Karan Arora's editorial scoring awards this workflow a 9.8/10 commercial viability index for 2026 engineering roadmaps.`
+      `Karan Arora's editorial scoring awards this workflow a ${editorialScore} commercial viability index for 2026 engineering roadmaps.`
     ],
     matchedTool: matchedToolData ? {
       name: matchedToolData.name,
@@ -460,7 +470,7 @@ Analyze latency, accuracy metrics, and expected ROI for engineering teams.
       ]
     },
     editorialVerdict: {
-      score: '9.8 / 10',
+      score: editorialScore,
       recommendation: 'Must-Deploy in 2026',
       quote: `"${article.title} represents the pinnacle of 2026 artificial intelligence engineering. When paired with disciplined prompt architecture and automated telemetry, it delivers an extraordinary competitive moat." — Karan Arora`
     },
@@ -483,7 +493,7 @@ Analyze latency, accuracy metrics, and expected ROI for engineering teams.
       },
       {
         question: `How often is this research report updated?`,
-        answer: `This guide was refreshed on September 2, 2026 at 3:54 PM IST. Our research directory is continuously updated with every major foundation model release and benchmark shift.`
+        answer: `This guide was last verified on ${formattedUpdatedAt}. Our research directory is continuously updated with every major foundation model release and benchmark shift.`
       }
     ]
   };

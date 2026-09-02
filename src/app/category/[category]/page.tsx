@@ -40,11 +40,11 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
     openGraph: {
       title,
       description,
-      url: `https://www.stackaitools.com/category/${category.toLowerCase()}`,
+      url: `https://stackaitools.com/category/${category.toLowerCase()}`,
       type: 'website'
     },
     alternates: {
-      canonical: `https://www.stackaitools.com/category/${category.toLowerCase()}`
+      canonical: `https://stackaitools.com/category/${category.toLowerCase()}`
     }
   };
 }
@@ -112,19 +112,19 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
         '@type': 'ListItem',
         position: 1,
         name: 'Home',
-        item: 'https://www.stackaitools.com'
+        item: 'https://stackaitools.com'
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: 'Categories',
-        item: 'https://www.stackaitools.com/categories'
+        item: 'https://stackaitools.com/categories'
       },
       {
         '@type': 'ListItem',
         position: 3,
         name: categoryName,
-        item: `https://www.stackaitools.com/category/${category.toLowerCase()}`
+        item: `https://stackaitools.com/category/${category.toLowerCase()}`
       }
     ]
   };

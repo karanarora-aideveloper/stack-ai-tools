@@ -79,12 +79,12 @@ export async function generateMetadata({ params }: SearchHubPageProps): Promise<
       'ai tools directory 2026'
     ],
     alternates: {
-      canonical: `https://www.stackaitools.com/s/${query}`,
+      canonical: `https://stackaitools.com/s/${query}`,
     },
     openGraph: {
       title,
       description,
-      url: `https://www.stackaitools.com/s/${query}`,
+      url: `https://stackaitools.com/s/${query}`,
       type: 'website',
       siteName: 'Stack AI Tools'
     },
@@ -176,7 +176,7 @@ export default async function SearchHubPage({ params }: SearchHubPageProps) {
         '@type': 'SoftwareApplication',
         name: tool.name,
         applicationCategory: tool.category,
-        url: `https://www.stackaitools.com/tool/${tool.slug}`,
+        url: `https://stackaitools.com/tool/${tool.slug}`,
         description: tool.description,
         aggregateRating: {
           '@type': 'AggregateRating',
@@ -195,19 +195,19 @@ export default async function SearchHubPage({ params }: SearchHubPageProps) {
         '@type': 'ListItem',
         position: 1,
         name: 'Home',
-        item: 'https://www.stackaitools.com'
+        item: 'https://stackaitools.com'
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: 'Search Directory',
-        item: 'https://www.stackaitools.com/categories'
+        item: 'https://stackaitools.com/categories'
       },
       {
         '@type': 'ListItem',
         position: 3,
         name: formattedTitle,
-        item: `https://www.stackaitools.com/s/${query}`
+        item: `https://stackaitools.com/s/${query}`
       }
     ]
   };

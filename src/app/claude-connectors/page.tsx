@@ -22,12 +22,12 @@ export const metadata: Metadata = {
     'readwise reader mcp server'
   ],
   alternates: {
-    canonical: 'https://www.stackaitools.com/claude-connectors',
+    canonical: 'https://stackaitools.com/claude-connectors',
   },
   openGraph: {
     title: 'Top Claude Connectors & Plugins (2026): 40+ Verified MCP Servers',
     description: 'Curated directory of top Claude connectors, plugins, and Model Context Protocol (MCP) servers on GitHub. Instant one-click configs for Claude Desktop and Claude Code CLI.',
-    url: 'https://www.stackaitools.com/claude-connectors',
+    url: 'https://stackaitools.com/claude-connectors',
     siteName: 'Stack AI Tools',
     images: [
       {

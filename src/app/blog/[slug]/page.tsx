@@ -65,7 +65,7 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
     openGraph: {
       title,
       description,
-      url: `https://www.stackaitools.com/blog/${article.slug}`,
+      url: `https://stackaitools.com/blog/${article.slug}`,
       siteName: 'Stack AI Tools',
       images: [
         {
@@ -78,7 +78,7 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
       type: 'article',
       publishedTime: article.publishedAt,
       modifiedTime: article.updatedAt,
-      authors: ['https://www.stackaitools.com/about'],
+      authors: ['https://stackaitools.com/about'],
     },
     twitter: {
       card: 'summary_large_image',
@@ -87,7 +87,7 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
       images: [article.imageUrl],
     },
     alternates: {
-      canonical: `https://www.stackaitools.com/blog/${article.slug}`,
+      canonical: `https://stackaitools.com/blog/${article.slug}`,
     },
   };
 }
@@ -117,20 +117,20 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       '@type': 'Person',
       name: 'Karan Arora',
       jobTitle: 'Founder & Chief AI Architect',
-      url: 'https://www.stackaitools.com/about'
+      url: 'https://stackaitools.com/about'
     },
     publisher: {
       '@type': 'Organization',
       name: 'Stack AI Tools',
-      url: 'https://www.stackaitools.com',
+      url: 'https://stackaitools.com',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://www.stackaitools.com/icon.svg'
+        url: 'https://stackaitools.com/icon.svg'
       }
     },
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `https://www.stackaitools.com/blog/${article.slug}`
+      '@id': `https://stackaitools.com/blog/${article.slug}`
     }
   };
 

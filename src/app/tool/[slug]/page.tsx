@@ -58,12 +58,12 @@ export async function generateMetadata({ params }: ToolPageProps): Promise<Metad
     description,
     keywords: [tool.name, `${tool.name} review`, `${tool.name} pricing`, `${tool.name} alternatives`, tool.category, 'AI tools 2026', ...(tool.tags || [])],
     alternates: {
-      canonical: `https://www.stackaitools.com/tool/${tool.slug}`,
+      canonical: `https://stackaitools.com/tool/${tool.slug}`,
     },
     openGraph: {
       title,
       description,
-      url: `https://www.stackaitools.com/tool/${tool.slug}`,
+      url: `https://stackaitools.com/tool/${tool.slug}`,
       type: 'article',
       images: [
         {
