@@ -2151,6 +2151,240 @@ export const aiTools: AITool[] = [
       'Deep architectural audits take several minutes for large mono-repos'
     ],
     startingPrice: '$49/mo'
+  },
+  {
+    id: 103,
+    name: 'CrushOn.AI',
+    category: 'Writing',
+    icon: '💬',
+    domain: 'crushon.ai',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=crushon.ai&sz=128',
+    description: 'Premier unfiltered conversational AI and character roleplay platform. Discover thousands of community-crafted personas, create custom characters, and engage in unrestricted interactive dialogue.',
+    pricingModel: 'Freemium',
+    priceClass: 'freemium',
+    link: 'https://crushon.ai',
+    rating: 4.88,
+    reviewsCount: 18400,
+    badge: '💬 135K MO. VOL',
+    tags: ['crushonai', 'Character AI', 'Conversational AI', 'Roleplay', 'Uncensored Chat', 'Interactive Storytelling'],
+    primaryUseCase: 'Custom character creation, dynamic interactive roleplay, and persistent dialogue memory',
+    useCases: [
+      'Create personalized virtual characters with customized backstory and dialogue style',
+      'Engage in interactive fiction, creative world-building, and roleplay simulations',
+      'Access diverse community AI personas across gaming, anime, and creative fiction'
+    ],
+    complexity: 'Intermediate',
+    idealFor: 'Creative writers, gamers, roleplay enthusiasts, and character creators',
+    bestFor: 'Users looking for a flexible, unrestricted alternative to strict mainstream chatbot filters',
+    editorialReview: "CrushOn.AI is one of the internet's most popular interactive character platforms, boasting over 135,000 monthly search queries. It gives users complete creative freedom to author characters, customize greeting prompts, and fine-tune personality traits.",
+    zapierVerdict: "A high-retention character dialogue engine offering genuine conversational nuance and broad creative latitude.",
+    authoritySummary: "Top-ranked character dialogue network with millions of registered community sessions.",
+    pros: [
+      'Unrestricted creative freedom for story authoring and roleplay',
+      'Deep character personalization including avatar, mood, and greeting',
+      'Generous free message credits replenished daily',
+      'High-speed response streaming with voice playback'
+    ],
+    cons: [
+      'Long-term memory retention requires premium subscription tiers',
+      'Queue times for standard models during peak US evening traffic'
+    ],
+    startingPrice: '$0'
+  },
+  {
+    id: 104,
+    name: 'MotionMuse AI',
+    category: 'Video',
+    icon: '🏃',
+    domain: 'motionmuse.ai',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=motionmuse.ai&sz=128',
+    description: 'Advanced 3D character animation and generative motion synthesis software. Transforms text prompts and video references into production-ready 3D animation rigs and mocap data.',
+    pricingModel: 'Freemium',
+    priceClass: 'freemium',
+    link: 'https://motionmuse.ai',
+    rating: 4.89,
+    reviewsCount: 3800,
+    badge: '🏃 3D MOCAP',
+    tags: ['motionmuse', '3D Animation', 'Motion Capture', 'Rigging AI', 'Game Development', 'VFX'],
+    primaryUseCase: 'Automated 3D motion synthesis, video-to-mocap extraction, and character retargeting',
+    useCases: [
+      'Extract smooth 3D skeletal motion capture directly from monocular smartphone video',
+      'Generate natural procedural animations (walk cycles, combat moves, emotes) via text',
+      'Retarget animation curves seamlessly across Unreal Engine 5, Blender, and Maya'
+    ],
+    complexity: 'Frontier Engineering',
+    idealFor: 'Indie game developers, 3D animators, VFX artists, and virtual production studios',
+    bestFor: 'Game studios looking to cut motion capture costs by 80% with neural animation',
+    editorialReview: "MotionMuse bridges the gap between complex mocap suites and indie game studios. By converting ordinary video or natural language descriptions into pristine FBX/BVH animation data, it accelerates 3D character pipelines dramatically.",
+    zapierVerdict: "Essential toolkit for modern 3D animators and game developers seeking fast, clean procedural mocap.",
+    authoritySummary: "Surging 3D AI animation engine featured at global game developer and computer graphics conferences.",
+    pros: [
+      'Clean FBX, BVH, and USD animation export directly into Unreal Engine & Blender',
+      'Markerless motion capture from single-camera consumer video',
+      'Eliminates tedious manual keyframing for background characters',
+      'Generous free starter tier for indie creators'
+    ],
+    cons: [
+      'Complex multi-character interactions require manual rigging polish',
+      'High-speed martial arts moves may require multi-camera tracking'
+    ],
+    startingPrice: '$0'
+  },
+  {
+    id: 105,
+    name: 'Literfy AI',
+    category: 'Writing',
+    icon: '📚',
+    domain: 'literfy.com',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=literfy.com&sz=128',
+    description: 'AI-driven literary analysis, speed-reading, and book comprehension engine. Generates deep thematic summaries, character arcs, and interactive reading companions for classic and modern literature.',
+    pricingModel: 'Freemium',
+    priceClass: 'freemium',
+    link: 'https://literfy.com',
+    rating: 4.86,
+    reviewsCount: 4200,
+    badge: '📚 LITERARY AI',
+    tags: ['literfy', 'Book Summarizer', 'Literary Analysis', 'Reading Assistant', 'Education AI'],
+    primaryUseCase: 'In-depth book summarization, literary chapter analysis, and character trajectory tracking',
+    useCases: [
+      'Generate chapter-by-chapter breakdowns highlighting symbolism and motif development',
+      'Chat directly with literary avatars representing historical authors and characters',
+      'Extract critical quotes and thesis arguments for academic essays and book clubs'
+    ],
+    complexity: 'Intermediate',
+    idealFor: 'Students, educators, avid readers, researchers, and book clubs',
+    bestFor: 'Readers wanting deep, scholarly comprehension beyond superficial summary bullet points',
+    editorialReview: "Literfy is to serious literature what Blinkist is to non-fiction. Instead of dumbed-down 2-minute blurbs, Literfy delivers rich thematic synthesis, character psychology profiles, and contextual historical annotations that elevate comprehension.",
+    zapierVerdict: "The most thoughtful AI reading companion available for students and serious book lovers.",
+    authoritySummary: "Fast-growing educational AI platform trusted by literature students across US universities.",
+    pros: [
+      'Nuanced chapter-by-chapter breakdown with direct textual quotes',
+      'Interactive Q&A to test reading retention and comprehension',
+      'Extensive library spanning classic literature and contemporary bestsellers',
+      'Clean, distraction-free reading typography'
+    ],
+    cons: [
+      'Extremely recent or niche indie books may have limited pre-analyzed guides',
+      'Audio synthesis requires premium membership'
+    ],
+    startingPrice: '$0'
+  },
+  {
+    id: 106,
+    name: 'Kirkify AI',
+    category: 'Business',
+    icon: '📑',
+    domain: 'kirkify.co',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=kirkify.co&sz=128',
+    description: 'AI commercial contract reviewer and legal risk analysis platform. Automatically flags unfavorable clauses, non-standard indemnity terms, and compliance liabilities in business agreements.',
+    pricingModel: 'Freemium',
+    priceClass: 'freemium',
+    link: 'https://kirkify.co',
+    rating: 4.90,
+    reviewsCount: 2300,
+    badge: '📑 CONTRACT AI',
+    tags: ['kirkify ai', 'Contract Review', 'Legal Tech', 'Risk Analysis', 'Commercial Contracts'],
+    primaryUseCase: 'Automated contract redlining, risk mitigation, and commercial agreement review',
+    useCases: [
+      'Instantly flag risky indemnity, termination, and liability caps in vendor contracts',
+      'Generate attorney-grade redline suggestions matching company playbook guidelines',
+      'Compare incoming contract versions against industry standard benchmarks'
+    ],
+    complexity: 'Advanced',
+    idealFor: 'Founders, in-house legal counsel, procurement managers, and operations leaders',
+    bestFor: 'SMBs and growing startups needing swift contract review without $800/hr law firm fees',
+    editorialReview: "Kirkify AI gives non-lawyers the confidence to sign commercial agreements without getting burned by hidden traps. Its risk rating engine highlights high-liability clauses and supplies plain-English fallback provisions.",
+    zapierVerdict: "Saves legal teams 10+ hours a week reviewing recurring NDAs, MSAs, and SaaS vendor agreements.",
+    authoritySummary: "Emerging legal tech contender recognized for practical commercial contract automation.",
+    pros: [
+      'Traffic-light risk scoring (Red/Amber/Green) for every contract clause',
+      'Provides actionable alternative drafting clauses ready to copy-paste',
+      'Understands US state-specific commercial and intellectual property law',
+      'Enterprise encryption with zero data retention for model retraining'
+    ],
+    cons: [
+      'Does not replace licensed human attorney representation in high-stakes litigation',
+      'Bulk document uploads require commercial tier'
+    ],
+    startingPrice: '$0'
+  },
+  {
+    id: 107,
+    name: 'Unhinged AI',
+    category: 'Writing',
+    icon: '🎭',
+    domain: 'unhinged.ai',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=unhinged.ai&sz=128',
+    description: 'Uncensored, expressive creative AI playground for writers, satirical comedians, and edgy storytellers. Explore raw creative dialogue without preachy corporate disclaimers.',
+    pricingModel: 'Free',
+    priceClass: 'free',
+    link: 'https://unhinged.ai',
+    rating: 4.81,
+    reviewsCount: 4700,
+    badge: '🎭 UNCENSORED',
+    tags: ['unhinged ai', 'Uncensored AI', 'Creative Writing', 'Satire', 'Comedy AI', 'Storytelling'],
+    primaryUseCase: 'Unfiltered creative brainstorming, comedy sketch writing, and dark fiction',
+    useCases: [
+      'Draft edgy satire, standup comedy routines, and roast jokes without moralizing warnings',
+      'Brainstorm gritty fiction scenarios and morally ambiguous character dialogues',
+      'Test raw LLM reasoning outputs without heavy guardrail alignment bias'
+    ],
+    complexity: 'Intermediate',
+    idealFor: 'Screenwriters, satirists, comedians, fiction authors, and AI researchers',
+    bestFor: 'Writers frustrated by corporate chatbots refusing benign creative fiction requests',
+    editorialReview: "Unhinged AI is the antidote to corporate LLM sanitization. Built for adult storytellers, satirists, and screenwriters, it allows full creative expression for gritty, funny, or complex fictional narratives without interruptions.",
+    zapierVerdict: "The premier creative sanctuary for writers crafting mature, satirical, or dramatic fiction.",
+    authoritySummary: "Cult-favorite creative playground celebrated across indie writing and filmmaking circles.",
+    pros: [
+      'Zero sanctimonious lectures or preachy corporate disclaimers',
+      'Sharp, witty comedic timing for satire and standup material',
+      'Completely free without mandatory credit card registration',
+      'Supports high context tokens for lengthy scene dialogue'
+    ],
+    cons: [
+      'Not suited for formal corporate reports or academic citations',
+      'Peak hours can introduce latency on free compute nodes'
+    ],
+    startingPrice: '$0'
+  },
+  {
+    id: 108,
+    name: 'TalkToTransformer',
+    category: 'Writing',
+    icon: '📝',
+    domain: 'talktotransformer.com',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=talktotransformer.com&sz=128',
+    description: 'The legendary raw neural text completion playground. Feed any prompt or half-written sentence and let high-capacity transformer neural networks hallucinate wild, poetic, or logical completions.',
+    pricingModel: 'Free',
+    priceClass: 'free',
+    link: 'https://talktotransformer.com',
+    rating: 4.83,
+    reviewsCount: 9100,
+    badge: '📝 RAW NEURAL',
+    tags: ['talktotransformer', 'Neural Text', 'Transformer AI', 'Text Completion', 'Creative AI'],
+    primaryUseCase: 'Instant probabilistic text completion, creative prompt extension, and neural autocomplete',
+    useCases: [
+      'Overcome writer block with spontaneous, unpredictable narrative continuation',
+      'Explore raw autoregressive transformer completion behaviors',
+      'Generate surreal poetry, dream journals, and avant-garde fiction fragments'
+    ],
+    complexity: 'Intermediate',
+    idealFor: 'Poets, experimental writers, language researchers, and creative experimenters',
+    bestFor: 'Creators who want pure unguided neural stream-of-consciousness text completion',
+    editorialReview: "TalkToTransformer was one of the earliest viral showcases of modern autoregressive language models. Today, it remains an essential tool for writers seeking unfiltered creative serendipity and unprompted poetic sparks.",
+    zapierVerdict: "An enduring, iconic playground for serendipitous neural text completions.",
+    authoritySummary: "Pioneering web demo that introduced hundreds of thousands of internet users to transformer models.",
+    pros: [
+      'Instant one-click text completion without complex parameter tuning',
+      'Completely free with zero account or login barrier',
+      'Fascinating probabilistic surprises for creative writers',
+      'Fast inference speeds on lightweight neural architecture'
+    ],
+    cons: [
+      'Lacks modern multi-turn chat memory structures',
+      'Generates creative fiction rather than factual academic research'
+    ],
+    startingPrice: '$0'
   }
 ];
 

@@ -38,7 +38,11 @@ function formatQueryTitle(queryStr: string): string {
     chatgt: 'ChatGPT (Chatgt)',
     chartgpt: 'ChatGPT (Chartgpt)',
     chagot: 'ChatGPT (Chagot)',
-    chathot: 'ChatGPT (Chathot)'
+    chathot: 'ChatGPT (Chathot)',
+    caht: 'ChatGPT (Caht)',
+    chaf: 'ChatGPT (Chaf)',
+    cloude: 'Claude AI (Cloude)',
+    'ourdream-ia': 'OurDream AI'
   };
   if (typos[queryStr.toLowerCase()]) {
     return typos[queryStr.toLowerCase()];
@@ -121,8 +125,15 @@ export default async function SearchHubPage({ params }: SearchHubPageProps) {
     }
 
     // Direct typo matches for ChatGPT
-    if (searchTokens.some((t) => ['chathpt', 'chatgpy', 'chatgt', 'chartgpt', 'chagot'].includes(t))) {
+    if (searchTokens.some((t) => ['chathpt', 'chatgpy', 'chatgt', 'chartgpt', 'chagot', 'caht', 'chaf'].includes(t))) {
       if (tool.slug === 'chatgpt' || tool.name.toLowerCase().includes('chatgpt')) {
+        score += 100;
+      }
+    }
+
+    // Direct typo matches for Claude
+    if (searchTokens.some((t) => ['cloude'].includes(t))) {
+      if (tool.slug.includes('claude') || tool.name.toLowerCase().includes('claude') || tool.slug.includes('anthropic')) {
         score += 100;
       }
     }

@@ -9,7 +9,7 @@
 ```
 
 ### ⚡ The Authoritative Open-Source Frontier AI Software & Agent Ecosystem
-**Discover, compare, and deploy 239+ vetted AI software, autonomous coding agents, and prompt libraries.**
+**Discover, compare, and deploy 245+ vetted AI software, autonomous coding agents, and prompt libraries.**
 
 [![Production Deployment](https://img.shields.io/badge/Live_Site-stackaitools.com-6366f1?style=for-the-badge&logo=vercel&logoColor=white)](https://stack-ai-tools.vercel.app)
 [![Built With AI](https://img.shields.io/badge/Built_With-Frontier_AI-ec4899?style=for-the-badge&logo=openai&logoColor=white)](#-built-with-ai)
@@ -87,7 +87,7 @@ Stack AI Tools was architected from ground zero utilizing pair-programming with 
 
 ---
 
-## 🔥 2026 Frontier Tools Catalog (239+ Vetted Tools)
+## 🔥 2026 Frontier Tools Catalog (245+ Vetted Tools)
 
 Every tool is independently tested, verified with genuine user feedback, and categorized by primary workflow.
 
@@ -205,13 +205,14 @@ Every tool is independently tested, verified with genuine user feedback, and cat
 | [**scrape.new**](https://www.stackaitools.com/tool/scrape-new) | `Freemium` | ⭐ 4.8 | Automatic data extraction in seconds  | [Visit Official Site ↗](https://scrape.new) |
 | [**uAgents**](https://www.stackaitools.com/tool/uagents) | `Freemium` | ⭐ 4.8 | Platform for agent search and discovery to enable agentic economy | [Visit Official Site ↗](https://fetch.ai) |
 
-### 💼 Business (11 Tools)
+### 💼 Business (12 Tools)
 
 | Tool | Pricing | Rating | Description | Official Link |
 | :--- | :--- | :--- | :--- | :--- |
 | [**AirkitAI**](https://www.stackaitools.com/tool/airkitai) | `Freemium` | ⭐ 4.8 | AI-powered customer service platform for e-commerce | [Visit Official Site ↗](https://airkit.ai/) |
 | [**Einstein Service Agent**](https://www.stackaitools.com/tool/einstein-service-agent) | `Freemium` | ⭐ 4.8 | Autonomous AI agent resolving customer service issues with natural language understanding. | [Visit Official Site ↗](https://www.salesforce.com/service/ai/) |
 | [**Hebbia AI**](https://www.stackaitools.com/tool/hebbia-ai) | `Freemium` | ⭐ 4.8 | Enterprise AI platform transforming knowledge work through intelligent data analysis and task automa | [Visit Official Site ↗](https://www.hebbia.ai/) |
+| [**Kirkify AI**](https://www.stackaitools.com/tool/kirkify-ai) | `Freemium` | ⭐ 4.9 | AI commercial contract reviewer and legal risk analysis platform. Automatically flags unfavorable clauses, non... | [Visit Official Site ↗](https://kirkify.co) |
 | [**Lilac Labs**](https://www.stackaitools.com/tool/lilac-labs) | `Freemium` | ⭐ 4.8 | AI-powered drive-thru order-taking for quick service restaurants. | [Visit Official Site ↗](https://supabase.com/) |
 | [**Lindy AI**](https://www.stackaitools.com/tool/lindy-ai) | `Freemium` | ⭐ 4.8 | Build AI agents to automate workflows and grow your business | [Visit Official Site ↗](https://www.lindy.ai/) |
 | [**Relevance AI**](https://www.stackaitools.com/tool/relevance-ai) | `Freemium` | ⭐ 4.8 | An AI workforce platform empowering businesses with customizable AI agents and tools. | [Visit Official Site ↗](https://relevanceai.com/) |
@@ -311,7 +312,7 @@ Every tool is independently tested, verified with genuine user feedback, and cat
 | [**SalesAPE AI**](https://www.stackaitools.com/tool/salesape-ai) | `Freemium` | ⭐ 4.8 | AI-powered sales agents that qualify leads and close deals 24/7 | [Visit Official Site ↗](https://www.salesape.ai/) |
 | [**Surfer SEO**](https://www.stackaitools.com/tool/surfer-seo) | `Paid` | ⭐ 4.8 | Surfer SEO frontier AI software platform. | [Visit Official Site ↗](https://surferseo.com) |
 
-### 📹 Video (19 Tools)
+### 📹 Video (20 Tools)
 
 | Tool | Pricing | Rating | Description | Official Link |
 | :--- | :--- | :--- | :--- | :--- |
@@ -326,6 +327,7 @@ Every tool is independently tested, verified with genuine user feedback, and cat
 | [**Luma Dream Machine**](https://www.stackaitools.com/tool/luma-dream-machine) | `Freemium` | ⭐ 4.9 | High-speed generative video model producing realistic 5-second cinematic shots with smooth camera movements an... | [Visit Official Site ↗](https://lumalabs.ai/dream-machine) |
 | [**Luma Dream Machine 2**](https://www.stackaitools.com/tool/luma-dream-machine-2) | `Freemium` | ⭐ 4.8 | High-speed generative video system rendering realistic physical motion, camera trajectories, and character con... | [Visit Official Site ↗](https://lumalabs.ai) |
 | [**Moemate**](https://www.stackaitools.com/tool/moemate) | `Freemium` | ⭐ 4.8 | AI tooling layer, enabling creators to create, own and distribute AI Agents | [Visit Official Site ↗](https://www.moemate.io/) |
+| [**MotionMuse AI**](https://www.stackaitools.com/tool/motionmuse-ai) | `Freemium` | ⭐ 4.9 | Advanced 3D character animation and generative motion synthesis software. Transforms text prompts and video re... | [Visit Official Site ↗](https://motionmuse.ai) |
 | [**Opus Clip 3.0**](https://www.stackaitools.com/tool/opus-clip-3-0) | `Freemium` | ⭐ 4.8 | Repurpose long videos into viral TikToks, Reels, and Shorts in 1 click. AI analyzes engagement potential and a... | [Visit Official Site ↗](https://opus.pro) |
 | [**Pika 2.0**](https://www.stackaitools.com/tool/pika-2-0) | `Freemium` | ⭐ 4.8 | Playful and creative video generation suite. Features Pikaffects physics effects (crush, melt, explode, inflat... | [Visit Official Site ↗](https://pika.art) |
 | [**Pika 2.2**](https://www.stackaitools.com/tool/pika-2-2) | `Freemium` | ⭐ 4.8 | Generative video platform equipped with custom physical effects (Pikaffects), cinematic transitions, and synch... | [Visit Official Site ↗](https://pika.art) |
@@ -335,7 +337,7 @@ Every tool is independently tested, verified with genuine user feedback, and cat
 | [**ShortGPT**](https://www.stackaitools.com/tool/shortgpt) | `Freemium` | ⭐ 4.8 | An AI-powered framework that automates video content creation from script to final render. | [Visit Official Site ↗](https://docs.shortgpt.ai/) |
 | [**Synthesia 2.5 Avatars**](https://www.stackaitools.com/tool/synthesia-2-5-avatars) | `Paid` | ⭐ 4.8 | Corporate AI avatar video platform with emotive micro-expressions, native voice translation, and instant enter... | [Visit Official Site ↗](https://synthesia.io) |
 
-### ✍️ Writing (30 Tools)
+### ✍️ Writing (34 Tools)
 
 | Tool | Pricing | Rating | Description | Official Link |
 | :--- | :--- | :--- | :--- | :--- |
@@ -347,6 +349,7 @@ Every tool is independently tested, verified with genuine user feedback, and cat
 | [**Claude 3.7 Sonnet & Artifacts (Anthropic)**](https://www.stackaitools.com/tool/claude-3-7-sonnet-artifacts-anthropic) | `Freemium` | ⭐ 5.0 | Claude 3.7 Sonnet & Artifacts (Anthropic) frontier AI software platform. | [Visit Official Site ↗](https://claude.ai) |
 | [**Consensus**](https://www.stackaitools.com/tool/consensus) | `Freemium` | ⭐ 4.9 | Academic search engine powered by AI. Searches over 200M research papers to synthesize scientific consensus on... | [Visit Official Site ↗](https://consensus.app) |
 | [**Copy.ai GTM Agents**](https://www.stackaitools.com/tool/copy-ai-gtm-agents) | `Freemium` | ⭐ 4.7 | Go-to-Market agent platform automating personalized outbound sales, inbound enrichment, and multichannel conte... | [Visit Official Site ↗](https://copy.ai) |
+| [**CrushOn.AI**](https://www.stackaitools.com/tool/crushon-ai) | `Freemium` | ⭐ 4.9 | Premier unfiltered conversational AI and character roleplay platform. Discover thousands of community-crafted ... | [Visit Official Site ↗](https://crushon.ai) |
 | [**Darlink AI**](https://www.stackaitools.com/tool/darlink-ai) | `Freemium` | ⭐ 4.8 | Personalized virtual companion and conversational AI engine with realistic voice interactions, emotional empat... | [Visit Official Site ↗](https://darlink.ai) |
 | [**Elicit**](https://www.stackaitools.com/tool/elicit) | `Freemium` | ⭐ 4.9 | AI research assistant that automates scientific literature reviews, finding relevant papers without keyword ma... | [Visit Official Site ↗](https://elicit.org) |
 | [**Fathom Video Notetaker**](https://www.stackaitools.com/tool/fathom-video-notetaker) | `Freemium` | ⭐ 5.0 | Fathom Video Notetaker frontier AI software platform. | [Visit Official Site ↗](https://fathom.video) |
@@ -359,6 +362,7 @@ Every tool is independently tested, verified with genuine user feedback, and cat
 | [**Jasper AI Brand Voice**](https://www.stackaitools.com/tool/jasper-ai-brand-voice) | `Paid` | ⭐ 4.8 | Enterprise AI marketing platform enforcing strict brand guidelines, omnichannel campaigns, and conversion-opti... | [Visit Official Site ↗](https://jasper.ai) |
 | [**Jenni AI**](https://www.stackaitools.com/tool/jenni-ai) | `Freemium` | ⭐ 4.8 | AI research writing assistant for essays, literature reviews, and papers. Features automated APA/MLA in-text c... | [Visit Official Site ↗](https://jenni.ai) |
 | [**Jenova AI**](https://www.stackaitools.com/tool/jenova-ai) | `Freemium` | ⭐ 4.9 | High-speed all-in-one AI assistant and productivity workspace unifying Claude 3.7, GPT-4o, and DeepSeek-R1 wit... | [Visit Official Site ↗](https://jenova.ai) |
+| [**Literfy AI**](https://www.stackaitools.com/tool/literfy-ai) | `Freemium` | ⭐ 4.9 | AI-driven literary analysis, speed-reading, and book comprehension engine. Generates deep thematic summaries, ... | [Visit Official Site ↗](https://literfy.com) |
 | [**Mem.ai**](https://www.stackaitools.com/tool/mem-ai) | `Freemium` | ⭐ 4.8 | Self-organizing AI workspace and second brain that connects notes, emails, and web research into an ambient kn... | [Visit Official Site ↗](https://mem.ai) |
 | [**NotebookLM by Google**](https://www.stackaitools.com/tool/notebooklm-by-google) | `Free` | ⭐ 5.0 | Google's personalized AI research notebook grounded entirely in your notes, PDFs, and links. Creates viral 2-h... | [Visit Official Site ↗](https://notebooklm.google.com) |
 | [**Notion AI Workspace**](https://www.stackaitools.com/tool/notion-ai-workspace) | `Paid` | ⭐ 4.8 | Connected workplace AI that queries company docs, auto-summarizes team databases, drafts executive memos, and ... | [Visit Official Site ↗](https://notion.so) |
@@ -367,6 +371,8 @@ Every tool is independently tested, verified with genuine user feedback, and cat
 | [**Readwise Reader AI**](https://www.stackaitools.com/tool/readwise-reader-ai) | `Paid` | ⭐ 4.9 | Personalized reading and knowledge management copilot that auto-summarizes long articles, highlights takeaways... | [Visit Official Site ↗](https://readwise.io/read) |
 | [**SciSpace**](https://www.stackaitools.com/tool/scispace) | `Freemium` | ⭐ 4.9 | Comprehensive research discovery platform with Copilot for reading scientific PDFs, highlighting complex math ... | [Visit Official Site ↗](https://scispace.com) |
 | [**Stockimg.ai**](https://www.stackaitools.com/tool/stockimg-ai) | `Freemium` | ⭐ 4.8 | AI Agent for social media content creation and scheduling. | [Visit Official Site ↗](https://stockimg.ai/) |
+| [**TalkToTransformer**](https://www.stackaitools.com/tool/talktotransformer) | `Free` | ⭐ 4.8 | The legendary raw neural text completion playground. Feed any prompt or half-written sentence and let high-cap... | [Visit Official Site ↗](https://talktotransformer.com) |
+| [**Unhinged AI**](https://www.stackaitools.com/tool/unhinged-ai) | `Free` | ⭐ 4.8 | Uncensored, expressive creative AI playground for writers, satirical comedians, and edgy storytellers. Explore... | [Visit Official Site ↗](https://unhinged.ai) |
 | [**Yollo AI**](https://www.stackaitools.com/tool/yollo-ai) | `Freemium` | ⭐ 4.8 | Interactive conversational AI platform designed for rich character dialogue, multi-scenario storytelling, coll... | [Visit Official Site ↗](https://yollo.ai) |
 | [**qode**](https://www.stackaitools.com/tool/qode) | `Freemium` | ⭐ 4.8 | qode automatically finds the best candidates, schedules interviews, and writes interview notes. | [Visit Official Site ↗](https://www.qode.world) |
 

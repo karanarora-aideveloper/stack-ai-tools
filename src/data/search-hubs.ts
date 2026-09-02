@@ -8,6 +8,66 @@ export interface SearchHub {
 
 export const TOP_SEARCH_HUBS: SearchHub[] = [
   {
+    slug: "caht",
+    query: "caht",
+    volume: 246000,
+    cpc: 0.04
+  },
+  {
+    slug: "crushonai",
+    query: "crushonai",
+    volume: 135000,
+    cpc: 0.85
+  },
+  {
+    slug: "cloude",
+    query: "cloude",
+    volume: 49500,
+    cpc: 0.45
+  },
+  {
+    slug: "motionmuse",
+    query: "motionmuse",
+    volume: 27100,
+    cpc: 0.90
+  },
+  {
+    slug: "ourdream-ia",
+    query: "ourdream.ia",
+    volume: 27100,
+    cpc: 1.24
+  },
+  {
+    slug: "literfy",
+    query: "literfy",
+    volume: 18100,
+    cpc: 0.65
+  },
+  {
+    slug: "chaf",
+    query: "chaf",
+    volume: 8100,
+    cpc: 0.04
+  },
+  {
+    slug: "kirkify-ai",
+    query: "kirkify ai",
+    volume: 8100,
+    cpc: 2.10
+  },
+  {
+    slug: "unhinged-ai",
+    query: "unhinged ai",
+    volume: 1600,
+    cpc: 0.50
+  },
+  {
+    slug: "talktotransformer",
+    query: "talktotransformer",
+    volume: 1300,
+    cpc: 0.30
+  },
+  {
     slug: "chathpt",
     query: "chathpt",
     volume: 331000,
