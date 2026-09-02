@@ -38,7 +38,7 @@ export const dynamicParams = true;
 export const revalidate = 3600;
 
 export async function generateStaticParams() {
-  const articles = getAllArticles();
+  const articles = await getAllArticles();
   // Pre-render the top 50 articles at build time, remaining resolve via ISR
   return articles.slice(0, 50).map((a) => ({
     slug: a.slug,
@@ -47,7 +47,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: ArticlePageProps): Promise<Metadata> {
   const { slug } = await params;
-  const article = getArticleBySlug(slug);
+  const article = await getArticleBySlug(slug);
 
   if (!article) {
     return {
@@ -94,14 +94,14 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
 
 export default async function ArticlePage({ params }: ArticlePageProps) {
   const { slug } = await params;
-  const article = getArticleBySlug(slug);
+  const article = await getArticleBySlug(slug);
 
   if (!article) {
     notFound();
   }
 
   const content = generateArticleContent(article);
-  const relatedArticles = getRelatedArticles(article.slug, article.category, 4);
+  const relatedArticles = await getRelatedArticles(article.slug, article.category, 4);
   const visualTools = getVisualToolsForArticle(article);
 
   // Schema.org Article & FAQ JSON-LD

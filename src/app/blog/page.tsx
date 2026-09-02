@@ -38,7 +38,7 @@ export const metadata: Metadata = {
 };
 
 export default async function BlogPage() {
-  const articles = getAllArticles();
+  const articles = await getAllArticles();
 
   const blogSchema = {
     '@context': 'https://schema.org',

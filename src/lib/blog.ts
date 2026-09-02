@@ -1,7 +1,7 @@
 import articlesData from '../../data/articles.json';
 import { aiTools, AITool } from '../data';
 import { VisualToolItem } from '../app/components/VisualToolList';
-import { getToolSlug } from './tools';
+import { getToolSlug, getPrisma } from './tools';
 
 export interface Article {
   id: number;
@@ -23,39 +23,89 @@ export interface Article {
   tags: string[];
 }
 
-const allArticlesList: Article[] = articlesData as Article[];
-const articleSlugMap = new Map<string, Article>();
-const categoryArticlesMap = new Map<string, Article[]>();
+// Static dataset kept only as a fallback for when the DB is unreachable or empty —
+// the database (Article collection) is the source of truth, matching the Tool/Prompt pattern.
+const staticArticlesList: Article[] = articlesData as Article[];
 
-for (const a of allArticlesList) {
-  articleSlugMap.set(a.slug, a);
-  const cat = a.category.toLowerCase();
-  if (!categoryArticlesMap.has(cat)) {
-    categoryArticlesMap.set(cat, []);
+let articlesCache: { data: Article[]; timestamp: number } | null = null;
+const ARTICLES_CACHE_TTL_MS = 60 * 1000;
+
+async function fetchWithTimeout<T>(promise: Promise<T>, ms = 20000): Promise<T> {
+  return Promise.race([
+    promise,
+    new Promise<T>((_, reject) => setTimeout(() => reject(new Error('DB query timeout')), ms))
+  ]);
+}
+
+export async function getAllArticles(): Promise<Article[]> {
+  const now = Date.now();
+  if (articlesCache && (now - articlesCache.timestamp) < ARTICLES_CACHE_TTL_MS) {
+    return articlesCache.data;
   }
-  categoryArticlesMap.get(cat)!.push(a);
+
+  try {
+    const db = getPrisma();
+    const dbArticles = await fetchWithTimeout(db.article.findMany({
+      where: { status: 'approved' }
+    }), 20000);
+
+    if (dbArticles && dbArticles.length > 0) {
+      const mapped: Article[] = dbArticles
+        .sort((a, b) => a.legacyId - b.legacyId)
+        .map((a) => ({
+          id: a.legacyId,
+          slug: a.slug,
+          title: a.title,
+          category: a.category,
+          primaryKeyword: a.primaryKeyword,
+          searchVolume: a.searchVolume,
+          difficulty: a.difficulty,
+          cpc: a.cpc,
+          readTime: a.readTime,
+          featured: a.featured,
+          excerpt: a.excerpt,
+          imageUrl: a.imageUrl,
+          author: a.author,
+          authorRole: a.authorRole,
+          publishedAt: a.publishedAt,
+          updatedAt: a.updatedAt,
+          tags: a.tags || []
+        }));
+
+      articlesCache = { data: mapped, timestamp: now };
+      return mapped;
+    }
+  } catch (e) {
+    // Graceful fallback to static dataset
+  }
+
+  articlesCache = { data: staticArticlesList, timestamp: now };
+  return staticArticlesList;
 }
 
-export function getAllArticles(): Article[] {
-  return allArticlesList;
+export async function getArticleBySlug(slug: string): Promise<Article | undefined> {
+  const articles = await getAllArticles();
+  return articles.find((a) => a.slug === slug);
 }
 
-export function getArticleBySlug(slug: string): Article | undefined {
-  return articleSlugMap.get(slug);
+export async function getFeaturedArticles(): Promise<Article[]> {
+  const articles = await getAllArticles();
+  return articles.filter((a) => a.featured).slice(0, 12);
 }
 
-export function getFeaturedArticles(): Article[] {
-  return allArticlesList.filter((a) => a.featured).slice(0, 12);
+export async function getArticlesByCategory(category: string): Promise<Article[]> {
+  const articles = await getAllArticles();
+  if (category === 'all') return articles;
+  const cat = category.toLowerCase();
+  return articles.filter((a) => a.category.toLowerCase() === cat);
 }
 
-export function getArticlesByCategory(category: string): Article[] {
-  if (category === 'all') return allArticlesList;
-  return categoryArticlesMap.get(category.toLowerCase()) || [];
-}
-
-export function getRelatedArticles(currentSlug: string, category: string, limit = 4): Article[] {
-  const catArticles = categoryArticlesMap.get(category.toLowerCase()) || allArticlesList;
-  return catArticles.filter((a) => a.slug !== currentSlug).slice(0, limit);
+export async function getRelatedArticles(currentSlug: string, category: string, limit = 4): Promise<Article[]> {
+  const articles = await getAllArticles();
+  const cat = category.toLowerCase();
+  const catArticles = articles.filter((a) => a.category.toLowerCase() === cat);
+  const pool = catArticles.length > 0 ? catArticles : articles;
+  return pool.filter((a) => a.slug !== currentSlug).slice(0, limit);
 }
 
 export interface DeepArticleContent {

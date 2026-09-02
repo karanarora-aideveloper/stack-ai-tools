@@ -95,7 +95,7 @@ export default async function ToolPage({ params }: ToolPageProps) {
     getPromptsForTool(tool.name)
   ]);
 
-  const allArticles = getAllArticles();
+  const allArticles = await getAllArticles();
   const toolFirstWord = tool.name.split(' ')[0].toLowerCase();
   const relatedBlogArticles = allArticles.filter(a => 
     a.title.toLowerCase().includes(toolFirstWord) || 

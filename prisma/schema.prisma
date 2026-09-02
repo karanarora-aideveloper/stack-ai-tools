@@ -55,6 +55,29 @@ model Prompt {
   createdAt       DateTime @default(now())
 }
 
+model Article {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  legacyId       Int      @unique
+  slug           String   @unique
+  title          String
+  category       String
+  primaryKeyword String
+  searchVolume   Int      @default(0)
+  difficulty     Int      @default(0)
+  cpc            String   @default("0")
+  readTime       String   @default("5 min read")
+  featured       Boolean  @default(false)
+  excerpt        String
+  imageUrl       String
+  author         String   @default("Karan Arora")
+  authorRole     String   @default("Founder & Chief AI Architect")
+  publishedAt    String
+  updatedAt      String
+  tags           String[]
+  status         String   @default("approved")
+  createdAt      DateTime @default(now())
+}
+
 model Subscriber {
   id                 String    @id @default(auto()) @map("_id") @db.ObjectId
   email              String    @unique

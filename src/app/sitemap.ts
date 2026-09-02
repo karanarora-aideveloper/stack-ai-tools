@@ -6,12 +6,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://stackaitools.com';
   const currentDate = new Date().toISOString();
 
-  const [tools, categories] = await Promise.all([
+  const [tools, categories, articles] = await Promise.all([
     getAllTools(),
-    getAllCategories()
+    getAllCategories(),
+    getAllArticles()
   ]);
-
-  const articles = getAllArticles();
 
   // 1. Static Core Landing Pages
   const staticRoutes: MetadataRoute.Sitemap = [
