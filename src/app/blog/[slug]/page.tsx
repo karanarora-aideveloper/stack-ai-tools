@@ -55,7 +55,7 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
     };
   }
 
-  const title = `${article.title} | Stack AI Tools`;
+  const title = article.title;
   const description = article.excerpt;
 
   return {
