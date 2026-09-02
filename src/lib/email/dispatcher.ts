@@ -13,6 +13,9 @@ export interface EmailProviderConfig {
   freeDailyLimit: number;
   isConfigured: boolean;
   notes: string;
+  dashboardUrl: string;
+  keyEnvName: string;
+  instructions: string;
 }
 
 export interface SendEmailOptions {
@@ -21,6 +24,7 @@ export interface SendEmailOptions {
   html: string;
   previewText?: string;
   campaignId?: string;
+  preferredProvider?: 'auto' | 'brevo' | 'resend' | 'mailersend' | 'smtp' | 'simulation';
 }
 
 export interface DispatchResult {
@@ -30,23 +34,64 @@ export interface DispatchResult {
   error?: string;
 }
 
+// Helper to get key from either Database SystemSetting or process.env
+export async function getSettingOrEnv(key: string): Promise<string | undefined> {
+  try {
+    const db = getPrisma();
+    const setting = await db.systemSetting.findUnique({ where: { key } });
+    if (setting && setting.value) return setting.value;
+  } catch (e) {
+    // Database fallback
+  }
+  return process.env[key];
+}
+
+// Helper to save key directly from Admin UI
+export async function saveProviderKey(key: string, value: string): Promise<boolean> {
+  try {
+    const db = getPrisma();
+    await db.systemSetting.upsert({
+      where: { key },
+      update: { value },
+      create: { key, value }
+    });
+    return true;
+  } catch (e) {
+    console.error('Failed to save provider key:', e);
+    return false;
+  }
+}
+
 // Get live status of all free email provider integrations
-export function getEmailProvidersStatus(): EmailProviderConfig[] {
+export async function getEmailProvidersStatus(): Promise<EmailProviderConfig[]> {
+  const [brevoKey, resendKey, mailersendKey, smtpHost] = await Promise.all([
+    getSettingOrEnv('BREVO_API_KEY'),
+    getSettingOrEnv('RESEND_API_KEY'),
+    getSettingOrEnv('MAILERSEND_API_KEY'),
+    getSettingOrEnv('SMTP_HOST')
+  ]);
+
   return [
     {
       id: 'brevo',
       name: 'Brevo (formerly Sendinblue)',
       freeMonthlyLimit: 9000,
       freeDailyLimit: 300,
-      isConfigured: Boolean(process.env.BREVO_API_KEY),
-      notes: '300 emails/day completely free forever. Unlimited contacts, DKIM custom domain verified.'
+      isConfigured: Boolean(brevoKey),
+      keyEnvName: 'BREVO_API_KEY',
+      dashboardUrl: 'https://app.brevo.com/settings/keys/api',
+      instructions: '1. Create free Brevo account. 2. Go to Settings > SMTP & API > API Keys. 3. Click "Generate a new API key". 4. Paste it here.',
+      notes: '300 emails/day completely free forever (9,000/mo). Unlimited contacts, DKIM custom domain verification.'
     },
     {
       id: 'resend',
       name: 'Resend',
       freeMonthlyLimit: 3000,
       freeDailyLimit: 100,
-      isConfigured: Boolean(process.env.RESEND_API_KEY),
+      isConfigured: Boolean(resendKey),
+      keyEnvName: 'RESEND_API_KEY',
+      dashboardUrl: 'https://resend.com/api-keys',
+      instructions: '1. Sign up on resend.com. 2. Go to API Keys > Create API Key. 3. Verify custom domain (stackaitools.com) under Domains. 4. Paste key here.',
       notes: '3,000 emails/month (100/day). Premier developer DX, custom domain support.'
     },
     {
@@ -54,7 +99,10 @@ export function getEmailProvidersStatus(): EmailProviderConfig[] {
       name: 'MailerSend',
       freeMonthlyLimit: 3000,
       freeDailyLimit: 100,
-      isConfigured: Boolean(process.env.MAILERSEND_API_KEY),
+      isConfigured: Boolean(mailersendKey),
+      keyEnvName: 'MAILERSEND_API_KEY',
+      dashboardUrl: 'https://app.mailersend.com/api-tokens',
+      instructions: '1. Create free MailerSend account. 2. Go to Email > API Tokens > Create token. 3. Paste key here.',
       notes: '3,000 free emails/month. High inbox deliverability.'
     },
     {
@@ -62,7 +110,10 @@ export function getEmailProvidersStatus(): EmailProviderConfig[] {
       name: 'Direct Custom Domain SMTP',
       freeMonthlyLimit: 15000,
       freeDailyLimit: 500,
-      isConfigured: Boolean(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS),
+      isConfigured: Boolean(smtpHost),
+      keyEnvName: 'SMTP_HOST',
+      dashboardUrl: 'https://dash.cloudflare.com',
+      instructions: 'Configure SMTP relay (Cloudflare Email Routing, Google Workspace, or private SMTP server).',
       notes: 'Direct SMTP relay on custom domain (stackaitools.com).'
     },
     {
@@ -71,6 +122,9 @@ export function getEmailProvidersStatus(): EmailProviderConfig[] {
       freeMonthlyLimit: 100000,
       freeDailyLimit: 10000,
       isConfigured: true,
+      keyEnvName: 'SIMULATION_MODE',
+      dashboardUrl: '#',
+      instructions: 'Always active. Simulates dispatches and saves full logs without spending third-party credits.',
       notes: 'Safe testing sandbox for previewing campaigns without spending provider credits.'
     }
   ];
@@ -78,11 +132,11 @@ export function getEmailProvidersStatus(): EmailProviderConfig[] {
 
 // 1. Send via Brevo Free API
 async function sendViaBrevo(options: SendEmailOptions): Promise<DispatchResult> {
-  const apiKey = process.env.BREVO_API_KEY;
+  const apiKey = await getSettingOrEnv('BREVO_API_KEY');
   if (!apiKey) throw new Error('BREVO_API_KEY not configured');
 
-  const senderEmail = process.env.EMAIL_FROM || 'karan@stackaitools.com';
-  const senderName = process.env.EMAIL_FROM_NAME || 'Karan Arora | Stack AI Tools';
+  const senderEmail = (await getSettingOrEnv('EMAIL_FROM')) || 'karan@stackaitools.com';
+  const senderName = (await getSettingOrEnv('EMAIL_FROM_NAME')) || 'Karan Arora | Stack AI Tools';
 
   const res = await fetch('https://api.brevo.com/v3/smtp/email', {
     method: 'POST',
@@ -110,11 +164,11 @@ async function sendViaBrevo(options: SendEmailOptions): Promise<DispatchResult> 
 
 // 2. Send via Resend Free API
 async function sendViaResend(options: SendEmailOptions): Promise<DispatchResult> {
-  const apiKey = process.env.RESEND_API_KEY;
+  const apiKey = await getSettingOrEnv('RESEND_API_KEY');
   if (!apiKey) throw new Error('RESEND_API_KEY not configured');
 
-  const senderEmail = process.env.EMAIL_FROM || 'karan@stackaitools.com';
-  const senderName = process.env.EMAIL_FROM_NAME || 'Karan Arora | Stack AI Tools';
+  const senderEmail = (await getSettingOrEnv('EMAIL_FROM')) || 'karan@stackaitools.com';
+  const senderName = (await getSettingOrEnv('EMAIL_FROM_NAME')) || 'Karan Arora | Stack AI Tools';
 
   const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
@@ -141,11 +195,11 @@ async function sendViaResend(options: SendEmailOptions): Promise<DispatchResult>
 
 // 3. Send via MailerSend Free API
 async function sendViaMailerSend(options: SendEmailOptions): Promise<DispatchResult> {
-  const apiKey = process.env.MAILERSEND_API_KEY;
+  const apiKey = await getSettingOrEnv('MAILERSEND_API_KEY');
   if (!apiKey) throw new Error('MAILERSEND_API_KEY not configured');
 
-  const senderEmail = process.env.EMAIL_FROM || 'karan@stackaitools.com';
-  const senderName = process.env.EMAIL_FROM_NAME || 'Karan Arora | Stack AI Tools';
+  const senderEmail = (await getSettingOrEnv('EMAIL_FROM')) || 'karan@stackaitools.com';
+  const senderName = (await getSettingOrEnv('EMAIL_FROM_NAME')) || 'Karan Arora | Stack AI Tools';
 
   const res = await fetch('https://api.mailersend.com/v1/email', {
     method: 'POST',
@@ -169,24 +223,26 @@ async function sendViaMailerSend(options: SendEmailOptions): Promise<DispatchRes
   return { success: true, providerUsed: 'mailersend' };
 }
 
-// 4. Send via direct SMTP (Nodemailer dynamic import if configured)
+// 4. Send via direct SMTP
 async function sendViaSMTP(options: SendEmailOptions): Promise<DispatchResult> {
-  const host = process.env.SMTP_HOST;
-  const user = process.env.SMTP_USER;
-  const pass = process.env.SMTP_PASS;
+  const host = await getSettingOrEnv('SMTP_HOST');
+  const user = await getSettingOrEnv('SMTP_USER');
+  const pass = await getSettingOrEnv('SMTP_PASS');
   if (!host || !user || !pass) throw new Error('SMTP credentials not configured');
 
-  // Dynamically import nodemailer to avoid unnecessary bundles
   const nodemailer = await import('nodemailer');
   const transporter = nodemailer.createTransport({
     host,
-    port: Number(process.env.SMTP_PORT || 587),
-    secure: process.env.SMTP_SECURE === 'true',
+    port: Number((await getSettingOrEnv('SMTP_PORT')) || 587),
+    secure: (await getSettingOrEnv('SMTP_SECURE')) === 'true',
     auth: { user, pass }
   });
 
+  const senderName = (await getSettingOrEnv('EMAIL_FROM_NAME')) || 'Karan Arora';
+  const senderEmail = (await getSettingOrEnv('EMAIL_FROM')) || 'karan@stackaitools.com';
+
   const info = await transporter.sendMail({
-    from: `"${process.env.EMAIL_FROM_NAME || 'Karan Arora'}" <${process.env.EMAIL_FROM || 'karan@stackaitools.com'}>`,
+    from: `"${senderName}" <${senderEmail}>`,
     to: options.to,
     subject: options.subject,
     html: options.html
@@ -195,54 +251,103 @@ async function sendViaSMTP(options: SendEmailOptions): Promise<DispatchResult> {
   return { success: true, providerUsed: 'smtp', messageId: info.messageId };
 }
 
-// 5. Cascading Dispatch Engine with Automatic Failover
+// 5. Cascading Dispatch Engine with Module Selection
 export async function sendEmailCascade(options: SendEmailOptions): Promise<DispatchResult> {
   const db = getPrisma();
   const errors: string[] = [];
+  const preferred = options.preferredProvider || 'auto';
 
-  // Provider chain priority
-  const providers = [
-    { id: 'brevo', fn: sendViaBrevo, envCheck: 'BREVO_API_KEY' },
-    { id: 'resend', fn: sendViaResend, envCheck: 'RESEND_API_KEY' },
-    { id: 'mailersend', fn: sendViaMailerSend, envCheck: 'MAILERSEND_API_KEY' },
-    { id: 'smtp', fn: sendViaSMTP, envCheck: 'SMTP_HOST' }
-  ];
-
-  for (const provider of providers) {
-    if (process.env[provider.envCheck]) {
+  // Specific single provider requested
+  if (preferred !== 'auto') {
+    if (preferred === 'simulation') {
+      return logSimulation(options, db);
+    }
+    if (preferred === 'brevo') {
       try {
-        const result = await provider.fn(options);
-        
-        // Log successful delivery to DB
-        await db.emailDispatchLog.create({
-          data: {
-            campaignId: options.campaignId || null,
-            recipient: options.to,
-            provider: result.providerUsed,
-            status: 'delivered',
-            sentAt: new Date()
-          }
-        }).catch(() => {});
-
-        // Update subscriber stats
-        await db.subscriber.updateMany({
-          where: { email: options.to.toLowerCase() },
-          data: {
-            lastSentAt: new Date(),
-            lastProviderUsed: result.providerUsed,
-            emailsSentCount: { increment: 1 }
-          }
-        }).catch(() => {});
-
-        return result;
+        const res = await sendViaBrevo(options);
+        await logSuccess(options, res, db);
+        return res;
       } catch (err: any) {
-        errors.push(`${provider.id}: ${err.message}`);
-        console.warn(`[Dispatcher] Provider ${provider.id} failed, falling back... Error: ${err.message}`);
+        return { success: false, providerUsed: 'brevo', error: err.message };
+      }
+    }
+    if (preferred === 'resend') {
+      try {
+        const res = await sendViaResend(options);
+        await logSuccess(options, res, db);
+        return res;
+      } catch (err: any) {
+        return { success: false, providerUsed: 'resend', error: err.message };
+      }
+    }
+    if (preferred === 'mailersend') {
+      try {
+        const res = await sendViaMailerSend(options);
+        await logSuccess(options, res, db);
+        return res;
+      } catch (err: any) {
+        return { success: false, providerUsed: 'mailersend', error: err.message };
+      }
+    }
+    if (preferred === 'smtp') {
+      try {
+        const res = await sendViaSMTP(options);
+        await logSuccess(options, res, db);
+        return res;
+      } catch (err: any) {
+        return { success: false, providerUsed: 'smtp', error: err.message };
       }
     }
   }
 
-  // If no external providers configured or all failed, fallback to Sandbox Simulation
+  // AUTO CASCADING: Provider 1 (Brevo) -> Provider 2 (Resend) -> Provider 3 (MailerSend) -> Provider 4 (SMTP) -> Sandbox
+  const providers = [
+    { id: 'brevo', fn: sendViaBrevo, key: 'BREVO_API_KEY' },
+    { id: 'resend', fn: sendViaResend, key: 'RESEND_API_KEY' },
+    { id: 'mailersend', fn: sendViaMailerSend, key: 'MAILERSEND_API_KEY' },
+    { id: 'smtp', fn: sendViaSMTP, key: 'SMTP_HOST' }
+  ];
+
+  for (const provider of providers) {
+    const hasKey = await getSettingOrEnv(provider.key);
+    if (hasKey) {
+      try {
+        const result = await provider.fn(options);
+        await logSuccess(options, result, db);
+        return result;
+      } catch (err: any) {
+        errors.push(`${provider.id}: ${err.message}`);
+        console.warn(`[Dispatcher] Provider ${provider.id} failed, cascading... Error: ${err.message}`);
+      }
+    }
+  }
+
+  // Fallback to Sandbox Simulation
+  return logSimulation(options, db, errors);
+}
+
+async function logSuccess(options: SendEmailOptions, result: DispatchResult, db: PrismaClient) {
+  await db.emailDispatchLog.create({
+    data: {
+      campaignId: options.campaignId || null,
+      recipient: options.to,
+      provider: result.providerUsed,
+      status: 'delivered',
+      sentAt: new Date()
+    }
+  }).catch(() => {});
+
+  await db.subscriber.updateMany({
+    where: { email: options.to.toLowerCase() },
+    data: {
+      lastSentAt: new Date(),
+      lastProviderUsed: result.providerUsed,
+      emailsSentCount: { increment: 1 }
+    }
+  }).catch(() => {});
+}
+
+async function logSimulation(options: SendEmailOptions, db: PrismaClient, errors: string[] = []): Promise<DispatchResult> {
   console.log(`[Dispatcher] Handled via Simulation Sandbox for ${options.to}`);
   await db.emailDispatchLog.create({
     data: {
@@ -255,7 +360,6 @@ export async function sendEmailCascade(options: SendEmailOptions): Promise<Dispa
     }
   }).catch(() => {});
 
-  // Update subscriber stats for simulation
   await db.subscriber.updateMany({
     where: { email: options.to.toLowerCase() },
     data: {

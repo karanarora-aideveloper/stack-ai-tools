@@ -1,7 +1,7 @@
 'use server';
 
 import { PrismaClient } from '@prisma/client';
-import { getEmailProvidersStatus, sendEmailCascade, SendEmailOptions } from '@/lib/email/dispatcher';
+import { getEmailProvidersStatus, sendEmailCascade, saveProviderKey, EmailProviderConfig } from '@/lib/email/dispatcher';
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'stackaitools2026';
 
@@ -53,7 +53,7 @@ export interface NewsletterDashboardPayload {
   subscribers: SubscriberData[];
   campaigns: CampaignData[];
   logs: DispatchLogData[];
-  providers: ReturnType<typeof getEmailProvidersStatus>;
+  providers: EmailProviderConfig[];
   stats: {
     totalSubscribers: number;
     activeSubscribers: number;
@@ -71,17 +71,16 @@ export async function getNewsletterDataAction(passkey: string): Promise<{ succes
 
   try {
     const db = getPrisma();
-    const [subscribers, campaigns, logs] = await Promise.all([
+    const [subscribers, campaigns, logs, providers] = await Promise.all([
       db.subscriber.findMany({ orderBy: { createdAt: 'desc' } }),
       db.emailCampaign.findMany({ take: 20, orderBy: { createdAt: 'desc' } }),
-      db.emailDispatchLog.findMany({ take: 50, orderBy: { sentAt: 'desc' } })
+      db.emailDispatchLog.findMany({ take: 50, orderBy: { sentAt: 'desc' } }),
+      getEmailProvidersStatus()
     ]);
 
     const activeCount = subscribers.filter(s => s.status === 'active').length;
     const unsubCount = subscribers.filter(s => s.status === 'unsubscribed').length;
     const totalSent = subscribers.reduce((acc, s) => acc + (s.emailsSentCount || 0), 0);
-
-    const providers = getEmailProvidersStatus();
     const freeCapacity = providers.reduce((acc, p) => acc + p.freeMonthlyLimit, 0);
 
     return {
@@ -134,7 +133,55 @@ export async function getNewsletterDataAction(passkey: string): Promise<{ succes
   }
 }
 
-// 2. Dispatch Broadcast or Test Campaign
+// 2. Add subscriber manually from Admin Panel
+export async function addSubscriberAction(
+  passkey: string,
+  email: string,
+  source: string = 'admin_manual'
+): Promise<{ success: boolean; message?: string; error?: string }> {
+  if (!verifyAuth(passkey)) return { success: false, error: 'Unauthorized' };
+
+  if (!email || !email.includes('@')) {
+    return { success: false, error: 'Valid email is required' };
+  }
+
+  try {
+    const db = getPrisma();
+    const cleanEmail = email.trim().toLowerCase();
+
+    await db.subscriber.upsert({
+      where: { email: cleanEmail },
+      update: { status: 'active', source },
+      create: { email: cleanEmail, status: 'active', source }
+    });
+
+    return { success: true, message: `Subscriber ${cleanEmail} added successfully!` };
+  } catch (err: any) {
+    return { success: false, error: err.message || 'Failed to add subscriber' };
+  }
+}
+
+// 3. Save provider API key directly from Admin Panel
+export async function saveProviderKeyAction(
+  passkey: string,
+  key: string,
+  value: string
+): Promise<{ success: boolean; message?: string; error?: string }> {
+  if (!verifyAuth(passkey)) return { success: false, error: 'Unauthorized' };
+
+  if (!key || !value) {
+    return { success: false, error: 'Key name and value are required' };
+  }
+
+  const ok = await saveProviderKey(key, value.trim());
+  if (ok) {
+    return { success: true, message: `Setting ${key} saved securely in database!` };
+  } else {
+    return { success: false, error: `Failed to save ${key}` };
+  }
+}
+
+// 4. Dispatch Broadcast or Test Campaign
 export async function sendBroadcastCampaignAction(
   passkey: string,
   payload: {
@@ -143,13 +190,14 @@ export async function sendBroadcastCampaignAction(
     html: string;
     isTest?: boolean;
     testEmail?: string;
+    preferredProvider?: 'auto' | 'brevo' | 'resend' | 'mailersend' | 'smtp' | 'simulation';
   }
 ): Promise<{ success: boolean; message?: string; results?: any; error?: string }> {
   if (!verifyAuth(passkey)) {
     return { success: false, error: 'Unauthorized: Invalid Admin Passkey' };
   }
 
-  const { subject, previewText, html, isTest = false, testEmail } = payload;
+  const { subject, previewText, html, isTest = false, testEmail, preferredProvider = 'auto' } = payload;
   if (!subject || !html) {
     return { success: false, error: 'Subject and Email Content are required' };
   }
@@ -158,12 +206,13 @@ export async function sendBroadcastCampaignAction(
 
   // A. If it's a test send
   if (isTest) {
-    const target = testEmail?.trim() || 'karan@stackaitools.com';
+    const target = testEmail?.trim() || 'arorakaran869@gmail.com';
     const result = await sendEmailCascade({
       to: target,
       subject: `[TEST PREVIEW] ${subject}`,
       html,
-      previewText
+      previewText,
+      preferredProvider
     });
 
     return {
@@ -205,7 +254,8 @@ export async function sendBroadcastCampaignAction(
           subject,
           html,
           previewText,
-          campaignId: campaign.id
+          campaignId: campaign.id,
+          preferredProvider
         });
 
         if (res.success) {
@@ -241,7 +291,7 @@ export async function sendBroadcastCampaignAction(
   }
 }
 
-// 3. Toggle subscriber status
+// 5. Toggle subscriber status
 export async function toggleSubscriberStatusAction(
   passkey: string,
   subscriberId: string
@@ -266,7 +316,7 @@ export async function toggleSubscriberStatusAction(
   }
 }
 
-// 4. Delete subscriber
+// 6. Delete subscriber
 export async function deleteSubscriberAction(
   passkey: string,
   subscriberId: string

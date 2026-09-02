@@ -18,13 +18,21 @@ import {
   Layers, 
   AlertCircle,
   Eye,
-  FileText
+  FileText,
+  Plus,
+  Key,
+  ExternalLink,
+  Save,
+  Check,
+  Zap
 } from 'lucide-react';
 import { 
   getNewsletterDataAction, 
   sendBroadcastCampaignAction, 
   toggleSubscriberStatusAction, 
   deleteSubscriberAction,
+  addSubscriberAction,
+  saveProviderKeyAction,
   NewsletterDashboardPayload 
 } from '@/app/actions/newsletter';
 
@@ -35,7 +43,7 @@ interface AdminNewsletterViewProps {
 const TEMPLATES = {
   frontier_dispatch: {
     name: 'Weekly Frontier AI Dispatch',
-    subject: '🔥 The Frontier AI Dispatch #1: Top 5 Autononous SWE Tools & Production Prompts',
+    subject: '🔥 The Frontier AI Dispatch #1: Top 5 Autonomous SWE Tools & Production Prompts',
     previewText: 'This week: Devin vs Claude Code benchmarks, Cursor Composer tips, and new prompt pack.',
     html: `<div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #0f172a; color: #f8fafc; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1);">
   <div style="background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); padding: 32px 24px; text-align: center;">
@@ -88,12 +96,25 @@ export default function AdminNewsletterView({ passkey }: AdminNewsletterViewProp
   const [statusMsg, setStatusMsg] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
 
+  // Modals & Panels
+  const [showAddSubModal, setShowAddSubModal] = useState(false);
+  const [showKeyConfigModal, setShowKeyConfigModal] = useState(false);
+  const [newSubEmail, setNewSubEmail] = useState('');
+  const [newSubSource, setNewSubSource] = useState('admin_manual');
+
+  // Key Configuration inputs
+  const [brevoKeyInput, setBrevoKeyInput] = useState('');
+  const [resendKeyInput, setResendKeyInput] = useState('');
+  const [mailersendKeyInput, setMailersendKeyInput] = useState('');
+  const [savingKeyId, setSavingKeyId] = useState<string | null>(null);
+
   // Composer State
   const [selectedTemplateKey, setSelectedTemplateKey] = useState<'frontier_dispatch' | 'new_tool_alert'>('frontier_dispatch');
   const [subject, setSubject] = useState(TEMPLATES.frontier_dispatch.subject);
   const [previewText, setPreviewText] = useState(TEMPLATES.frontier_dispatch.previewText);
   const [htmlContent, setHtmlContent] = useState(TEMPLATES.frontier_dispatch.html);
-  const [testEmail, setTestEmail] = useState('karan@stackaitools.com');
+  const [testEmail, setTestEmail] = useState('arorakaran869@gmail.com');
+  const [preferredProvider, setPreferredProvider] = useState<'auto' | 'brevo' | 'resend' | 'mailersend' | 'smtp' | 'simulation'>('auto');
   const [showPreviewModal, setShowPreviewModal] = useState(false);
 
   // Subscriber table search
@@ -123,12 +144,52 @@ export default function AdminNewsletterView({ passkey }: AdminNewsletterViewProp
     setHtmlContent(TEMPLATES[key].html);
   };
 
+  const handleAddSubscriber = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newSubEmail || !newSubEmail.includes('@')) {
+      setErrorMsg('Please enter a valid email address');
+      return;
+    }
+    setStatusMsg('');
+    setErrorMsg('');
+
+    startTransition(async () => {
+      const res = await addSubscriberAction(passkey, newSubEmail, newSubSource);
+      if (res.success) {
+        setStatusMsg(`✅ ${res.message}`);
+        setNewSubEmail('');
+        setShowAddSubModal(false);
+        loadData();
+      } else {
+        setErrorMsg(res.error || 'Failed to add subscriber');
+      }
+    });
+  };
+
+  const handleSaveKey = async (keyEnvName: string, value: string) => {
+    if (!value.trim()) {
+      setErrorMsg(`Please enter a key value for ${keyEnvName}`);
+      return;
+    }
+    setSavingKeyId(keyEnvName);
+    setErrorMsg('');
+
+    const res = await saveProviderKeyAction(passkey, keyEnvName, value);
+    setSavingKeyId(null);
+    if (res.success) {
+      setStatusMsg(`✅ ${res.message}`);
+      loadData();
+    } else {
+      setErrorMsg(res.error || `Failed to save ${keyEnvName}`);
+    }
+  };
+
   const handleSendTest = () => {
     if (!testEmail) {
       setErrorMsg('Please enter a test email address');
       return;
     }
-    setStatusMsg('Dispatching test preview...');
+    setStatusMsg(`Dispatching test preview to ${testEmail} using module: ${preferredProvider.toUpperCase()}...`);
     setErrorMsg('');
 
     startTransition(async () => {
@@ -137,7 +198,8 @@ export default function AdminNewsletterView({ passkey }: AdminNewsletterViewProp
         previewText,
         html: htmlContent,
         isTest: true,
-        testEmail
+        testEmail,
+        preferredProvider
       });
 
       if (res.success) {
@@ -156,11 +218,11 @@ export default function AdminNewsletterView({ passkey }: AdminNewsletterViewProp
       return;
     }
 
-    if (!confirm(`Are you sure you want to broadcast this campaign to all ${activeCount} active subscribers?`)) {
+    if (!confirm(`Are you sure you want to broadcast this campaign to all ${activeCount} active subscribers using module: ${preferredProvider.toUpperCase()}?`)) {
       return;
     }
 
-    setStatusMsg(`Broadcasting to ${activeCount} subscribers via cascading free providers...`);
+    setStatusMsg(`Broadcasting to ${activeCount} subscribers via ${preferredProvider === 'auto' ? 'cascading free providers' : preferredProvider}...`);
     setErrorMsg('');
 
     startTransition(async () => {
@@ -168,7 +230,8 @@ export default function AdminNewsletterView({ passkey }: AdminNewsletterViewProp
         subject,
         previewText,
         html: htmlContent,
-        isTest: false
+        isTest: false,
+        preferredProvider
       });
 
       if (res.success) {
@@ -211,7 +274,7 @@ export default function AdminNewsletterView({ passkey }: AdminNewsletterViewProp
 
   return (
     <div className="admin-newsletter-view" style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
-      {/* 1. Header & Metrics Grid */}
+      {/* 1. Header & Actions */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
         <div>
           <h2 style={{ fontSize: 22, fontWeight: 800, color: '#0f172a', margin: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -223,15 +286,35 @@ export default function AdminNewsletterView({ passkey }: AdminNewsletterViewProp
           </p>
         </div>
 
-        <button 
-          onClick={loadData}
-          disabled={loading || isPending}
-          className="admin-btn-light"
-          style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
-        >
-          <RefreshCw size={14} className={loading ? 'animate-spin' : ''} />
-          <span>Refresh Data</span>
-        </button>
+        <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+          <button 
+            onClick={() => setShowAddSubModal(true)}
+            className="admin-btn-light"
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: '#6366f1', color: '#fff', border: 'none' }}
+          >
+            <Plus size={15} />
+            <span>Add Subscriber</span>
+          </button>
+
+          <button 
+            onClick={() => setShowKeyConfigModal(!showKeyConfigModal)}
+            className="admin-btn-light"
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
+          >
+            <Key size={15} color="#a855f7" />
+            <span>Configure Provider Keys</span>
+          </button>
+
+          <button 
+            onClick={loadData}
+            disabled={loading || isPending}
+            className="admin-btn-light"
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
+          >
+            <RefreshCw size={14} className={loading ? 'animate-spin' : ''} />
+            <span>Refresh</span>
+          </button>
+        </div>
       </div>
 
       {statusMsg && (
@@ -279,57 +362,178 @@ export default function AdminNewsletterView({ passkey }: AdminNewsletterViewProp
         </div>
       </div>
 
-      {/* 2. Cascading Free Providers Pool */}
-      <div className="admin-table-card-light" style={{ padding: 20 }}>
-        <h3 style={{ fontSize: 16, fontWeight: 700, color: '#0f172a', margin: '0 0 12px 0', display: 'flex', alignItems: 'center', gap: 6 }}>
-          <Server size={18} color="#6366f1" />
-          Configured Free Dispatch Providers (Automatic Cascading Failover)
-        </h3>
-        <p style={{ color: '#64748b', fontSize: 13, marginBottom: 16 }}>
-          When you click Broadcast, the engine routes emails through the provider chain. If Provider 1 exhausts its daily free limit, the system auto-cascades to Provider 2 without interruption.
-        </p>
+      {/* 2. Provider Management & Live Key Configuration Panel */}
+      <div className="admin-table-card-light" style={{ padding: 22 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14, flexWrap: 'wrap', gap: 8 }}>
+          <div>
+            <h3 style={{ fontSize: 16, fontWeight: 700, color: '#0f172a', margin: 0, display: 'flex', alignItems: 'center', gap: 6 }}>
+              <Server size={18} color="#6366f1" />
+              Email Provider Modules & Direct Key Setup
+            </h3>
+            <span style={{ fontSize: 12, color: '#64748b' }}>
+              Click any provider dashboard link to get your free API key, then save it below or in Vercel.
+            </span>
+          </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 14 }}>
-          {data?.providers.map((p, idx) => (
-            <div 
-              key={p.id}
-              style={{
-                padding: '14px 16px',
-                borderRadius: 10,
-                border: '1px solid #e2e8f0',
-                background: p.isConfigured ? '#f8fafc' : '#ffffff',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 6
-              }}
-            >
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontWeight: 700, fontSize: 14, color: '#0f172a' }}>
-                  {idx + 1}. {p.name}
-                </span>
-                <span style={{
-                  fontSize: 11,
-                  fontWeight: 600,
-                  padding: '2px 8px',
-                  borderRadius: 12,
-                  background: p.isConfigured ? 'rgba(16, 185, 129, 0.12)' : 'rgba(245, 158, 11, 0.12)',
-                  color: p.isConfigured ? '#059669' : '#d97706'
-                }}>
-                  {p.isConfigured ? 'Active / Configured' : 'Available (Set Key)'}
-                </span>
-              </div>
-              <div style={{ fontSize: 12, color: '#6366f1', fontWeight: 600 }}>
-                {p.freeDailyLimit.toLocaleString()} free/day • {p.freeMonthlyLimit.toLocaleString()}/mo
-              </div>
-              <p style={{ fontSize: 12, color: '#64748b', margin: 0 }}>
-                {p.notes}
-              </p>
+          <a 
+            href="https://vercel.com/karanprojects1/stack-ai-tools/settings/environment-variables"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ fontSize: 12, color: '#6366f1', textDecoration: 'none', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 4 }}
+          >
+            <span>Open Vercel Environment Variables</span>
+            <ExternalLink size={13} />
+          </a>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 16 }}>
+          {/* A. Brevo */}
+          <div style={{ padding: '16px 18px', borderRadius: 10, border: '1px solid #e2e8f0', background: '#f8fafc', display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <strong style={{ fontSize: 15, color: '#0f172a' }}>1. Brevo (Sendinblue)</strong>
+              <span style={{
+                fontSize: 11,
+                fontWeight: 700,
+                padding: '2px 8px',
+                borderRadius: 12,
+                background: data?.providers.find(p => p.id === 'brevo')?.isConfigured ? 'rgba(16, 185, 129, 0.15)' : 'rgba(245, 158, 11, 0.15)',
+                color: data?.providers.find(p => p.id === 'brevo')?.isConfigured ? '#059669' : '#d97706'
+              }}>
+                {data?.providers.find(p => p.id === 'brevo')?.isConfigured ? '🟢 Active & Ready' : '🟡 Key Needed'}
+              </span>
             </div>
-          ))}
+            <div style={{ fontSize: 12, color: '#6366f1', fontWeight: 600 }}>
+              300 free emails/day • 9,000 free/mo • Unlimited contacts
+            </div>
+            <p style={{ fontSize: 12, color: '#64748b', margin: 0 }}>
+              1. Sign up on Brevo. 2. Go to SMTP & API &gt; Generate API Key.
+            </p>
+            <a 
+              href="https://app.brevo.com/settings/keys/api" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              style={{ fontSize: 12, color: '#0284c7', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 4 }}
+            >
+              <span>Get Free Brevo Key (app.brevo.com)</span>
+              <ExternalLink size={12} />
+            </a>
+            <div style={{ display: 'flex', gap: 6, marginTop: 4 }}>
+              <input 
+                type="password"
+                placeholder="Paste BREVO_API_KEY..."
+                value={brevoKeyInput}
+                onChange={e => setBrevoKeyInput(e.target.value)}
+                style={{ flex: 1, padding: '7px 10px', borderRadius: 6, border: '1px solid #cbd5e1', fontSize: 12 }}
+              />
+              <button 
+                onClick={() => handleSaveKey('BREVO_API_KEY', brevoKeyInput)}
+                disabled={savingKeyId === 'BREVO_API_KEY'}
+                style={{ padding: '7px 12px', borderRadius: 6, background: '#059669', color: '#fff', border: 'none', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}
+              >
+                {savingKeyId === 'BREVO_API_KEY' ? 'Saving...' : 'Save'}
+              </button>
+            </div>
+          </div>
+
+          {/* B. Resend */}
+          <div style={{ padding: '16px 18px', borderRadius: 10, border: '1px solid #e2e8f0', background: '#f8fafc', display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <strong style={{ fontSize: 15, color: '#0f172a' }}>2. Resend</strong>
+              <span style={{
+                fontSize: 11,
+                fontWeight: 700,
+                padding: '2px 8px',
+                borderRadius: 12,
+                background: data?.providers.find(p => p.id === 'resend')?.isConfigured ? 'rgba(16, 185, 129, 0.15)' : 'rgba(245, 158, 11, 0.15)',
+                color: data?.providers.find(p => p.id === 'resend')?.isConfigured ? '#059669' : '#d97706'
+              }}>
+                {data?.providers.find(p => p.id === 'resend')?.isConfigured ? '🟢 Active & Ready' : '🟡 Key Needed'}
+              </span>
+            </div>
+            <div style={{ fontSize: 12, color: '#6366f1', fontWeight: 600 }}>
+              100 free emails/day • 3,000 free/mo • Modern DX
+            </div>
+            <p style={{ fontSize: 12, color: '#64748b', margin: 0 }}>
+              1. Sign up on Resend. 2. API Keys &gt; Create Key. 3. Add domain (stackaitools.com).
+            </p>
+            <a 
+              href="https://resend.com/api-keys" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              style={{ fontSize: 12, color: '#0284c7', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 4 }}
+            >
+              <span>Get Free Resend Key (resend.com)</span>
+              <ExternalLink size={12} />
+            </a>
+            <div style={{ display: 'flex', gap: 6, marginTop: 4 }}>
+              <input 
+                type="password"
+                placeholder="Paste RESEND_API_KEY..."
+                value={resendKeyInput}
+                onChange={e => setResendKeyInput(e.target.value)}
+                style={{ flex: 1, padding: '7px 10px', borderRadius: 6, border: '1px solid #cbd5e1', fontSize: 12 }}
+              />
+              <button 
+                onClick={() => handleSaveKey('RESEND_API_KEY', resendKeyInput)}
+                disabled={savingKeyId === 'RESEND_API_KEY'}
+                style={{ padding: '7px 12px', borderRadius: 6, background: '#059669', color: '#fff', border: 'none', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}
+              >
+                {savingKeyId === 'RESEND_API_KEY' ? 'Saving...' : 'Save'}
+              </button>
+            </div>
+          </div>
+
+          {/* C. MailerSend */}
+          <div style={{ padding: '16px 18px', borderRadius: 10, border: '1px solid #e2e8f0', background: '#f8fafc', display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <strong style={{ fontSize: 15, color: '#0f172a' }}>3. MailerSend</strong>
+              <span style={{
+                fontSize: 11,
+                fontWeight: 700,
+                padding: '2px 8px',
+                borderRadius: 12,
+                background: data?.providers.find(p => p.id === 'mailersend')?.isConfigured ? 'rgba(16, 185, 129, 0.15)' : 'rgba(245, 158, 11, 0.15)',
+                color: data?.providers.find(p => p.id === 'mailersend')?.isConfigured ? '#059669' : '#d97706'
+              }}>
+                {data?.providers.find(p => p.id === 'mailersend')?.isConfigured ? '🟢 Active & Ready' : '🟡 Key Needed'}
+              </span>
+            </div>
+            <div style={{ fontSize: 12, color: '#6366f1', fontWeight: 600 }}>
+              100 free emails/day • 3,000 free/mo • Deliverability
+            </div>
+            <p style={{ fontSize: 12, color: '#64748b', margin: 0 }}>
+              1. Sign up on MailerSend. 2. Email &gt; API Tokens &gt; Create Token.
+            </p>
+            <a 
+              href="https://app.mailersend.com/api-tokens" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              style={{ fontSize: 12, color: '#0284c7', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 4 }}
+            >
+              <span>Get Free MailerSend Token</span>
+              <ExternalLink size={12} />
+            </a>
+            <div style={{ display: 'flex', gap: 6, marginTop: 4 }}>
+              <input 
+                type="password"
+                placeholder="Paste MAILERSEND_API_KEY..."
+                value={mailersendKeyInput}
+                onChange={e => setMailersendKeyInput(e.target.value)}
+                style={{ flex: 1, padding: '7px 10px', borderRadius: 6, border: '1px solid #cbd5e1', fontSize: 12 }}
+              />
+              <button 
+                onClick={() => handleSaveKey('MAILERSEND_API_KEY', mailersendKeyInput)}
+                disabled={savingKeyId === 'MAILERSEND_API_KEY'}
+                style={{ padding: '7px 12px', borderRadius: 6, background: '#059669', color: '#fff', border: 'none', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}
+              >
+                {savingKeyId === 'MAILERSEND_API_KEY' ? 'Saving...' : 'Save'}
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* 3. Campaign Composer Console */}
+      {/* 3. Campaign Composer & Module Selector */}
       <div className="admin-table-card-light" style={{ padding: 24 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16, flexWrap: 'wrap', gap: 10 }}>
           <div>
@@ -338,7 +542,7 @@ export default function AdminNewsletterView({ passkey }: AdminNewsletterViewProp
               Broadcast Campaign Composer
             </h3>
             <p style={{ color: '#64748b', fontSize: 13, margin: '4px 0 0 0' }}>
-              Draft your weekly frontier dispatch, choose pre-tested templates, and broadcast to all active subscribers.
+              Draft your weekly frontier dispatch, choose pre-tested templates, and choose your dispatch module.
             </p>
           </div>
 
@@ -360,6 +564,42 @@ export default function AdminNewsletterView({ passkey }: AdminNewsletterViewProp
               Template 2: New Tool Alert
             </button>
           </div>
+        </div>
+
+        {/* Module Selection Bar */}
+        <div style={{ padding: '12px 16px', background: '#f1f5f9', borderRadius: 8, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+          <span style={{ fontSize: 13, fontWeight: 700, color: '#334155', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+            <Zap size={14} color="#6366f1" />
+            Dispatch Module / Provider:
+          </span>
+
+          <select 
+            value={preferredProvider}
+            onChange={(e) => setPreferredProvider(e.target.value as any)}
+            style={{
+              padding: '6px 12px',
+              borderRadius: 6,
+              border: '1px solid #cbd5e1',
+              fontSize: 13,
+              fontWeight: 600,
+              background: '#ffffff',
+              color: '#0f172a'
+            }}
+          >
+            <option value="auto">🔀 Auto-Cascade (Brevo → Resend → MailerSend → Sandbox)</option>
+            <option value="brevo">🔵 Brevo API (Free: 300/day, 9,000/mo)</option>
+            <option value="resend">🟣 Resend API (Free: 100/day, 3,000/mo)</option>
+            <option value="mailersend">🟢 MailerSend API (Free: 100/day, 3,000/mo)</option>
+            <option value="smtp">🟡 Direct Custom SMTP Relay</option>
+            <option value="simulation">🧪 Sandbox Simulation (Test Mode - Zero cost)</option>
+          </select>
+
+          <span style={{ fontSize: 12, color: '#64748b' }}>
+            {preferredProvider === 'auto' && 'Cascades automatically if daily limits are reached.'}
+            {preferredProvider === 'simulation' && 'Simulates full delivery without calling external APIs.'}
+            {preferredProvider === 'brevo' && 'Routes strictly through Brevo free tier.'}
+            {preferredProvider === 'resend' && 'Routes strictly through Resend free tier.'}
+          </span>
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 16 }}>
@@ -464,7 +704,7 @@ export default function AdminNewsletterView({ passkey }: AdminNewsletterViewProp
                   borderRadius: 8,
                   border: '1px solid #cbd5e1',
                   fontSize: 13,
-                  width: 240
+                  width: 250
                 }}
               />
               <button 
@@ -514,11 +754,32 @@ export default function AdminNewsletterView({ passkey }: AdminNewsletterViewProp
               Subscriber Database ({filteredSubscribers.length} showing)
             </h3>
             <span style={{ fontSize: 12, color: '#64748b' }}>
-              Real-time records captured from website modals, footer, and tool pages.
+              Real-time records captured from website modals, footer, tool pages, and manual admin entry.
             </span>
           </div>
 
           <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+            {/* Quick Add Button */}
+            <button 
+              onClick={() => setShowAddSubModal(true)}
+              style={{
+                padding: '6px 12px',
+                borderRadius: 6,
+                background: '#6366f1',
+                color: '#fff',
+                fontSize: 12,
+                fontWeight: 600,
+                border: 'none',
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 4
+              }}
+            >
+              <Plus size={13} />
+              <span>Add Subscriber</span>
+            </button>
+
             {/* Status Filter */}
             <select 
               value={subStatusFilter} 
@@ -651,6 +912,64 @@ export default function AdminNewsletterView({ passkey }: AdminNewsletterViewProp
           </table>
         </div>
       </div>
+
+      {/* MODAL: ADD SUBSCRIBER */}
+      {showAddSubModal && (
+        <div className="admin-modal-backdrop-light" onClick={() => setShowAddSubModal(false)}>
+          <div className="admin-modal-card-light" onClick={e => e.stopPropagation()} style={{ maxWidth: 440 }}>
+            <div className="admin-modal-header-light">
+              <h3 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
+                <Plus size={18} color="#6366f1" />
+                Add New Subscriber Manually
+              </h3>
+              <button onClick={() => setShowAddSubModal(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#94a3b8' }}>
+                <XCircle size={20} />
+              </button>
+            </div>
+            <form onSubmit={handleAddSubscriber} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+              <div>
+                <label style={{ display: 'block', fontSize: 13, fontWeight: 700, color: '#334155', marginBottom: 6 }}>
+                  Email Address *
+                </label>
+                <input 
+                  type="email" 
+                  placeholder="e.g. founder@startup.com"
+                  value={newSubEmail}
+                  onChange={e => setNewSubEmail(e.target.value)}
+                  required
+                  style={{ width: '100%', padding: '9px 12px', borderRadius: 8, border: '1px solid #cbd5e1', fontSize: 14 }}
+                />
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: 13, fontWeight: 700, color: '#334155', marginBottom: 6 }}>
+                  Source Tag
+                </label>
+                <input 
+                  type="text" 
+                  placeholder="e.g. admin_manual, VIP_investor, test"
+                  value={newSubSource}
+                  onChange={e => setNewSubSource(e.target.value)}
+                  style={{ width: '100%', padding: '9px 12px', borderRadius: 8, border: '1px solid #cbd5e1', fontSize: 14 }}
+                />
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, marginTop: 10 }}>
+                <button type="button" onClick={() => setShowAddSubModal(false)} className="admin-btn-light">
+                  Cancel
+                </button>
+                <button 
+                  type="submit" 
+                  disabled={isPending}
+                  style={{ padding: '9px 18px', borderRadius: 8, background: '#6366f1', color: '#fff', border: 'none', fontWeight: 600, cursor: 'pointer' }}
+                >
+                  Save Subscriber
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
       {/* 5. Campaign History & Dispatch Logs */}
       <div className="admin-table-card-light" style={{ padding: 20 }}>
