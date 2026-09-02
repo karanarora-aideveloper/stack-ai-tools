@@ -402,3 +402,38 @@ export async function deleteSubscriberAction(
     return { success: false, error: err.message };
   }
 }
+
+// 9. Check Brevo domain DNS verification status for stackaitools.com
+export async function checkDomainDnsAction(passkey: string): Promise<{
+  success: boolean;
+  authenticated?: boolean;
+  dnsRecords?: any;
+  error?: string;
+}> {
+  if (!verifyAuth(passkey)) return { success: false, error: 'Unauthorized' };
+
+  try {
+    const db = getPrisma();
+    const setting = await db.systemSetting.findUnique({ where: { key: 'BREVO_API_KEY' } });
+    const apiKey = setting?.value || process.env.BREVO_API_KEY;
+    if (!apiKey) return { success: false, error: 'BREVO_API_KEY not configured' };
+
+    const res = await fetch('https://api.brevo.com/v3/senders/domains/stackaitools.com', {
+      headers: { 'api-key': apiKey, 'accept': 'application/json' }
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      return { success: false, error: err.message || 'Failed to check domain DNS' };
+    }
+
+    const data = await res.json();
+    return {
+      success: true,
+      authenticated: Boolean(data.authenticated),
+      dnsRecords: data.dns_records
+    };
+  } catch (err: any) {
+    return { success: false, error: err.message };
+  }
+}

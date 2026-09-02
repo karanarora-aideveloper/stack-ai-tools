@@ -1224,6 +1224,49 @@ export default function AdminDashboard({
           ==================================================================== */}
       {activeTab === 'analytics' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+          {/* Analytics Pipeline Specification Note */}
+          <div style={{
+            padding: '18px 22px',
+            background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.06) 0%, rgba(168, 85, 247, 0.04) 100%)',
+            border: '1px solid #e0e7ff',
+            borderRadius: 12,
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 12
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <Activity size={18} color="#6366f1" />
+                <strong style={{ fontSize: 14, color: '#0f172a' }}>
+                  Analytics Data Pipeline Architecture & Live Engine Sources
+                </strong>
+              </div>
+              <span style={{ fontSize: 11, fontWeight: 700, padding: '2px 8px', borderRadius: 10, background: '#dcfce7', color: '#15803d' }}>
+                🟢 100% Real-Time (Zero Dummy Data)
+              </span>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 14, marginTop: 2 }}>
+              <div style={{ fontSize: 12, color: '#334155', lineHeight: 1.5 }}>
+                <strong style={{ color: '#4f46e5' }}>1. In-House MongoDB Engine (Active & Live):</strong>
+                <p style={{ margin: '3px 0 0 0', color: '#64748b' }}>
+                  Every unique visitor session, scroll depth, prompt copy, and outbound affiliate redirect (<code>/go/[slug]</code>) is logged directly into the MongoDB Atlas <code>AnalyticsEvent</code> collection. This powers the real-time KPI metrics and top tools table below.
+                </p>
+              </div>
+              <div style={{ fontSize: 12, color: '#334155', lineHeight: 1.5 }}>
+                <strong style={{ color: '#059669' }}>2. Vercel Web Analytics & Speed Insights:</strong>
+                <p style={{ margin: '3px 0 0 0', color: '#64748b' }}>
+                  Instrumented via <code>@vercel/analytics</code> and <code>@vercel/speed-insights</code> in <code>layout.tsx</code>. Measures Core Web Vitals (LCP, INP, CLS) and visitor geographic telemetry on your Vercel Project Dashboard.
+                </p>
+              </div>
+              <div style={{ fontSize: 12, color: '#334155', lineHeight: 1.5 }}>
+                <strong style={{ color: '#0284c7' }}>3. Google Analytics 4 & PostHog:</strong>
+                <p style={{ margin: '3px 0 0 0', color: '#64748b' }}>
+                  Client event forwarding is pre-wired in <code>Analytics.tsx</code>. Simply set <code>NEXT_PUBLIC_GA_ID</code> (GA4) or <code>NEXT_PUBLIC_POSTHOG_KEY</code> in Vercel to activate external visual funnels and session replays.
+                </p>
+              </div>
+            </div>
+          </div>
+
           {/* Top Analytics Cards */}
           <div className="admin-kpi-grid-light">
             <div className="admin-kpi-card-light">
