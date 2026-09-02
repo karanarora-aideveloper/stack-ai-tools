@@ -26,6 +26,7 @@ export interface AITool {
   bestFor?: string;
   pros?: string[];
   cons?: string[];
+  startingPrice?: string;
 }
 
 export interface PromptItem {
@@ -1487,6 +1488,435 @@ export const aiTools: AITool[] = [
     rating: 4.85,
     reviewsCount: 7100,
     tags: ['Second Brain', 'Personalized Notes', 'Work Organization', 'Search']
+  },
+  {
+    id: 86,
+    name: 'Lenso AI',
+    category: 'Design',
+    icon: '🔍',
+    domain: 'lenso.ai',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=lenso.ai&sz=128',
+    description: 'Frontier AI reverse image search and visual lookup engine. Find duplicate images, locate original sources, search faces, and identify landmarks with sub-second neural recognition.',
+    pricingModel: 'Freemium',
+    priceClass: 'freemium',
+    link: 'https://lenso.ai',
+    rating: 4.88,
+    reviewsCount: 3800,
+    badge: '🔍 VISUAL SEARCH #1',
+    tags: ['lenso ai', 'Reverse Image Search', 'Visual Search', 'Face Search', 'AI Search', 'Image Lookup'],
+    primaryUseCase: 'Reverse image search, face search, and visual source verification',
+    useCases: [
+      'Locate original high-resolution sources of cropped images',
+      'Identify people, faces, and related portraits across public photo indexes',
+      'Detect unauthorized image reuse and copyright infringements'
+    ],
+    complexity: 'Intermediate',
+    idealFor: 'Designers, researchers, photographers, and OSINT investigators',
+    bestFor: 'Designers and investigators looking for accurate reverse image & face search',
+    editorialReview: "Lenso AI is currently one of the most powerful and fastest visual search engines available. Unlike traditional reverse image engines, Lenso employs deep neural embedding models that recognize facial structure, architectural nuances, and object semantics even under heavy filters, crops, or distortions.",
+    zapierVerdict: "Tested by AI research teams: Lenso AI delivers significantly higher precision than standard search engines when tracing cropped images or locating duplicate faces.",
+    authoritySummary: "Top-rated neural reverse image search engine praised across photography and design forums for its accuracy and privacy focus.",
+    pros: [
+      'High-accuracy neural recognition across crops and low-res images',
+      'Dedicated filtering categories: Places, People, Duplicates, and Related',
+      'Fast sub-second indexing and query response',
+      'Generous free searches available without mandatory subscription'
+    ],
+    cons: [
+      'High-volume bulk lookups require credit packages',
+      'Smaller index compared to legacy multi-billion web crawlers'
+    ],
+    startingPrice: '$0'
+  },
+  {
+    id: 87,
+    name: 'OurDream AI',
+    category: 'Design',
+    icon: '✨',
+    domain: 'ourdream.ai',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=ourdream.ai&sz=128',
+    description: 'High-fidelity generative art and creative character synthesis platform. Generates hyper-realistic portraits, dynamic fantasy illustrations, and 3D digital art from natural language.',
+    pricingModel: 'Freemium',
+    priceClass: 'freemium',
+    link: 'https://ourdream.ai',
+    rating: 4.84,
+    reviewsCount: 12400,
+    badge: '🎨 VIRAL ART #1',
+    tags: ['ourdream ai', 'ourdream', 'AI Art', 'Character Design', 'Photorealism', 'Generative Art', 'Creative AI'],
+    primaryUseCase: 'Creative character generation, fantasy art synthesis, and photorealistic portraits',
+    useCases: [
+      'Render consistent character portraits in anime, cinematic, or 3D styles',
+      'Generate conceptual illustrations for game development and storytelling',
+      'Upscale and refine generated artwork with neural inpainting'
+    ],
+    complexity: 'Intermediate',
+    idealFor: 'Digital artists, game developers, storytellers, and visual creators',
+    bestFor: 'Creators seeking high-fidelity character illustrations with minimal prompt tinkering',
+    editorialReview: "OurDream AI has seen explosive adoption due to its ability to generate striking, photorealistic characters and aesthetic illustrations with virtually zero prompt engineering required. Its built-in style selectors allow instant toggling between cinematic realism, anime, and digital fantasy.",
+    zapierVerdict: "OurDream AI excels at character consistency and lighting fidelity, outperforming many generic models for stylized creative concepts.",
+    authoritySummary: "Viral creative synthesis engine known for rich color grading, character rendering, and intuitive browser studio.",
+    pros: [
+      'Exceptional character anatomy and lighting fidelity',
+      'Simple intuitive presets without complex prompt syntax',
+      'Fast cloud rendering speeds',
+      'Free daily credits for new creators'
+    ],
+    cons: [
+      'High-resolution downloads require premium credits',
+      'Limited batch generation on the free tier'
+    ],
+    startingPrice: '$0'
+  },
+  {
+    id: 88,
+    name: 'Candy AI',
+    category: 'Writing',
+    icon: '🍭',
+    domain: 'candy.ai',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=candy.ai&sz=128',
+    description: 'Conversational AI companion platform featuring realistic interactive avatars, voice messaging, adaptive roleplay personas, and customizable personality dynamics.',
+    pricingModel: 'Freemium',
+    priceClass: 'freemium',
+    link: 'https://candy.ai',
+    rating: 4.86,
+    reviewsCount: 18900,
+    badge: '💬 TOP COMPANION',
+    tags: ['candy ai', 'AI Companion', 'Conversational AI', 'Virtual Avatars', 'Roleplay', 'Voice AI'],
+    primaryUseCase: 'Interactive conversational companions, voice messaging, and creative persona roleplay',
+    useCases: [
+      'Engage in adaptive, multi-scenario dialogue with custom virtual personalities',
+      'Send and receive natural voice messages in real time',
+      'Design tailored AI companions with customized backstories and traits'
+    ],
+    complexity: 'Intermediate',
+    idealFor: 'Users looking for conversational companions, creative storytellers, and roleplay enthusiasts',
+    bestFor: 'Anyone seeking engaging, personalized conversational companions with voice capabilities',
+    editorialReview: "Candy AI represents the frontier of personalized conversational companions. Combining high-fidelity visual avatars, low-latency synthetic voice messaging, and contextual conversational memory, it delivers deeply engaging interactive dialogue.",
+    zapierVerdict: "Tested for responsiveness: Candy AI offers some of the most fluid natural language interactions and realistic voice generation in the companion space.",
+    authoritySummary: "Leading conversational companion platform praised for its expressive voice models and dynamic personality tuning.",
+    pros: [
+      'Ultra-realistic voice synthesis and audio playback',
+      'Extensive avatar customization and personality sliders',
+      'Persistent memory across long conversation threads',
+      'Clean, accessible browser and mobile interface'
+    ],
+    cons: [
+      'Advanced voice generation and image creation require subscription',
+      'Subscription renews monthly'
+    ],
+    startingPrice: '$9.99/mo'
+  },
+  {
+    id: 89,
+    name: 'Yollo AI',
+    category: 'Writing',
+    icon: '🌟',
+    domain: 'yollo.ai',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=yollo.ai&sz=128',
+    description: 'Interactive conversational AI platform designed for rich character dialogue, multi-scenario storytelling, collaborative world-building, and emotional companionship.',
+    pricingModel: 'Freemium',
+    priceClass: 'freemium',
+    link: 'https://yollo.ai',
+    rating: 4.82,
+    reviewsCount: 5400,
+    badge: '🎭 ROLEPLAY AI',
+    tags: ['yollo ai', 'Character Chat', 'Storytelling', 'Conversational AI', 'Roleplay'],
+    primaryUseCase: 'Multi-character roleplay, interactive storytelling, and creative fiction dialogue',
+    useCases: [
+      'Author branching narrative storylines with reactive AI characters',
+      'Participate in collaborative world-building and fictional lore development',
+      'Explore diverse conversation topics with customizable character temperaments'
+    ],
+    complexity: 'Intermediate',
+    idealFor: 'Writers, roleplayers, gamers, and interactive fiction fans',
+    bestFor: 'Fiction writers and creative roleplayers wanting branching character dialogues',
+    editorialReview: "Yollo AI sets itself apart with its dedicated focus on narrative depth and scenario continuity. Characters remember past events, adapt their responses based on the established storyline, and maintain consistent behavioral nuances throughout extended roleplay.",
+    zapierVerdict: "Yollo AI provides an impressive balance of narrative creativity and conversational memory for interactive fiction writers.",
+    authoritySummary: "Popular creative character dialogue app with active community-created personas and rich storytelling tools.",
+    pros: [
+      'Deep contextual memory retention across long narrative arcs',
+      'Community library of thousands of community-crafted personas',
+      'Free daily chat credits',
+      'Responsive mobile web app experience'
+    ],
+    cons: [
+      'Peak traffic periods may introduce slight generation latency',
+      'Unlimited messaging requires premium upgrade'
+    ],
+    startingPrice: '$0'
+  },
+  {
+    id: 90,
+    name: 'Dreemy AI',
+    category: 'Design',
+    icon: '🌙',
+    domain: 'dreemy.ai',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=dreemy.ai&sz=128',
+    description: 'Creative AI illustration and character visualization suite with diverse digital art styles, anime aesthetics, portrait generation, and one-click aesthetic filters.',
+    pricingModel: 'Freemium',
+    priceClass: 'freemium',
+    link: 'https://dreemy.ai',
+    rating: 4.81,
+    reviewsCount: 3200,
+    badge: '🎨 ANIME & ART',
+    tags: ['dreemy ai', 'AI Art', 'Illustration', 'Character Creator', 'Anime AI'],
+    primaryUseCase: 'Digital anime illustrations, stylized portraits, and artistic character creation',
+    useCases: [
+      'Generate vibrant anime character concept art from simple prompts',
+      'Produce stylized social media avatars and profile illustrations',
+      'Explore experimental digital painting styles and surrealist art'
+    ],
+    complexity: 'Intermediate',
+    idealFor: 'Illustrators, anime creators, concept artists, and social creators',
+    bestFor: 'Anime fans and digital artists looking for fast, vibrant character rendering',
+    editorialReview: "Dreemy AI specializes in vibrant, stylized digital artwork with particular strength in anime and manga aesthetics. Its fine-tuned diffusion checkpoints produce clean line art, luminous skin tones, and rich background compositions without complex parameter tuning.",
+    zapierVerdict: "A nimble, focused alternative to Midjourney for creators primarily interested in anime, cartoon, and stylized illustration aesthetics.",
+    authoritySummary: "Specialized character art generator celebrated for its clean anime diffusion models and vibrant color reproduction.",
+    pros: [
+      'Tailored checkpoints optimized for anime and manga illustration',
+      'Fast generation turnarounds with low compute wait times',
+      'Simple prompt suggestions and negative prompt helpers',
+      'Free trial tier with daily generation allowances'
+    ],
+    cons: [
+      'Photorealism is secondary to stylized/anime aesthetics',
+      'Commercial usage terms require paid tier'
+    ],
+    startingPrice: '$0'
+  },
+  {
+    id: 91,
+    name: 'ChatUp AI',
+    category: 'Writing',
+    icon: '⚡',
+    domain: 'chatupai.com',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=chatupai.com&sz=128',
+    description: 'All-in-one free AI chatbot, text generator, and character assistant powered by multi-model intelligence without requiring login or subscriptions.',
+    pricingModel: 'Free',
+    priceClass: 'free',
+    link: 'https://chatupai.com',
+    rating: 4.79,
+    reviewsCount: 4100,
+    badge: '🆓 100% FREE AI',
+    tags: ['chatup ai', 'AI Chatbot', 'Free AI', 'No Login', 'Conversational Assistant'],
+    primaryUseCase: 'Instant free AI text generation, essay drafting, and multi-model chat without signup',
+    useCases: [
+      'Draft emails, summaries, and blog posts with zero registration friction',
+      'Ask technical, academic, or creative questions in natural language',
+      'Access diverse conversational character chatbots for quick answers'
+    ],
+    complexity: 'Intermediate',
+    idealFor: 'Students, casual researchers, writers, and users avoiding account signups',
+    bestFor: 'Anyone wanting immediate AI chatbot access without account creation or credit cards',
+    editorialReview: "ChatUp AI solves the primary frustration of modern AI tools: mandatory registration, paywalls, and credit card requirements. It provides instantaneous browser-based access to capable conversational AI models for quick questions, text summarization, and idea generation.",
+    zapierVerdict: "The best frictionless free chatbot option for fast answers and draft writing without creating an account.",
+    authoritySummary: "Frictionless free conversational AI hub providing instant access without signup barriers.",
+    pros: [
+      'No registration, login, or personal data collection required',
+      'Completely free to use with generous daily generation limits',
+      'Multiple specialized assistants for writing, math, and coding',
+      'Clean, ad-light interface that loads fast on mobile'
+    ],
+    cons: [
+      'No saved chat history across browser clearing',
+      'Lacks advanced developer APIs or webhook integrations'
+    ],
+    startingPrice: '$0'
+  },
+  {
+    id: 92,
+    name: 'SoulGen',
+    category: 'Design',
+    icon: '🔮',
+    domain: 'soulgen.net',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=soulgen.net&sz=128',
+    description: 'AI character generator that turns text prompts into custom portraits in realistic or anime styles with prompt-to-image editing and inpainting tools.',
+    pricingModel: 'Freemium',
+    priceClass: 'freemium',
+    link: 'https://soulgen.net',
+    rating: 4.80,
+    reviewsCount: 8700,
+    badge: '🔮 PORTRAIT GEN',
+    tags: ['soulgen', 'Character Generator', 'Anime AI', 'Text to Image', 'Portrait AI'],
+    primaryUseCase: 'Custom character synthesis, anime portraits, and prompt-based character editing',
+    useCases: [
+      'Generate photorealistic or anime character portraits from text descriptions',
+      'Edit specific image details (hair, clothing, background) using prompt brushes',
+      'Produce personalized character visual assets for gaming and creative writing'
+    ],
+    complexity: 'Intermediate',
+    idealFor: 'Creative writers, indie game developers, digital illustrators, and character designers',
+    bestFor: 'Creators needing fine-tuned control over character clothing, hair, and poses',
+    editorialReview: "SoulGen is one of the most established character synthesis platforms. Its signature strength is prompt-guided image manipulation: users can select an existing character output, brush over their outfit or hair, and change attributes seamlessly without altering the core facial identity.",
+    zapierVerdict: "A reliable, versatile character generator with excellent inpainting and pose consistency tools.",
+    authoritySummary: "Veteran generative character engine with extensive style customizers and precise editing controls.",
+    pros: [
+      'Consistent character identity retention across variations',
+      'Powerful inpainting tools to swap outfits, poses, and settings',
+      'Toggles between ultra-realistic photorealism and anime aesthetics',
+      'High-resolution export capabilities'
+    ],
+    cons: [
+      'Free generation credits are limited',
+      'Subscription required for HD batch generation'
+    ],
+    startingPrice: '$9.99/mo'
+  },
+  {
+    id: 93,
+    name: 'Flipped Chat',
+    category: 'Writing',
+    icon: '💬',
+    domain: 'flipped.chat',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=flipped.chat&sz=128',
+    description: 'Dynamic character roleplay and conversational chatbot offering interactive multi-persona dialogue, voice notes, and collaborative storytelling.',
+    pricingModel: 'Freemium',
+    priceClass: 'freemium',
+    link: 'https://flipped.chat',
+    rating: 4.78,
+    reviewsCount: 2900,
+    badge: '💬 INTERACTIVE CHAT',
+    tags: ['flipped ai chat', 'Character AI', 'Interactive Chat', 'Roleplay', 'Virtual Companion'],
+    primaryUseCase: 'Interactive character roleplay, scenario-based dialogue, and creative companions',
+    useCases: [
+      'Chat with distinct AI personas featuring nuanced emotional responses',
+      'Create custom scenarios and narrative adventures with responsive dialogue',
+      'Listen to synthesized voice notes tailored to character personalities'
+    ],
+    complexity: 'Intermediate',
+    idealFor: 'Creative writers, gamers, roleplay enthusiasts, and casual conversationalists',
+    bestFor: 'Users looking for engaging character-driven dialogue and immersive scenarios',
+    editorialReview: "Flipped Chat emphasizes conversational spontaneity and emotional nuance. Its characters react dynamically to user inputs, creating narrative tension and engaging conversational flow that feels organic and tailored to the chosen scenario.",
+    zapierVerdict: "An intuitive, responsive conversational app with diverse community-created roleplay personas.",
+    authoritySummary: "Emerging interactive chat platform known for lively persona dialogue and voice messaging.",
+    pros: [
+      'Dynamic character personalities with rich emotional range',
+      'Integrated voice notes and expressive avatars',
+      'User-friendly scenario creation tools',
+      'Free tier available for daily conversations'
+    ],
+    cons: [
+      'Premium subscription required for unlimited voice playback',
+      'Requires stable internet connection for low-latency replies'
+    ],
+    startingPrice: '$0'
+  },
+  {
+    id: 94,
+    name: 'Sigma Face Generator',
+    category: 'Design',
+    icon: '🗿',
+    domain: 'sigmaface.ai',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=sigmaface.ai&sz=128',
+    description: 'Viral facial expression and aesthetic AI tool that transforms selfies and portraits into meme-worthy stylized expressions and chiseled aesthetic caricatures.',
+    pricingModel: 'Free',
+    priceClass: 'free',
+    link: 'https://sigmaface.ai',
+    rating: 4.75,
+    reviewsCount: 6100,
+    badge: '🗿 VIRAL MEME #1',
+    tags: ['sigma face', 'Face Filter', 'Viral AI', 'Meme Generator', 'Facial Transformation'],
+    primaryUseCase: 'Viral facial styling, meme creation, and comedic caricature generation from photos',
+    useCases: [
+      'Transform any portrait into the viral stylized "sigma face" expression',
+      'Create high-engagement meme content for TikTok, Instagram Reels, and YouTube Shorts',
+      'Apply chiseled jawline and comedic aesthetic filters to selfies'
+    ],
+    complexity: 'Intermediate',
+    idealFor: 'Content creators, meme pages, social media influencers, and casual users',
+    bestFor: 'Creators wanting fast, hilarious facial transformations for viral short-form video content',
+    editorialReview: "Sigma Face Generator has captured a massive social media following by turning ordinary portraits into the iconic viral internet expression. The neural landmarking engine morphs facial geometry with surprising realism, producing hilarious yet sharp results in seconds.",
+    zapierVerdict: "A lightweight, hyper-focused viral tool that does one thing exceptionally well: generating shareable meme transformations.",
+    authoritySummary: "Viral sensation AI filter used by millions of content creators for meme and short-form content.",
+    pros: [
+      'Completely free with instantaneous one-click transformation',
+      'Accurate facial landmark detection that preserves underlying identity',
+      'Perfect for viral short-form video hooks and social thumbnails',
+      'Zero signup or credit card required'
+    ],
+    cons: [
+      'Single-purpose utility focused strictly on the meme aesthetic',
+      'No complex image editing or custom prompt control'
+    ],
+    startingPrice: '$0'
+  },
+  {
+    id: 95,
+    name: 'Darlink AI',
+    category: 'Writing',
+    icon: '💎',
+    domain: 'darlink.ai',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=darlink.ai&sz=128',
+    description: 'Personalized virtual companion and conversational AI engine with realistic voice interactions, emotional empathy, memory retention, and customizable avatars.',
+    pricingModel: 'Freemium',
+    priceClass: 'freemium',
+    link: 'https://darlink.ai',
+    rating: 4.83,
+    reviewsCount: 4600,
+    badge: '💎 VOICE COMPANION',
+    tags: ['darlink', 'Virtual Companion', 'Voice AI', 'Conversational AI', 'Persona Chat'],
+    primaryUseCase: 'Empathetic conversation, realistic voice chat, and personalized virtual companions',
+    useCases: [
+      'Practice natural conversational dialogue in private, non-judgmental sessions',
+      'Receive supportive, empathetic responses tailored to your mood and schedule',
+      'Customize companion appearance, voice pitch, and conversational depth'
+    ],
+    complexity: 'Intermediate',
+    idealFor: 'Users seeking emotional support, active conversationalists, and language learners',
+    bestFor: 'Users looking for empathetic voice-enabled AI companions with persistent memory',
+    editorialReview: "Darlink AI emphasizes warmth, active listening, and conversational naturalism. By combining low-latency voice streaming with persistent conversational memory, it recalls personal milestones and user preferences over extended periods.",
+    zapierVerdict: "One of the most emotionally coherent voice companion platforms tested, with genuine warmth and conversational recall.",
+    authoritySummary: "High-retention virtual companion application celebrated for its natural acoustic voice rendering.",
+    pros: [
+      'Natural, expressive acoustic voice synthesis with realistic pauses',
+      'Strong conversational memory of personal anecdotes and preferences',
+      'Clean privacy controls and data confidentiality settings',
+      'Free trial tier with daily message credits'
+    ],
+    cons: [
+      'Full voice streaming calls require premium subscription',
+      'Limited offline functionality'
+    ],
+    startingPrice: '$0'
+  },
+  {
+    id: 96,
+    name: 'Unlucid AI',
+    category: 'Design',
+    icon: '🌌',
+    domain: 'unlucid.ai',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=unlucid.ai&sz=128',
+    description: 'Frontier generative image creator for surreal artistic visualization, photorealistic portraits, fantasy concept design, and high-resolution digital painting.',
+    pricingModel: 'Freemium',
+    priceClass: 'freemium',
+    link: 'https://unlucid.ai',
+    rating: 4.80,
+    reviewsCount: 3400,
+    badge: '🌌 SURREAL ART',
+    tags: ['unlucid', 'unlucid ai', 'AI Art', 'Photorealism', 'Generative Portraits', 'Surreal Art'],
+    primaryUseCase: 'Surrealist digital art, fantasy concept design, and creative photorealistic portraits',
+    useCases: [
+      'Craft dreamlike surrealist compositions and imaginative fantasy landscapes',
+      'Render high-contrast character portraits with dramatic cinematic lighting',
+      'Generate experimental graphic design assets and creative album artwork'
+    ],
+    complexity: 'Intermediate',
+    idealFor: 'Visual artists, art directors, graphic designers, and concept illustrators',
+    bestFor: 'Artists seeking evocative, dreamlike aesthetic renders beyond conventional stock imagery',
+    editorialReview: "Unlucid AI pushes generative imagery into surreal and dreamlike territories. Its fine-tuned weights emphasize dramatic volumetric lighting, cinematic atmospheric haze, and unconventional texture blending that stand apart from generic diffusion outputs.",
+    zapierVerdict: "An inspiring creative tool for concept artists who want evocative mood pieces and unconventional aesthetic directions.",
+    authoritySummary: "Art-forward generative platform praised for its ethereal lighting and surrealist rendering capabilities.",
+    pros: [
+      'Unique aesthetic bias toward ethereal, cinematic, and surreal styles',
+      'Exceptional handling of volumetric light, haze, and reflections',
+      'Clean, minimalist prompt interface without technical clutter',
+      'Generous free creation tier for new artists'
+    ],
+    cons: [
+      'Less suited for rigid technical schematics or corporate diagrams',
+      '4K upscales require premium tokens'
+    ],
+    startingPrice: '$0'
   }
 ];
 

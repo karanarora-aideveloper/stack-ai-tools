@@ -11,9 +11,6 @@ export function getPrisma(): PrismaClient {
 }
 
 const EXCLUDED_COMMODITY_TOOLS = new Set([
-  'chatgpt',
-  'gemini',
-  'google-gemini',
   'chatgpt-gpt-56-frontier',
   'google-gemini-31-pro'
 ]);
@@ -29,6 +26,17 @@ const SLUG_MAP: Record<string, string> = {
   'Midjourney v8.2': 'midjourney',
   'Perplexity Pro (Deep Research 2.0)': 'perplexity',
   'Perplexity AI': 'perplexity',
+  'Lenso AI': 'lenso-ai',
+  'OurDream AI': 'ourdream-ai',
+  'Candy AI': 'candy-ai',
+  'Yollo AI': 'yollo-ai',
+  'Dreemy AI': 'dreemy-ai',
+  'ChatUp AI': 'chatup-ai',
+  'SoulGen': 'soulgen',
+  'Flipped Chat': 'flipped-chat',
+  'Sigma Face Generator': 'sigma-face',
+  'Darlink AI': 'darlink-ai',
+  'Unlucid AI': 'unlucid-ai',
   'Runway Gen-3 Alpha': 'runway',
   'HeyGen AI Video': 'heygen',
   'ElevenLabs Voice AI': 'elevenlabs',
@@ -176,6 +184,7 @@ export function enrichTool(tool: AITool): EnrichedTool {
   return {
     ...tool,
     slug,
+    startingPrice: tool.startingPrice || startingPrice,
     pros: (tool.pros && tool.pros.length > 0) ? tool.pros : defaultPros,
     cons: (tool.cons && tool.cons.length > 0) ? tool.cons : defaultCons,
     keyUseCases: defaultUseCases,

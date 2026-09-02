@@ -139,6 +139,26 @@ export const COMPLEX_USE_CASE_PRESETS: ComplexUseCasePreset[] = [
     description: 'Design custom node-based generative image and VFX pipelines chaining LoRAs, ControlNets, IP-Adapters, and 10K resolution upscalers.',
     complexity: 'Frontier Engineering',
     featuredTools: ['comfyui', 'flux1-black-forest-labs', 'magnific']
+  },
+  {
+    id: 'reverse-image-face-ai',
+    title: 'AI Reverse Image & Facial Search',
+    icon: '🔍',
+    category: 'Design',
+    query: 'reverse image search visual lookup face search find duplicates people places photo verification lenso ai sigma face',
+    description: 'Track original photo sources, search faces, identify landmarks, and uncover duplicate images with sub-second neural recognition.',
+    complexity: 'Intermediate',
+    featuredTools: ['lenso-ai', 'sigma-face', 'krea-ai']
+  },
+  {
+    id: 'ai-companions-roleplay',
+    title: 'Interactive Conversational Companions & Roleplay',
+    icon: '💬',
+    category: 'Writing',
+    query: 'conversational companion virtual avatar interactive roleplay character chat voice notes candy ai yollo ai darlink ai flipped chat',
+    description: 'Engage with dynamic conversational companions, personalized virtual avatars, emotional voice synthesis, and multi-scenario roleplay.',
+    complexity: 'Intermediate',
+    featuredTools: ['candy-ai', 'yollo-ai', 'darlink-ai', 'flipped-chat']
   }
 ];
 
