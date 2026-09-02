@@ -5,8 +5,8 @@ import { usePathname } from 'next/navigation';
 import Script from 'next/script';
 import { trackClientEvent } from '@/lib/analytics';
 
-const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID;
-const POSTHOG_KEY = process.env.NEXT_PUBLIC_POSTHOG_KEY;
+const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID || 'G-WCL9JTB6TC';
+const POSTHOG_KEY = process.env.NEXT_PUBLIC_POSTHOG_KEY || 'phc_wLA9gRd7oxsendn9i2z7CppaytbHaokeZTUwGPPEi4eJ';
 const POSTHOG_HOST = process.env.NEXT_PUBLIC_POSTHOG_HOST || 'https://us.i.posthog.com';
 
 export default function Analytics() {
