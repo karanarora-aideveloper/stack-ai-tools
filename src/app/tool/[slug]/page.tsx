@@ -50,16 +50,20 @@ export async function generateMetadata({ params }: ToolPageProps): Promise<Metad
     };
   }
 
-  const title = `${tool.name} Review (2026): Pricing, Features & Alternatives`;
-  const description = `In-depth 2026 review of ${tool.name}. Explore verified user ratings (${tool.rating}/5), pricing plans (${tool.pricingModel}), core capabilities, pros & cons, and top alternatives.`;
+  const title = `[Tested 2026] ${tool.name} Review: Pricing, Features & Alternatives`;
+  const description = `In-depth 2026 review of ${tool.name}. Explore verified user ratings (${tool.rating}/5), pricing plans (${tool.pricingModel}), core capabilities, pros & cons, and top alternatives. Try free →`;
 
   return {
     title,
     description,
+    keywords: [tool.name, `${tool.name} review`, `${tool.name} pricing`, `${tool.name} alternatives`, tool.category, 'AI tools 2026', ...(tool.tags || [])],
+    alternates: {
+      canonical: `https://www.stackaitools.com/tool/${tool.slug}`,
+    },
     openGraph: {
       title,
       description,
-      url: `https://stackaitools.com/tool/${tool.slug}`,
+      url: `https://www.stackaitools.com/tool/${tool.slug}`,
       type: 'article',
       images: [
         {

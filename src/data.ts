@@ -97,7 +97,7 @@ export const aiTools: AITool[] = [
     link: 'https://docs.anthropic.com/en/docs/agents-and-tools/claude-code',
     rating: 4.97,
     reviewsCount: 18200,
-    tags: ['CLI Agent', 'Claude 3.7', 'Terminal Tool', 'Architecture'],
+    tags: ['CLI Agent', 'Claude 3.7', 'mcp-server', 'Model Context Protocol', 'Terminal Tool', 'Architecture'],
     badge: 'Developer #1',
     featured: true,
     primaryUseCase: 'Agentic terminal-native codebase refactoring, search & test execution',
@@ -627,13 +627,13 @@ export const aiTools: AITool[] = [
     icon: '✂️',
     domain: 'opus.pro',
     logoUrl: 'https://www.google.com/s2/favicons?domain=opus.pro&sz=128',
-    description: 'Repurpose long videos into viral TikToks, Reels, and Shorts in 1 click. AI analyzes engagement potential and adds dynamic animated captions.',
+    description: 'The #1 AI video repurposing platform. Automatically turns long YouTube videos and podcasts into viral TikToks, Reels, and Shorts with AI engagement hooks and animated captions.',
     pricingModel: 'Freemium',
     priceClass: 'freemium',
     link: 'https://opus.pro',
     rating: 4.8,
     reviewsCount: 7100,
-    tags: ['Viral Hooks', 'Shorts', 'Auto-captions', 'Repurposing']
+    tags: ['opus clip', 'Video Repurposing', 'Viral Hooks', 'Shorts', 'Auto-captions', 'TikTok AI']
   },
   {
     id: 31,
@@ -657,13 +657,13 @@ export const aiTools: AITool[] = [
     icon: '📚',
     domain: 'readwise.io',
     logoUrl: 'https://www.google.com/s2/favicons?domain=readwise.io&sz=128',
-    description: 'Personalized reading and knowledge management copilot that auto-summarizes long articles, highlights takeaways, and syncs to Obsidian.',
+    description: 'Personalized reading and knowledge copilot featuring the Readwise Reader MCP Server. Syncs web highlights, long-form articles, and PDFs to Obsidian, Notion, and Claude via Model Context Protocol.',
     pricingModel: 'Paid',
     priceClass: 'paid',
     link: 'https://readwise.io/read',
     rating: 4.92,
     reviewsCount: 5400,
-    tags: ['Knowledge', 'Highlights', 'Summaries', 'Reading']
+    tags: ['readwise reader mcp server', 'mcp-server', 'Model Context Protocol', 'Knowledge', 'Summaries']
   },
   {
     id: 33,
@@ -702,13 +702,13 @@ export const aiTools: AITool[] = [
     icon: '🖌️',
     domain: 'krea.ai',
     logoUrl: 'https://www.google.com/s2/favicons?domain=krea.ai&sz=128',
-    description: 'Zero-latency generative visual design tool allowing creators to draw, prompt, and generate high-resolution art in real time.',
+    description: 'Zero-latency generative visual design tool allowing creators to draw, prompt, and generate 1080p photorealistic images, 3D meshes, and video in real time.',
     pricingModel: 'Freemium',
     priceClass: 'freemium',
     link: 'https://krea.ai',
     rating: 4.86,
     reviewsCount: 4200,
-    tags: ['Real-time', 'Canvas', 'Zero Latency', 'Design']
+    tags: ['krea ai', 'Real-time Canvas', '3D AI', 'Video AI', 'Zero Latency', 'Generative Design']
   },
   {
     id: 36,
@@ -798,7 +798,7 @@ export const aiTools: AITool[] = [
     link: 'https://lovable.dev',
     rating: 4.93,
     reviewsCount: 14200,
-    tags: ['Fullstack', 'React', 'Supabase', 'No-Code to Code'],
+    tags: ['Generative UI', 'Fullstack', 'React', 'Supabase', 'No-Code to Code'],
     badge: 'Viral #1',
     featured: true
   },
@@ -815,7 +815,7 @@ export const aiTools: AITool[] = [
     link: 'https://bolt.new',
     rating: 4.91,
     reviewsCount: 11600,
-    tags: ['WebContainers', 'Browser IDE', 'Node.js', 'Instant Deploy'],
+    tags: ['Generative UI', 'WebContainers', 'Browser IDE', 'Node.js', 'Instant Deploy'],
     badge: 'Trending'
   },
   {
@@ -841,13 +841,13 @@ export const aiTools: AITool[] = [
     icon: '🏄',
     domain: 'codeium.com',
     logoUrl: 'https://www.google.com/s2/favicons?domain=codeium.com&sz=128',
-    description: 'The agentic IDE that understands your codebase flow. Features Cascade multi-file agent workflows, real-time supercomplete, and terminal execution.',
+    description: 'The premier agentic AI IDE and coding assistant by Codeium. Features Cascade multi-file agent workflows, deep AST codebase indexing, terminal execution, and Model Context Protocol (MCP) server support.',
     pricingModel: 'Freemium',
     priceClass: 'freemium',
     link: 'https://codeium.com/windsurf',
     rating: 4.89,
     reviewsCount: 8900,
-    tags: ['Cascade AI', 'IDE', 'Multi-File', 'Developer Agent']
+    tags: ['Codeium AI', 'Codeium IDE', 'Cascade AI', 'mcp-server', 'Model Context Protocol', 'Autonomous Agent', 'IDE']
   },
   {
     id: 45,
@@ -856,13 +856,13 @@ export const aiTools: AITool[] = [
     icon: '🚀',
     domain: 'replit.com',
     logoUrl: 'https://www.google.com/s2/favicons?domain=replit.com&sz=128',
-    description: 'Autonomous development agent that designs, codes, tests, and deploys complete software applications from scratch right in the cloud.',
+    description: 'Autonomous development agent on replit.com that designs, codes, tests, and deploys fullstack web and mobile apps with PostgreSQL databases right from your browser.',
     pricingModel: 'Freemium',
     priceClass: 'freemium',
     link: 'https://replit.com',
     rating: 4.87,
     reviewsCount: 9400,
-    tags: ['Autonomous Agent', 'Cloud IDE', 'Hosting', 'Database Setup']
+    tags: ['replit.com', 'Autonomous Agent', 'Mobile App Builder', 'Cloud IDE', 'Fullstack App']
   },
   {
     id: 46,
@@ -871,13 +871,13 @@ export const aiTools: AITool[] = [
     icon: '💻',
     domain: 'aider.chat',
     logoUrl: 'https://www.google.com/s2/favicons?domain=aider.chat&sz=128',
-    description: 'The premier open-source command-line autonomous pair programming tool. Works with Claude 3.5 Sonnet and GPT-4o with automatic git commit history.',
+    description: 'The leading open-source terminal pair programming coding agent by aider.chat. Edits multi-file codebases with Claude 3.7 Sonnet & GPT-4o, automated git commits, and Model Context Protocol (MCP) tools.',
     pricingModel: 'Free',
     priceClass: 'free',
     link: 'https://aider.chat',
     rating: 4.94,
     reviewsCount: 7100,
-    tags: ['Terminal Agent', 'Open Source', 'Git Automation', 'CLI']
+    tags: ['aider.chat', 'Terminal Agent', 'mcp-server', 'Model Context Protocol', 'Open Source', 'Git Automation']
   },
   {
     id: 47,
@@ -966,13 +966,13 @@ export const aiTools: AITool[] = [
     icon: '🎥',
     domain: 'klingai.com',
     logoUrl: 'https://www.google.com/s2/favicons?domain=klingai.com&sz=128',
-    description: 'Next-generation video synthesis capable of rendering realistic physical simulations, dynamic multi-character action, and up to 2-minute continuous sequences.',
+    description: 'Next-generation cinematic video generator capable of rendering realistic physical simulations, dynamic multi-character action, and up to 2-minute continuous sequences in 1080p and 4K.',
     pricingModel: 'Freemium',
     priceClass: 'freemium',
     link: 'https://klingai.com',
     rating: 4.90,
     reviewsCount: 10400,
-    tags: ['Motion Physics', 'Action Video', 'Realistic Lighting', 'HD Video']
+    tags: ['kling ai review', 'Motion Physics', 'Action Video', 'Cinematic Video', 'Sora Alternative', 'HD Video']
   },
   {
     id: 53,

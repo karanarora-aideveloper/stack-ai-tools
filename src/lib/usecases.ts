@@ -11,6 +11,36 @@ export interface ComplexUseCasePreset {
 
 export const COMPLEX_USE_CASE_PRESETS: ComplexUseCasePreset[] = [
   {
+    id: 'mcp-servers-tools',
+    title: 'Model Context Protocol (MCP) Servers',
+    icon: '🔌',
+    category: 'Code',
+    query: 'mcp server model context protocol readwise claude cursor continue aider terminal tool use',
+    description: 'Connect frontier reasoning models and coding agents directly to external knowledge bases, terminal tools, and local databases via the Model Context Protocol (MCP).',
+    complexity: 'Frontier Engineering',
+    featuredTools: ['claude-code', 'cursor', 'aider', 'readwise', 'continue']
+  },
+  {
+    id: 'generative-ui-apps',
+    title: 'Generative UI & Prompt-to-Component',
+    icon: '🎨',
+    category: 'Code',
+    query: 'generative ui v0 bolt lovable react tailwind component prompt frontend prototype',
+    description: 'Transform natural language prompts into live, interactive, accessible React & Tailwind UI components with zero manual boilerplate.',
+    complexity: 'Advanced',
+    featuredTools: ['v0', 'bolt-new', 'lovable', 'replit-agent']
+  },
+  {
+    id: 'ai-video-repurposing',
+    title: 'AI Video Repurposing & Viral Shorts',
+    icon: '✂️',
+    category: 'Video',
+    query: 'opus clip video repurposing viral shorts tiktok captions kling pika reel generator',
+    description: 'Automatically extract viral highlights from long-form video, add animated captions, and re-frame for TikTok, Instagram Reels, and YouTube Shorts.',
+    complexity: 'Intermediate',
+    featuredTools: ['opus-clip', 'captions-ai', 'descript', 'kling-ai']
+  },
+  {
     id: 'autonomous-swe',
     title: 'Autonomous Software Engineering & PRs',
     icon: '🤖',
