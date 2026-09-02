@@ -103,11 +103,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
+  // 6. Dynamic Programmatic Search Hub Routes (High-Volume Competitor Search Gaps)
+  const { getAllSearchHubs } = await import('@/data/search-hubs');
+  const searchHubs = getAllSearchHubs();
+  const searchHubRoutes: MetadataRoute.Sitemap = searchHubs.map((hub) => ({
+    url: `${baseUrl}/s/${hub.slug}`,
+    lastModified: currentDate,
+    changeFrequency: 'weekly',
+    priority: 0.85,
+  }));
+
   return [
     ...staticRoutes,
     ...categoryRoutes,
     ...toolRoutes,
     ...alternativeRoutes,
+    ...searchHubRoutes,
     ...articleRoutes,
   ];
 }

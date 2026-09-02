@@ -9,7 +9,7 @@
 ```
 
 ### ⚡ The Authoritative Open-Source Frontier AI Software & Agent Ecosystem
-**Discover, compare, and deploy 233+ vetted AI software, autonomous coding agents, and prompt libraries.**
+**Discover, compare, and deploy 239+ vetted AI software, autonomous coding agents, and prompt libraries.**
 
 [![Production Deployment](https://img.shields.io/badge/Live_Site-stackaitools.com-6366f1?style=for-the-badge&logo=vercel&logoColor=white)](https://stack-ai-tools.vercel.app)
 [![Built With AI](https://img.shields.io/badge/Built_With-Frontier_AI-ec4899?style=for-the-badge&logo=openai&logoColor=white)](#-built-with-ai)
@@ -87,7 +87,7 @@ Stack AI Tools was architected from ground zero utilizing pair-programming with 
 
 ---
 
-## 🔥 2026 Frontier Tools Catalog (233+ Vetted Tools)
+## 🔥 2026 Frontier Tools Catalog (239+ Vetted Tools)
 
 Every tool is independently tested, verified with genuine user feedback, and categorized by primary workflow.
 
@@ -126,7 +126,7 @@ Every tool is independently tested, verified with genuine user feedback, and cat
 | [**Voiceflow**](https://www.stackaitools.com/tool/voiceflow) | `Freemium` | ⭐ 5.0 | A collaborative platform for designing, developing, and launching AI Agents | [Visit Official Site ↗](https://www.voiceflow.com/) |
 | [**speaq.ai**](https://www.stackaitools.com/tool/speaq-ai) | `Freemium` | ⭐ 4.8 | Build AI Agents on Your Own Saas CRM Brand | [Visit Official Site ↗](https://www.speaq.ai) |
 
-### ⚡ Automation (72 Tools)
+### ⚡ Automation (74 Tools)
 
 | Tool | Pricing | Rating | Description | Official Link |
 | :--- | :--- | :--- | :--- | :--- |
@@ -144,6 +144,7 @@ Every tool is independently tested, verified with genuine user feedback, and cat
 | [**AutoGPT (Autonomous AGI Agent)**](https://www.stackaitools.com/tool/autogpt-autonomous-agi-agent) | `Free` | ⭐ 4.8 | AutoGPT (Autonomous AGI Agent) frontier AI software platform. | [Visit Official Site ↗](https://news.agpt.co) |
 | [**Beam AI**](https://www.stackaitools.com/tool/beam-ai) | `Freemium` | ⭐ 4.8 | Platform for agentic process automation | [Visit Official Site ↗](https://beam.ai/platform) |
 | [**Browse AI**](https://www.stackaitools.com/tool/browse-ai) | `Freemium` | ⭐ 4.9 | No-code web scraping and monitoring robots. Extract structured data from any website in 2 minutes, turn any si... | [Visit Official Site ↗](https://browse.ai) |
+| [**BytePlus AI**](https://www.stackaitools.com/tool/byteplus-ai) | `Paid` | ⭐ 4.9 | Enterprise AI and recommendation infrastructure from ByteDance. Powers personalized recommendation engines, co... | [Visit Official Site ↗](https://byteplus.com) |
 | [**Cognosys**](https://www.stackaitools.com/tool/cognosys) | `Freemium` | ⭐ 4.8 | Streamlines productivity with personalized AI assistance. | [Visit Official Site ↗](https://www.cognosys.ai/) |
 | [**Composio**](https://www.stackaitools.com/tool/composio) | `Freemium` | ⭐ 4.8 | A platform for integrating AI agents with over 150 external tools to enhance functionality. | [Visit Official Site ↗](https://composio.dev) |
 | [**CrewAI**](https://www.stackaitools.com/tool/crewai) | `Freemium` | ⭐ 4.9 | CrewAI frontier AI software platform. | [Visit Official Site ↗](https://crewai.com) |
@@ -193,6 +194,7 @@ Every tool is independently tested, verified with genuine user feedback, and cat
 | [**Taskade AI**](https://www.stackaitools.com/tool/taskade-ai) | `Freemium` | ⭐ 4.9 | Unified workspace to build, train, and deploy autonomous AI agent teams for task automation, dynamic mind mapp... | [Visit Official Site ↗](https://taskade.com) |
 | [**Tavily**](https://www.stackaitools.com/tool/tavily) | `Freemium` | ⭐ 4.8 | A search engine built specifically for AI agents and tailored for RAG purposes | [Visit Official Site ↗](https://tavily.com/) |
 | [**Teenage-AGI**](https://www.stackaitools.com/tool/teenage-agi) | `Freemium` | ⭐ 4.8 | Autonomous AI agent with infinite memory and contextual reasoning. | [Visit Official Site ↗](https://github.com/seanpixel/Teenage-AGI) |
+| [**TinyWow AI**](https://www.stackaitools.com/tool/tinywow-ai) | `Free` | ⭐ 4.9 | Free Swiss Army knife utility platform offering 200+ AI and document tools: background remover, PDF editor, im... | [Visit Official Site ↗](https://tinywow.com) |
 | [**Twitter Personality Agent**](https://www.stackaitools.com/tool/twitter-personality-agent) | `Freemium` | ⭐ 4.8 | Twitter Personality is an AI Agent that analyzes your tweets to reveal the unique traits | [Visit Official Site ↗](https://twitter.wordware.ai) |
 | [**Vertex AI Agent Builder**](https://www.stackaitools.com/tool/vertex-ai-agent-builder) | `Freemium` | ⭐ 4.8 | A platform for building, deploying, and scaling machine learning models. | [Visit Official Site ↗](https://cloud.google.com/products/agent-builder?hl=en) |
 | [**VisualAgents.ai**](https://www.stackaitools.com/tool/visualagents-ai) | `Freemium` | ⭐ 4.8 | A serverless, zero-install, Progressive Web App that runs in your browser. | [Visit Official Site ↗](https://visualagents.ai/) |
@@ -203,7 +205,7 @@ Every tool is independently tested, verified with genuine user feedback, and cat
 | [**scrape.new**](https://www.stackaitools.com/tool/scrape-new) | `Freemium` | ⭐ 4.8 | Automatic data extraction in seconds  | [Visit Official Site ↗](https://scrape.new) |
 | [**uAgents**](https://www.stackaitools.com/tool/uagents) | `Freemium` | ⭐ 4.8 | Platform for agent search and discovery to enable agentic economy | [Visit Official Site ↗](https://fetch.ai) |
 
-### 💼 Business (10 Tools)
+### 💼 Business (11 Tools)
 
 | Tool | Pricing | Rating | Description | Official Link |
 | :--- | :--- | :--- | :--- | :--- |
@@ -214,11 +216,12 @@ Every tool is independently tested, verified with genuine user feedback, and cat
 | [**Lindy AI**](https://www.stackaitools.com/tool/lindy-ai) | `Freemium` | ⭐ 4.8 | Build AI agents to automate workflows and grow your business | [Visit Official Site ↗](https://www.lindy.ai/) |
 | [**Relevance AI**](https://www.stackaitools.com/tool/relevance-ai) | `Freemium` | ⭐ 4.8 | An AI workforce platform empowering businesses with customizable AI agents and tools. | [Visit Official Site ↗](https://relevanceai.com/) |
 | [**Superagent**](https://www.stackaitools.com/tool/superagent) | `Freemium` | ⭐ 4.8 | Superagent uses AI to help businesses improve their compliance | [Visit Official Site ↗](https://superagent.sh/) |
+| [**Supio AI**](https://www.stackaitools.com/tool/supio-ai) | `Paid` | ⭐ 4.9 | Enterprise AI legal intelligence platform for personal injury and litigation teams. Analyzes massive medical r... | [Visit Official Site ↗](https://supio.com) |
 | [**Tektonic AI**](https://www.stackaitools.com/tool/tektonic-ai) | `Freemium` | ⭐ 4.8 | AI-powered platform for automating complex business operations  | [Visit Official Site ↗](https://www.tektonic.ai/) |
 | [**UiPath**](https://www.stackaitools.com/tool/uipath) | `Freemium` | ⭐ 4.8 | AI-enhanced RPA platform automating business processes with intelligent decision-making capabilities | [Visit Official Site ↗](https://www.uipath.com/) |
 | [**Vinsi**](https://www.stackaitools.com/tool/vinsi) | `Freemium` | ⭐ 4.8 | AI CX Agents Made Easy | [Visit Official Site ↗](https://vinsi.ai) |
 
-### 💻 Code (43 Tools)
+### 💻 Code (44 Tools)
 
 | Tool | Pricing | Rating | Description | Official Link |
 | :--- | :--- | :--- | :--- | :--- |
@@ -238,6 +241,7 @@ Every tool is independently tested, verified with genuine user feedback, and cat
 | [**Devin AI (Cognition Labs)**](https://www.stackaitools.com/tool/devin-ai-cognition-labs) | `Paid` | ⭐ 4.9 | The premier autonomous AI software engineer capable of planning, executing complex coding tasks, fixing produc... | [Visit Official Site ↗](https://cognition.ai) |
 | [**Griptape**](https://www.stackaitools.com/tool/griptape) | `Freemium` | ⭐ 4.8 | Framework for creating AI agents with minimal coding. | [Visit Official Site ↗](https://www.griptape.ai/) |
 | [**Gumloop**](https://www.stackaitools.com/tool/gumloop) | `Freemium` | ⭐ 4.8 | Gumloop is a no-code platform for automating workflows with AI.  | [Visit Official Site ↗](https://www.gumloop.com/) |
+| [**HackerAI**](https://www.stackaitools.com/tool/hackerai) | `Freemium` | ⭐ 4.9 | Autonomous AI cybersecurity engineer and source code vulnerability scanner. Detects zero-days, SQL injection, ... | [Visit Official Site ↗](https://hackerai.co) |
 | [**Langflow**](https://www.stackaitools.com/tool/langflow) | `Freemium` | ⭐ 5.0 | Langflow is a low-code platform for building AI applications with RAG and multi-agent capabilities.  | [Visit Official Site ↗](https://www.langflow.org/) |
 | [**Langfuse**](https://www.stackaitools.com/tool/langfuse) | `Freemium` | ⭐ 4.9 | Open-source LLM engineering and observability platform that helps engineering teams collaboratively debug, tra... | [Visit Official Site ↗](https://langfuse.com) |
 | [**Lovable.dev**](https://www.stackaitools.com/tool/lovable-dev) | `Freemium` | ⭐ 4.9 | The viral fullstack autonomous software engineer. Generates responsive React, Supabase databases, and authenti... | [Visit Official Site ↗](https://lovable.dev) |
@@ -266,7 +270,7 @@ Every tool is independently tested, verified with genuine user feedback, and cat
 | [**v0 by Vercel 2.0**](https://www.stackaitools.com/tool/v0-by-vercel-2-0) | `Freemium` | ⭐ 4.9 | Generative UI and full-stack Next.js web application architect by Vercel. From prompt to deployed production c... | [Visit Official Site ↗](https://v0.dev) |
 | [**v0.dev by Vercel**](https://www.stackaitools.com/tool/v0-dev-by-vercel) | `Freemium` | ⭐ 4.9 | Vercel's generative user interface builder. Translates prompts and screenshots into accessible, production-rea... | [Visit Official Site ↗](https://v0.dev) |
 
-### 🎨 Design (25 Tools)
+### 🎨 Design (26 Tools)
 
 | Tool | Pricing | Rating | Description | Official Link |
 | :--- | :--- | :--- | :--- | :--- |
@@ -276,6 +280,7 @@ Every tool is independently tested, verified with genuine user feedback, and cat
 | [**Civitai**](https://www.stackaitools.com/tool/civitai) | `Free` | ⭐ 4.9 | The premier open-weights generative art community platform housing hundreds of thousands of fine-tuned Stable ... | [Visit Official Site ↗](https://civitai.com) |
 | [**ComfyUI Modular Diffusion**](https://www.stackaitools.com/tool/comfyui-modular-diffusion) | `Free` | ⭐ 5.0 | The premier open-source modular node-based visual graph interface for Stable Diffusion, Flux.1, ControlNet, an... | [Visit Official Site ↗](https://github.com/comfyanonymous/ComfyUI) |
 | [**ControlFlow**](https://www.stackaitools.com/tool/controlflow) | `Freemium` | ⭐ 4.8 | A Python framework for orchestrating AI-powered workflows with task-centric design. | [Visit Official Site ↗](https://controlflow.ai/welcome) |
+| [**Dezgo**](https://www.stackaitools.com/tool/dezgo) | `Free` | ⭐ 4.8 | Ultra-fast, unconstrained Stable Diffusion and Flux AI image generator. Offers zero-registration text-to-image... | [Visit Official Site ↗](https://dezgo.com) |
 | [**Dreemy AI**](https://www.stackaitools.com/tool/dreemy-ai) | `Freemium` | ⭐ 4.8 | Creative AI illustration and character visualization suite with diverse digital art styles, anime aesthetics, ... | [Visit Official Site ↗](https://dreemy.ai) |
 | [**Flux.1 (Black Forest Labs)**](https://www.stackaitools.com/tool/flux-1-black-forest-labs) | `Freemium` | ⭐ 5.0 | State-of-the-art 12B parameter open-weights visual generative model. Sets the gold standard for anatomy, fine ... | [Visit Official Site ↗](https://blackforestlabs.ai) |
 | [**Flux.1 by Black Forest Labs**](https://www.stackaitools.com/tool/flux-1-by-black-forest-labs) | `Freemium` | ⭐ 5.0 | State-of-the-art 12B parameter open-weights visual generative model. Sets the gold standard for anatomy, fine ... | [Visit Official Site ↗](https://blackforestlabs.ai) |
@@ -324,13 +329,13 @@ Every tool is independently tested, verified with genuine user feedback, and cat
 | [**Opus Clip 3.0**](https://www.stackaitools.com/tool/opus-clip-3-0) | `Freemium` | ⭐ 4.8 | Repurpose long videos into viral TikToks, Reels, and Shorts in 1 click. AI analyzes engagement potential and a... | [Visit Official Site ↗](https://opus.pro) |
 | [**Pika 2.0**](https://www.stackaitools.com/tool/pika-2-0) | `Freemium` | ⭐ 4.8 | Playful and creative video generation suite. Features Pikaffects physics effects (crush, melt, explode, inflat... | [Visit Official Site ↗](https://pika.art) |
 | [**Pika 2.2**](https://www.stackaitools.com/tool/pika-2-2) | `Freemium` | ⭐ 4.8 | Generative video platform equipped with custom physical effects (Pikaffects), cinematic transitions, and synch... | [Visit Official Site ↗](https://pika.art) |
-| [**Runway Gen-3 Alpha**](https://www.stackaitools.com/tool/runway-gen-3-alpha) | `Freemium` | ⭐ 4.9 | Hollywood-grade generative video model with precise director camera controls, motion brush, text-to-video, and... | [Visit Official Site ↗](https://runwayml.com) |
 | [**Runway Gen-3 Alpha**](https://www.stackaitools.com/tool/runway-gen-3-alpha) | `Paid` | ⭐ 4.9 | Hollywood-tier generative video synthesis with HDR output, physics-accurate world simulation, and granular dir... | [Visit Official Site ↗](https://runwayml.com) |
+| [**Runway Gen-3 Alpha**](https://www.stackaitools.com/tool/runway-gen-3-alpha) | `Freemium` | ⭐ 4.9 | Hollywood-grade generative video model with precise director camera controls, motion brush, text-to-video, and... | [Visit Official Site ↗](https://runwayml.com) |
 | [**Runway Gen-4.5**](https://www.stackaitools.com/tool/runway-gen-4-5) | `Paid` | ⭐ 4.9 | Hollywood-tier generative video synthesis with HDR output, physics-accurate world simulation, and granular dir... | [Visit Official Site ↗](https://runwayml.com) |
 | [**ShortGPT**](https://www.stackaitools.com/tool/shortgpt) | `Freemium` | ⭐ 4.8 | An AI-powered framework that automates video content creation from script to final render. | [Visit Official Site ↗](https://docs.shortgpt.ai/) |
 | [**Synthesia 2.5 Avatars**](https://www.stackaitools.com/tool/synthesia-2-5-avatars) | `Paid` | ⭐ 4.8 | Corporate AI avatar video platform with emotive micro-expressions, native voice translation, and instant enter... | [Visit Official Site ↗](https://synthesia.io) |
 
-### ✍️ Writing (29 Tools)
+### ✍️ Writing (30 Tools)
 
 | Tool | Pricing | Rating | Description | Official Link |
 | :--- | :--- | :--- | :--- | :--- |
@@ -353,6 +358,7 @@ Every tool is independently tested, verified with genuine user feedback, and cat
 | [**Jasper AI**](https://www.stackaitools.com/tool/jasper-ai) | `Paid` | ⭐ 4.8 | Enterprise AI marketing platform enforcing strict brand guidelines, omnichannel campaigns, and conversion-opti... | [Visit Official Site ↗](https://jasper.ai) |
 | [**Jasper AI Brand Voice**](https://www.stackaitools.com/tool/jasper-ai-brand-voice) | `Paid` | ⭐ 4.8 | Enterprise AI marketing platform enforcing strict brand guidelines, omnichannel campaigns, and conversion-opti... | [Visit Official Site ↗](https://jasper.ai) |
 | [**Jenni AI**](https://www.stackaitools.com/tool/jenni-ai) | `Freemium` | ⭐ 4.8 | AI research writing assistant for essays, literature reviews, and papers. Features automated APA/MLA in-text c... | [Visit Official Site ↗](https://jenni.ai) |
+| [**Jenova AI**](https://www.stackaitools.com/tool/jenova-ai) | `Freemium` | ⭐ 4.9 | High-speed all-in-one AI assistant and productivity workspace unifying Claude 3.7, GPT-4o, and DeepSeek-R1 wit... | [Visit Official Site ↗](https://jenova.ai) |
 | [**Mem.ai**](https://www.stackaitools.com/tool/mem-ai) | `Freemium` | ⭐ 4.8 | Self-organizing AI workspace and second brain that connects notes, emails, and web research into an ambient kn... | [Visit Official Site ↗](https://mem.ai) |
 | [**NotebookLM by Google**](https://www.stackaitools.com/tool/notebooklm-by-google) | `Free` | ⭐ 5.0 | Google's personalized AI research notebook grounded entirely in your notes, PDFs, and links. Creates viral 2-h... | [Visit Official Site ↗](https://notebooklm.google.com) |
 | [**Notion AI Workspace**](https://www.stackaitools.com/tool/notion-ai-workspace) | `Paid` | ⭐ 4.8 | Connected workplace AI that queries company docs, auto-summarizes team databases, drafts executive memos, and ... | [Visit Official Site ↗](https://notion.so) |

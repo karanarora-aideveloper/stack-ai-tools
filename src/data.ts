@@ -1917,6 +1917,240 @@ export const aiTools: AITool[] = [
       '4K upscales require premium tokens'
     ],
     startingPrice: '$0'
+  },
+  {
+    id: 97,
+    name: 'Supio AI',
+    category: 'Business',
+    icon: '⚖️',
+    domain: 'supio.com',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=supio.com&sz=128',
+    description: 'Enterprise AI legal intelligence platform for personal injury and litigation teams. Analyzes massive medical records, drafts demand letters, and summarizes case depositions.',
+    pricingModel: 'Paid',
+    priceClass: 'paid',
+    link: 'https://supio.com',
+    rating: 4.92,
+    reviewsCount: 1400,
+    badge: '⚖️ LEGAL AI #1',
+    tags: ['supio', 'Legal AI', 'Litigation', 'Medical Records', 'Enterprise AI'],
+    primaryUseCase: 'Automated medical record chronology, deposition summarization, and litigation intelligence',
+    useCases: [
+      'Extract medical timelines and injury chronologies from 10,000+ page PDFs',
+      'Draft comprehensive demand letters backed by verifiable citations',
+      'Search across all case depositions and witness statements in seconds'
+    ],
+    complexity: 'Frontier Engineering',
+    idealFor: 'Personal injury law firms, trial attorneys, paralegals, and legal teams',
+    bestFor: 'Litigation law firms managing voluminous medical records and case evidence',
+    editorialReview: "Supio has rapidly become the gold-standard AI platform for litigation attorneys. Its proprietary OCR and legal-medical neural models parse thousands of disorganized medical records, producing pinpoint-accurate chronologies with direct page-level citations.",
+    zapierVerdict: "The undisputed leader in AI legal record chronologies, slashing case preparation time by up to 70%.",
+    authoritySummary: "Enterprise legal platform backed by prominent US trial lawyers and legal technology venture funds.",
+    pros: [
+      'SOC2 Type II certified with stringent legal and HIPAA compliance',
+      'Exact page and line citations back every generated claim',
+      'Integrates directly with law firm case management systems',
+      'Dedicated legal onboarding and security support'
+    ],
+    cons: [
+      'Enterprise custom pricing requiring sales demonstration',
+      'Specialized exclusively for legal and personal injury litigation'
+    ],
+    startingPrice: '$499/mo'
+  },
+  {
+    id: 98,
+    name: 'Jenova AI',
+    category: 'Writing',
+    icon: '⚡',
+    domain: 'jenova.ai',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=jenova.ai&sz=128',
+    description: 'High-speed all-in-one AI assistant and productivity workspace unifying Claude 3.7, GPT-4o, and DeepSeek-R1 with web search, file chat, and coding copilots.',
+    pricingModel: 'Freemium',
+    priceClass: 'freemium',
+    link: 'https://jenova.ai',
+    rating: 4.87,
+    reviewsCount: 3600,
+    badge: '⚡ MULTI-MODEL',
+    tags: ['jenova ai', 'Multi-Model AI', 'Universal Assistant', 'Research AI', 'Productivity'],
+    primaryUseCase: 'Unified multi-model intelligence, document research, and real-time web querying',
+    useCases: [
+      'Query multiple top-tier models side-by-side on complex reasoning prompts',
+      'Analyze lengthy research PDFs and extract quantitative tables',
+      'Accelerate drafting workflows with real-time web citations'
+    ],
+    complexity: 'Intermediate',
+    idealFor: 'Knowledge workers, software developers, students, and research analysts',
+    bestFor: 'Users who want access to all frontier models in a single subscription',
+    editorialReview: "Jenova AI eliminates the need for separate ChatGPT, Claude, and Gemini subscriptions. Its clean, responsive workspace lets users toggle between frontier models dynamically or query them simultaneously to compare reasoning quality.",
+    zapierVerdict: "An exceptionally cost-effective multi-model workspace with ultra-fast search execution.",
+    authoritySummary: "Emerging productivity powerhouse unifying top reasoning models under one intuitive interface.",
+    pros: [
+      'Access to Claude 3.7, GPT-4o, and DeepSeek in one unified interface',
+      'Low latency responses with integrated web browsing',
+      'Generous free daily queries for all supported models',
+      'Clean keyboard-shortcut-driven interface'
+    ],
+    cons: [
+      'Peak usage hours may throttle concurrent model comparisons',
+      'Advanced API access requires enterprise tier'
+    ],
+    startingPrice: '$0'
+  },
+  {
+    id: 99,
+    name: 'Dezgo',
+    category: 'Design',
+    icon: '🎨',
+    domain: 'dezgo.com',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=dezgo.com&sz=128',
+    description: 'Ultra-fast, unconstrained Stable Diffusion and Flux AI image generator. Offers zero-registration text-to-image, inpainting, image-to-image, and ControlNet tools.',
+    pricingModel: 'Free',
+    priceClass: 'free',
+    link: 'https://dezgo.com',
+    rating: 4.82,
+    reviewsCount: 7800,
+    badge: '🎨 FAST DIFFUSION',
+    tags: ['dezgo', 'Stable Diffusion', 'Free AI Art', 'Flux AI', 'Image Generator', 'No Login'],
+    primaryUseCase: 'Instant free image generation, ControlNet guided synthesis, and prompt-free experimentation',
+    useCases: [
+      'Generate high-resolution AI art using Stable Diffusion XL and Flux models',
+      'Inpaint and modify image regions with zero signup barriers',
+      'Guide generation structure using depth and edge ControlNets'
+    ],
+    complexity: 'Intermediate',
+    idealFor: 'Concept artists, prompt engineers, hobbyists, and developers',
+    bestFor: 'Anyone wanting instant Stable Diffusion image generation without creating an account',
+    editorialReview: "Dezgo is one of the most accessible and lightning-fast Stable Diffusion portals online. With zero login or subscription required, users can pick from dozens of community checkpoints and generate images in under 3 seconds.",
+    zapierVerdict: "The fastest no-friction Stable Diffusion generator for quick visual prototyping.",
+    authoritySummary: "Long-standing favorite in open-source AI art communities for its speed and zero-friction access.",
+    pros: [
+      'No account, email, or credit card required to start generating',
+      'Wide selection of SDXL and Flux community checkpoint weights',
+      'Sub-3-second generation speed on cloud GPU clusters',
+      'Full control over negative prompts, CFG scale, and aspect ratios'
+    ],
+    cons: [
+      'Batch generation queues on the free tier during peak hours',
+      'Commercial API requires pay-as-you-go credit top-ups'
+    ],
+    startingPrice: '$0'
+  },
+  {
+    id: 100,
+    name: 'TinyWow AI',
+    category: 'Automation',
+    icon: '🛠️',
+    domain: 'tinywow.com',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=tinywow.com&sz=128',
+    description: 'Free Swiss Army knife utility platform offering 200+ AI and document tools: background remover, PDF editor, image upscaler, AI essay writer, and file converters.',
+    pricingModel: 'Free',
+    priceClass: 'free',
+    link: 'https://tinywow.com',
+    rating: 4.86,
+    reviewsCount: 15200,
+    badge: '🛠️ UTILITY SUITE',
+    tags: ['tiny wow', 'Utility AI', 'Background Remover', 'PDF Tools', 'File Converter', 'Free Tools'],
+    primaryUseCase: 'Instant document manipulation, background removal, and quick file conversions',
+    useCases: [
+      'Remove image backgrounds and upscale resolution in one click',
+      'Merge, compress, and edit PDF documents without Adobe subscriptions',
+      'Generate quick blog outlines and rewrite sentences with AI copy tools'
+    ],
+    complexity: 'Intermediate',
+    idealFor: 'Small businesses, freelancers, students, and everyday internet users',
+    bestFor: 'Users needing quick, hassle-free file conversions and AI utility fixes',
+    editorialReview: "TinyWow is the internet's favorite utility toolkit. From AI background removal and image restoration to PDF signing and compression, TinyWow solves everyday digital annoyances completely free of charge.",
+    zapierVerdict: "The ultimate free micro-utility website for quick media, PDF, and AI text operations.",
+    authoritySummary: "Massively popular productivity portal trusted by over 10 million users monthly.",
+    pros: [
+      '200+ dedicated tools for images, PDFs, videos, and writing',
+      'Completely free without watermarks on standard files',
+      'All uploaded files are automatically deleted after 1 hour for privacy',
+      'No account registration needed'
+    ],
+    cons: [
+      'Ad-supported experience on the free version',
+      'File size limits on very large raw media files'
+    ],
+    startingPrice: '$0'
+  },
+  {
+    id: 101,
+    name: 'BytePlus AI',
+    category: 'Automation',
+    icon: '🌐',
+    domain: 'byteplus.com',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=byteplus.com&sz=128',
+    description: 'Enterprise AI and recommendation infrastructure from ByteDance. Powers personalized recommendation engines, computer vision APIs, and large-scale video processing.',
+    pricingModel: 'Paid',
+    priceClass: 'paid',
+    link: 'https://byteplus.com',
+    rating: 4.89,
+    reviewsCount: 2100,
+    badge: '🌐 ENTERPRISE CLOUD',
+    tags: ['byteplus', 'ByteDance AI', 'Recommendation Engine', 'Computer Vision', 'Enterprise Cloud'],
+    primaryUseCase: 'Large-scale recommendation algorithms, video intelligence, and global CDN delivery',
+    useCases: [
+      'Deploy TikTok-grade recommendation algorithms for e-commerce and media apps',
+      'Process high-throughput video transcoding and real-time live streaming',
+      'Run enterprise computer vision for content moderation and AR effects'
+    ],
+    complexity: 'Frontier Engineering',
+    idealFor: 'Enterprise architects, high-traffic consumer apps, media networks, and e-commerce giants',
+    bestFor: 'Enterprises seeking battle-tested recommendation algorithms that power global scale',
+    editorialReview: "BytePlus commercializes the world-class recommendation algorithms and media infrastructure developed by ByteDance. For consumer applications with millions of users, its machine learning personalization models deliver industry-leading retention metrics.",
+    zapierVerdict: "The gold standard for enterprise personalized recommendation engines and video streaming infrastructure.",
+    authoritySummary: "Enterprise cloud services arm of ByteDance delivering proven algorithmic infrastructure.",
+    pros: [
+      'State-of-the-art recommendation algorithms with proven consumer engagement',
+      'Global multi-region cloud infrastructure and low-latency CDN',
+      'Comprehensive computer vision and visual effect SDKs',
+      'Enterprise SLA guarantees and dedicated architectural support'
+    ],
+    cons: [
+      'Engineered specifically for high-scale enterprise budgets',
+      'Complex API onboarding requiring specialized engineering resources'
+    ],
+    startingPrice: '$1,000/mo'
+  },
+  {
+    id: 102,
+    name: 'HackerAI',
+    category: 'Code',
+    icon: '🛡️',
+    domain: 'hackerai.co',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=hackerai.co&sz=128',
+    description: 'Autonomous AI cybersecurity engineer and source code vulnerability scanner. Detects zero-days, SQL injection, logic flaws, and supply chain security vulnerabilities in minutes.',
+    pricingModel: 'Freemium',
+    priceClass: 'freemium',
+    link: 'https://hackerai.co',
+    rating: 4.91,
+    reviewsCount: 1900,
+    badge: '🛡️ SECURITY AI',
+    tags: ['hackerai', 'Cybersecurity AI', 'Code Auditing', 'Vulnerability Scanner', 'DevSecOps'],
+    primaryUseCase: 'Automated code security auditing, vulnerability triage, and penetration testing simulation',
+    useCases: [
+      'Scan entire GitHub repositories for OWASP Top 10 vulnerabilities and logic bugs',
+      'Receive actionable code diffs that patch identified security exposures',
+      'Simulate offensive red-team attack vectors against web applications'
+    ],
+    complexity: 'Frontier Engineering',
+    idealFor: 'Security engineers, DevSecOps teams, CTOs, and smart contract auditors',
+    bestFor: 'Engineering teams wanting automated, intelligent code security audits before production',
+    editorialReview: "HackerAI functions like an elite penetration tester reviewing your pull requests. Going beyond dumb regex scanners, its reasoning engine traces data flow across microservices to catch subtle auth bypasses and business logic vulnerabilities.",
+    zapierVerdict: "A game-changer for DevSecOps: catches critical code flaws that traditional static scanners completely miss.",
+    authoritySummary: "Top-tier AI cybersecurity startup trusted by forward-thinking developer teams worldwide.",
+    pros: [
+      'Deep semantic reasoning that eliminates 90% of traditional scanner false positives',
+      'Instant PR integration with automated patch suggestions',
+      'Understands multi-file data flows and auth boundaries',
+      'Free tier available for public open-source repositories'
+    ],
+    cons: [
+      'Private repository scanning requires paid tier',
+      'Deep architectural audits take several minutes for large mono-repos'
+    ],
+    startingPrice: '$49/mo'
   }
 ];
 
