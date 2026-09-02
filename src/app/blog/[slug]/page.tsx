@@ -1,29 +1,37 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import VisualToolList from '@/app/components/VisualToolList';
+import Image from 'next/image';
 import { 
   getArticleBySlug, 
   getAllArticles, 
-  getRelatedArticles, 
-  generateArticleContent,
+  generateArticleContent, 
+  getRelatedArticles,
   getVisualToolsForArticle
 } from '@/lib/blog';
+import VisualToolList from '@/app/components/VisualToolList';
 import { 
   Clock, 
   Calendar, 
-  ArrowLeft, 
-  Share2, 
   CheckCircle2, 
+  TrendingUp, 
+  ArrowLeft, 
   Sparkles, 
-  ExternalLink,
+  Share2, 
+  Bookmark, 
   HelpCircle,
-  TrendingUp,
-  Bookmark
+  Code2,
+  Terminal,
+  ShieldCheck,
+  Zap,
+  Award,
+  BookOpen
 } from 'lucide-react';
 
 interface ArticlePageProps {
-  params: Promise<{ slug: string }>;
+  params: Promise<{
+    slug: string;
+  }>;
 }
 
 export const dynamicParams = true;
@@ -31,7 +39,7 @@ export const revalidate = 3600;
 
 export async function generateStaticParams() {
   const articles = getAllArticles();
-  // Pre-render the top 50 jackpot articles at build time, remaining resolve via ISR
+  // Pre-render the top 50 articles at build time, remaining resolve via ISR
   return articles.slice(0, 50).map((a) => ({
     slug: a.slug,
   }));
@@ -53,11 +61,11 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
   return {
     title,
     description,
-    keywords: [article.primaryKeyword, article.category, 'AI tools 2026', 'review', 'guide'],
+    keywords: [article.primaryKeyword, article.category, 'AI tools 2026', 'review', 'guide', 'Claude 3.7', 'Karan Arora'],
     openGraph: {
       title,
       description,
-      url: `https://stackaitools.com/blog/${article.slug}`,
+      url: `https://www.stackaitools.com/blog/${article.slug}`,
       siteName: 'Stack AI Tools',
       images: [
         {
@@ -70,7 +78,7 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
       type: 'article',
       publishedTime: article.publishedAt,
       modifiedTime: article.updatedAt,
-      authors: ['https://stackaitools.com/about'],
+      authors: ['https://www.stackaitools.com/about'],
     },
     twitter: {
       card: 'summary_large_image',
@@ -79,7 +87,7 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
       images: [article.imageUrl],
     },
     alternates: {
-      canonical: `https://stackaitools.com/blog/${article.slug}`,
+      canonical: `https://www.stackaitools.com/blog/${article.slug}`,
     },
   };
 }
@@ -93,7 +101,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   }
 
   const content = generateArticleContent(article);
-  const relatedArticles = getRelatedArticles(article.slug, article.category, 3);
+  const relatedArticles = getRelatedArticles(article.slug, article.category, 4);
   const visualTools = getVisualToolsForArticle(article);
 
   // Schema.org Article & FAQ JSON-LD
@@ -109,20 +117,20 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       '@type': 'Person',
       name: 'Karan Arora',
       jobTitle: 'Founder & Chief AI Architect',
-      url: 'https://stackaitools.com/about'
+      url: 'https://www.stackaitools.com/about'
     },
     publisher: {
       '@type': 'Organization',
       name: 'Stack AI Tools',
-      url: 'https://stackaitools.com',
+      url: 'https://www.stackaitools.com',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://stackaitools.com/icon.svg'
+        url: 'https://www.stackaitools.com/icon.svg'
       }
     },
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `https://stackaitools.com/blog/${article.slug}`
+      '@id': `https://www.stackaitools.com/blog/${article.slug}`
     }
   };
 
@@ -154,7 +162,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       <nav className="article-breadcrumb-bar">
         <Link href="/blog" className="breadcrumb-back-link">
           <ArrowLeft size={14} />
-          <span>Back to All Guides</span>
+          <span>Back to 10,000+ Research Guides</span>
         </Link>
         <span className="breadcrumb-separator">/</span>
         <Link href="/blog" style={{ textTransform: 'capitalize', color: 'var(--text-secondary)' }}>
@@ -169,6 +177,10 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         <div className="article-header-meta">
           <span className="modern-cat-tag">
             {article.category.toUpperCase()}
+          </span>
+          <span className="article-stat-pill" style={{ borderColor: 'rgba(56, 189, 248, 0.4)', color: '#38bdf8' }}>
+            <Zap size={13} />
+            {content.telemetryDate}
           </span>
           <span className="article-stat-pill">
             <Clock size={13} />
@@ -212,7 +224,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               Submit Tool
             </Link>
             <Link href="/" className="btn btn-primary" style={{ padding: '6px 14px', fontSize: 12 }}>
-              Explore 85+ Tools
+              Explore 222+ Frontier Tools
             </Link>
           </div>
         </div>
@@ -226,7 +238,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           className="article-hero-image"
         />
         <div className="article-media-caption">
-          <span>Curated Photo via Unsplash • Tested & Benchmarked on <strong>stackaitools.com</strong></span>
+          <span>High-Resolution Visual via Unsplash • Audited & Benchmarked on <strong>stackaitools.com</strong></span>
         </div>
       </div>
 
@@ -238,7 +250,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           <div className="article-takeaways-box">
             <div className="takeaways-header">
               <Sparkles size={18} color="var(--arcade-gold)" />
-              <h3>Key Takeaways & Executive Summary</h3>
+              <h3>Executive Telemetry & Master Takeaways (September 2, 2026)</h3>
             </div>
             <ul className="takeaways-list">
               {content.takeaways.map((point, idx) => (
@@ -250,99 +262,159 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             </ul>
           </div>
 
-          {/* Section 1: Intro */}
+          {/* Intro Section */}
           <section className="article-section">
             <p className="article-intro-text">
               {content.intro}
             </p>
           </section>
 
-          {/* The World's Cleanest Visual Tool List with Use Case Match Probability */}
+          {/* Visual Tool Leaderboard */}
           <VisualToolList 
             tools={visualTools}
-            title={`Top Rated Candidates for "${article.primaryKeyword}"`}
-            subtitle="Verified against real-world benchmark metrics, enterprise latency, and use case match probability."
+            title={`Audited Frontier Candidates for "${article.primaryKeyword}"`}
+            subtitle="Benchmarked on real-world latency, context retention %, and US enterprise compliance."
           />
 
-          {/* Section 2: Paradigm Shift */}
-          <section className="article-section">
-            <h2>{content.sections[0].heading}</h2>
-            <p>{content.sections[0].content}</p>
-          </section>
+          {/* Render Deep Content Sections */}
+          {content.sections.map((sec, idx) => (
+            <section key={idx} id={`section-${idx + 1}`} className="article-section" style={{ marginBottom: 36 }}>
+              <h2 style={{ fontSize: '1.45rem', fontWeight: 700, color: '#f8fafc', marginBottom: 14 }}>
+                {sec.heading}
+              </h2>
+              <p style={{ color: '#cbd5e1', lineHeight: 1.75, fontSize: '1.02rem', marginBottom: 16 }}>
+                {sec.content}
+              </p>
 
-          {/* Callout Box */}
-          <div className="article-callout-card">
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
-              <Bookmark size={18} color="var(--arcade-magenta)" />
-              <h4 style={{ margin: 0, color: '#fff' }}>Recommended Tool of the Month</h4>
+              {/* Subsections if present */}
+              {sec.subsections && sec.subsections.length > 0 && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 16, marginTop: 16 }}>
+                  {sec.subsections.map((sub, sIdx) => (
+                    <div key={sIdx} style={{ background: 'rgba(255, 255, 255, 0.03)', borderLeft: '3px solid var(--arcade-cyan)', padding: '14px 18px', borderRadius: '0 8px 8px 0' }}>
+                      <h4 style={{ color: '#fff', margin: '0 0 6px', fontSize: '1.05rem', fontWeight: 600 }}>
+                        {sub.title}
+                      </h4>
+                      <p style={{ color: '#94a3b8', margin: 0, fontSize: '0.94rem', lineHeight: 1.65 }}>
+                        {sub.text}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Inline Thematic Visual */}
+              {sec.visualImageUrl && (
+                <div style={{ margin: '24px 0', borderRadius: 12, overflow: 'hidden', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+                  <img 
+                    src={sec.visualImageUrl} 
+                    alt={sec.visualCaption || sec.heading} 
+                    style={{ width: '100%', height: 'auto', maxHeight: 420, objectFit: 'cover', display: 'block' }} 
+                  />
+                  {sec.visualCaption && (
+                    <div style={{ background: 'rgba(0, 0, 0, 0.6)', padding: '8px 14px', fontSize: 12, color: '#94a3b8' }}>
+                      {sec.visualCaption}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Section 4: Production Code Snippet */}
+              {idx === 3 && content.codeSnippet && (
+                <div style={{ marginTop: 20, background: '#0a0f1d', border: '1px solid rgba(56, 189, 248, 0.25)', borderRadius: 10, overflow: 'hidden' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 16px', background: 'rgba(15, 23, 42, 0.8)', borderBottom: '1px solid rgba(255, 255, 255, 0.08)' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <Terminal size={15} color="#38bdf8" />
+                      <span style={{ fontSize: 13, fontFamily: 'monospace', color: '#e2e8f0', fontWeight: 600 }}>{content.codeSnippet.filename}</span>
+                    </div>
+                    <span style={{ fontSize: 11, background: 'rgba(56, 189, 248, 0.15)', color: '#38bdf8', padding: '2px 8px', borderRadius: 4, textTransform: 'uppercase', fontWeight: 600 }}>
+                      {content.codeSnippet.language}
+                    </span>
+                  </div>
+                  <pre style={{ margin: 0, padding: 18, overflowX: 'auto', fontSize: 13, lineHeight: 1.6, color: '#f1f5f9', fontFamily: 'monospace' }}>
+                    <code>{content.codeSnippet.code}</code>
+                  </pre>
+                  <div style={{ padding: '8px 16px', background: 'rgba(0,0,0,0.3)', borderTop: '1px solid rgba(255,255,255,0.05)', fontSize: 12, color: '#94a3b8' }}>
+                    {content.codeSnippet.description}
+                  </div>
+                </div>
+              )}
+
+              {/* Section 5: Visual Prompt Template */}
+              {idx === 4 && content.promptTemplate && (
+                <div style={{ marginTop: 20, background: 'rgba(139, 92, 246, 0.05)', border: '1px solid rgba(139, 92, 246, 0.3)', borderRadius: 10, padding: 18 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <Sparkles size={16} color="#a855f7" />
+                      <h4 style={{ margin: 0, color: '#fff', fontSize: '0.98rem' }}>{content.promptTemplate.title}</h4>
+                    </div>
+                    <span style={{ fontSize: 11, background: 'rgba(168, 85, 247, 0.2)', color: '#d8b4fe', padding: '2px 8px', borderRadius: 4 }}>
+                      {content.promptTemplate.model}
+                    </span>
+                  </div>
+                  <pre style={{ background: '#090d16', border: '1px solid rgba(255, 255, 255, 0.06)', borderRadius: 6, padding: 14, overflowX: 'auto', fontSize: 12.5, color: '#c4b5fd', fontFamily: 'monospace', whiteSpace: 'pre-wrap', lineHeight: 1.55 }}>
+                    {content.promptTemplate.prompt}
+                  </pre>
+                  <div style={{ marginTop: 10, fontSize: 11.5, color: '#a78bfa' }}>
+                    ⚙️ <strong>Parameters:</strong> {content.promptTemplate.parameters}
+                  </div>
+                </div>
+              )}
+
+              {/* Section 6: Audited Comparison Matrix Table */}
+              {idx === 5 && content.comparisonMatrix && (
+                <div className="comparison-table-wrapper" style={{ marginTop: 20 }}>
+                  <table className="retro-benchmark-table">
+                    <thead>
+                      <tr>
+                        {content.comparisonMatrix.headers.map((h, hIdx) => (
+                          <th key={hIdx}>{h}</th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {content.comparisonMatrix.rows.map((r, rIdx) => (
+                        <tr key={rIdx}>
+                          <td><strong>{r.dimension}</strong></td>
+                          <td style={{ color: 'var(--arcade-cyan)' }}>{r.frontier}</td>
+                          <td style={{ color: '#94a3b8' }}>{r.legacy}</td>
+                          <td><span className="badge-win">{r.verdict}</span></td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </section>
+          ))}
+
+          {/* Editorial Verdict Callout Box by Karan Arora */}
+          <div style={{ margin: '36px 0', background: 'linear-gradient(135deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.9))', border: '1px solid rgba(245, 158, 11, 0.3)', borderRadius: 12, padding: 24, position: 'relative' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12, flexWrap: 'wrap', gap: 10 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <Award size={22} color="#f59e0b" />
+                <h3 style={{ margin: 0, color: '#fff', fontSize: '1.2rem', fontWeight: 700 }}>
+                  Editorial Verdict & Verification Index
+                </h3>
+              </div>
+              <div style={{ display: 'flex', gap: 8 }}>
+                <span style={{ background: 'rgba(245, 158, 11, 0.2)', color: '#fbbf24', padding: '4px 10px', borderRadius: 6, fontSize: 12, fontWeight: 700 }}>
+                  SCORE: {content.editorialVerdict.score}
+                </span>
+                <span style={{ background: 'rgba(16, 185, 129, 0.2)', color: '#34d399', padding: '4px 10px', borderRadius: 6, fontSize: 12, fontWeight: 700 }}>
+                  {content.editorialVerdict.recommendation}
+                </span>
+              </div>
             </div>
-            <p style={{ margin: '0 0 14px', color: '#cbd5e1', fontSize: 14 }}>
-              Ready to deploy production-grade intelligence? Compare full feature breakdowns and pricing on our live directory.
+            <p style={{ fontStyle: 'italic', color: '#e2e8f0', margin: '0 0 14px', fontSize: '1.02rem', lineHeight: 1.65 }}>
+              {content.editorialVerdict.quote}
             </p>
-            <Link href={`/category/${article.category}`} className="btn btn-primary" style={{ display: 'inline-flex', padding: '8px 16px', fontSize: 13 }}>
-              <span>View Top {article.category.toUpperCase()} Tools →</span>
-            </Link>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, color: '#94a3b8' }}>
+              <ShieldCheck size={14} color="#10b981" />
+              <span>Independently audited & benchmarked by <strong>Karan Arora</strong> • No sponsored manipulation</span>
+            </div>
           </div>
 
-          {/* Section 3: Verified Benchmarks */}
-          <section className="article-section">
-            <h2>{content.sections[1].heading}</h2>
-            <p>{content.sections[1].content}</p>
-            
-            {/* Dynamic Comparison Matrix */}
-            <div className="comparison-table-wrapper">
-              <table className="retro-benchmark-table">
-                <thead>
-                  <tr>
-                    <th>Feature Dimension</th>
-                    <th>Frontier Standard</th>
-                    <th>Legacy Incumbents</th>
-                    <th>Verdict</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><strong>Latency & TTFT</strong></td>
-                    <td>&lt; 350ms (Ultra-Fast)</td>
-                    <td>1.2s - 2.8s</td>
-                    <td><span className="badge-win">WINNER</span></td>
-                  </tr>
-                  <tr>
-                    <td><strong>Multi-Modal Capabilities</strong></td>
-                    <td>Native Audio/Video/Code</td>
-                    <td>Add-on Plugins</td>
-                    <td><span className="badge-win">WINNER</span></td>
-                  </tr>
-                  <tr>
-                    <td><strong>Autonomous Agency</strong></td>
-                    <td>Self-Correcting Plan Loops</td>
-                    <td>Static Generation</td>
-                    <td><span className="badge-win">WINNER</span></td>
-                  </tr>
-                  <tr>
-                    <td><strong>US Enterprise Security</strong></td>
-                    <td>SOC2, HIPAA, Zero-Retention</td>
-                    <td>Variable</td>
-                    <td><span className="badge-win">WINNER</span></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </section>
-
-          {/* Section 4: Implementation */}
-          <section className="article-section">
-            <h2>{content.sections[2].heading}</h2>
-            <p>{content.sections[2].content}</p>
-          </section>
-
-          {/* Section 5: Pricing */}
-          <section className="article-section">
-            <h2>{content.sections[3].heading}</h2>
-            <p>{content.sections[3].content}</p>
-          </section>
-
-          {/* FAQ Section */}
+          {/* Interactive FAQ Section */}
           <section className="article-faqs-section">
             <div className="faqs-header">
               <HelpCircle size={22} color="var(--arcade-cyan)" />
@@ -364,13 +436,13 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             <div className="author-avatar-lg">KA</div>
             <div>
               <h3 style={{ margin: '0 0 6px', color: '#fff', fontSize: 18 }}>
-                Written by Karan Arora
+                Written & Audited by Karan Arora
               </h3>
               <p style={{ margin: '0 0 10px', color: '#94a3b8', fontSize: 13.5, lineHeight: 1.6 }}>
-                Karan Arora is the Founder and Chief AI Architect behind <strong>Stack AI Tools</strong>. He evaluates autonomous agents, multi-modal generative engines, and developer infrastructure to help founders and engineering teams deploy verified artificial intelligence.
+                Karan Arora is the Founder and Chief AI Architect behind <strong>Stack AI Tools</strong>. He evaluates frontier models, autonomous coding agents, multi-modal generative engines, and developer infrastructure to help founders and engineering teams deploy verified artificial intelligence.
               </p>
               <Link href="/about" className="article-read-link" style={{ fontSize: 13 }}>
-                <span>Read Karan&apos;s Full Bio & Background →</span>
+                <span>Read Karan&apos;s Full Bio & Engineering Philosophy →</span>
               </Link>
             </div>
           </div>
@@ -378,21 +450,40 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
         {/* Sidebar */}
         <aside className="article-sidebar">
-          {/* Quick Directory CTA */}
-          <div className="sidebar-card">
-            <span className="modern-badge-pill" style={{ marginBottom: 12, display: 'inline-flex' }}>AI DIRECTORY</span>
-            <h4 style={{ color: '#fff', margin: '0 0 8px', fontSize: 16 }}>Explore 85+ Tested Tools</h4>
-            <p style={{ color: 'var(--text-secondary)', fontSize: 13, margin: '0 0 16px', lineHeight: 1.5 }}>
-              Browse hand-vetted frontier models with verified pricing tiers, capability benchmarks, and alternatives.
-            </p>
-            <Link href="/" className="btn btn-primary" style={{ width: '100%', justifyContent: 'center' }}>
-              <span>Explore AI Directory →</span>
-            </Link>
+          {/* Table of Contents */}
+          <div className="sidebar-card" style={{ position: 'sticky', top: 20 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+              <BookOpen size={16} color="var(--arcade-cyan)" />
+              <h4 style={{ color: '#fff', margin: 0, fontSize: 15 }}>Table of Contents</h4>
+            </div>
+            <nav style={{ display: 'flex', flexDirection: 'column', gap: 6, fontSize: 12.5 }}>
+              {content.sections.map((s, idx) => (
+                <a 
+                  key={idx} 
+                  href={`#section-${idx + 1}`}
+                  style={{ color: '#94a3b8', textDecoration: 'none', padding: '4px 6px', borderRadius: 4, transition: 'all 0.15s ease' }}
+                  className="toc-link"
+                >
+                  {s.heading.split(':')[0]}
+                </a>
+              ))}
+            </nav>
+
+            <div style={{ marginTop: 20, paddingTop: 16, borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+              <span className="modern-badge-pill" style={{ marginBottom: 10, display: 'inline-flex' }}>FRONTIER DIRECTORY</span>
+              <h5 style={{ color: '#fff', margin: '0 0 6px', fontSize: 14 }}>222+ Vetted AI Tools</h5>
+              <p style={{ color: 'var(--text-secondary)', fontSize: 12, margin: '0 0 12px', lineHeight: 1.5 }}>
+                Browse hand-vetted frontier models with verified pricing tiers, capability benchmarks, and alternatives.
+              </p>
+              <Link href="/" className="btn btn-primary" style={{ width: '100%', justifyContent: 'center', fontSize: 12.5 }}>
+                <span>Explore Directory →</span>
+              </Link>
+            </div>
           </div>
 
           {/* Related Articles */}
           {relatedArticles.length > 0 && (
-            <div className="sidebar-card">
+            <div className="sidebar-card" style={{ marginTop: 20 }}>
               <h4 style={{ color: '#fff', margin: '0 0 14px', fontSize: 15 }}>Related {article.category} Guides</h4>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                 {relatedArticles.map((rel) => (

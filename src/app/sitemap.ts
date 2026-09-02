@@ -3,7 +3,7 @@ import { getAllTools, getAllCategories } from '@/lib/tools';
 import { getAllArticles } from '@/lib/blog';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://stackaitools.com';
+  const baseUrl = 'https://www.stackaitools.com';
   const currentDate = new Date().toISOString();
 
   const [tools, categories] = await Promise.all([
@@ -13,7 +13,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const articles = getAllArticles();
 
-  // Static Core Landing Pages
+  // 1. Static Core Landing Pages
   const staticRoutes: MetadataRoute.Sitemap = [
     {
       url: baseUrl,
@@ -65,7 +65,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  // Dynamic Category Cluster Routes
+  // 2. Dynamic Category Clusters (8 High-Intent Categories)
   const categoryRoutes: MetadataRoute.Sitemap = categories.map((cat) => ({
     url: `${baseUrl}/category/${cat.toLowerCase()}`,
     lastModified: currentDate,
@@ -73,7 +73,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.85,
   }));
 
-  // Dynamic Programmatic Tool Profile Routes (High Commercial Intent)
+  // 3. Dynamic Programmatic Tool Profile Routes (222 Vetted Frontier Tools)
   const toolRoutes: MetadataRoute.Sitemap = tools.map((tool) => ({
     url: `${baseUrl}/tool/${tool.slug}`,
     lastModified: currentDate,
@@ -81,7 +81,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.85,
   }));
 
-  // Dynamic Head-to-Head Alternative Comparison Routes
+  // 4. Dynamic Head-to-Head Alternative Comparison Routes (222 Alternative Clusters)
   const alternativeRoutes: MetadataRoute.Sitemap = tools.map((tool) => ({
     url: `${baseUrl}/alternatives/${tool.slug}`,
     lastModified: currentDate,
@@ -89,7 +89,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
-  // Dynamic Programmatic Blog Article Routes (1,000+ Verified Guides)
+  // 5. Dynamic Programmatic Blog Article Routes (All 10,000 In-Depth Research Guides)
   const articleRoutes: MetadataRoute.Sitemap = articles.map((article) => ({
     url: `${baseUrl}/blog/${article.slug}`,
     lastModified: article.updatedAt || currentDate,

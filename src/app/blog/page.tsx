@@ -3,10 +3,12 @@ import BlogView from './BlogView';
 import { getAllArticles } from '@/lib/blog';
 
 export const metadata: Metadata = {
-  title: 'Frontier AI Blog & Research Guides (1,000+ Tested Reviews & Showdowns) | Stack AI Tools',
-  description: 'Authoritative research, benchmark tests, and software showdowns comparing the top AI video generators, coding assistants, voice cloners, and autonomous agents in 2026. Curated by Karan Arora.',
+  title: 'Frontier AI Blog & Research Guides (10,000+ Tested Reviews & Claude Updates) | Stack AI Tools',
+  description: 'Authoritative research, benchmark tests, and software showdowns comparing the top AI video generators, coding assistants, voice cloners, Claude 3.7 reasoning updates, and autonomous agents in 2026. Curated by Karan Arora.',
   keywords: [
     'best ai tools 2026',
+    'claude 3.7 sonnet updates',
+    'claude code cli',
     'best ai video generator',
     'claude vs chatgpt coding',
     'cursor vs copilot',
@@ -15,9 +17,9 @@ export const metadata: Metadata = {
     'ai agents review'
   ],
   openGraph: {
-    title: 'Frontier AI Blog & Research Guides | Stack AI Tools',
-    description: '1,000+ benchmarked AI guides, model showdowns, and programmatic reviews for US founders and developers.',
-    url: 'https://stackaitools.com/blog',
+    title: 'Frontier AI Blog & Research Guides (10,000+ Guides) | Stack AI Tools',
+    description: '10,000+ benchmarked AI guides, Claude updates, model showdowns, and programmatic reviews for US founders and developers.',
+    url: 'https://www.stackaitools.com/blog',
     siteName: 'Stack AI Tools',
     images: [
       {
