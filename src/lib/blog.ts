@@ -12,36 +12,68 @@ function stripDomainSuffix(name: string): string {
   return name.replace(/\.(ai|io|dev|app|co)\b/gi, '').trim();
 }
 
+// Find the best-matching tool for an arbitrary piece of text (a full title, or just one
+// side of a "X vs Y" split). Progressively looser tiers so a longer, more specific match
+// wins over an accidental short-word collision.
+function findToolByText(text: string, tools: EnrichedTool[]): EnrichedTool | undefined {
+  const lower = text.toLowerCase();
+
+  let match = tools.find((t) => {
+    const nameLower = t.name.toLowerCase();
+    return lower.includes(nameLower) || lower.includes(stripDomainSuffix(nameLower));
+  });
+  if (match) return match;
+
+  match = tools.find((t) => {
+    const twoWords = stripDomainSuffix(t.name).split(' ').slice(0, 2).join(' ').toLowerCase();
+    return twoWords.length > 3 && lower.includes(twoWords);
+  });
+  if (match) return match;
+
+  match = tools.find((t) => {
+    const firstWord = stripDomainSuffix(t.name).split(' ')[0].toLowerCase();
+    return firstWord.length > 3 && lower.includes(firstWord);
+  });
+  return match;
+}
+
 function matchToolForArticle(article: Article, tools: EnrichedTool[]): EnrichedTool | undefined {
-  const titleLower = article.title.toLowerCase();
   const slugLower = article.slug.toLowerCase();
 
   // 1. Exact slug containment (most reliable — slugs are unique and specific)
-  let match = tools.find((t) => slugLower.includes(t.slug));
-  if (match) return match;
+  const slugMatch = tools.find((t) => slugLower.includes(t.slug));
+  if (slugMatch) return slugMatch;
 
-  // 2. Full tool name appears in the article title (e.g. "Cursor 3.1" in a title),
-  // trying both the raw name and the name with a bare ".ai"/".io" suffix stripped.
-  match = tools.find((t) => {
-    const nameLower = t.name.toLowerCase();
-    return titleLower.includes(nameLower) || titleLower.includes(stripDomainSuffix(nameLower));
-  });
-  if (match) return match;
+  // 2-4. Progressively looser text matches against the full title
+  return findToolByText(article.title, tools);
+}
 
-  // 3. First two words of the tool name (reduces false positives vs. a single-word match,
-  // e.g. "Notion AI" vs. just "Notion")
-  match = tools.find((t) => {
-    const twoWords = stripDomainSuffix(t.name).split(' ').slice(0, 2).join(' ').toLowerCase();
-    return twoWords.length > 3 && titleLower.includes(twoWords);
-  });
-  if (match) return match;
+export type ArticleAngle = 'comparison' | 'alternatives' | 'howto' | 'review';
 
-  // 4. First word only, as a last resort before falling back to category
-  match = tools.find((t) => {
-    const firstWord = stripDomainSuffix(t.name).split(' ')[0].toLowerCase();
-    return firstWord.length > 3 && titleLower.includes(firstWord);
-  });
-  return match;
+export interface ComparisonMatch {
+  toolA: EnrichedTool;
+  toolB: EnrichedTool;
+}
+
+// Detect a genuine "X vs Y" comparison and resolve BOTH sides to real tools. Returns null
+// unless the title actually has a "vs" split AND both sides resolve to two different real
+// tools — we never fabricate a comparison against a product that isn't in the catalog.
+function detectComparison(article: Article, tools: EnrichedTool[]): ComparisonMatch | null {
+  const m = article.title.match(/^(.*?)\s+vs\.?\s+([^:(]+)/i);
+  if (!m) return null;
+  const toolA = findToolByText(m[1], tools);
+  const toolB = findToolByText(m[2], tools);
+  if (!toolA || !toolB || toolA.slug === toolB.slug) return null;
+  return { toolA, toolB };
+}
+
+function detectArticleAngle(article: Article, hasComparison: boolean): ArticleAngle {
+  const slugLower = article.slug.toLowerCase();
+  const titleLower = article.title.toLowerCase();
+  if (hasComparison) return 'comparison';
+  if (slugLower.includes('alternatives') || titleLower.includes('alternatives')) return 'alternatives';
+  if (slugLower.startsWith('how-to') || titleLower.startsWith('how to')) return 'howto';
+  return 'review';
 }
 
 export interface Article {
@@ -204,12 +236,24 @@ export async function generateArticleContent(article: Article): Promise<DeepArti
   // static list, so more articles resolve to a real, specific tool instead of falling back
   // to a generic category default.
   const allTools = await getAllTools();
-  let matchedToolData: EnrichedTool | undefined = matchToolForArticle(article, allTools);
+  const comparison = detectComparison(article, allTools);
+  const angle = detectArticleAngle(article, !!comparison);
+
+  let matchedToolData: EnrichedTool | undefined = comparison?.toolA ?? matchToolForArticle(article, allTools);
 
   if (!matchedToolData) {
     matchedToolData = allTools.find((t) => t.category.toLowerCase() === cat) || allTools[0];
   }
   const matchedToolSlug = matchedToolData.slug;
+
+  // For "Alternatives" angle articles, pull a real ranked list of same-category competitors
+  // (excluding the matched tool itself) instead of fabricated benchmark rows.
+  const realAlternatives = angle === 'alternatives'
+    ? allTools
+        .filter((t) => t.slug !== matchedToolData!.slug && t.category.toLowerCase() === matchedToolData!.category.toLowerCase())
+        .sort((a, b) => b.rating - a.rating || b.reviewsCount - a.reviewsCount)
+        .slice(0, 5)
+    : [];
 
   // Category-specific technical data and code snippets (0 boilerplate duplication)
   let codeSnippet = {
@@ -425,9 +469,40 @@ Analyze latency, accuracy metrics, and expected ROI for engineering teams.
   const editorialScoreValue = matchedToolData ? Math.min(10, matchedToolData.rating * 2) : 9.4;
   const editorialScore = `${editorialScoreValue.toFixed(1)} / 10`;
 
+  // Angle-aware intro and lead section: a comparison, an alternatives list, and a how-to
+  // guide each get genuinely different framing instead of the same shell with the keyword
+  // swapped in, using only real data already resolved above.
+  let angleIntro: string;
+  let angleDirectAnswer: string;
+  let angleContent: string;
+
+  if (comparison) {
+    const { toolA, toolB } = comparison;
+    const ratingWinner = toolA.rating >= toolB.rating ? toolA : toolB;
+    angleIntro = `Choosing between **${toolA.name}** and **${toolB.name}** comes down to real, verifiable differences rather than marketing claims. As of **${formattedUpdatedAt}**, ${toolA.name} holds a ${toolA.rating.toFixed(1)}/5.0 rating across ${toolA.reviewsCount.toLocaleString()} reviews, while ${toolB.name} holds ${toolB.rating.toFixed(1)}/5.0 across ${toolB.reviewsCount.toLocaleString()} reviews. This guide, curated by **Karan Arora**, compares both on pricing, real user sentiment, and category fit.`;
+    angleDirectAnswer = `${ratingWinner.name} currently holds the higher user rating (${ratingWinner.rating.toFixed(1)}/5.0 vs ${(ratingWinner === toolA ? toolB : toolA).rating.toFixed(1)}/5.0), but the right pick depends on your use case: ${toolA.name} is ${toolA.pricingModel.toLowerCase()}, while ${toolB.name} is ${toolB.pricingModel.toLowerCase()}.`;
+    angleContent = `${toolA.name}: ${toolA.description} ${toolB.name}: ${toolB.description} ${toolA.category.toLowerCase() === toolB.category.toLowerCase() ? `Both are direct competitors in the ${toolA.category} category` : `They're positioned differently (${toolA.category} vs ${toolB.category})`}, so the right pick depends on which specific workflow you're optimizing for.`;
+  } else if (angle === 'alternatives' && realAlternatives.length > 0) {
+    angleIntro = `Looking for alternatives to **${matchedToolData.name}**? As of **${formattedUpdatedAt}**, we compared it against the top-rated ${matchedToolData.category} tools in our directory by real user rating and review volume. Curated by **Karan Arora**, this guide ranks the strongest ${matchedToolData.category.toLowerCase()} alternatives with verified pricing and ratings.`;
+    angleDirectAnswer = `The top-rated alternative to ${matchedToolData.name} in our directory is ${realAlternatives[0].name}, with a ${realAlternatives[0].rating.toFixed(1)}/5.0 rating across ${realAlternatives[0].reviewsCount.toLocaleString()} reviews.`;
+    angleContent = `${matchedToolData.name} (${matchedToolData.rating.toFixed(1)}/5.0, ${matchedToolData.reviewsCount.toLocaleString()} reviews) is a solid choice, but it isn't the only option in the ${matchedToolData.category} category. Below are the top-rated alternatives ranked by real user rating and review volume.`;
+  } else if (angle === 'howto') {
+    angleIntro = `This is a practical implementation guide for **${article.primaryKeyword}**, last verified **${formattedUpdatedAt}**.${matchedToolData ? ` We're using ${matchedToolData.name} (${matchedToolData.rating.toFixed(1)}/5.0, ${matchedToolData.pricingModel}) as the reference implementation.` : ''} Curated by **Karan Arora**, this guide focuses on the actual deployment steps rather than a general product overview.`;
+    angleDirectAnswer = `To implement ${article.primaryKeyword}, follow a disciplined setup: environment/credentials, integration wiring, testing, then production rollout.${matchedToolData ? ` The steps below assume ${matchedToolData.name} (${matchedToolData.pricingModel}) as the target platform.` : ''}`;
+    angleContent = matchedToolData
+      ? `${matchedToolData.name}: ${matchedToolData.description} This guide walks through the concrete implementation steps rather than a general product overview — see the production protocol below.`
+      : `This guide walks through the concrete implementation steps for ${article.primaryKeyword} rather than a general product overview.`;
+  } else {
+    angleIntro = `As of **${formattedUpdatedAt}**, artificial intelligence software has transitioned from passive assistance to mission-critical autonomous execution. Searching for **"${article.primaryKeyword}"** reflects an urgent commercial mandate among founders, software architects, and engineering leaders: to deploy verified, cost-efficient, and low-latency systems that deliver immediate capital ROI. Curated, audited, and benchmarked by **Karan Arora**, this master guide synthesizes empirical telemetry from over 222 frontier AI tools to provide an actionable, battle-tested blueprint.`;
+    angleDirectAnswer = `In 2026, ${article.primaryKeyword} represents an essential competitive capability. The top frontier solutions eliminate manual overhead by up to 85% through sub-200ms latency, native multi-modal execution, and autonomous self-correcting agent loops verified under enterprise SOC2 compliance standards.`;
+    angleContent = matchedToolData
+      ? `${matchedToolData.name} is one of the leading options here: ${matchedToolData.description} ${toolBestFor ? `It's best suited for ${toolBestFor.toLowerCase()}.` : ''} When evaluating options for ${article.primaryKeyword}, teams must consider three critical dimensions: API throughput, contextual coherence across long-running tasks, and downstream ROI per user seat.`
+      : `Software engineering, generative video, and automated workflow pipelines have evolved from reactive chatbots into proactive autonomous engines. When evaluating options for ${article.primaryKeyword}, teams must consider three critical dimensions: API throughput, contextual coherence across long-running tasks, and downstream ROI per user seat.`;
+  }
+
   return {
     telemetryDate: `Last verified ${formattedUpdatedAt}`,
-    intro: `As of **${formattedUpdatedAt}**, artificial intelligence software has transitioned from passive assistance to mission-critical autonomous execution. Searching for **"${article.primaryKeyword}"** reflects an urgent commercial mandate among founders, software architects, and engineering leaders: to deploy verified, cost-efficient, and low-latency systems that deliver immediate capital ROI. Curated, audited, and benchmarked by **Karan Arora**, this master guide synthesizes empirical telemetry from over 222 frontier AI tools to provide an actionable, battle-tested blueprint.`,
+    intro: angleIntro,
     takeaways: [
       `US monthly search intent for "${article.primaryKeyword}" commands ${article.searchVolume.toLocaleString()} queries with an average commercial CPC of $${typeof article.cpc === 'number' ? article.cpc.toFixed(2) : article.cpc}.`,
       `Frontier model architectures in 2026 have converged on hybrid reasoning (extended thinking budgets combined with sub-200ms streaming execution).`,
@@ -443,11 +518,9 @@ Analyze latency, accuracy metrics, and expected ROI for engineering teams.
     } : undefined,
     sections: [
       {
-        heading: `1. The 2026 State of the Art: Why ${article.title} Matters`,
-        directAnswer: `In 2026, ${article.primaryKeyword} represents an essential competitive capability. The top frontier solutions eliminate manual overhead by up to 85% through sub-200ms latency, native multi-modal execution, and autonomous self-correcting agent loops verified under enterprise SOC2 compliance standards.`,
-        content: matchedToolData
-          ? `${matchedToolData.name} is one of the leading options here: ${matchedToolData.description} ${toolBestFor ? `It's best suited for ${toolBestFor.toLowerCase()}.` : ''} When evaluating options for ${article.primaryKeyword}, teams must consider three critical dimensions: API throughput, contextual coherence across long-running tasks, and downstream ROI per user seat.`
-          : `Software engineering, generative video, and automated workflow pipelines have evolved from reactive chatbots into proactive autonomous engines. When evaluating options for ${article.primaryKeyword}, teams must consider three critical dimensions: API throughput, contextual coherence across long-running tasks, and downstream ROI per user seat.`,
+        heading: `1. ${comparison ? `${comparison.toolA.name} vs ${comparison.toolB.name}: The Real Difference` : angle === 'alternatives' ? `Why Look Beyond ${matchedToolData.name}?` : angle === 'howto' ? `Implementation Overview: ${article.title}` : `The 2026 State of the Art: Why ${article.title} Matters`}`,
+        directAnswer: angleDirectAnswer,
+        content: angleContent,
         subsections: [
           {
             title: 'From Single-Turn Prompts to Autonomous Plan-and-Solve Loops',
@@ -505,9 +578,21 @@ Analyze latency, accuracy metrics, and expected ROI for engineering teams.
         heading: `5. Visual Prompt Engineering & Multi-Modal Showcase`,
         content: `Below is a tested prompt specification designed to yield photorealistic, broadcast-ready results when interacting with frontier diffusion and generative reasoning engines:`,
       },
-      {
-        heading: `6. Audited Benchmark Matrix: Frontier vs Legacy Alternatives`,
-        content: `We subjected the leading contenders for ${article.primaryKeyword} to rigorous stress tests across throughput, context fidelity, and enterprise compliance:`,
+      angle === 'alternatives' && realAlternatives.length > 0 ? {
+        heading: `6. Top ${realAlternatives.length} ${matchedToolData.category} Alternatives, Ranked by Real Rating`,
+        directAnswer: `Based on verified ratings and review volume in our directory, the top alternative to ${matchedToolData.name} is ${realAlternatives[0].name} (${realAlternatives[0].rating.toFixed(1)}/5.0, ${realAlternatives[0].reviewsCount.toLocaleString()} reviews).`,
+        content: `We ranked every ${matchedToolData.category.toLowerCase()} tool in our directory by real user rating and review volume to find genuine alternatives to ${matchedToolData.name} — not a generic "top 10" list:`,
+        subsections: realAlternatives.map((alt, i) => ({
+          title: `#${i + 1}: ${alt.name} — ${alt.rating.toFixed(1)}/5.0 (${alt.reviewsCount.toLocaleString()} reviews)`,
+          text: `${alt.description} Pricing: ${alt.pricingModel}.`
+        }))
+      } : {
+        heading: comparison
+          ? `6. ${comparison.toolA.name} vs ${comparison.toolB.name}: Head-to-Head Verdict`
+          : `6. Audited Benchmark Matrix: Frontier vs Legacy Alternatives`,
+        content: comparison
+          ? `Both tools were evaluated across pricing, real user rating, review volume, and category fit — see the comparison table below for the exact numbers rather than a subjective take.`
+          : `We subjected the leading contenders for ${article.primaryKeyword} to rigorous stress tests across throughput, context fidelity, and enterprise compliance:`,
       },
       {
         heading: `7. Pricing Economics, Compute Overhead & Capital ROI Breakdown`,
@@ -564,7 +649,47 @@ Analyze latency, accuracy metrics, and expected ROI for engineering teams.
     ],
     codeSnippet,
     promptTemplate,
-    comparisonMatrix: {
+    comparisonMatrix: comparison ? {
+      // A genuine head-to-head using only real data on both named tools — no fabricated
+      // per-dimension claims attributed to either product.
+      headers: ['Evaluation Vector', comparison.toolA.name, comparison.toolB.name, 'Verdict'],
+      rows: [
+        {
+          dimension: 'Verified User Rating',
+          frontier: `${comparison.toolA.rating.toFixed(1)}/5.0`,
+          legacy: `${comparison.toolB.rating.toFixed(1)}/5.0`,
+          verdict: comparison.toolA.rating === comparison.toolB.rating
+            ? '🤝 Tied'
+            : `🏆 ${(comparison.toolA.rating > comparison.toolB.rating ? comparison.toolA : comparison.toolB).name} Rated Higher`
+        },
+        {
+          dimension: 'Review Volume',
+          frontier: `${comparison.toolA.reviewsCount.toLocaleString()} reviews`,
+          legacy: `${comparison.toolB.reviewsCount.toLocaleString()} reviews`,
+          verdict: `🏆 ${(comparison.toolA.reviewsCount > comparison.toolB.reviewsCount ? comparison.toolA : comparison.toolB).name} More Established`
+        },
+        {
+          dimension: 'Pricing Model',
+          frontier: comparison.toolA.pricingModel,
+          legacy: comparison.toolB.pricingModel,
+          verdict: (() => {
+            const rank: Record<string, number> = { free: 0, freemium: 1, paid: 2 };
+            const aRank = rank[comparison!.toolA.priceClass] ?? 1;
+            const bRank = rank[comparison!.toolB.priceClass] ?? 1;
+            if (aRank === bRank) return '🤝 Similar Accessibility';
+            return `🏆 ${(aRank < bRank ? comparison!.toolA : comparison!.toolB).name} More Accessible`;
+          })()
+        },
+        {
+          dimension: 'Category Fit',
+          frontier: comparison.toolA.category,
+          legacy: comparison.toolB.category,
+          verdict: comparison.toolA.category.toLowerCase() === comparison.toolB.category.toLowerCase()
+            ? '⚖️ Direct Competitors'
+            : '🔀 Different Use Cases'
+        }
+      ]
+    } : {
       headers: ['Evaluation Vector', '2026 Frontier Standard', 'Legacy Incumbents', 'Audit Verdict'],
       rows: [
         {
@@ -602,22 +727,38 @@ Analyze latency, accuracy metrics, and expected ROI for engineering teams.
     editorialVerdict: {
       score: editorialScore,
       recommendation,
-      quote: matchedToolData
-        ? `"${matchedToolData.name} earns a ${matchedToolData.rating.toFixed(1)}/5.0 across ${matchedToolData.reviewsCount.toLocaleString()} verified reviews.${toolPros ? ` Its biggest strength: ${toolPros[0].toLowerCase()}.` : ''}${toolCons ? ` The main tradeoff to weigh: ${toolCons[0].toLowerCase()}.` : ''}" — Karan Arora`
-        : `"${article.title} represents a genuinely useful capability for 2026 engineering teams. When paired with disciplined prompt architecture and automated telemetry, it delivers a real competitive edge." — Karan Arora`
+      quote: comparison
+        ? `"Between ${comparison.toolA.name} (${comparison.toolA.rating.toFixed(1)}/5.0) and ${comparison.toolB.name} (${comparison.toolB.rating.toFixed(1)}/5.0), the right choice comes down to your specific workflow, not marketing claims. Both have real, verified track records." — Karan Arora`
+        : matchedToolData
+          ? `"${matchedToolData.name} earns a ${matchedToolData.rating.toFixed(1)}/5.0 across ${matchedToolData.reviewsCount.toLocaleString()} verified reviews.${toolPros ? ` Its biggest strength: ${toolPros[0].toLowerCase()}.` : ''}${toolCons ? ` The main tradeoff to weigh: ${toolCons[0].toLowerCase()}.` : ''}" — Karan Arora`
+          : `"${article.title} represents a genuinely useful capability for 2026 engineering teams. When paired with disciplined prompt architecture and automated telemetry, it delivers a real competitive edge." — Karan Arora`
     },
     faqs: [
       {
-        question: `What makes ${article.primaryKeyword} the top priority in 2026?`,
-        answer: `In 2026, tools targeting ${article.primaryKeyword} have evolved beyond novelty toys into autonomous engines with sub-200ms latency, multi-modal comprehension, and verified enterprise security compliance.`
+        question: comparison
+          ? `Which is better: ${comparison.toolA.name} or ${comparison.toolB.name}?`
+          : angle === 'alternatives'
+            ? `What is the best alternative to ${matchedToolData.name}?`
+            : `What makes ${article.primaryKeyword} the top priority in 2026?`,
+        answer: comparison
+          ? `${comparison.toolA.rating >= comparison.toolB.rating ? comparison.toolA.name : comparison.toolB.name} has the higher verified user rating (${(comparison.toolA.rating >= comparison.toolB.rating ? comparison.toolA : comparison.toolB).rating.toFixed(1)}/5.0), but ${comparison.toolA.name} is ${comparison.toolA.pricingModel.toLowerCase()} while ${comparison.toolB.name} is ${comparison.toolB.pricingModel.toLowerCase()} — the better fit depends on your budget and use case.`
+          : angle === 'alternatives' && realAlternatives.length > 0
+            ? `Based on verified ratings in our directory, ${realAlternatives[0].name} (${realAlternatives[0].rating.toFixed(1)}/5.0, ${realAlternatives[0].reviewsCount.toLocaleString()} reviews) is currently the top-rated alternative to ${matchedToolData.name}.`
+            : `In 2026, tools targeting ${article.primaryKeyword} have evolved beyond novelty toys into autonomous engines with sub-200ms latency, multi-modal comprehension, and verified enterprise security compliance.`
       },
       {
-        question: `How does Claude 3.7 Sonnet integrate with this workflow?`,
-        answer: `Claude 3.7 Sonnet introduces hybrid reasoning with custom thinking budgets, allowing developers to execute deep architectural planning while maintaining rapid streaming output for routine tasks.`
+        question: matchedToolData ? `Does ${matchedToolData.name} integrate with Claude or other frontier models?` : `Does this integrate with Claude or other frontier models?`,
+        answer: isClaudeTopic
+          ? `Claude 3.7 Sonnet introduces hybrid reasoning with custom thinking budgets, allowing developers to execute deep architectural planning while maintaining rapid streaming output for routine tasks.`
+          : matchedToolData
+            ? `${matchedToolData.name} is a standalone ${matchedToolData.category.toLowerCase()} tool — it doesn't require Claude specifically, though many teams pair it with Claude or another LLM for adjacent tasks like planning, code review, or content generation.`
+            : `Most modern AI tools in this space support integration with frontier LLMs like Claude via API, though it's not always required for core functionality.`
       },
       {
         question: `Are free plans sufficient, or is a Pro subscription necessary?`,
-        answer: `Free plans are ideal for sandboxing and evaluation. However, production workflows requiring commercial usage licenses, unthrottled API throughput, and zero-data-retention guarantees require a Pro or Enterprise subscription.`
+        answer: matchedToolData
+          ? pricingRealityLine + ` Free/trial tiers work for evaluation; production workflows generally need the paid tier for full capacity and support.`
+          : `Free plans are ideal for sandboxing and evaluation. However, production workflows requiring commercial usage licenses, unthrottled API throughput, and zero-data-retention guarantees require a Pro or Enterprise subscription.`
       },
       {
         question: `How does Stack AI Tools verify ratings and reviews?`,
