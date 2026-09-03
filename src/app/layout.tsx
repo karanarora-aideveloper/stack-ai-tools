@@ -160,45 +160,25 @@ gtag('config', 'G-WCL9JTB6TC');`
               </div>
 
               {/* Editorial Trust Strip */}
-              <div
-                style={{
-                  marginTop: 20,
-                  marginBottom: 36,
-                  padding: '20px 24px',
-                  background: 'rgba(99, 102, 241, 0.05)',
-                  border: '1px solid rgba(15, 23, 42, 0.08)',
-                  borderRadius: 16,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  flexWrap: 'wrap',
-                  gap: 16
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-                  <div style={{ width: 42, height: 42, borderRadius: 12, background: 'linear-gradient(135deg, #6366f1, #4f46e5)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
+              <div className="footer-trust-strip">
+                <div className="footer-trust-left">
+                  <div className="footer-trust-icon">
                     <ShieldCheck size={20} />
                   </div>
                   <div>
-                    <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-strong)' }}>
-                      Independently Tested & Verified
-                    </div>
-                    <div style={{ fontSize: 13, color: 'var(--text-muted)' }}>
-                      Every listing is benchmarked directly • No pay-to-rank placements
-                    </div>
+                    <div className="footer-trust-title">Independently Tested & Verified</div>
+                    <div className="footer-trust-sub">Every listing is benchmarked directly • No pay-to-rank placements</div>
                   </div>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 16, fontSize: 13 }}>
-                  <Link href="/about" style={{ color: '#4f46e5', textDecoration: 'none', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 4 }}>
-                    <span>Our Editorial Standards</span>
-                    <span>→</span>
-                  </Link>
-                </div>
+                <Link href="/about" className="footer-trust-link">
+                  <span>Our Editorial Standards</span>
+                  <span>→</span>
+                </Link>
               </div>
 
               {/* Global Newsletter Capture */}
-              <div style={{ marginBottom: 48 }}>
-                <NewsletterCapture 
+              <div className="footer-newsletter-wrap">
+                <NewsletterCapture
                   source="global_footer"
                   headline="Stay Ahead of the AI Frontier"
                   subheadline="Subscribe to the free weekly intelligence briefing covering newly benchmarked tools, autonomous agents, and exclusive SaaS discount codes."
@@ -212,7 +192,7 @@ gtag('config', 'G-WCL9JTB6TC');`
                     Stack AI Tools
                   </div>
                   <p className="footer-subtext">
-                    The leading independent directory of verified frontier AI models, autonomous coding agents, generative media, and ready-to-run prompt templates.
+                    The independent directory of verified frontier AI models, autonomous coding agents, generative media, and ready-to-run prompt templates.
                   </p>
                   <div className="footer-compliance-pill">
                     <ShieldCheck size={14} style={{ display: 'inline', marginRight: 5 }} />
@@ -228,6 +208,7 @@ gtag('config', 'G-WCL9JTB6TC');`
                     <li><Link href="/category/design">Generative Design</Link></li>
                     <li><Link href="/category/audio">Voice & Studio Audio</Link></li>
                     <li><Link href="/category/automation">Workflow Automation</Link></li>
+                    <li><Link href="/categories">All Categories →</Link></li>
                   </ul>
                 </div>
                 <div className="footer-col">
@@ -238,40 +219,54 @@ gtag('config', 'G-WCL9JTB6TC');`
                     <li><Link href="/alternatives/chatgpt">ChatGPT Alternatives</Link></li>
                     <li><Link href="/alternatives/elevenlabs">ElevenLabs Alternatives</Link></li>
                     <li><Link href="/alternatives/jasper-ai">Jasper AI Alternatives</Link></li>
+                    <li><Link href="/alternatives">All Alternatives →</Link></li>
                   </ul>
                 </div>
                 <div className="footer-col">
-                  <h4 className="footer-heading">Ecosystem & Community</h4>
+                  <h4 className="footer-heading">Resources</h4>
                   <ul className="footer-links-list">
-                    <li><Link href="/claude-connectors" style={{ color: '#38bdf8', fontWeight: 600 }}>Claude Connectors & MCP</Link></li>
+                    <li><Link href="/claude-connectors">Claude Connectors & MCP</Link></li>
                     <li><Link href="/blog">Frontier AI Research Blog</Link></li>
-                    <li><Link href="/about">About Us</Link></li>
                     <li><Link href="/prompts">Visual Prompt Showcase</Link></li>
-                    <li><Link href="/categories">All Software Categories</Link></li>
                     <li><Link href="/submit">Submit Your AI Tool</Link></li>
                     <li>
-                      <a href="https://github.com/karanarora-aideveloper/stack-ai-tools" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
-                          <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
-                        </svg>
-                        <span>Open Source GitHub</span>
+                      <a href="https://github.com/karanarora-aideveloper/stack-ai-tools" target="_blank" rel="noopener noreferrer">
+                        Open Source on GitHub
                       </a>
                     </li>
-                    <li><a href="/llms.txt" target="_blank" style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}><span>🤖</span> LLM Context (`llms.txt`)</a></li>
+                    <li><a href="/llms.txt" target="_blank">LLM Context File</a></li>
+                  </ul>
+                </div>
+                <div className="footer-col">
+                  <h4 className="footer-heading">Company</h4>
+                  <ul className="footer-links-list">
+                    <li><Link href="/about">About Us</Link></li>
+                    <li><Link href="/about">Editorial Standards</Link></li>
+                    <li><Link href="/submit">Contact / Submit a Tool</Link></li>
+                    <li><Link href="/privacy">Privacy Policy</Link></li>
+                    <li><Link href="/terms">Terms of Service</Link></li>
+                    <li><Link href="/sitemap.xml">Sitemap</Link></li>
                   </ul>
                 </div>
               </div>
 
               {/* FTC Affiliate Disclosure */}
               <div className="footer-disclosure">
-                <p>
+                <p style={{ margin: 0 }}>
                   <strong>FTC Reader Disclosure:</strong> Stack AI Tools (stackaitools.com) is reader-supported. When you click through links or purchase software through our directory, we may earn an affiliate commission at no additional cost to you. We only feature vetted, high-quality AI products.
                 </p>
               </div>
 
-              <p className="footer-copyright">
-                © 2026 Stack AI Tools (stackaitools.com). All rights reserved.
-              </p>
+              <div className="footer-bottom">
+                <p className="footer-copyright">
+                  © 2026 Stack AI Tools (stackaitools.com). All rights reserved.
+                </p>
+                <ul className="footer-legal-links">
+                  <li><Link href="/privacy">Privacy Policy</Link></li>
+                  <li><Link href="/terms">Terms of Service</Link></li>
+                  <li><Link href="/sitemap.xml">Sitemap</Link></li>
+                </ul>
+              </div>
             </div>
           </footer>
         </div>
