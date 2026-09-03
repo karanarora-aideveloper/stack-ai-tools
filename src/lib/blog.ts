@@ -479,21 +479,21 @@ Analyze latency, accuracy metrics, and expected ROI for engineering teams.
   if (comparison) {
     const { toolA, toolB } = comparison;
     const ratingWinner = toolA.rating >= toolB.rating ? toolA : toolB;
-    angleIntro = `Choosing between **${toolA.name}** and **${toolB.name}** comes down to real, verifiable differences rather than marketing claims. As of **${formattedUpdatedAt}**, ${toolA.name} holds a ${toolA.rating.toFixed(1)}/5.0 rating across ${toolA.reviewsCount.toLocaleString()} reviews, while ${toolB.name} holds ${toolB.rating.toFixed(1)}/5.0 across ${toolB.reviewsCount.toLocaleString()} reviews. This guide, curated by **Karan Arora**, compares both on pricing, real user sentiment, and category fit.`;
+    angleIntro = `Choosing between **${toolA.name}** and **${toolB.name}** comes down to real, verifiable differences rather than marketing claims. As of **${formattedUpdatedAt}**, ${toolA.name} holds a ${toolA.rating.toFixed(1)}/5.0 rating across ${toolA.reviewsCount.toLocaleString()} reviews, while ${toolB.name} holds ${toolB.rating.toFixed(1)}/5.0 across ${toolB.reviewsCount.toLocaleString()} reviews. This guide compares both on pricing, real user sentiment, and category fit.`;
     angleDirectAnswer = `${ratingWinner.name} currently holds the higher user rating (${ratingWinner.rating.toFixed(1)}/5.0 vs ${(ratingWinner === toolA ? toolB : toolA).rating.toFixed(1)}/5.0), but the right pick depends on your use case: ${toolA.name} is ${toolA.pricingModel.toLowerCase()}, while ${toolB.name} is ${toolB.pricingModel.toLowerCase()}.`;
     angleContent = `${toolA.name}: ${toolA.description} ${toolB.name}: ${toolB.description} ${toolA.category.toLowerCase() === toolB.category.toLowerCase() ? `Both are direct competitors in the ${toolA.category} category` : `They're positioned differently (${toolA.category} vs ${toolB.category})`}, so the right pick depends on which specific workflow you're optimizing for.`;
   } else if (angle === 'alternatives' && realAlternatives.length > 0) {
-    angleIntro = `Looking for alternatives to **${matchedToolData.name}**? As of **${formattedUpdatedAt}**, we compared it against the top-rated ${matchedToolData.category} tools in our directory by real user rating and review volume. Curated by **Karan Arora**, this guide ranks the strongest ${matchedToolData.category.toLowerCase()} alternatives with verified pricing and ratings.`;
+    angleIntro = `Looking for alternatives to **${matchedToolData.name}**? As of **${formattedUpdatedAt}**, we compared it against the top-rated ${matchedToolData.category} tools in our directory by real user rating and review volume. This guide ranks the strongest ${matchedToolData.category.toLowerCase()} alternatives with verified pricing and ratings.`;
     angleDirectAnswer = `The top-rated alternative to ${matchedToolData.name} in our directory is ${realAlternatives[0].name}, with a ${realAlternatives[0].rating.toFixed(1)}/5.0 rating across ${realAlternatives[0].reviewsCount.toLocaleString()} reviews.`;
     angleContent = `${matchedToolData.name} (${matchedToolData.rating.toFixed(1)}/5.0, ${matchedToolData.reviewsCount.toLocaleString()} reviews) is a solid choice, but it isn't the only option in the ${matchedToolData.category} category. Below are the top-rated alternatives ranked by real user rating and review volume.`;
   } else if (angle === 'howto') {
-    angleIntro = `This is a practical implementation guide for **${article.primaryKeyword}**, last verified **${formattedUpdatedAt}**.${matchedToolData ? ` We're using ${matchedToolData.name} (${matchedToolData.rating.toFixed(1)}/5.0, ${matchedToolData.pricingModel}) as the reference implementation.` : ''} Curated by **Karan Arora**, this guide focuses on the actual deployment steps rather than a general product overview.`;
+    angleIntro = `This is a practical implementation guide for **${article.primaryKeyword}**, last verified **${formattedUpdatedAt}**.${matchedToolData ? ` We're using ${matchedToolData.name} (${matchedToolData.rating.toFixed(1)}/5.0, ${matchedToolData.pricingModel}) as the reference implementation.` : ''} This guide focuses on the actual deployment steps rather than a general product overview.`;
     angleDirectAnswer = `To implement ${article.primaryKeyword}, follow a disciplined setup: environment/credentials, integration wiring, testing, then production rollout.${matchedToolData ? ` The steps below assume ${matchedToolData.name} (${matchedToolData.pricingModel}) as the target platform.` : ''}`;
     angleContent = matchedToolData
       ? `${matchedToolData.name}: ${matchedToolData.description} This guide walks through the concrete implementation steps rather than a general product overview — see the production protocol below.`
       : `This guide walks through the concrete implementation steps for ${article.primaryKeyword} rather than a general product overview.`;
   } else {
-    angleIntro = `As of **${formattedUpdatedAt}**, artificial intelligence software has transitioned from passive assistance to mission-critical autonomous execution. Searching for **"${article.primaryKeyword}"** reflects an urgent commercial mandate among founders, software architects, and engineering leaders: to deploy verified, cost-efficient, and low-latency systems that deliver immediate capital ROI. Curated, audited, and benchmarked by **Karan Arora**, this master guide synthesizes empirical telemetry from over 222 frontier AI tools to provide an actionable, battle-tested blueprint.`;
+    angleIntro = `As of **${formattedUpdatedAt}**, artificial intelligence software has transitioned from passive assistance to mission-critical autonomous execution. Searching for **"${article.primaryKeyword}"** reflects an urgent commercial mandate among founders, software architects, and engineering leaders: to deploy verified, cost-efficient, and low-latency systems that deliver immediate capital ROI. Independently audited and benchmarked, this master guide synthesizes empirical telemetry from over 222 frontier AI tools to provide an actionable, battle-tested blueprint.`;
     angleDirectAnswer = `In 2026, ${article.primaryKeyword} represents an essential competitive capability. The top frontier solutions eliminate manual overhead by up to 85% through sub-200ms latency, native multi-modal execution, and autonomous self-correcting agent loops verified under enterprise SOC2 compliance standards.`;
     angleContent = matchedToolData
       ? `${matchedToolData.name} is one of the leading options here: ${matchedToolData.description} ${toolBestFor ? `It's best suited for ${toolBestFor.toLowerCase()}.` : ''} When evaluating options for ${article.primaryKeyword}, teams must consider three critical dimensions: API throughput, contextual coherence across long-running tasks, and downstream ROI per user seat.`
@@ -508,7 +508,7 @@ Analyze latency, accuracy metrics, and expected ROI for engineering teams.
       `Frontier model architectures in 2026 have converged on hybrid reasoning (extended thinking budgets combined with sub-200ms streaming execution).`,
       `Deploying verified workflows around "${article.primaryKeyword}" reduces manual development, media synthesis, and audit latency by up to 85%.`,
       `All benchmarked tools in this research report comply with US enterprise zero-data-retention (ZDR), SOC2 Type II, and HIPAA audit constraints.`,
-      `Karan Arora's editorial scoring awards this workflow a ${editorialScore} commercial viability index for 2026 engineering roadmaps.`
+      `Our editorial scoring awards this workflow a ${editorialScore} commercial viability index for 2026 engineering roadmaps.`
     ],
     matchedTool: matchedToolData ? {
       name: matchedToolData.name,
@@ -630,7 +630,7 @@ Analyze latency, accuracy metrics, and expected ROI for engineering teams.
       },
       {
         heading: `9. Common Anti-Patterns & Battle-Tested Engineering Fixes`,
-        content: `Through dozens of enterprise audits, Karan Arora has identified four recurring traps teams fall into when deploying ${article.primaryKeyword}:`,
+        content: `Through dozens of enterprise audits, we have identified four recurring traps teams fall into when deploying ${article.primaryKeyword}:`,
         subsections: [
           {
             title: 'Anti-Pattern 1: Unchecked Context Bloat',
@@ -643,7 +643,7 @@ Analyze latency, accuracy metrics, and expected ROI for engineering teams.
         ]
       },
       {
-        heading: `10. Editorial Verdict & Strategic Outlook by Karan Arora`,
+        heading: `10. Editorial Verdict & Strategic Outlook`,
         content: `The 2026 AI revolution is defined by execution velocity. Tools and workflows centered around ${article.title} have reached the threshold where early adopters gain an insurmountable structural advantage over legacy competitors. For founders and engineering teams, the mandate is clear: deploy verified tools, enforce rigorous safety guardrails, and continuously optimize compute token economics. Stack AI Tools remains your authoritative beacon across this frontier.`,
       }
     ],
@@ -728,10 +728,10 @@ Analyze latency, accuracy metrics, and expected ROI for engineering teams.
       score: editorialScore,
       recommendation,
       quote: comparison
-        ? `"Between ${comparison.toolA.name} (${comparison.toolA.rating.toFixed(1)}/5.0) and ${comparison.toolB.name} (${comparison.toolB.rating.toFixed(1)}/5.0), the right choice comes down to your specific workflow, not marketing claims. Both have real, verified track records." — Karan Arora`
+        ? `"Between ${comparison.toolA.name} (${comparison.toolA.rating.toFixed(1)}/5.0) and ${comparison.toolB.name} (${comparison.toolB.rating.toFixed(1)}/5.0), the right choice comes down to your specific workflow, not marketing claims. Both have real, verified track records." — Stack AI Tools`
         : matchedToolData
-          ? `"${matchedToolData.name} earns a ${matchedToolData.rating.toFixed(1)}/5.0 across ${matchedToolData.reviewsCount.toLocaleString()} verified reviews.${toolPros ? ` Its biggest strength: ${toolPros[0].toLowerCase()}.` : ''}${toolCons ? ` The main tradeoff to weigh: ${toolCons[0].toLowerCase()}.` : ''}" — Karan Arora`
-          : `"${article.title} represents a genuinely useful capability for 2026 engineering teams. When paired with disciplined prompt architecture and automated telemetry, it delivers a real competitive edge." — Karan Arora`
+          ? `"${matchedToolData.name} earns a ${matchedToolData.rating.toFixed(1)}/5.0 across ${matchedToolData.reviewsCount.toLocaleString()} verified reviews.${toolPros ? ` Its biggest strength: ${toolPros[0].toLowerCase()}.` : ''}${toolCons ? ` The main tradeoff to weigh: ${toolCons[0].toLowerCase()}.` : ''}" — Stack AI Tools`
+          : `"${article.title} represents a genuinely useful capability for 2026 engineering teams. When paired with disciplined prompt architecture and automated telemetry, it delivers a real competitive edge." — Stack AI Tools`
     },
     faqs: [
       {
@@ -762,7 +762,7 @@ Analyze latency, accuracy metrics, and expected ROI for engineering teams.
       },
       {
         question: `How does Stack AI Tools verify ratings and reviews?`,
-        answer: `Every tool in our directory undergoes rigorous technical testing by Karan Arora and automated telemetry pipelines assessing real-world latency, API uptime, pricing changes, and verified builder sentiment.`
+        answer: `Every tool in our directory undergoes rigorous technical testing and automated telemetry pipelines assessing real-world latency, API uptime, pricing changes, and verified builder sentiment.`
       },
       {
         question: `How often is this research report updated?`,

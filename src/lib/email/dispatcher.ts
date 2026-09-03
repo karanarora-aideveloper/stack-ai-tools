@@ -212,8 +212,8 @@ async function sendViaBrevo(options: SendEmailOptions): Promise<DispatchResult> 
   const apiKey = await getSettingOrEnv('BREVO_API_KEY');
   if (!apiKey) throw new Error('BREVO_API_KEY is not configured');
 
-  const senderEmail = (await getSettingOrEnv('EMAIL_FROM')) || 'karan@stackaitools.com';
-  const senderName = (await getSettingOrEnv('EMAIL_FROM_NAME')) || 'Karan Arora | Stack AI Tools';
+  const senderEmail = (await getSettingOrEnv('EMAIL_FROM')) || 'hello@stackaitools.com';
+  const senderName = (await getSettingOrEnv('EMAIL_FROM_NAME')) || 'Stack AI Tools';
 
   // Pre-flight check: If using custom domain, verify domain authentication
   const domain = senderEmail.split('@')[1];
@@ -297,8 +297,8 @@ async function sendViaResend(options: SendEmailOptions): Promise<DispatchResult>
   const apiKey = await getSettingOrEnv('RESEND_API_KEY');
   if (!apiKey) throw new Error('RESEND_API_KEY is not configured');
 
-  const senderEmail = (await getSettingOrEnv('EMAIL_FROM')) || 'karan@stackaitools.com';
-  const senderName = (await getSettingOrEnv('EMAIL_FROM_NAME')) || 'Karan Arora | Stack AI Tools';
+  const senderEmail = (await getSettingOrEnv('EMAIL_FROM')) || 'hello@stackaitools.com';
+  const senderName = (await getSettingOrEnv('EMAIL_FROM_NAME')) || 'Stack AI Tools';
 
   const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
@@ -328,8 +328,8 @@ async function sendViaMailerSend(options: SendEmailOptions): Promise<DispatchRes
   const apiKey = await getSettingOrEnv('MAILERSEND_API_KEY');
   if (!apiKey) throw new Error('MAILERSEND_API_KEY is not configured');
 
-  const senderEmail = (await getSettingOrEnv('EMAIL_FROM')) || 'karan@stackaitools.com';
-  const senderName = (await getSettingOrEnv('EMAIL_FROM_NAME')) || 'Karan Arora | Stack AI Tools';
+  const senderEmail = (await getSettingOrEnv('EMAIL_FROM')) || 'hello@stackaitools.com';
+  const senderName = (await getSettingOrEnv('EMAIL_FROM_NAME')) || 'Stack AI Tools';
 
   const res = await fetch('https://api.mailersend.com/v1/email', {
     method: 'POST',
@@ -368,8 +368,8 @@ async function sendViaSMTP(options: SendEmailOptions): Promise<DispatchResult> {
     auth: { user, pass }
   });
 
-  const senderName = (await getSettingOrEnv('EMAIL_FROM_NAME')) || 'Karan Arora | Stack AI Tools';
-  const senderEmail = (await getSettingOrEnv('EMAIL_FROM')) || 'karan@stackaitools.com';
+  const senderName = (await getSettingOrEnv('EMAIL_FROM_NAME')) || 'Stack AI Tools';
+  const senderEmail = (await getSettingOrEnv('EMAIL_FROM')) || 'hello@stackaitools.com';
 
   const info = await transporter.sendMail({
     from: `"${senderName}" <${senderEmail}>`,

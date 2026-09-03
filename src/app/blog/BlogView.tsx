@@ -84,7 +84,7 @@ export default function BlogView({ articles }: BlogViewProps) {
           Frontier AI <span className="modern-hero-gradient">Research & Guides</span>
         </h1>
         <p className="blog-hero-desc">
-          Deep-dive benchmark audits, model showdowns, and architectural playbooks curated by <strong>Karan Arora</strong> to help founders and engineering leaders deploy production intelligence.
+          Deep-dive benchmark audits, model showdowns, and architectural playbooks to help founders and engineering leaders deploy production intelligence.
         </p>
 
         {/* Search Bar */}
@@ -163,10 +163,12 @@ export default function BlogView({ articles }: BlogViewProps) {
 
               <div className="featured-article-footer">
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                  <div className="author-avatar-sm">KA</div>
+                  <div className="author-avatar-sm" style={{ color: '#fff' }}>
+                    <Sparkles size={14} />
+                  </div>
                   <div>
-                    <span style={{ fontSize: 13, fontWeight: 700, color: '#fff', display: 'block' }}>Karan Arora</span>
-                    <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>Chief AI Architect</span>
+                    <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-strong)', display: 'block' }}>Stack AI Tools</span>
+                    <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>Independently Verified</span>
                   </div>
                 </div>
 
@@ -238,7 +240,7 @@ export default function BlogView({ articles }: BlogViewProps) {
                   <div className="article-card-bottom">
                     <div className="article-author-row">
                       <span className="author-dot"></span>
-                      <span>Karan Arora</span>
+                      <span>Stack AI Tools</span>
                     </div>
 
                     <Link href={`/blog/${article.slug}`} className="article-read-link">

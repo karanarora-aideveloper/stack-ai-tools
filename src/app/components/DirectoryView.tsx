@@ -204,7 +204,7 @@ export default function DirectoryView({ initialTools, initialPrompts }: Director
         </h1>
 
         <p className="modern-hero-subtitle">
-          Bypass generic chatbots. Find autonomous coding agents, node-based diffusion workflows, real-time voice streaming engines, and enterprise AI orchestration curated by <strong>Karan Arora</strong>.
+          Bypass generic chatbots. Find autonomous coding agents, node-based diffusion workflows, real-time voice streaming engines, and enterprise AI orchestration — independently tested and verified.
         </p>
 
         {/* Clean Metrics Grid */}

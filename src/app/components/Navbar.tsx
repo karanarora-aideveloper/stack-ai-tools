@@ -218,7 +218,7 @@ export default function Navbar() {
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   <User size={18} color="#a855f7" />
-                  <span>About Karan Arora</span>
+                  <span>About Us</span>
                 </Link>
               </nav>
 

@@ -69,7 +69,7 @@ model Article {
   featured       Boolean  @default(false)
   excerpt        String
   imageUrl       String
-  author         String   @default("Karan Arora")
+  author         String   @default("Stack AI Tools")
   authorRole     String   @default("Founder & Chief AI Architect")
   publishedAt    String
   updatedAt      String

@@ -58,7 +58,7 @@ const TEMPLATES = {
       Today's Vetted AI Tools & Intelligence
     </h1>
     <p style="color: #94a3b8; margin: 8px 0 0 0; font-size: 14px;">
-      Curated & Audited by Karan Arora • Live on <a href="https://stackaitools.com" style="color: #818cf8; text-decoration: none; font-weight: 600;">stackaitools.com</a>
+      Independently Verified • Live on <a href="https://stackaitools.com" style="color: #818cf8; text-decoration: none; font-weight: 600;">stackaitools.com</a>
     </p>
   </div>
 
@@ -173,14 +173,14 @@ const TEMPLATES = {
         Stack AI Tools (stackaitools.com)
       </p>
       <p style="font-size: 12px; color: #64748b; margin: 0 0 12px 0;">
-        Curated & Founded by Karan Arora • Chief AI Architect & Open Source Contributor
+        An independently run, editorially vetted AI software directory.
       </p>
       <p style="font-size: 11px; line-height: 1.5; color: #475569; margin: 0 0 12px 0;">
         You received this because you subscribed to daily intelligence alerts on <a href="https://stackaitools.com" style="color: #64748b; text-decoration: underline;">stackaitools.com</a>.<br />
         Dispatched via authenticated domain sender: <code style="color: #818cf8;">noreply@stackaitools.com</code>
       </p>
       <p style="font-size: 11px; color: #475569; margin: 0;">
-        <a href="https://stackaitools.com/api/newsletter/unsubscribe" style="color: #64748b; text-decoration: underline;">Unsubscribe in 1 click</a> • <a href="https://stackaitools.com/about" style="color: #64748b; text-decoration: underline;">About Karan Arora</a> • Zero Spam Guarantee
+        <a href="https://stackaitools.com/api/newsletter/unsubscribe" style="color: #64748b; text-decoration: underline;">Unsubscribe in 1 click</a> • <a href="https://stackaitools.com/about" style="color: #64748b; text-decoration: underline;">About Us</a> • Zero Spam Guarantee
       </p>
     </div>
   </div>
@@ -197,7 +197,7 @@ const TEMPLATES = {
   </div>
   <div style="padding: 28px 24px;">
     <p style="font-size: 16px; line-height: 1.6; color: #cbd5e1;">Hey Founder,</p>
-    <p style="font-size: 15px; line-height: 1.6; color: #cbd5e1;">Here is your weekly vetted breakdown of the fastest-moving AI developer tools, video generators, and production prompts benchmarked by Karan Arora and the Stack AI Tools editorial team.</p>
+    <p style="font-size: 15px; line-height: 1.6; color: #cbd5e1;">Here is your weekly vetted breakdown of the fastest-moving AI developer tools, video generators, and production prompts — independently benchmarked by Stack AI Tools.</p>
     
     <div style="margin: 24px 0; padding: 20px; background: rgba(255,255,255,0.04); border-radius: 10px; border-left: 4px solid #6366f1;">
       <h3 style="margin: 0 0 8px 0; color: #818cf8; font-size: 17px;">1. Cursor 3.0 Composer Multi-File Deep Dive</h3>

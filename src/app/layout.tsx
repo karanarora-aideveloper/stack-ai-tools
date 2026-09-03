@@ -8,9 +8,7 @@ import {
   Layers, 
   GitCompare, 
   BookOpen, 
-  ShieldCheck, 
-  User, 
-  Mail 
+  ShieldCheck
 } from 'lucide-react';
 import Analytics from '@/app/components/Analytics';
 import MobileDock from '@/app/components/MobileDock';
@@ -25,11 +23,8 @@ export const metadata: Metadata = {
     default: 'Stack AI Tools | Curated Directory of 200+ Frontier AI Tools, Autonomous Agents & Prompt Index (2026)',
     template: '%s | Stack AI Tools'
   },
-  description: 'The authoritative directory of top artificial intelligence software, autonomous coding agents, generative media, and ready-to-use prompt templates. Founded and curated by Karan Arora.',
+  description: 'The authoritative directory of top artificial intelligence software, autonomous coding agents, generative media, and ready-to-use prompt templates. Independently tested and verified.',
   keywords: [
-    'Karan Arora',
-    'Karan Arora AI',
-    'Karan Arora Stack AI Tools',
     'AI tools directory',
     'best AI tools 2026',
     'AI coding assistants',
@@ -39,14 +34,13 @@ export const metadata: Metadata = {
     'Stack AI Tools'
   ],
   authors: [
-    { name: 'Karan Arora', url: 'https://stackaitools.com/about' },
-    { name: 'Stack AI Tools Editorial Team', url: 'https://stackaitools.com' }
+    { name: 'Stack AI Tools', url: 'https://stackaitools.com' }
   ],
-  creator: 'Karan Arora',
-  publisher: 'Karan Arora',
+  creator: 'Stack AI Tools',
+  publisher: 'Stack AI Tools',
   openGraph: {
     title: 'Stack AI Tools | Curated AI Directory & Prompt Library',
-    description: 'Discover and compare the world\'s top frontier AI software, autonomous agents, and prompts. Curated by Karan Arora.',
+    description: 'Discover and compare the world\'s top frontier AI software, autonomous agents, and prompts. Independently tested and verified.',
     url: 'https://stackaitools.com',
     siteName: 'Stack AI Tools',
     type: 'website',
@@ -55,7 +49,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Stack AI Tools | Curated AI Directory & Prompts (2026)',
-    description: 'Discover and compare top frontier AI software and autonomous agents. Curated by Karan Arora.'
+    description: 'Discover and compare top frontier AI software and autonomous agents. Independently tested and verified.'
   },
   alternates: {
     canonical: 'https://stackaitools.com',
@@ -82,31 +76,6 @@ export const metadata: Metadata = {
   },
 };
 
-const personSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'Person',
-  name: 'Karan Arora',
-  jobTitle: 'Founder & Chief AI Architect',
-  url: 'https://stackaitools.com/about',
-  email: 'mailto:karan@stackaitools.com',
-  sameAs: [
-    'https://github.com/karanarora-aideveloper',
-    'https://github.com/karanarora-aideveloper/stack-ai-tools'
-  ],
-  worksFor: {
-    '@type': 'Organization',
-    name: 'Stack AI Tools',
-    url: 'https://stackaitools.com'
-  },
-  knowsAbout: [
-    'Artificial Intelligence',
-    'Autonomous Coding Agents',
-    'Large Language Models',
-    'Prompt Engineering',
-    'SaaS Architecture'
-  ]
-};
-
 const websiteSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
@@ -114,9 +83,9 @@ const websiteSchema = {
   url: 'https://stackaitools.com',
   description: 'The authoritative US directory of top artificial intelligence software, autonomous coding agents, generative media, and ready-to-use prompt templates.',
   author: {
-    '@type': 'Person',
-    name: 'Karan Arora',
-    url: 'https://stackaitools.com/about'
+    '@type': 'Organization',
+    name: 'Stack AI Tools',
+    url: 'https://stackaitools.com'
   },
   potentialAction: {
     '@type': 'SearchAction',
@@ -133,12 +102,7 @@ const organizationSchema = {
   '@type': 'Organization',
   name: 'Stack AI Tools',
   url: 'https://stackaitools.com',
-  logo: 'https://stackaitools.com/icon.svg',
-  founder: {
-    '@type': 'Person',
-    name: 'Karan Arora',
-    url: 'https://stackaitools.com/about'
-  }
+  logo: 'https://stackaitools.com/icon.svg'
 };
 
 export default function RootLayout({
@@ -163,10 +127,6 @@ gtag('config', 'G-WCL9JTB6TC');`
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
         <link rel="help" href="/llms.txt" type="text/plain" title="LLM Context & AI Parser" />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
-        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
@@ -199,44 +159,40 @@ gtag('config', 'G-WCL9JTB6TC');`
                 <span>Directory Verified & Live on <strong>stackaitools.com</strong> (Updated September 1, 2026)</span>
               </div>
 
-              {/* Founder Personal Attribution Card */}
-              <div 
-                style={{ 
-                  marginTop: 20, 
+              {/* Editorial Trust Strip */}
+              <div
+                style={{
+                  marginTop: 20,
                   marginBottom: 36,
-                  padding: '20px 24px', 
-                  background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(236, 72, 153, 0.06) 100%)', 
-                  border: '1px solid rgba(255, 255, 255, 0.1)', 
-                  borderRadius: 16, 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  justifyContent: 'space-between', 
-                  flexWrap: 'wrap', 
-                  gap: 16 
+                  padding: '20px 24px',
+                  background: 'rgba(99, 102, 241, 0.05)',
+                  border: '1px solid rgba(15, 23, 42, 0.08)',
+                  borderRadius: 16,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  flexWrap: 'wrap',
+                  gap: 16
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-                  <div style={{ width: 42, height: 42, borderRadius: 12, background: 'linear-gradient(135deg, #6366f1, #ec4899)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 800, fontSize: 16 }}>
-                    KA
+                  <div style={{ width: 42, height: 42, borderRadius: 12, background: 'linear-gradient(135deg, #6366f1, #4f46e5)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
+                    <ShieldCheck size={20} />
                   </div>
                   <div>
-                    <div style={{ fontSize: 15, fontWeight: 700, color: '#ffffff' }}>
-                      Curated & Founded by Karan Arora
+                    <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-strong)' }}>
+                      Independently Tested & Verified
                     </div>
-                    <div style={{ fontSize: 13, color: '#94a3b8' }}>
-                      Chief AI Architect • Software Engineer • Open Source Contributor
+                    <div style={{ fontSize: 13, color: 'var(--text-muted)' }}>
+                      Every listing is benchmarked directly • No pay-to-rank placements
                     </div>
                   </div>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 16, fontSize: 13 }}>
-                  <Link href="/about" style={{ color: '#a5b4fc', textDecoration: 'none', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 4 }}>
-                    <span>Founder Profile & Story</span>
+                  <Link href="/about" style={{ color: '#4f46e5', textDecoration: 'none', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                    <span>Our Editorial Standards</span>
                     <span>→</span>
                   </Link>
-                  <a href="mailto:karan@stackaitools.com" style={{ color: '#cbd5e1', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 5 }}>
-                    <Mail size={14} color="#ec4899" />
-                    <span>karan@stackaitools.com</span>
-                  </a>
                 </div>
               </div>
 
@@ -289,7 +245,7 @@ gtag('config', 'G-WCL9JTB6TC');`
                   <ul className="footer-links-list">
                     <li><Link href="/claude-connectors" style={{ color: '#38bdf8', fontWeight: 600 }}>Claude Connectors & MCP</Link></li>
                     <li><Link href="/blog">Frontier AI Research Blog</Link></li>
-                    <li><Link href="/about">About Karan Arora</Link></li>
+                    <li><Link href="/about">About Us</Link></li>
                     <li><Link href="/prompts">Visual Prompt Showcase</Link></li>
                     <li><Link href="/categories">All Software Categories</Link></li>
                     <li><Link href="/submit">Submit Your AI Tool</Link></li>
@@ -314,7 +270,7 @@ gtag('config', 'G-WCL9JTB6TC');`
               </div>
 
               <p className="footer-copyright">
-                © 2026 Stack AI Tools (stackaitools.com). Built & Maintained by Karan Arora. All rights reserved.
+                © 2026 Stack AI Tools (stackaitools.com). All rights reserved.
               </p>
             </div>
           </footer>

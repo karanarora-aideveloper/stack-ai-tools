@@ -4,7 +4,7 @@ import { getAllArticles } from '@/lib/blog';
 
 export const metadata: Metadata = {
   title: { absolute: 'AI Tools Blog & Reviews (2026) | Stack AI Tools' },
-  description: 'Authoritative research, benchmark tests, and software showdowns comparing the top AI video generators, coding assistants, voice cloners, Claude 3.7 reasoning updates, and autonomous agents in 2026. Curated by Karan Arora.',
+  description: 'Authoritative research, benchmark tests, and software showdowns comparing the top AI video generators, coding assistants, voice cloners, and autonomous agents in 2026. Independently tested and verified.',
   keywords: [
     'best ai tools 2026',
     'claude 3.7 sonnet updates',
@@ -47,10 +47,9 @@ export default async function BlogPage() {
     description: 'The authoritative research blog and benchmark directory for artificial intelligence software in 2026.',
     url: 'https://stackaitools.com/blog',
     author: {
-      '@type': 'Person',
-      name: 'Karan Arora',
-      jobTitle: 'Chief AI Architect & Founder',
-      url: 'https://stackaitools.com/about'
+      '@type': 'Organization',
+      name: 'Stack AI Tools',
+      url: 'https://stackaitools.com'
     },
     publisher: {
       '@type': 'Organization',

@@ -64,7 +64,7 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
     // Google's ~60-char display limit instead of averaging ~67 chars with the suffix appended.
     title: { absolute: title },
     description,
-    keywords: [article.primaryKeyword, article.category, 'AI tools 2026', 'review', 'guide', 'Claude 3.7', 'Karan Arora'],
+    keywords: [article.primaryKeyword, article.category, 'AI tools 2026', 'review', 'guide'],
     openGraph: {
       title,
       description,
@@ -119,10 +119,9 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     datePublished: article.publishedAt,
     dateModified: article.updatedAt,
     author: {
-      '@type': 'Person',
-      name: 'Karan Arora',
-      jobTitle: 'Founder & Chief AI Architect',
-      url: 'https://stackaitools.com/about'
+      '@type': 'Organization',
+      name: 'Stack AI Tools',
+      url: 'https://stackaitools.com'
     },
     publisher: {
       '@type': 'Organization',
@@ -212,15 +211,17 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         {/* Author Bio Bar */}
         <div className="article-author-card">
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <div className="author-avatar-md">KA</div>
+            <div className="author-avatar-md">
+              <Sparkles size={18} />
+            </div>
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                 <Link href="/about" className="author-name-link">
-                  Karan Arora
+                  Stack AI Tools
                 </Link>
                 <span className="verified-check">✓</span>
               </div>
-              <span className="author-role-sub">Founder & Chief AI Architect • Stack AI Tools</span>
+              <span className="author-role-sub">Independently Tested & Verified</span>
             </div>
           </div>
 
@@ -427,7 +428,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             </section>
           ))}
 
-          {/* Editorial Verdict Callout Box by Karan Arora */}
+          {/* Editorial Verdict Callout Box */}
           <div style={{ margin: '36px 0', background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.07), rgba(255, 255, 255, 0.4))', border: '1px solid rgba(217, 119, 6, 0.3)', borderRadius: 12, padding: 24, position: 'relative' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12, flexWrap: 'wrap', gap: 10 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
@@ -450,7 +451,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             </p>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, color: '#64748b' }}>
               <ShieldCheck size={14} color="#10b981" />
-              <span>Independently audited & benchmarked by <strong>Karan Arora</strong> • No sponsored manipulation</span>
+              <span>Independently audited & benchmarked by <strong>Stack AI Tools</strong> • No sponsored manipulation</span>
             </div>
           </div>
 
@@ -473,16 +474,18 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
           {/* Author Box */}
           <div className="author-bio-footer">
-            <div className="author-avatar-lg">KA</div>
+            <div className="author-avatar-lg">
+              <Sparkles size={22} />
+            </div>
             <div>
               <h3 style={{ margin: '0 0 6px', color: '#0f172a', fontSize: 18 }}>
-                Written & Audited by Karan Arora
+                Written & Verified by Stack AI Tools
               </h3>
               <p style={{ margin: '0 0 10px', color: '#64748b', fontSize: 13.5, lineHeight: 1.6 }}>
-                Karan Arora is the Founder and Chief AI Architect behind <strong>Stack AI Tools</strong>. He evaluates frontier models, autonomous coding agents, multi-modal generative engines, and developer infrastructure to help founders and engineering teams deploy verified artificial intelligence.
+                Stack AI Tools independently evaluates frontier models, autonomous coding agents, multi-modal generative engines, and developer infrastructure to help founders and engineering teams deploy verified artificial intelligence.
               </p>
               <Link href="/about" className="article-read-link" style={{ fontSize: 13 }}>
-                <span>Read Karan&apos;s Full Bio & Engineering Philosophy →</span>
+                <span>Read Our Editorial Standards →</span>
               </Link>
             </div>
           </div>

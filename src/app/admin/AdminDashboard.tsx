@@ -526,7 +526,7 @@ export default function AdminDashboard({
             </form>
 
             <div style={{ marginTop: 24, fontSize: 12, color: '#94a3b8' }}>
-              Light Theme Mode • Protected by Karan Arora Architecture
+              Light Theme Mode • Admin Access
             </div>
           </div>
         </div>
@@ -553,7 +553,7 @@ export default function AdminDashboard({
             <span className="admin-live-badge-light">Live Production</span>
           </h1>
           <p className="admin-subtitle-light">
-            Curated by <strong>Karan Arora</strong> • Master affiliate management, outbound tracking redirects, and directory publishing.
+            Master affiliate management, outbound tracking redirects, and directory publishing.
           </p>
         </div>
 
@@ -1469,7 +1469,7 @@ export default function AdminDashboard({
                   rows={2}
                   value={affFormData.affiliateNotes}
                   onChange={e => setAffFormData({ ...affFormData, affiliateNotes: e.target.value })}
-                  placeholder="e.g. Registered via karan@stackaitools.com, monthly Stripe payouts, 60-day cookie window"
+                  placeholder="e.g. Registered via hello@stackaitools.com, monthly Stripe payouts, 60-day cookie window"
                 />
               </div>
 

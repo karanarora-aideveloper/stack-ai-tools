@@ -102,7 +102,7 @@ export default function VisualToolList({
                   <div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                       <h3 className="visual-tool-name">{tool.name}</h3>
-                      <span className="modern-verified-pill" title="Verified by Karan Arora">✓ Verified</span>
+                      <span className="modern-verified-pill" title="Independently Verified">✓ Verified</span>
                     </div>
 
                     {/* Star Rating Row */}
@@ -140,7 +140,7 @@ export default function VisualToolList({
                 {tool.description}
               </p>
 
-              {/* Use Case Probability & Best-For Matrix (Karan's Core Request) */}
+              {/* Use Case Probability & Best-For Matrix */}
               <div className="visual-use-case-box">
                 <div className="use-case-metric-row">
                   <div className="use-case-label-group">
