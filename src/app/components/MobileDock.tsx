@@ -37,7 +37,7 @@ export default function MobileDock() {
                 <div className="topbar-logo-mark" style={{ width: 28, height: 28 }}>
                   <Sparkles size={14} color="#ffffff" />
                 </div>
-                <span style={{ fontWeight: 700, color: '#fff', fontSize: 16 }}>Stack AI Tools</span>
+                <span style={{ fontWeight: 700, color: 'var(--text-strong)', fontSize: 16 }}>Stack AI Tools</span>
               </div>
               <button 
                 className="mobile-drawer-close"
@@ -82,7 +82,7 @@ export default function MobileDock() {
                   className={`mobile-drawer-link ${isActive('/prompts') ? 'active' : ''}`}
                   onClick={() => setIsDrawerOpen(false)}
                 >
-                  <BookOpen size={18} color="#f59e0b" />
+                  <BookOpen size={18} color="#d97706" />
                   <span>Prompt Library</span>
                 </Link>
 

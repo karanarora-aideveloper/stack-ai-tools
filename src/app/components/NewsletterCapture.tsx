@@ -58,7 +58,7 @@ export default function NewsletterCapture({
         style={{
           padding: compact ? '20px 24px' : '32px 36px',
           borderRadius: 16,
-          background: 'linear-gradient(180deg, rgba(16, 185, 129, 0.12) 0%, rgba(15, 23, 42, 0.75) 100%)',
+          background: 'linear-gradient(180deg, rgba(16, 185, 129, 0.1) 0%, rgba(255, 255, 255, 0.7) 100%)',
           border: '1px solid rgba(16, 185, 129, 0.35)',
           textAlign: 'center',
           boxShadow: '0 12px 30px rgba(16, 185, 129, 0.1)'
@@ -67,7 +67,7 @@ export default function NewsletterCapture({
         <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 48, height: 48, borderRadius: '50%', background: 'rgba(16, 185, 129, 0.2)', color: '#10b981', marginBottom: 12 }}>
           <CheckCircle2 size={26} />
         </div>
-        <h3 style={{ fontSize: 20, fontWeight: 700, color: '#f8fafc', marginBottom: 6 }}>
+        <h3 style={{ fontSize: 20, fontWeight: 700, color: '#0f172a', marginBottom: 6 }}>
           You&apos;re On the VIP List!
         </h3>
         <p style={{ color: 'var(--text-secondary)', fontSize: 14, maxWidth: 440, margin: '0 auto' }}>
@@ -83,20 +83,20 @@ export default function NewsletterCapture({
       style={{
         padding: compact ? '20px 24px' : '32px 36px',
         borderRadius: 16,
-        background: 'linear-gradient(180deg, rgba(99, 102, 241, 0.1) 0%, rgba(15, 23, 42, 0.8) 100%)',
+        background: 'linear-gradient(180deg, rgba(99, 102, 241, 0.08) 0%, rgba(255, 255, 255, 0.65) 100%)',
         border: '1px solid rgba(99, 102, 241, 0.25)',
-        boxShadow: '0 16px 40px rgba(0, 0, 0, 0.3)',
+        boxShadow: '0 16px 40px rgba(15, 23, 42, 0.08)',
         position: 'relative',
         overflow: 'hidden'
       }}
     >
       <div style={{ position: 'relative', zIndex: 1 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#818cf8', fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 8 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#4f46e5', fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 8 }}>
           <Sparkles size={14} />
           <span>Weekly Intelligence Briefing</span>
         </div>
 
-        <h3 style={{ fontSize: compact ? 18 : 24, fontWeight: 800, color: '#f8fafc', marginBottom: 8, letterSpacing: '-0.02em' }}>
+        <h3 style={{ fontSize: compact ? 18 : 24, fontWeight: 800, color: '#0f172a', marginBottom: 8, letterSpacing: '-0.02em' }}>
           {headline}
         </h3>
 
@@ -117,12 +117,12 @@ export default function NewsletterCapture({
                 width: '100%',
                 padding: '12px 16px 12px 42px',
                 borderRadius: 10,
-                background: 'rgba(15, 23, 42, 0.8)',
-                border: '1px solid rgba(255, 255, 255, 0.12)',
-                color: '#fff',
+                background: 'rgba(255, 255, 255, 0.9)',
+                border: '1px solid rgba(15, 23, 42, 0.14)',
+                color: '#0f172a',
                 fontSize: 14,
                 outline: 'none',
-                boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.4)'
+                boxShadow: 'inset 0 1px 3px rgba(15, 23, 42, 0.06)'
               }}
             />
           </div>
@@ -151,7 +151,7 @@ export default function NewsletterCapture({
         </form>
 
         {errorMsg && (
-          <p style={{ color: '#f87171', fontSize: 13, marginTop: 8 }}>
+          <p style={{ color: '#dc2626', fontSize: 13, marginTop: 8 }}>
             {errorMsg}
           </p>
         )}

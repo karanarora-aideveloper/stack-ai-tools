@@ -170,8 +170,8 @@ export default function PromptsExplorer({ initialPrompts }: PromptsExplorerProps
             key={term}
             onClick={() => { setSearchQuery(term); setSelectedTarget('All Models'); setSelectedType('all'); }}
             style={{ 
-              background: term.includes('MCP') ? 'rgba(99, 102, 241, 0.12)' : 'rgba(255, 255, 255, 0.04)', 
-              border: term.includes('MCP') ? '1px solid rgba(99, 102, 241, 0.35)' : '1px solid rgba(255, 255, 255, 0.08)', 
+              background: term.includes('MCP') ? 'rgba(99, 102, 241, 0.12)' : 'rgba(15, 23, 42, 0.04)', 
+              border: term.includes('MCP') ? '1px solid rgba(99, 102, 241, 0.35)' : '1px solid rgba(15, 23, 42, 0.08)', 
               borderRadius: 100, 
               padding: '3px 10px', 
               fontSize: 11.5, 
@@ -185,7 +185,7 @@ export default function PromptsExplorer({ initialPrompts }: PromptsExplorerProps
             }}
             onMouseLeave={e => {
               (e.currentTarget as HTMLElement).style.color = term.includes('MCP') ? '#a5b4fc' : 'var(--text-secondary)';
-              (e.currentTarget as HTMLElement).style.borderColor = term.includes('MCP') ? 'rgba(99, 102, 241, 0.35)' : 'rgba(255, 255, 255, 0.08)';
+              (e.currentTarget as HTMLElement).style.borderColor = term.includes('MCP') ? 'rgba(99, 102, 241, 0.35)' : 'rgba(15, 23, 42, 0.08)';
             }}
           >
             {term}
@@ -224,7 +224,7 @@ export default function PromptsExplorer({ initialPrompts }: PromptsExplorerProps
             style={selectedType === 'mcp' ? { background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.3) 0%, rgba(236, 72, 153, 0.2) 100%)', borderColor: '#818cf8' } : {}}
           >
             <span>🔌 Top MCP Servers</span>
-            <span style={{ opacity: 0.85, fontSize: 11.5, color: '#a5b4fc', fontWeight: 700 }}>({typeCounts.mcp})</span>
+            <span style={{ opacity: 0.85, fontSize: 11.5, color: '#4338ca', fontWeight: 700 }}>({typeCounts.mcp})</span>
           </button>
           <button
             className={`prompts-type-pill ${selectedType === 'code' ? 'active' : ''}`}
@@ -276,9 +276,9 @@ export default function PromptsExplorer({ initialPrompts }: PromptsExplorerProps
           ))}
         </div>
       ) : (
-        <div className="empty-state" style={{ padding: '60px 20px', textAlign: 'center', background: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: 16 }}>
+        <div className="empty-state" style={{ padding: '60px 20px', textAlign: 'center', background: 'rgba(15, 23, 42, 0.02)', border: '1px solid rgba(15, 23, 42, 0.08)', borderRadius: 16 }}>
           <div style={{ fontSize: 36, marginBottom: 12 }}>🔍</div>
-          <h3 style={{ fontSize: 18, color: '#fff', marginBottom: 8 }}>No prompts matched your search</h3>
+          <h3 style={{ fontSize: 18, color: '#0f172a', marginBottom: 8 }}>No prompts matched your search</h3>
           <p style={{ color: 'var(--text-secondary)', fontSize: 14, maxWidth: 450, margin: '0 auto 16px' }}>
             No prompt recipes matched &ldquo;{searchQuery || selectedTarget}&rdquo;. Try broadening your keywords or resetting filters.
           </p>

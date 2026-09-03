@@ -191,38 +191,38 @@ export default function AboutPage() {
 
       {/* Grid: Philosophy & Expertise */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 24, marginBottom: 40 }}>
-        <div style={{ background: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: 20, padding: 30 }}>
+        <div style={{ background: '#ffffff', border: '1px solid rgba(15, 23, 42, 0.08)', borderRadius: 20, padding: 30, boxShadow: '0 4px 16px rgba(15, 23, 42, 0.05)' }}>
           <div style={{ width: 44, height: 44, borderRadius: 12, background: 'rgba(99, 102, 241, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
-            <Cpu size={22} color="#818cf8" />
+            <Cpu size={22} color="#4f46e5" />
           </div>
-          <h3 style={{ fontSize: 18, fontWeight: 700, margin: '0 0 10px', color: '#f8fafc' }}>
+          <h3 style={{ fontSize: 18, fontWeight: 700, margin: '0 0 10px', color: '#0f172a' }}>
             Why I Built Stack AI Tools
           </h3>
-          <p style={{ fontSize: 14, color: '#94a3b8', lineHeight: 1.65, margin: 0 }}>
+          <p style={{ fontSize: 14, color: '#475569', lineHeight: 1.65, margin: 0 }}>
             In the explosion of AI startups, hundreds of tools claim revolutionary features while hiding real pricing or repackaging basic wrappers. I built Stack AI Tools to give builders, founders, and creators an unvarnished, transparent directory with verified reviews, accurate pricing models, and direct alternative comparisons.
           </p>
         </div>
 
-        <div style={{ background: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: 20, padding: 30 }}>
+        <div style={{ background: '#ffffff', border: '1px solid rgba(15, 23, 42, 0.08)', borderRadius: 20, padding: 30, boxShadow: '0 4px 16px rgba(15, 23, 42, 0.05)' }}>
           <div style={{ width: 44, height: 44, borderRadius: 12, background: 'rgba(236, 72, 153, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
-            <ShieldCheck size={22} color="#f472b6" />
+            <ShieldCheck size={22} color="#db2777" />
           </div>
-          <h3 style={{ fontSize: 18, fontWeight: 700, margin: '0 0 10px', color: '#f8fafc' }}>
+          <h3 style={{ fontSize: 18, fontWeight: 700, margin: '0 0 10px', color: '#0f172a' }}>
             Strict E-E-A-T Editorial Standard
           </h3>
-          <p style={{ fontSize: 14, color: '#94a3b8', lineHeight: 1.65, margin: 0 }}>
+          <p style={{ fontSize: 14, color: '#475569', lineHeight: 1.65, margin: 0 }}>
             Every tool in this directory is personally evaluated for speed, developer ergonomics, model backing (GPT-5, Claude 3.5 Sonnet, Llama 3, Midjourney v7), and value. We never list broken software or deceptive subscriptions.
           </p>
         </div>
 
-        <div style={{ background: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: 20, padding: 30 }}>
+        <div style={{ background: '#ffffff', border: '1px solid rgba(15, 23, 42, 0.08)', borderRadius: 20, padding: 30, boxShadow: '0 4px 16px rgba(15, 23, 42, 0.05)' }}>
           <div style={{ width: 44, height: 44, borderRadius: 12, background: 'rgba(16, 185, 129, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
-            <Terminal size={22} color="#34d399" />
+            <Terminal size={22} color="#059669" />
           </div>
-          <h3 style={{ fontSize: 18, fontWeight: 700, margin: '0 0 10px', color: '#f8fafc' }}>
+          <h3 style={{ fontSize: 18, fontWeight: 700, margin: '0 0 10px', color: '#0f172a' }}>
             Open Source & Community Driven
           </h3>
-          <p style={{ fontSize: 14, color: '#94a3b8', lineHeight: 1.65, margin: 0 }}>
+          <p style={{ fontSize: 14, color: '#475569', lineHeight: 1.65, margin: 0 }}>
             The code and data behind Stack AI Tools is open source on GitHub. Founders can submit pull requests, developers can contribute prompt recipes, and crawlers can consume clean Markdown context via <code>/llms.txt</code>.
           </p>
         </div>
@@ -238,10 +238,10 @@ export default function AboutPage() {
           textAlign: 'center'
         }}
       >
-        <h2 style={{ fontSize: 24, fontWeight: 800, color: '#ffffff', margin: '0 0 12px' }}>
+        <h2 style={{ fontSize: 24, fontWeight: 800, color: '#0f172a', margin: '0 0 12px' }}>
           Want to Feature Your AI Tool or Collaborate?
         </h2>
-        <p style={{ fontSize: 15, color: '#cbd5e1', maxWidth: 620, margin: '0 auto 24px', lineHeight: 1.6 }}>
+        <p style={{ fontSize: 15, color: '#475569', maxWidth: 620, margin: '0 auto 24px', lineHeight: 1.6 }}>
           Whether you are launching an autonomous coding agent, a generative model, or want to explore partnership opportunities, reach out directly to Karan Arora.
         </p>
         <div style={{ display: 'inline-flex', flexWrap: 'wrap', gap: 14, justifyContent: 'center' }}>

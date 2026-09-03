@@ -42,9 +42,9 @@ export default function ToolLogo({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%)',
-        border: '1px solid rgba(255, 255, 255, 0.12)',
-        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)',
+        background: 'linear-gradient(135deg, #ffffff 0%, #f4f5f8 100%)',
+        border: '1px solid rgba(15, 23, 42, 0.1)',
+        boxShadow: '0 2px 8px rgba(15, 23, 42, 0.06)',
         flexShrink: 0,
         overflow: 'hidden',
         position: 'relative'

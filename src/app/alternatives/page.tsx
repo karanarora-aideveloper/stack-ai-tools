@@ -52,7 +52,7 @@ export default async function AlternativesHub() {
     <div>
       {/* Header */}
       <div className="page-header" style={{ marginBottom: 48 }}>
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: '#818cf8', fontSize: 13, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 8 }}>
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: '#4f46e5', fontSize: 13, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 8 }}>
           <GitCompare size={16} />
           <span>Head-to-Head Benchmarks</span>
         </div>
@@ -79,7 +79,7 @@ export default async function AlternativesHub() {
                     size={40} 
                   />
                   <div>
-                    <h2 style={{ fontSize: 18, fontWeight: 700, color: '#fff' }}>
+                    <h2 style={{ fontSize: 18, fontWeight: 700, color: '#0f172a' }}>
                       {tool.name}
                     </h2>
                     <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>
@@ -95,12 +95,12 @@ export default async function AlternativesHub() {
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 20 }}>
                 {alts.map(alt => (
-                  <div key={alt.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 12px', background: 'rgba(255, 255, 255, 0.03)', borderRadius: 8 }}>
+                  <div key={alt.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 12px', background: 'rgba(15, 23, 42, 0.03)', borderRadius: 8 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                       <ToolLogo name={alt.name} domain={alt.domain} logoUrl={alt.logoUrl} icon={alt.icon} size={24} />
-                      <span style={{ fontSize: 13, fontWeight: 600, color: '#e2e8f0' }}>{alt.name}</span>
+                      <span style={{ fontSize: 13, fontWeight: 600, color: '#334155' }}>{alt.name}</span>
                     </div>
-                    <span style={{ fontSize: 12, color: '#fbbf24' }}>★ {alt.rating}</span>
+                    <span style={{ fontSize: 12, color: '#d97706' }}>★ {alt.rating}</span>
                   </div>
                 ))}
               </div>

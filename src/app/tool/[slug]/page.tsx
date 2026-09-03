@@ -259,13 +259,13 @@ export default async function ToolPage({ params }: ToolPageProps) {
             </p>
             {tool.bestFor && (
               <div style={{ padding: '12px 16px', borderRadius: 10, background: 'rgba(99, 102, 241, 0.08)', border: '1px solid rgba(99, 102, 241, 0.2)', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 10 }}>
-                <span style={{ fontSize: 13, fontWeight: 700, color: '#a5b4fc', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Ideal For:</span>
-                <span style={{ fontSize: 14, color: '#e2e8f0' }}>{tool.bestFor}</span>
+                <span style={{ fontSize: 13, fontWeight: 700, color: '#4338ca', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Ideal For:</span>
+                <span style={{ fontSize: 14, color: '#334155' }}>{tool.bestFor}</span>
               </div>
             )}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               {tool.keyUseCases?.map((useCase, idx) => (
-                <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 14, color: '#e2e8f0' }}>
+                <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 14, color: '#334155' }}>
                   <div style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: '#6366f1' }}></div>
                   <span>{useCase}</span>
                 </div>
@@ -281,7 +281,7 @@ export default async function ToolPage({ params }: ToolPageProps) {
                   <ShieldCheck size={20} color="#f59e0b" />
                   Zapier & Authority Review Verdict
                 </h2>
-                <span style={{ fontSize: 12, padding: '4px 10px', borderRadius: 20, background: 'rgba(245, 158, 11, 0.15)', color: '#fbbf24', fontWeight: 600, border: '1px solid rgba(245, 158, 11, 0.3)' }}>
+                <span style={{ fontSize: 12, padding: '4px 10px', borderRadius: 20, background: 'rgba(245, 158, 11, 0.15)', color: '#d97706', fontWeight: 600, border: '1px solid rgba(245, 158, 11, 0.3)' }}>
                   {tool.verifiedBy || 'Editorial Vetted'}
                 </span>
               </div>
@@ -297,7 +297,7 @@ export default async function ToolPage({ params }: ToolPageProps) {
               )}
               {tool.authoritySummary && (
                 <div>
-                  <div style={{ fontSize: 12, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 4 }}>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 4 }}>
                     Industry Consensus (G2 / GitHub / ProductHunt):
                   </div>
                   <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: 14, lineHeight: 1.6 }}>
@@ -323,7 +323,7 @@ export default async function ToolPage({ params }: ToolPageProps) {
                 <ul className="pro-con-list">
                   {tool.pros?.map((pro, i) => (
                     <li key={i}>
-                      <span style={{ color: '#34d399', fontWeight: 'bold' }}>✓</span>
+                      <span style={{ color: '#059669', fontWeight: 'bold' }}>✓</span>
                       <span>{pro}</span>
                     </li>
                   ))}
@@ -338,7 +338,7 @@ export default async function ToolPage({ params }: ToolPageProps) {
                 <ul className="pro-con-list">
                   {tool.cons?.map((con, i) => (
                     <li key={i}>
-                      <span style={{ color: '#f87171', fontWeight: 'bold' }}>✕</span>
+                      <span style={{ color: '#dc2626', fontWeight: 'bold' }}>✕</span>
                       <span>{con}</span>
                     </li>
                   ))}
@@ -374,7 +374,7 @@ export default async function ToolPage({ params }: ToolPageProps) {
               </h2>
               <Link 
                 href={`/alternatives/${tool.slug}`} 
-                style={{ fontSize: 13, color: '#818cf8', display: 'flex', alignItems: 'center', gap: 4 }}
+                style={{ fontSize: 13, color: '#4f46e5', display: 'flex', alignItems: 'center', gap: 4 }}
               >
                 Compare All
                 <ArrowRight size={14} />
@@ -422,15 +422,15 @@ export default async function ToolPage({ params }: ToolPageProps) {
                       alignItems: 'center', 
                       justifyContent: 'space-between', 
                       padding: '12px 16px', 
-                      background: 'rgba(255,255,255,0.03)', 
-                      border: '1px solid rgba(255,255,255,0.08)', 
+                      background: 'rgba(15, 23, 42, 0.03)', 
+                      border: '1px solid rgba(15, 23, 42, 0.08)', 
                       borderRadius: 8, 
                       textDecoration: 'none',
                       transition: 'all 0.2s ease'
                     }}
                   >
                     <div>
-                      <h4 style={{ color: '#fff', margin: '0 0 4px', fontSize: 14.5 }}>{art.title}</h4>
+                      <h4 style={{ color: '#0f172a', margin: '0 0 4px', fontSize: 14.5 }}>{art.title}</h4>
                       <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>{art.readTime} • Verified 2026 Audit</span>
                     </div>
                     <span style={{ color: 'var(--arcade-cyan)', fontSize: 13, fontWeight: 600, whiteSpace: 'nowrap', marginLeft: 12 }}>
@@ -447,13 +447,13 @@ export default async function ToolPage({ params }: ToolPageProps) {
         <aside className="tool-side-col">
           {/* Quick Specs Box */}
           <div className="tool-card-box">
-            <h3 style={{ fontSize: 16, fontWeight: 700, color: '#fff', marginBottom: 18 }}>
+            <h3 style={{ fontSize: 16, fontWeight: 700, color: '#0f172a', marginBottom: 18 }}>
               Software Specifications
             </h3>
             <div className="specs-list">
               <div className="spec-item">
                 <span className="spec-label">Category</span>
-                <Link href={`/category/${tool.category.toLowerCase()}`} style={{ color: '#818cf8', fontWeight: 600 }}>
+                <Link href={`/category/${tool.category.toLowerCase()}`} style={{ color: '#4f46e5', fontWeight: 600 }}>
                   {tool.category}
                 </Link>
               </div>
@@ -471,7 +471,7 @@ export default async function ToolPage({ params }: ToolPageProps) {
               </div>
               <div className="spec-item">
                 <span className="spec-label">Aggregate Rating</span>
-                <span className="spec-value" style={{ color: '#fbbf24' }}>
+                <span className="spec-value" style={{ color: '#d97706' }}>
                   ★ {tool.rating} / 5.0
                 </span>
               </div>
@@ -481,7 +481,7 @@ export default async function ToolPage({ params }: ToolPageProps) {
               </div>
             </div>
 
-            <div style={{ marginTop: 24, paddingTop: 20, borderTop: '1px solid rgba(255, 255, 255, 0.08)' }}>
+            <div style={{ marginTop: 24, paddingTop: 20, borderTop: '1px solid rgba(15, 23, 42, 0.08)' }}>
               <a 
                 href={`/go/${tool.slug}`} 
                 target="_blank" 
@@ -500,7 +500,7 @@ export default async function ToolPage({ params }: ToolPageProps) {
 
           {/* Editorial Trust Pill */}
           <div className="tool-card-box" style={{ background: 'rgba(99, 102, 241, 0.05)', borderColor: 'rgba(99, 102, 241, 0.2)' }}>
-            <h4 style={{ fontSize: 14, fontWeight: 700, color: '#fff', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
+            <h4 style={{ fontSize: 14, fontWeight: 700, color: '#0f172a', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
               <ShieldCheck size={16} color="#818cf8" />
               Stack AI Tools Editorial Vetting
             </h4>
@@ -523,8 +523,8 @@ export default async function ToolPage({ params }: ToolPageProps) {
       {/* Mobile Sticky CTA Bar */}
       <div className="mobile-sticky-cta">
         <div>
-          <div style={{ fontSize: 14, fontWeight: 700, color: '#fff' }}>{tool.name}</div>
-          <div style={{ fontSize: 12, color: '#34d399' }}>{tool.pricingModel}</div>
+          <div style={{ fontSize: 14, fontWeight: 700, color: '#0f172a' }}>{tool.name}</div>
+          <div style={{ fontSize: 12, color: '#059669' }}>{tool.pricingModel}</div>
         </div>
         <a 
           href={`/go/${tool.slug}`} 

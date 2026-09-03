@@ -245,12 +245,12 @@ export default function CategoriesExplorer({
         <div style={{ 
           textAlign: 'center', 
           padding: '60px 20px', 
-          background: 'rgba(255, 255, 255, 0.02)', 
-          border: '1px dashed rgba(255, 255, 255, 0.1)', 
+          background: 'rgba(15, 23, 42, 0.02)', 
+          border: '1px dashed rgba(15, 23, 42, 0.1)', 
           borderRadius: 20 
         }}>
           <Layers size={36} color="var(--text-muted)" style={{ margin: '0 auto 12px' }} />
-          <h3 style={{ fontSize: 18, fontWeight: 700, color: '#ffffff', marginBottom: 6 }}>No categories matched "{searchQuery}"</h3>
+          <h3 style={{ fontSize: 18, fontWeight: 700, color: '#0f172a', marginBottom: 6 }}>No categories matched "{searchQuery}"</h3>
           <p style={{ fontSize: 14, color: 'var(--text-secondary)', marginBottom: 16 }}>Try searching for 'code', 'video', 'audio', 'mcp', or clear your filters.</p>
           <button 
             className="btn btn-secondary"

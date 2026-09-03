@@ -48,7 +48,7 @@ export default async function PromptsPage() {
           borderRadius: 100, 
           background: 'rgba(99, 102, 241, 0.12)', 
           border: '1px solid rgba(99, 102, 241, 0.3)', 
-          color: '#a5b4fc', 
+          color: '#4338ca', 
           fontSize: 12.5, 
           fontWeight: 700, 
           letterSpacing: '0.04em', 
@@ -64,7 +64,7 @@ export default async function PromptsPage() {
           fontWeight: 900, 
           letterSpacing: '-0.03em', 
           lineHeight: 1.15, 
-          color: '#ffffff', 
+          color: '#0f172a', 
           marginBottom: 16 
         }}>
           Curated Frontier AI <span className="modern-hero-gradient">Prompts Library</span>
@@ -88,17 +88,17 @@ export default async function PromptsPage() {
           maxWidth: 680, 
           margin: '0 auto', 
           padding: '12px 16px', 
-          background: 'rgba(255, 255, 255, 0.03)', 
+          background: 'rgba(15, 23, 42, 0.03)', 
           backdropFilter: 'blur(12px)', 
-          border: '1px solid rgba(255, 255, 255, 0.08)', 
+          border: '1px solid rgba(15, 23, 42, 0.08)', 
           borderRadius: 14 
         }}>
           <div>
-            <div style={{ fontSize: 20, fontWeight: 800, color: '#ffffff' }}>{serializedPrompts.length}+</div>
+            <div style={{ fontSize: 20, fontWeight: 800, color: '#0f172a' }}>{serializedPrompts.length}+</div>
             <div style={{ fontSize: 11.5, fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase' }}>Vetted Prompts</div>
           </div>
           <div>
-            <div style={{ fontSize: 20, fontWeight: 800, color: '#818cf8' }}>8 Top</div>
+            <div style={{ fontSize: 20, fontWeight: 800, color: '#4f46e5' }}>8 Top</div>
             <div style={{ fontSize: 11.5, fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase' }}>MCP Servers</div>
           </div>
           <div>

@@ -94,7 +94,7 @@ export default function Navbar() {
               style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
             >
               <span>Claude Connectors</span>
-              <span style={{ fontSize: 9.5, padding: '1px 5px', borderRadius: 6, background: 'rgba(168, 85, 247, 0.25)', color: '#c084fc', border: '1px solid rgba(168, 85, 247, 0.4)', fontWeight: 700 }}>NEW</span>
+              <span style={{ fontSize: 9.5, padding: '1px 5px', borderRadius: 6, background: 'rgba(168, 85, 247, 0.25)', color: '#7e22ce', border: '1px solid rgba(168, 85, 247, 0.4)', fontWeight: 700 }}>NEW</span>
             </Link>
             <Link 
               href="/about" 
@@ -145,7 +145,7 @@ export default function Navbar() {
                 <div className="topbar-logo-mark" style={{ width: 28, height: 28 }}>
                   <Sparkles size={14} color="#ffffff" />
                 </div>
-                <span style={{ fontWeight: 700, color: '#fff', fontSize: 16 }}>Stack AI Tools</span>
+                <span style={{ fontWeight: 700, color: 'var(--text-strong)', fontSize: 16 }}>Stack AI Tools</span>
               </div>
               <button 
                 className="mobile-drawer-close"
@@ -190,7 +190,7 @@ export default function Navbar() {
                   className={`mobile-drawer-link ${isActive('/prompts') ? 'active' : ''}`}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  <BookOpen size={18} color="#f59e0b" />
+                  <BookOpen size={18} color="#d97706" />
                   <span>Prompt Library (37 Prompts)</span>
                 </Link>
 
@@ -208,7 +208,7 @@ export default function Navbar() {
                   className={`mobile-drawer-link ${isActive('/claude-connectors') ? 'active' : ''}`}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  <Terminal size={18} color="#38bdf8" />
+                  <Terminal size={18} color="#0284c7" />
                   <span>Claude Connectors & MCP</span>
                 </Link>
 

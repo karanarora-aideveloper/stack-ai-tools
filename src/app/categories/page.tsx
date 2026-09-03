@@ -193,7 +193,7 @@ export default async function CategoriesPage() {
           borderRadius: 100,
           background: 'rgba(99, 102, 241, 0.12)', 
           border: '1px solid rgba(99, 102, 241, 0.3)', 
-          color: '#a5b4fc', 
+          color: '#4338ca', 
           fontSize: 12.5, 
           fontWeight: 700, 
           letterSpacing: '0.04em', 
@@ -209,7 +209,7 @@ export default async function CategoriesPage() {
           fontWeight: 900, 
           letterSpacing: '-0.03em', 
           lineHeight: 1.15, 
-          color: '#ffffff', 
+          color: '#0f172a', 
           marginBottom: 16 
         }}>
           Explore AI Tools by <span className="modern-hero-gradient">Category & Ecosystem</span>
@@ -233,17 +233,17 @@ export default async function CategoriesPage() {
           maxWidth: 720, 
           margin: '0 auto', 
           padding: '12px 16px', 
-          background: 'rgba(255, 255, 255, 0.03)', 
+          background: 'rgba(15, 23, 42, 0.03)', 
           backdropFilter: 'blur(12px)', 
-          border: '1px solid rgba(255, 255, 255, 0.08)', 
+          border: '1px solid rgba(15, 23, 42, 0.08)', 
           borderRadius: 14 
         }}>
           <div>
-            <div style={{ fontSize: 20, fontWeight: 800, color: '#ffffff' }}>8 Core</div>
+            <div style={{ fontSize: 20, fontWeight: 800, color: '#0f172a' }}>8 Core</div>
             <div style={{ fontSize: 11.5, fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase' }}>Ecosystems</div>
           </div>
           <div>
-            <div style={{ fontSize: 20, fontWeight: 800, color: '#818cf8' }}>{allTools.length}+</div>
+            <div style={{ fontSize: 20, fontWeight: 800, color: '#4f46e5' }}>{allTools.length}+</div>
             <div style={{ fontSize: 11.5, fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase' }}>Frontier Tools</div>
           </div>
           <div>
