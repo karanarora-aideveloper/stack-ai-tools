@@ -12,7 +12,7 @@ export function getPrisma(): PrismaClient {
 
 const EXCLUDED_COMMODITY_TOOLS = new Set([
   'chatgpt-gpt-56-frontier',
-  'google-gemini-31-pro'
+  'google-gemini-38-flash'
 ]);
 
 // Curated slug mapping for cleaner, high-intent SEO URLs.
@@ -22,7 +22,7 @@ const EXCLUDED_COMMODITY_TOOLS = new Set([
 const SLUG_MAP: Record<string, string> = {
   'Devin AI (Cognition Labs)': 'devin',
   'Claude Code (Anthropic CLI)': 'claude-code',
-  'Claude 3.7 Sonnet & Artifacts (Anthropic)': 'claude',
+  'Claude Sonnet 5 & Artifacts (Anthropic)': 'claude',
   'ChatGPT Plus & Team (OpenAI)': 'chatgpt',
   'Cursor 3.1 (Composer Agents)': 'cursor',
   'Cursor AI (Anysphere)': 'cursor',
@@ -99,7 +99,8 @@ const SLUG_MAP: Record<string, string> = {
   'Glean Work Assistant': 'glean',
   'Phind Developer Search': 'phind',
   'Magnific AI (Precision V2)': 'magnific-ai',
-  'Leonardo.ai Phoenix': 'leonardo-ai',
+  'Leonardo Phoenix 2.0': 'leonardo-ai',
+  'Kling 3.0': 'kling-ai',
   'HeyGen Interactive Video': 'heygen',
   'Opus Clip 3.0': 'opus-clip',
   'Murf AI (Speech Gen 2)': 'murf-ai',
