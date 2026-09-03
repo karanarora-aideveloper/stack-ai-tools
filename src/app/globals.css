@@ -8,46 +8,49 @@
    ========================================================================== */
 
 :root {
-  /* Core Light Surfaces */
-  --bg-primary: #fbfbfd;
-  --bg-secondary: #f4f5f8;
-  --bg-card: rgba(255, 255, 255, 0.86);
-  --bg-card-hover: rgba(255, 255, 255, 1);
-  --bg-glass: rgba(255, 255, 255, 0.75);
+  /* Core Light Surfaces — flat, bordered "utility software" surfaces */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f4f6f8;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f8f9fa;
+  --bg-glass: rgba(255, 255, 255, 0.92);
 
-  /* Borders & Dividers */
-  --border-subtle: rgba(15, 23, 42, 0.08);
-  --border-light: rgba(15, 23, 42, 0.13);
-  --border-focus: rgba(99, 102, 241, 0.5);
+  /* Borders & Dividers — crisp 1px hairlines, not soft glow */
+  --border-subtle: #e3e6e8;
+  --border-light: #d6d9dc;
+  --border-focus: rgba(10, 93, 194, 0.45);
 
-  /* Primary Brand Accents (Linear / Adobe Style) */
-  --accent-primary: #6366f1; /* Electric Indigo */
-  --accent-primary-glow: rgba(99, 102, 241, 0.18);
-  --accent-secondary: #8b5cf6; /* Violet */
-  --accent-azure: #0ea5e9; /* Sky Blue */
-  --accent-emerald: #10b981; /* Emerald Success */
-  --accent-amber: #d97706; /* Amber (darkened for AA contrast on white) */
-  --arcade-cyan: #0284c7; /* Sky-600, readable accent used across blog/tool/category pages */
-  --card-accent-text: #4338ca;
+  /* Primary Brand Accents — flat, trust-forward palette */
+  --accent-primary: #0a5dc2; /* Accessible link/action blue */
+  --accent-primary-glow: rgba(10, 93, 194, 0.15);
+  --accent-secondary: #6366f1; /* Indigo kept as a secondary brand tone */
+  --accent-azure: #0074cc;
+  --accent-emerald: #0a7a3c; /* Success green, darkened for AA */
+  --accent-amber: #b7590a; /* Warm highlight accent (badges, ratings) */
+  --arcade-cyan: #0a5dc2;
+  --card-accent-text: #0a5dc2;
+  --link-blue: #0a5dc2;
+  --tag-bg: #e1ecf4;
+  --tag-text: #2c6c94;
 
   /* Text Hierarchy */
-  --text-primary: #0f172a;
-  --text-strong: #0f172a;
-  --text-secondary: #475569;
-  --text-muted: #64748b;
-  --text-dark: #0f172a;
+  --text-primary: #232629;
+  --text-strong: #1a1c1f;
+  --text-secondary: #525960;
+  --text-muted: #6a737c;
+  --text-dark: #1a1c1f;
   --text-on-accent: #ffffff;
 
-  /* Shadows (soft, light-canvas) */
-  --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.06);
-  --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.08);
-  --shadow-lg: 0 16px 40px rgba(15, 23, 42, 0.1);
+  /* Shadows — minimal; the design leans on borders, not glow */
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
+  --shadow-md: 0 2px 6px rgba(15, 23, 42, 0.07);
+  --shadow-lg: 0 4px 14px rgba(15, 23, 42, 0.09);
 
-  /* Geometry */
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
+  /* Geometry — tighter, more utilitarian corner radii */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
   --radius-pill: 9999px;
 
   /* Typography */
@@ -109,7 +112,7 @@ button {
 
 .main-content {
   flex: 1;
-  padding-top: 80px;
+  padding-top: 64px;
 }
 
 /* ==========================================================================
@@ -125,11 +128,7 @@ button {
 }
 
 .ambient-glow {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(120px);
-  opacity: 0.12;
-  will-change: transform;
+  display: none; /* Flat white canvas, Stack-Overflow-style utility look */
 }
 
 .ambient-glow-1 {
@@ -159,11 +158,7 @@ button {
 }
 
 .modern-dot-grid {
-  position: absolute;
-  inset: 0;
-  background-image: radial-gradient(rgba(15, 23, 42, 0.06) 1px, transparent 1px);
-  background-size: 32px 32px;
-  mask-image: radial-gradient(ellipse at 50% 30%, #000 30%, transparent 80%);
+  display: none;
 }
 
 /* ==========================================================================
@@ -175,21 +170,19 @@ button {
   top: 0;
   left: 0;
   right: 0;
-  height: 70px;
+  height: 64px;
   z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0 20px;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  background: #ffffff;
+  border-bottom: 1px solid var(--border-subtle);
+  transition: box-shadow 0.2s ease;
 }
 
 .top-navbar-wrapper.scrolled {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border-subtle);
-  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.112);
+  box-shadow: var(--shadow-sm);
 }
 
 .top-navbar-container {
@@ -338,7 +331,7 @@ button {
   gap: 6px;
   padding: 7px 16px;
   border-radius: var(--radius-pill);
-  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  background: var(--accent-primary);
   color: #ffffff;
   font-size: 13px;
   font-weight: 600;
@@ -750,27 +743,23 @@ button {
 
 .modern-tool-card {
   background: var(--bg-card);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-md);
   padding: 20px;
   display: flex;
   flex-direction: column;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.07);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
   position: relative;
 }
 
 .modern-tool-card:hover {
   background: var(--bg-card-hover);
-  border-color: rgba(99, 102, 241, 0.35);
-  transform: translateY(-3px);
-  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.112), 0 0 20px rgba(99, 102, 241, 0.08);
+  border-color: var(--border-light);
+  box-shadow: var(--shadow-sm);
 }
 
 .modern-tool-card.featured {
-  border-color: rgba(99, 102, 241, 0.25);
+  border-color: var(--accent-primary);
 }
 
 /* Card Top Row */
@@ -917,10 +906,11 @@ button {
 
 .card-tag-item {
   font-size: 11px;
-  color: var(--text-muted);
-  background: rgba(15, 23, 42, 0.03);
+  font-weight: 600;
+  color: var(--tag-text);
+  background: var(--tag-bg);
   padding: 2px 7px;
-  border-radius: 4px;
+  border-radius: 3px;
 }
 
 /* Footer Actions */
@@ -1191,21 +1181,17 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background: rgba(255, 255, 255, 0.82);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  border-radius: 18px;
+  background: #ffffff;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
   overflow: hidden;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
   position: relative;
-  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.056);
 }
 
 .prompt-card:hover {
-  border-color: rgba(99, 102, 241, 0.4);
-  transform: translateY(-4px);
-  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.126), 0 0 25px rgba(99, 102, 241, 0.16);
+  border-color: var(--border-light);
+  box-shadow: var(--shadow-sm);
 }
 
 /* Visual Image Header (Midjourney, Flux) */
@@ -1466,7 +1452,7 @@ button {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  background: var(--accent-primary);
   color: #ffffff;
   box-shadow: 0 2px 10px var(--accent-primary-glow);
 }
@@ -1540,20 +1526,18 @@ button {
 }
 
 .visual-tool-card {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(248, 250, 252, 0.98) 100%);
+  background: #ffffff;
   border: 1px solid var(--border-light);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-md);
   padding: 24px;
-  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.14);
-  transition: all 0.25s ease;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
   position: relative;
   overflow: hidden;
 }
 
 .visual-tool-card:hover {
-  border-color: rgba(99, 102, 241, 0.4);
-  box-shadow: 0 14px 40px rgba(15, 23, 42, 0.18), 0 0 20px rgba(99, 102, 241, 0.1);
-  transform: translateY(-2px);
+  border-color: var(--accent-primary);
+  box-shadow: var(--shadow-sm);
 }
 
 .visual-card-top {
@@ -1719,7 +1703,7 @@ button {
   gap: 6px;
   padding: 9px 18px;
   border-radius: 10px;
-  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  background: var(--accent-primary);
   color: #ffffff;
   font-size: 13.5px;
   font-weight: 700;
@@ -2096,7 +2080,7 @@ button {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  background: var(--accent-primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2129,13 +2113,12 @@ button {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: all 0.25s ease;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .article-card-retro:hover {
-  border-color: rgba(99, 102, 241, 0.4);
-  transform: translateY(-3px);
-  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.14), 0 0 15px rgba(99, 102, 241, 0.1);
+  border-color: var(--border-light);
+  box-shadow: var(--shadow-sm);
 }
 
 .article-card-media {
@@ -2424,7 +2407,7 @@ button {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  background: var(--accent-primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2437,7 +2420,7 @@ button {
   width: 54px;
   height: 54px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  background: var(--accent-primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3420,11 +3403,11 @@ button {
 
 .category-subtag-pill {
   font-size: 11px;
+  font-weight: 600;
   padding: 2px 7px;
-  border-radius: 6px;
-  background: rgba(15, 23, 42, 0.03);
-  color: var(--text-muted);
-  border: 1px solid rgba(15, 23, 42, 0.05);
+  border-radius: 3px;
+  background: var(--tag-bg);
+  color: var(--tag-text);
 }
 
 /* Card bottom action bar */
@@ -3692,11 +3675,20 @@ button {
 
 .tag-pill {
   font-size: 12px;
+  font-weight: 600;
   padding: 4px 10px;
-  border-radius: 8px;
-  background: rgba(15, 23, 42, 0.04);
-  color: #64748b;
-  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 3px;
+  background: var(--tag-bg);
+  color: var(--tag-text);
+}
+
+.tool-tag {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 3px;
+  background: var(--tag-bg);
+  color: var(--tag-text);
 }
 
 /* Two-Column Tool Profile Layout */
@@ -4473,21 +4465,19 @@ button {
 }
 
 .category-tool-card {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.98) 100%);
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  border-radius: 18px;
+  background: #ffffff;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
   padding: 24px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-  backdrop-filter: blur(12px);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .category-tool-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(0, 240, 255, 0.35);
-  box-shadow: 0 12px 32px rgba(0, 240, 255, 0.1);
+  border-color: var(--accent-primary);
+  box-shadow: var(--shadow-sm);
 }
 
 .cat-card-header {
