@@ -17,6 +17,8 @@ import {
   ExternalLink,
   Terminal
 } from 'lucide-react';
+import { AnimatePresence } from 'framer-motion';
+import { DrawerBackdrop, DrawerPanel } from './motion/Drawer';
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -137,9 +139,10 @@ export default function Navbar() {
       </header>
 
       {/* Clean Mobile Slide-Over Drawer */}
+      <AnimatePresence>
       {isMobileMenuOpen && (
-        <div className="mobile-drawer-backdrop" onClick={() => setIsMobileMenuOpen(false)}>
-          <div className="mobile-drawer-panel" onClick={(e) => e.stopPropagation()}>
+        <DrawerBackdrop className="mobile-drawer-backdrop" onClick={() => setIsMobileMenuOpen(false)}>
+          <DrawerPanel className="mobile-drawer-panel" onClick={(e) => e.stopPropagation()}>
             <div className="mobile-drawer-header">
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                 <div className="topbar-logo-mark" style={{ width: 28, height: 28 }}>
@@ -234,9 +237,10 @@ export default function Navbar() {
                 </Link>
               </div>
             </div>
-          </div>
-        </div>
+          </DrawerPanel>
+        </DrawerBackdrop>
       )}
+      </AnimatePresence>
     </>
   );
 }

@@ -15,6 +15,8 @@ import {
   Sparkles,
   ArrowRight
 } from 'lucide-react';
+import { AnimatePresence } from 'framer-motion';
+import { DrawerBackdrop, DrawerPanel } from './motion/Drawer';
 
 export default function MobileDock() {
   const pathname = usePathname();
@@ -29,9 +31,10 @@ export default function MobileDock() {
   return (
     <>
       {/* Mobile Drawer Overlay */}
+      <AnimatePresence>
       {isDrawerOpen && (
-        <div className="mobile-drawer-backdrop" onClick={() => setIsDrawerOpen(false)}>
-          <div className="mobile-drawer-panel" onClick={(e) => e.stopPropagation()}>
+        <DrawerBackdrop className="mobile-drawer-backdrop" onClick={() => setIsDrawerOpen(false)}>
+          <DrawerPanel className="mobile-drawer-panel" onClick={(e) => e.stopPropagation()}>
             <div className="mobile-drawer-header">
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                 <div className="topbar-logo-mark" style={{ width: 28, height: 28 }}>
@@ -117,9 +120,10 @@ export default function MobileDock() {
                 </Link>
               </div>
             </div>
-          </div>
-        </div>
+          </DrawerPanel>
+        </DrawerBackdrop>
       )}
+      </AnimatePresence>
 
       {/* Floating Bottom App Dock (Clean Apple / Google style) */}
       <nav className="mobile-bottom-dock" aria-label="Mobile navigation">

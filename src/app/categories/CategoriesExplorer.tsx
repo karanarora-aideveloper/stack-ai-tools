@@ -14,6 +14,7 @@ import {
   ExternalLink
 } from 'lucide-react';
 import ToolLogo from '@/app/components/ToolLogo';
+import StaggerGrid, { StaggerItem } from '@/app/components/motion/StaggerGrid';
 
 export interface CategoryCardData {
   name: string;
@@ -131,17 +132,16 @@ export default function CategoriesExplorer({
 
       {/* 3. Categories Grid Showcase */}
       {filteredCategories.length > 0 ? (
-        <div className="categories-showcase-grid">
-          {filteredCategories.map((cat, idx) => (
-            <div 
-              key={cat.slug} 
+        <StaggerGrid className="categories-showcase-grid">
+          {filteredCategories.map((cat) => (
+            <StaggerItem
+              key={cat.slug}
               className="category-premium-card"
               style={{
                 ['--card-border-glow' as any]: cat.borderGlow,
                 ['--card-shadow-glow' as any]: `${cat.themeColor}22`,
                 ['--card-glow-bg' as any]: cat.glowBg,
                 ['--card-accent-text' as any]: cat.accentText,
-                animation: `fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) both ${idx * 0.05}s`
               }}
             >
               {/* Top ambient radial glow */}
@@ -238,9 +238,9 @@ export default function CategoriesExplorer({
                   </Link>
                 )}
               </div>
-            </div>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerGrid>
       ) : (
         <div style={{ 
           textAlign: 'center', 

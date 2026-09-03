@@ -5,6 +5,8 @@ import Link from 'next/link';
 import ToolLogo from './ToolLogo';
 import PromptCard, { PromptData } from './PromptCard';
 import ModernBackground from './ModernBackground';
+import FadeIn from './motion/FadeIn';
+import StaggerGrid, { StaggerItem } from './motion/StaggerGrid';
 import { getToolSlug } from '@/lib/tools';
 import { 
   COMPLEX_USE_CASE_PRESETS, 
@@ -194,21 +196,27 @@ export default function DirectoryView({ initialTools, initialPrompts }: Director
 
       {/* Modern Hero Section */}
       <header className="modern-hero">
-        <div className="modern-hero-badge">
-          <span className="badge-sparkle">✨</span>
-          <span>CURATED FRONTIER AI • SPECIALIZED & COMPLEX SYSTEMS (2026)</span>
-        </div>
+        <FadeIn delay={0} y={10}>
+          <div className="modern-hero-badge">
+            <span className="badge-sparkle">✨</span>
+            <span>CURATED FRONTIER AI • SPECIALIZED & COMPLEX SYSTEMS (2026)</span>
+          </div>
+        </FadeIn>
 
-        <h1 className="modern-hero-title">
-          Discover & Deploy the World&apos;s <span className="modern-hero-gradient">Specialized AI Systems</span>
-        </h1>
+        <FadeIn delay={0.05} y={14}>
+          <h1 className="modern-hero-title">
+            Discover & Deploy the World&apos;s <span className="modern-hero-gradient">Specialized AI Systems</span>
+          </h1>
+        </FadeIn>
 
-        <p className="modern-hero-subtitle">
-          Bypass generic chatbots. Find autonomous coding agents, node-based diffusion workflows, real-time voice streaming engines, and enterprise AI orchestration — independently tested and verified.
-        </p>
+        <FadeIn delay={0.1} y={14}>
+          <p className="modern-hero-subtitle">
+            Bypass generic chatbots. Find autonomous coding agents, node-based diffusion workflows, real-time voice streaming engines, and enterprise AI orchestration — independently tested and verified.
+          </p>
+        </FadeIn>
 
         {/* Clean Metrics Grid */}
-        <div className="modern-metrics-row">
+        <FadeIn delay={0.15} y={10} className="modern-metrics-row">
           <div className="modern-metric-item">
             <span className="metric-val">{initialTools.length}+</span>
             <span className="metric-lbl">Audited Frontier Tools</span>
@@ -228,7 +236,7 @@ export default function DirectoryView({ initialTools, initialPrompts }: Director
             <span className="metric-val">100%</span>
             <span className="metric-lbl">Verified Independent</span>
           </div>
-        </div>
+        </FadeIn>
 
         {/* USE CASE INTELLIGENCE SOLVER CONSOLE */}
         <div className="usecase-solver-card">
@@ -423,14 +431,14 @@ export default function DirectoryView({ initialTools, initialPrompts }: Director
 
       {/* TOOLS GRID: USE CASE MATCHED MODE */}
       {isUseCaseActive && activeTab === 'tools' && (
-        <div className="modern-tools-grid">
+        <StaggerGrid className="modern-tools-grid">
           {useCaseMatches!.map(({ tool, matchScore, matchedUseCase, whyThisTool, complexity }) => {
             const slug = getToolSlug(tool);
             const complexityClass = complexity === 'Frontier Engineering' ? 'frontier' : complexity === 'Advanced' ? 'advanced' : 'intermediate';
 
             return (
-              <div 
-                key={tool.id} 
+              <StaggerItem
+                key={tool.id}
                 className={`modern-tool-card ${tool.featured ? 'featured' : ''}`}
                 style={{ borderColor: matchScore >= 95 ? 'rgba(99, 102, 241, 0.45)' : undefined }}
               >
@@ -521,15 +529,15 @@ export default function DirectoryView({ initialTools, initialPrompts }: Director
                     <ExternalLink size={13} />
                   </a>
                 </div>
-              </div>
+              </StaggerItem>
             );
           })}
-        </div>
+        </StaggerGrid>
       )}
 
       {/* TOOLS GRID: STANDARD BROWSE MODE */}
       {!isUseCaseActive && (
-        <div className="modern-tools-grid" style={{ display: activeTab === 'tools' ? 'grid' : 'none' }}>
+        <StaggerGrid className="modern-tools-grid" style={{ display: activeTab === 'tools' ? 'grid' : 'none' }}>
           {filteredTools.length === 0 ? (
             <div className="modern-empty-state">
               <p>No specialized tools matched your criteria.</p>
@@ -545,8 +553,8 @@ export default function DirectoryView({ initialTools, initialPrompts }: Director
               const slug = getToolSlug(tool);
 
               return (
-                <div 
-                  key={tool.id} 
+                <StaggerItem
+                  key={tool.id}
                   className={`modern-tool-card ${tool.featured ? 'featured' : ''}`}
                 >
                   {/* Card Top Row: Category & Pricing */}
@@ -597,7 +605,7 @@ export default function DirectoryView({ initialTools, initialPrompts }: Director
 
                   {/* Primary Use Case Tag if present */}
                   {tool.primaryUseCase && (
-                    <div style={{ fontSize: 12, color: '#a5b4fc', marginBottom: 10, display: 'flex', alignItems: 'flex-start', gap: 5 }}>
+                    <div style={{ fontSize: 12, color: '#4f46e5', marginBottom: 10, display: 'flex', alignItems: 'flex-start', gap: 5 }}>
                       <span style={{ flexShrink: 0 }}>🎯</span>
                       <span style={{ fontWeight: 500, lineHeight: 1.4 }}>{tool.primaryUseCase}</span>
                     </div>
@@ -635,20 +643,20 @@ export default function DirectoryView({ initialTools, initialPrompts }: Director
                       <ExternalLink size={13} />
                     </a>
                   </div>
-                </div>
+                </StaggerItem>
               );
             })
           )}
-        </div>
+        </StaggerGrid>
       )}
 
       {/* PROMPTS GRID */}
-      <div className="modern-prompts-grid" style={{ display: activeTab === 'prompts' ? 'grid' : 'none' }}>
+      <StaggerGrid className="modern-prompts-grid" style={{ display: activeTab === 'prompts' ? 'grid' : 'none' }}>
         {filteredPrompts.length === 0 ? (
           <div className="modern-empty-state">
             <p>No prompts matched your search query.</p>
-            <button 
-              className="btn btn-secondary" 
+            <button
+              className="btn btn-secondary"
               onClick={() => { setSearchQuery(''); setSelectedCategory('All'); setSelectedTargetAI('All Models'); }}
             >
               Clear Filters
@@ -656,10 +664,12 @@ export default function DirectoryView({ initialTools, initialPrompts }: Director
           </div>
         ) : (
           filteredPrompts.map((item) => (
-            <PromptCard key={item.id} item={item} />
+            <StaggerItem key={item.id}>
+              <PromptCard item={item} />
+            </StaggerItem>
           ))
         )}
-      </div>
+      </StaggerGrid>
     </div>
   );
 }
