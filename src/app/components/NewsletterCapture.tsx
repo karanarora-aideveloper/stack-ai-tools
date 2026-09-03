@@ -64,10 +64,10 @@ export default function NewsletterCapture({
           boxShadow: '0 12px 30px rgba(16, 185, 129, 0.1)'
         }}
       >
-        <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 48, height: 48, borderRadius: '50%', background: 'rgba(16, 185, 129, 0.2)', color: '#10b981', marginBottom: 12 }}>
+        <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 48, height: 48, borderRadius: '50%', background: 'rgba(16, 185, 129, 0.2)', color: 'var(--color-success)', marginBottom: 12 }}>
           <CheckCircle2 size={26} />
         </div>
-        <h3 style={{ fontSize: 20, fontWeight: 700, color: '#0f172a', marginBottom: 6 }}>
+        <h3 style={{ fontSize: 20, fontWeight: 700, color: 'var(--text-strong)', marginBottom: 6 }}>
           You&apos;re On the VIP List!
         </h3>
         <p style={{ color: 'var(--text-secondary)', fontSize: 14, maxWidth: 440, margin: '0 auto' }}>
@@ -91,12 +91,12 @@ export default function NewsletterCapture({
       }}
     >
       <div style={{ position: 'relative', zIndex: 1 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#4f46e5', fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 8 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: 'var(--accent-secondary)', fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 8 }}>
           <Sparkles size={14} />
           <span>Weekly Intelligence Briefing</span>
         </div>
 
-        <h3 style={{ fontSize: compact ? 18 : 24, fontWeight: 800, color: '#0f172a', marginBottom: 8, letterSpacing: '-0.02em' }}>
+        <h3 style={{ fontSize: compact ? 18 : 24, fontWeight: 800, color: 'var(--text-strong)', marginBottom: 8, letterSpacing: '-0.02em' }}>
           {headline}
         </h3>
 
@@ -106,7 +106,7 @@ export default function NewsletterCapture({
 
         <form onSubmit={handleSubmit} style={{ display: 'flex', gap: 10, maxWidth: 480, flexWrap: 'wrap' }}>
           <div style={{ position: 'relative', flex: 1, minWidth: 240 }}>
-            <Mail size={16} style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: '#64748b' }} />
+            <Mail size={16} style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
             <input
               type="email"
               placeholder="Enter your work email..."
@@ -117,9 +117,9 @@ export default function NewsletterCapture({
                 width: '100%',
                 padding: '12px 16px 12px 42px',
                 borderRadius: 10,
-                background: 'rgba(255, 255, 255, 0.9)',
-                border: '1px solid rgba(15, 23, 42, 0.14)',
-                color: '#0f172a',
+                background: 'var(--bg-glass)',
+                border: '1px solid rgba(var(--ink-tint-rgb), 0.14)',
+                color: 'var(--text-strong)',
                 fontSize: 14,
                 outline: 'none',
                 boxShadow: 'inset 0 1px 3px rgba(15, 23, 42, 0.06)'
@@ -151,12 +151,12 @@ export default function NewsletterCapture({
         </form>
 
         {errorMsg && (
-          <p style={{ color: '#dc2626', fontSize: 13, marginTop: 8 }}>
+          <p style={{ color: 'var(--color-error)', fontSize: 13, marginTop: 8 }}>
             {errorMsg}
           </p>
         )}
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginTop: 14, color: '#64748b', fontSize: 12 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginTop: 14, color: 'var(--text-muted)', fontSize: 12 }}>
           <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
             <ShieldCheck size={13} color="#10b981" />
             <span>Zero spam. No selling data.</span>

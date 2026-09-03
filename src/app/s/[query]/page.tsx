@@ -226,10 +226,10 @@ export default async function SearchHubPage({ params }: SearchHubPageProps) {
 
       <div style={{ maxWidth: 1280, margin: '0 auto', padding: '36px 20px 0' }}>
         {/* Breadcrumb Navigation */}
-        <nav style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: '#64748b', marginBottom: 28 }}>
-          <Link href="/" style={{ color: '#475569', textDecoration: 'none' }}>Home</Link>
+        <nav style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: 'var(--text-muted)', marginBottom: 28 }}>
+          <Link href="/" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>Home</Link>
           <ChevronRight size={14} />
-          <Link href="/categories" style={{ color: '#475569', textDecoration: 'none' }}>Directory</Link>
+          <Link href="/categories" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>Directory</Link>
           <ChevronRight size={14} />
           <span style={{ color: 'var(--arcade-cyan)', fontWeight: 600 }}>{formattedTitle}</span>
         </nav>
@@ -258,7 +258,7 @@ export default async function SearchHubPage({ params }: SearchHubPageProps) {
             fontSize: 'clamp(2rem, 4vw, 3rem)',
             fontWeight: 800,
             letterSpacing: '-0.03em',
-            color: '#0f172a',
+            color: 'var(--text-strong)',
             margin: '0 0 14px',
             lineHeight: 1.2
           }}>
@@ -270,7 +270,7 @@ export default async function SearchHubPage({ params }: SearchHubPageProps) {
           </h1>
 
           <p style={{
-            color: '#64748b',
+            color: 'var(--text-muted)',
             fontSize: '1.05rem',
             lineHeight: 1.65,
             maxWidth: 760,
@@ -284,9 +284,9 @@ export default async function SearchHubPage({ params }: SearchHubPageProps) {
             alignItems: 'center',
             gap: 16,
             fontSize: 12.5,
-            color: '#475569',
-            background: 'rgba(15, 23, 42, 0.03)',
-            border: '1px solid rgba(15, 23, 42, 0.08)',
+            color: 'var(--text-secondary)',
+            background: 'rgba(var(--ink-tint-rgb), 0.03)',
+            border: '1px solid rgba(var(--ink-tint-rgb), 0.08)',
             padding: '8px 20px',
             borderRadius: 24
           }}>
@@ -294,7 +294,7 @@ export default async function SearchHubPage({ params }: SearchHubPageProps) {
             <span>•</span>
             <span>Tested for US Market</span>
             <span>•</span>
-            <span style={{ color: '#059669', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+            <span style={{ color: 'var(--color-success)', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
               <ShieldCheck size={13} /> Verified Sept 2026
             </span>
           </div>
@@ -316,8 +316,8 @@ export default async function SearchHubPage({ params }: SearchHubPageProps) {
               <div
                 key={tool.id}
                 style={{
-                  background: 'linear-gradient(180deg, rgba(30, 41, 59, 0.6) 0%, rgba(15, 23, 42, 0.8) 100%)',
-                  border: '1px solid rgba(15, 23, 42, 0.08)',
+                  background: 'linear-gradient(180deg, rgba(30, 41, 59, 0.6) 0%, rgba(var(--ink-tint-rgb), 0.8) 100%)',
+                  border: '1px solid rgba(var(--ink-tint-rgb), 0.08)',
                   borderRadius: 16,
                   padding: 22,
                   display: 'flex',
@@ -337,8 +337,8 @@ export default async function SearchHubPage({ params }: SearchHubPageProps) {
                         size={44}
                       />
                       <div>
-                        <h3 style={{ margin: 0, fontSize: 17, fontWeight: 700, color: '#0f172a' }}>
-                          <Link href={`/tool/${tool.slug}`} style={{ color: '#0f172a', textDecoration: 'none' }}>
+                        <h3 style={{ margin: 0, fontSize: 17, fontWeight: 700, color: 'var(--text-strong)' }}>
+                          <Link href={`/tool/${tool.slug}`} style={{ color: 'var(--text-strong)', textDecoration: 'none' }}>
                             {tool.name}
                           </Link>
                         </h3>
@@ -353,21 +353,21 @@ export default async function SearchHubPage({ params }: SearchHubPageProps) {
                         fontSize: 11,
                         padding: '2px 8px',
                         borderRadius: 10,
-                        background: 'rgba(15, 23, 42, 0.06)',
+                        background: 'rgba(var(--ink-tint-rgb), 0.06)',
                         border: `1px solid ${priceClassColor}40`,
                         color: priceClassColor,
                         fontWeight: 700
                       }}>
                         {tool.pricingModel}
                       </span>
-                      <div style={{ display: 'inline-flex', alignItems: 'center', gap: 3, fontSize: 12, color: '#d97706', fontWeight: 600 }}>
+                      <div style={{ display: 'inline-flex', alignItems: 'center', gap: 3, fontSize: 12, color: 'var(--color-warning)', fontWeight: 600 }}>
                         <Star size={11} fill="#fbbf24" />
                         <span>{tool.rating.toFixed(2)}</span>
                       </div>
                     </div>
                   </div>
 
-                  <p style={{ color: '#475569', fontSize: 13.5, lineHeight: 1.6, margin: '0 0 16px', minHeight: 60 }}>
+                  <p style={{ color: 'var(--text-secondary)', fontSize: 13.5, lineHeight: 1.6, margin: '0 0 16px', minHeight: 60 }}>
                     {tool.description}
                   </p>
 
@@ -378,10 +378,10 @@ export default async function SearchHubPage({ params }: SearchHubPageProps) {
                         style={{
                           fontSize: 11,
                           padding: '2px 8px',
-                          background: 'rgba(15, 23, 42, 0.04)',
-                          border: '1px solid rgba(15, 23, 42, 0.07)',
+                          background: 'rgba(var(--ink-tint-rgb), 0.04)',
+                          border: '1px solid rgba(var(--ink-tint-rgb), 0.07)',
                           borderRadius: 6,
-                          color: '#64748b'
+                          color: 'var(--text-muted)'
                         }}
                       >
                         {tag}
@@ -390,7 +390,7 @@ export default async function SearchHubPage({ params }: SearchHubPageProps) {
                   </div>
                 </div>
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: 10, paddingTop: 14, borderTop: '1px solid rgba(15, 23, 42, 0.08)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, paddingTop: 14, borderTop: '1px solid rgba(var(--ink-tint-rgb), 0.08)' }}>
                   <a
                     href={`/go/${tool.slug}`}
                     target="_blank"
@@ -421,9 +421,9 @@ export default async function SearchHubPage({ params }: SearchHubPageProps) {
                       borderRadius: 8,
                       fontSize: 13,
                       fontWeight: 600,
-                      background: 'rgba(15, 23, 42, 0.04)',
-                      border: '1px solid rgba(15, 23, 42, 0.12)',
-                      color: '#0f172a',
+                      background: 'rgba(var(--ink-tint-rgb), 0.04)',
+                      border: '1px solid rgba(var(--ink-tint-rgb), 0.12)',
+                      color: 'var(--text-strong)',
                       textDecoration: 'none'
                     }}
                   >
@@ -437,9 +437,9 @@ export default async function SearchHubPage({ params }: SearchHubPageProps) {
                       borderRadius: 8,
                       fontSize: 13,
                       fontWeight: 600,
-                      background: 'rgba(15, 23, 42, 0.04)',
-                      border: '1px solid rgba(15, 23, 42, 0.12)',
-                      color: '#475569',
+                      background: 'rgba(var(--ink-tint-rgb), 0.04)',
+                      border: '1px solid rgba(var(--ink-tint-rgb), 0.12)',
+                      color: 'var(--text-secondary)',
                       textDecoration: 'none'
                     }}
                     title={`Compare ${tool.name} alternatives`}
@@ -454,18 +454,18 @@ export default async function SearchHubPage({ params }: SearchHubPageProps) {
 
         {/* Related Searches Link Silo */}
         <section style={{
-          background: 'rgba(255, 255, 255, 0.85)',
-          border: '1px solid rgba(15, 23, 42, 0.08)',
+          background: 'var(--bg-glass)',
+          border: '1px solid rgba(var(--ink-tint-rgb), 0.08)',
           borderRadius: 20,
           padding: 32
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
             <TrendingUp size={18} color="var(--arcade-cyan)" />
-            <h3 style={{ margin: 0, fontSize: 18, fontWeight: 700, color: '#0f172a' }}>
+            <h3 style={{ margin: 0, fontSize: 18, fontWeight: 700, color: 'var(--text-strong)' }}>
               Explore Related AI Search Categories
             </h3>
           </div>
-          <p style={{ color: '#64748b', fontSize: 13.5, margin: '0 0 20px' }}>
+          <p style={{ color: 'var(--text-muted)', fontSize: 13.5, margin: '0 0 20px' }}>
             Discover more high-volume tools and categories benchmarked in the 2026 directory:
           </p>
 
@@ -479,9 +479,9 @@ export default async function SearchHubPage({ params }: SearchHubPageProps) {
                   borderRadius: 20,
                   fontSize: 12.5,
                   fontWeight: 600,
-                  background: 'rgba(15, 23, 42, 0.03)',
-                  border: '1px solid rgba(15, 23, 42, 0.08)',
-                  color: '#475569',
+                  background: 'rgba(var(--ink-tint-rgb), 0.03)',
+                  border: '1px solid rgba(var(--ink-tint-rgb), 0.08)',
+                  color: 'var(--text-secondary)',
                   textDecoration: 'none',
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -490,7 +490,7 @@ export default async function SearchHubPage({ params }: SearchHubPageProps) {
                 }}
               >
                 <span>{formatQueryTitle(h.query)}</span>
-                <span style={{ fontSize: 10.5, color: '#64748b' }}>
+                <span style={{ fontSize: 10.5, color: 'var(--text-muted)' }}>
                   ({(h.volume / 1000).toFixed(0)}k/mo)
                 </span>
               </Link>

@@ -98,9 +98,9 @@ export default function ConnectorsView({ connectors }: ConnectorsViewProps) {
                 fontSize: 13.5,
                 fontWeight: 600,
                 cursor: 'pointer',
-                border: isActive ? '1px solid var(--arcade-cyan)' : '1px solid rgba(15, 23, 42, 0.1)',
-                background: isActive ? 'linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(99, 102, 241, 0.15))' : 'rgba(15, 23, 42, 0.03)',
-                color: isActive ? '#fff' : '#94a3b8',
+                border: isActive ? '1px solid var(--arcade-cyan)' : '1px solid rgba(var(--ink-tint-rgb), 0.1)',
+                background: isActive ? 'linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(99, 102, 241, 0.15))' : 'rgba(var(--ink-tint-rgb), 0.03)',
+                color: isActive ? '#fff' : 'var(--text-secondary)',
                 boxShadow: isActive ? '0 0 16px rgba(56, 189, 248, 0.25)' : 'none',
                 transition: 'all 0.2s ease'
               }}
@@ -108,7 +108,7 @@ export default function ConnectorsView({ connectors }: ConnectorsViewProps) {
               {CATEGORY_ICONS[cat]}
               <span>{cat}</span>
               {cat === 'All Connectors' && (
-                <span style={{ fontSize: 11, background: 'rgba(15, 23, 42, 0.1)', padding: '2px 7px', borderRadius: 10 }}>
+                <span style={{ fontSize: 11, background: 'rgba(var(--ink-tint-rgb), 0.1)', padding: '2px 7px', borderRadius: 10 }}>
                   {connectors.length}
                 </span>
               )}
@@ -122,8 +122,8 @@ export default function ConnectorsView({ connectors }: ConnectorsViewProps) {
         <div style={{
           display: 'flex',
           alignItems: 'center',
-          background: 'rgba(255, 255, 255, 0.9)',
-          border: '1px solid rgba(15, 23, 42, 0.15)',
+          background: 'var(--bg-glass)',
+          border: '1px solid rgba(var(--ink-tint-rgb), 0.15)',
           borderRadius: 14,
           padding: '12px 20px',
           boxShadow: '0 8px 30px rgba(15, 23, 42, 0.12)'
@@ -139,20 +139,20 @@ export default function ConnectorsView({ connectors }: ConnectorsViewProps) {
               background: 'transparent',
               border: 'none',
               outline: 'none',
-              color: '#0f172a',
+              color: 'var(--text-strong)',
               fontSize: 15
             }}
           />
           {searchQuery && (
             <button
               onClick={() => setSearchQuery('')}
-              style={{ background: 'none', border: 'none', color: '#64748b', cursor: 'pointer', padding: 4 }}
+              style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', padding: 4 }}
             >
               <X size={16} />
             </button>
           )}
         </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 10, padding: '0 8px', fontSize: 12.5, color: '#64748b' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 10, padding: '0 8px', fontSize: 12.5, color: 'var(--text-muted)' }}>
           <span>Showing <strong>{filteredConnectors.length}</strong> of {connectors.length} verified connectors</span>
           <span>Updated as of <strong>September 2026</strong></span>
         </div>
@@ -172,8 +172,8 @@ export default function ConnectorsView({ connectors }: ConnectorsViewProps) {
             <div
               key={c.id}
               style={{
-                background: 'linear-gradient(180deg, rgba(30, 41, 59, 0.6) 0%, rgba(15, 23, 42, 0.8) 100%)',
-                border: '1px solid rgba(15, 23, 42, 0.08)',
+                background: 'linear-gradient(180deg, rgba(30, 41, 59, 0.6) 0%, rgba(var(--ink-tint-rgb), 0.8) 100%)',
+                border: '1px solid rgba(var(--ink-tint-rgb), 0.08)',
                 borderRadius: 16,
                 padding: 24,
                 display: 'flex',
@@ -188,7 +188,7 @@ export default function ConnectorsView({ connectors }: ConnectorsViewProps) {
                 e.currentTarget.style.boxShadow = '0 12px 30px rgba(15, 23, 42, 0.15)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = 'rgba(15, 23, 42, 0.08)';
+                e.currentTarget.style.borderColor = 'rgba(var(--ink-tint-rgb), 0.08)';
                 e.currentTarget.style.transform = 'translateY(0)';
                 e.currentTarget.style.boxShadow = 'none';
               }}
@@ -201,8 +201,8 @@ export default function ConnectorsView({ connectors }: ConnectorsViewProps) {
                       width: 46,
                       height: 46,
                       borderRadius: 12,
-                      background: 'rgba(15, 23, 42, 0.05)',
-                      border: '1px solid rgba(15, 23, 42, 0.1)',
+                      background: 'rgba(var(--ink-tint-rgb), 0.05)',
+                      border: '1px solid rgba(var(--ink-tint-rgb), 0.1)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -211,7 +211,7 @@ export default function ConnectorsView({ connectors }: ConnectorsViewProps) {
                       {c.icon}
                     </div>
                     <div>
-                      <h3 style={{ margin: 0, fontSize: 17, fontWeight: 700, color: '#0f172a' }}>
+                      <h3 style={{ margin: 0, fontSize: 17, fontWeight: 700, color: 'var(--text-strong)' }}>
                         {c.name}
                       </h3>
                       <span style={{ fontSize: 12, color: 'var(--arcade-cyan)', fontWeight: 600 }}>
@@ -241,7 +241,7 @@ export default function ConnectorsView({ connectors }: ConnectorsViewProps) {
                     {c.stars && (
                       <span style={{
                         fontSize: 11,
-                        color: '#d97706',
+                        color: 'var(--color-warning)',
                         display: 'inline-flex',
                         alignItems: 'center',
                         gap: 3,
@@ -254,7 +254,7 @@ export default function ConnectorsView({ connectors }: ConnectorsViewProps) {
                 </div>
 
                 {/* Description */}
-                <p style={{ color: '#475569', fontSize: 13.5, lineHeight: 1.6, margin: '0 0 16px', minHeight: 64 }}>
+                <p style={{ color: 'var(--text-secondary)', fontSize: 13.5, lineHeight: 1.6, margin: '0 0 16px', minHeight: 64 }}>
                   {c.description}
                 </p>
 
@@ -266,10 +266,10 @@ export default function ConnectorsView({ connectors }: ConnectorsViewProps) {
                       style={{
                         fontSize: 11,
                         padding: '3px 8px',
-                        background: 'rgba(15, 23, 42, 0.04)',
-                        border: '1px solid rgba(15, 23, 42, 0.08)',
+                        background: 'rgba(var(--ink-tint-rgb), 0.04)',
+                        border: '1px solid rgba(var(--ink-tint-rgb), 0.08)',
                         borderRadius: 6,
-                        color: '#64748b'
+                        color: 'var(--text-muted)'
                       }}
                     >
                       {feat}
@@ -279,7 +279,7 @@ export default function ConnectorsView({ connectors }: ConnectorsViewProps) {
               </div>
 
               {/* Action Buttons */}
-              <div style={{ paddingTop: 16, borderTop: '1px solid rgba(15, 23, 42, 0.08)' }}>
+              <div style={{ paddingTop: 16, borderTop: '1px solid rgba(var(--ink-tint-rgb), 0.08)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
                   <button
                     onClick={() => handleCopy(c)}
@@ -312,9 +312,9 @@ export default function ConnectorsView({ connectors }: ConnectorsViewProps) {
                       fontSize: 12.5,
                       fontWeight: 600,
                       cursor: 'pointer',
-                      border: '1px solid rgba(15, 23, 42, 0.15)',
-                      background: 'rgba(15, 23, 42, 0.04)',
-                      color: '#0f172a',
+                      border: '1px solid rgba(var(--ink-tint-rgb), 0.15)',
+                      background: 'rgba(var(--ink-tint-rgb), 0.04)',
+                      color: 'var(--text-strong)',
                       display: 'inline-flex',
                       alignItems: 'center',
                       gap: 6
@@ -332,9 +332,9 @@ export default function ConnectorsView({ connectors }: ConnectorsViewProps) {
                       width: 36,
                       height: 36,
                       borderRadius: 8,
-                      border: '1px solid rgba(15, 23, 42, 0.15)',
-                      background: 'rgba(15, 23, 42, 0.04)',
-                      color: '#475569',
+                      border: '1px solid rgba(var(--ink-tint-rgb), 0.15)',
+                      background: 'rgba(var(--ink-tint-rgb), 0.04)',
+                      color: 'var(--text-secondary)',
                       display: 'inline-flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -355,7 +355,7 @@ export default function ConnectorsView({ connectors }: ConnectorsViewProps) {
         maxWidth: 1100,
         margin: '0 auto 60px',
         padding: 36,
-        background: 'linear-gradient(180deg, rgba(15, 23, 42, 0.9) 0%, rgba(10, 15, 30, 0.95) 100%)',
+        background: 'linear-gradient(180deg, rgba(var(--ink-tint-rgb), 0.9) 0%, rgba(10, 15, 30, 0.95) 100%)',
         border: '1px solid rgba(56, 189, 248, 0.25)',
         borderRadius: 20
       }}>
@@ -363,21 +363,21 @@ export default function ConnectorsView({ connectors }: ConnectorsViewProps) {
           <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--arcade-cyan)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
             STEP-BY-STEP QUICKSTART
           </span>
-          <h2 style={{ fontSize: '1.85rem', fontWeight: 800, color: '#0f172a', margin: '6px 0 10px' }}>
+          <h2 style={{ fontSize: '1.85rem', fontWeight: 800, color: 'var(--text-strong)', margin: '6px 0 10px' }}>
             How to Install Claude Connectors & Plugins (MCP)
           </h2>
-          <p style={{ color: '#64748b', maxWidth: 640, margin: '0 auto', fontSize: 14.5 }}>
+          <p style={{ color: 'var(--text-muted)', maxWidth: 640, margin: '0 auto', fontSize: 14.5 }}>
             Follow these three quick steps to enable persistent files, databases, search, and development tools inside Claude Desktop or Claude Code CLI.
           </p>
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
-          <div style={{ background: 'rgba(15, 23, 42, 0.03)', border: '1px solid rgba(15, 23, 42, 0.08)', borderRadius: 12, padding: 22 }}>
+          <div style={{ background: 'rgba(var(--ink-tint-rgb), 0.03)', border: '1px solid rgba(var(--ink-tint-rgb), 0.08)', borderRadius: 12, padding: 22 }}>
             <div style={{ width: 32, height: 32, borderRadius: 8, background: 'var(--arcade-cyan)', color: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, marginBottom: 12 }}>
               1
             </div>
-            <h4 style={{ color: '#0f172a', margin: '0 0 8px', fontSize: 15 }}>Locate Your Config File</h4>
-            <p style={{ color: '#64748b', fontSize: 13, lineHeight: 1.6, margin: '0 0 12px' }}>
+            <h4 style={{ color: 'var(--text-strong)', margin: '0 0 8px', fontSize: 15 }}>Locate Your Config File</h4>
+            <p style={{ color: 'var(--text-muted)', fontSize: 13, lineHeight: 1.6, margin: '0 0 12px' }}>
               Open your Claude Desktop configuration file on your machine:
             </p>
             <div style={{ background: 'rgba(0, 0, 0, 0.5)', padding: '8px 12px', borderRadius: 6, fontSize: 11.5, color: '#38bdf8', fontFamily: 'monospace' }}>
@@ -388,28 +388,28 @@ export default function ConnectorsView({ connectors }: ConnectorsViewProps) {
             </div>
           </div>
 
-          <div style={{ background: 'rgba(15, 23, 42, 0.03)', border: '1px solid rgba(15, 23, 42, 0.08)', borderRadius: 12, padding: 22 }}>
+          <div style={{ background: 'rgba(var(--ink-tint-rgb), 0.03)', border: '1px solid rgba(var(--ink-tint-rgb), 0.08)', borderRadius: 12, padding: 22 }}>
             <div style={{ width: 32, height: 32, borderRadius: 8, background: 'var(--arcade-cyan)', color: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, marginBottom: 12 }}>
               2
             </div>
-            <h4 style={{ color: '#0f172a', margin: '0 0 8px', fontSize: 15 }}>Paste Connector JSON</h4>
-            <p style={{ color: '#64748b', fontSize: 13, lineHeight: 1.6, margin: '0 0 12px' }}>
-              Click <strong>&ldquo;Copy Claude Config&rdquo;</strong> on any connector card above and merge it into your <code style={{ color: '#0284c7' }}>mcpServers</code> dictionary.
+            <h4 style={{ color: 'var(--text-strong)', margin: '0 0 8px', fontSize: 15 }}>Paste Connector JSON</h4>
+            <p style={{ color: 'var(--text-muted)', fontSize: 13, lineHeight: 1.6, margin: '0 0 12px' }}>
+              Click <strong>&ldquo;Copy Claude Config&rdquo;</strong> on any connector card above and merge it into your <code style={{ color: 'var(--color-info)' }}>mcpServers</code> dictionary.
             </p>
             <div style={{ background: 'rgba(0, 0, 0, 0.5)', padding: '8px 12px', borderRadius: 6, fontSize: 11.5, color: '#a5b4fc', fontFamily: 'monospace' }}>
               &#123; &quot;mcpServers&quot;: &#123; &quot;github&quot;: &#123; ... &#125; &#125; &#125;
             </div>
           </div>
 
-          <div style={{ background: 'rgba(15, 23, 42, 0.03)', border: '1px solid rgba(15, 23, 42, 0.08)', borderRadius: 12, padding: 22 }}>
+          <div style={{ background: 'rgba(var(--ink-tint-rgb), 0.03)', border: '1px solid rgba(var(--ink-tint-rgb), 0.08)', borderRadius: 12, padding: 22 }}>
             <div style={{ width: 32, height: 32, borderRadius: 8, background: 'var(--arcade-cyan)', color: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, marginBottom: 12 }}>
               3
             </div>
-            <h4 style={{ color: '#0f172a', margin: '0 0 8px', fontSize: 15 }}>Restart Claude Desktop</h4>
-            <p style={{ color: '#64748b', fontSize: 13, lineHeight: 1.6, margin: '0 0 12px' }}>
+            <h4 style={{ color: 'var(--text-strong)', margin: '0 0 8px', fontSize: 15 }}>Restart Claude Desktop</h4>
+            <p style={{ color: 'var(--text-muted)', fontSize: 13, lineHeight: 1.6, margin: '0 0 12px' }}>
               Restart the Claude Desktop application. You will see a small hammer icon 🔨 in the input prompt indicating active tools ready to execute!
             </p>
-            <div style={{ background: 'rgba(16, 185, 129, 0.1)', border: '1px solid rgba(16, 185, 129, 0.2)', padding: '8px 12px', borderRadius: 6, fontSize: 12, color: '#059669' }}>
+            <div style={{ background: 'rgba(16, 185, 129, 0.1)', border: '1px solid rgba(16, 185, 129, 0.2)', padding: '8px 12px', borderRadius: 6, fontSize: 12, color: 'var(--color-success)' }}>
               ✓ Ready for autonomous tool use
             </div>
           </div>
@@ -434,7 +434,7 @@ export default function ConnectorsView({ connectors }: ConnectorsViewProps) {
         >
           <div
             style={{
-              background: '#ffffff',
+              background: 'var(--bg-card)',
               border: '1px solid rgba(56, 189, 248, 0.3)',
               borderRadius: 20,
               width: '100%',
@@ -452,7 +452,7 @@ export default function ConnectorsView({ connectors }: ConnectorsViewProps) {
               <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                 <span style={{ fontSize: 32 }}>{activeModalConnector.icon}</span>
                 <div>
-                  <h3 style={{ margin: 0, color: '#0f172a', fontSize: 20, fontWeight: 700 }}>
+                  <h3 style={{ margin: 0, color: 'var(--text-strong)', fontSize: 20, fontWeight: 700 }}>
                     {activeModalConnector.name} Setup
                   </h3>
                   <span style={{ fontSize: 12.5, color: 'var(--arcade-cyan)' }}>
@@ -463,7 +463,7 @@ export default function ConnectorsView({ connectors }: ConnectorsViewProps) {
               <button
                 onClick={() => setActiveModalConnector(null)}
                 style={{
-                  background: 'rgba(15, 23, 42, 0.06)',
+                  background: 'rgba(var(--ink-tint-rgb), 0.06)',
                   border: 'none',
                   borderRadius: 8,
                   width: 32,
@@ -471,7 +471,7 @@ export default function ConnectorsView({ connectors }: ConnectorsViewProps) {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  color: '#64748b',
+                  color: 'var(--text-muted)',
                   cursor: 'pointer'
                 }}
               >
@@ -480,16 +480,16 @@ export default function ConnectorsView({ connectors }: ConnectorsViewProps) {
             </div>
 
             {/* Description */}
-            <p style={{ color: '#475569', fontSize: 14, lineHeight: 1.6, marginBottom: 20 }}>
+            <p style={{ color: 'var(--text-secondary)', fontSize: 14, lineHeight: 1.6, marginBottom: 20 }}>
               {activeModalConnector.description}
             </p>
 
             {/* Sample Prompt Box */}
-            <div style={{ background: 'rgba(15, 23, 42, 0.03)', border: '1px solid rgba(15, 23, 42, 0.08)', borderRadius: 10, padding: 14, marginBottom: 20 }}>
+            <div style={{ background: 'rgba(var(--ink-tint-rgb), 0.03)', border: '1px solid rgba(var(--ink-tint-rgb), 0.08)', borderRadius: 10, padding: 14, marginBottom: 20 }}>
               <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--accent-amber)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
                 Tested Prompt to Run in Claude:
               </span>
-              <p style={{ margin: '6px 0 0', color: '#334155', fontSize: 13, fontStyle: 'italic' }}>
+              <p style={{ margin: '6px 0 0', color: 'var(--text-primary)', fontSize: 13, fontStyle: 'italic' }}>
                 &ldquo;{activeModalConnector.samplePrompt}&rdquo;
               </p>
             </div>
@@ -497,7 +497,7 @@ export default function ConnectorsView({ connectors }: ConnectorsViewProps) {
             {/* JSON Config Snippet */}
             <div style={{ marginBottom: 20 }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
-                <span style={{ fontSize: 12, fontWeight: 700, color: '#0f172a' }}>
+                <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--text-strong)' }}>
                   claude_desktop_config.json block:
                 </span>
                 <button
@@ -505,7 +505,7 @@ export default function ConnectorsView({ connectors }: ConnectorsViewProps) {
                   style={{
                     background: 'rgba(56, 189, 248, 0.1)',
                     border: '1px solid rgba(56, 189, 248, 0.3)',
-                    color: '#0284c7',
+                    color: 'var(--color-info)',
                     padding: '4px 10px',
                     borderRadius: 6,
                     fontSize: 11.5,
@@ -522,11 +522,11 @@ export default function ConnectorsView({ connectors }: ConnectorsViewProps) {
               </div>
               <pre style={{
                 background: '#090d16',
-                border: '1px solid rgba(15, 23, 42, 0.1)',
+                border: '1px solid rgba(var(--ink-tint-rgb), 0.1)',
                 padding: 14,
                 borderRadius: 8,
                 fontSize: 12.5,
-                color: '#0284c7',
+                color: 'var(--color-info)',
                 overflowX: 'auto',
                 fontFamily: 'monospace',
                 margin: 0
@@ -537,16 +537,16 @@ export default function ConnectorsView({ connectors }: ConnectorsViewProps) {
 
             {/* Claude Code CLI command */}
             <div style={{ marginBottom: 24 }}>
-              <span style={{ fontSize: 12, fontWeight: 700, color: '#0f172a', display: 'block', marginBottom: 6 }}>
+              <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--text-strong)', display: 'block', marginBottom: 6 }}>
                 Or Add via Claude Code CLI:
               </span>
               <div style={{
                 background: '#090d16',
-                border: '1px solid rgba(15, 23, 42, 0.1)',
+                border: '1px solid rgba(var(--ink-tint-rgb), 0.1)',
                 padding: '10px 14px',
                 borderRadius: 8,
                 fontSize: 12,
-                color: '#059669',
+                color: 'var(--color-success)',
                 fontFamily: 'monospace',
                 display: 'flex',
                 alignItems: 'center',
@@ -565,9 +565,9 @@ export default function ConnectorsView({ connectors }: ConnectorsViewProps) {
                   borderRadius: 8,
                   fontSize: 13,
                   fontWeight: 600,
-                  border: '1px solid rgba(15, 23, 42, 0.15)',
+                  border: '1px solid rgba(var(--ink-tint-rgb), 0.15)',
                   background: 'transparent',
-                  color: '#64748b',
+                  color: 'var(--text-muted)',
                   cursor: 'pointer'
                 }}
               >

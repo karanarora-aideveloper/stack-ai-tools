@@ -1192,7 +1192,7 @@ export default function AdminNewsletterView({ passkey }: AdminNewsletterViewProp
           </select>
 
           <span style={{ fontSize: 12, color: '#64748b' }}>
-            Sender: <strong style={{ color: '#4f46e5' }}>noreply@stackaitools.com</strong> (Stack AI Tools)
+            Sender: <strong style={{ color: 'var(--accent-secondary)' }}>noreply@stackaitools.com</strong> (Stack AI Tools)
           </span>
         </div>
 
@@ -1382,7 +1382,7 @@ export default function AdminNewsletterView({ passkey }: AdminNewsletterViewProp
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <span style={{ fontSize: 11, fontWeight: 700, padding: '3px 10px', borderRadius: 12, background: '#e0e7ff', color: '#4338ca', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
-              <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#4f46e5', display: 'inline-block' }} />
+              <span style={{ width: 7, height: 7, borderRadius: '50%', background: 'var(--accent-secondary)', display: 'inline-block' }} />
               Active Sender: noreply@stackaitools.com
             </span>
             <button
@@ -1400,7 +1400,7 @@ export default function AdminNewsletterView({ passkey }: AdminNewsletterViewProp
         {dispatchProgress.step > 0 && (
           <div style={{ marginBottom: 18, padding: '14px 16px', background: '#f8fafc', borderRadius: 10, border: '1px solid #e2e8f0' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8, fontSize: 13, fontWeight: 700 }}>
-              <span style={{ color: dispatchProgress.step === 4 ? (lastResultCard?.success ? '#059669' : '#dc2626') : '#4f46e5' }}>
+              <span style={{ color: dispatchProgress.step === 4 ? (lastResultCard?.success ? '#059669' : '#dc2626') : 'var(--accent-secondary)' }}>
                 {dispatchProgress.stepTitle}
               </span>
               <span style={{ color: '#64748b' }}>
@@ -1448,7 +1448,7 @@ export default function AdminNewsletterView({ passkey }: AdminNewsletterViewProp
             <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', fontSize: 12, color: '#475569', marginTop: 4, paddingTop: 6, borderTop: `1px solid ${lastResultCard.success ? '#d1fae5' : '#fee2e2'}` }}>
               <div><strong>Recipient:</strong> <code>{lastResultCard.recipient}</code></div>
               <div><strong>Sender:</strong> <code>{lastResultCard.sender}</code></div>
-              <div><strong>Relay Module:</strong> <span style={{ fontWeight: 600, color: '#4f46e5' }}>{lastResultCard.provider}</span></div>
+              <div><strong>Relay Module:</strong> <span style={{ fontWeight: 600, color: 'var(--accent-secondary)' }}>{lastResultCard.provider}</span></div>
             </div>
           </div>
         )}

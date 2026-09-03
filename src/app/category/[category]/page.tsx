@@ -173,11 +173,11 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
           </div>
           <span className="stat-separator">•</span>
           <div className="cat-stat-chip">
-            <span className="stat-highlight" style={{ color: '#34d399' }}>{freeToolsCount}</span>
+            <span className="stat-highlight" style={{ color: 'var(--color-success)' }}>{freeToolsCount}</span>
             <span>Free Tiers Available</span>
           </div>
           <span className="stat-separator">•</span>
-          <div className="cat-stat-chip" style={{ color: '#34d399' }}>
+          <div className="cat-stat-chip" style={{ color: 'var(--color-success)' }}>
             <ShieldCheck size={14} />
             <span>Verified 2026 Audit</span>
           </div>

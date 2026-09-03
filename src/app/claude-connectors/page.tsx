@@ -131,7 +131,7 @@ export default function ClaudeConnectorsPage() {
             fontWeight: 800,
             letterSpacing: '-0.03em',
             lineHeight: 1.15,
-            color: '#0f172a',
+            color: 'var(--text-strong)',
             margin: '0 0 16px'
           }}>
             Top Claude <span style={{
@@ -142,7 +142,7 @@ export default function ClaudeConnectorsPage() {
           </h1>
 
           <p style={{
-            color: '#64748b',
+            color: 'var(--text-muted)',
             fontSize: '1.08rem',
             lineHeight: 1.7,
             maxWidth: 780,
@@ -158,22 +158,22 @@ export default function ClaudeConnectorsPage() {
             justifyContent: 'center',
             gap: 16,
             padding: '12px 24px',
-            background: 'rgba(255, 255, 255, 0.85)',
-            border: '1px solid rgba(15, 23, 42, 0.08)',
+            background: 'var(--bg-glass)',
+            border: '1px solid rgba(var(--ink-tint-rgb), 0.08)',
             borderRadius: 30,
             fontSize: 13,
-            color: '#475569'
+            color: 'var(--text-secondary)'
           }}>
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-              <ShieldCheck size={14} color="#38bdf8" /> <strong>{connectors.length} Verified Connectors</strong>
+              <ShieldCheck size={14} color="var(--color-info)" /> <strong>{connectors.length} Verified Connectors</strong>
             </span>
-            <span style={{ color: 'rgba(15, 23, 42, 0.2)' }}>•</span>
+            <span style={{ color: 'rgba(var(--ink-tint-rgb), 0.3)' }}>•</span>
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-              <Terminal size={14} color="#34d399" /> <strong>One-Click JSON Configs</strong>
+              <Terminal size={14} color="var(--color-success)" /> <strong>One-Click JSON Configs</strong>
             </span>
-            <span style={{ color: 'rgba(15, 23, 42, 0.2)' }}>•</span>
+            <span style={{ color: 'rgba(var(--ink-tint-rgb), 0.3)' }}>•</span>
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-              <Zap size={14} color="#fbbf24" /> <strong>Claude 3.7 & Claude Code Ready</strong>
+              <Zap size={14} color="var(--color-warning)" /> <strong>Claude 3.7 & Claude Code Ready</strong>
             </span>
           </div>
         </header>

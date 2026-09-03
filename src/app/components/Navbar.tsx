@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { AnimatePresence } from 'framer-motion';
 import { DrawerBackdrop, DrawerPanel } from './motion/Drawer';
+import ThemeToggle from './ThemeToggle';
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -96,7 +97,7 @@ export default function Navbar() {
               style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
             >
               <span>Claude Connectors</span>
-              <span style={{ fontSize: 9.5, padding: '1px 5px', borderRadius: 6, background: 'rgba(168, 85, 247, 0.25)', color: '#7e22ce', border: '1px solid rgba(168, 85, 247, 0.4)', fontWeight: 700 }}>NEW</span>
+              <span style={{ fontSize: 9.5, padding: '1px 5px', borderRadius: 6, background: 'rgba(168, 85, 247, 0.25)', color: 'var(--accent-secondary)', border: '1px solid rgba(168, 85, 247, 0.4)', fontWeight: 700 }}>NEW</span>
             </Link>
             <Link 
               href="/about" 
@@ -120,6 +121,9 @@ export default function Navbar() {
               </svg>
               <span>Star</span>
             </a>
+
+            {/* Theme Toggle */}
+            <ThemeToggle />
 
             <Link href="/submit" className="topbar-btn-submit">
               <Plus size={14} />

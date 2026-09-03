@@ -111,8 +111,42 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" data-theme="light" suppressHydrationWarning>
       <head>
+        {/* Theme initialization script - MUST be first to prevent FOUT */}
+        <script dangerouslySetInnerHTML={{
+          __html: `
+            (function() {
+              try {
+                const root = document.documentElement;
+                root.setAttribute('data-no-transition', '');
+
+                const theme = localStorage.getItem('theme') || 'system';
+                if (theme === 'system') {
+                  root.removeAttribute('data-theme');
+                  if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    root.style.colorScheme = 'dark';
+                  } else {
+                    root.style.colorScheme = 'light';
+                  }
+                } else {
+                  root.setAttribute('data-theme', theme);
+                  root.style.colorScheme = theme;
+                }
+
+                requestAnimationFrame(function() {
+                  root.removeAttribute('data-no-transition');
+                });
+              } catch (e) {}
+            })();
+          `
+        }} />
+
+        {/* Color scheme and theme meta tags */}
+        <meta name="color-scheme" content="light dark" />
+        <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+        <meta name="theme-color" content="#1a1a2e" media="(prefers-color-scheme: dark)" />
+
         {/* Google tag (gtag.js) - GA4 */}
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-WCL9JTB6TC"></script>
         <script
