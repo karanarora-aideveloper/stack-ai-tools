@@ -48,7 +48,7 @@ export default async function PromptsPage() {
           borderRadius: 100, 
           background: 'rgba(99, 102, 241, 0.12)', 
           border: '1px solid rgba(99, 102, 241, 0.3)', 
-          color: '#4338ca', 
+          color: 'var(--accent-secondary)', 
           fontSize: 12.5, 
           fontWeight: 700, 
           letterSpacing: '0.04em', 
@@ -64,7 +64,7 @@ export default async function PromptsPage() {
           fontWeight: 900, 
           letterSpacing: '-0.03em', 
           lineHeight: 1.15, 
-          color: '#0f172a', 
+          color: 'var(--text-strong)', 
           marginBottom: 16 
         }}>
           Curated Frontier AI <span className="modern-hero-gradient">Prompts Library</span>
@@ -88,17 +88,17 @@ export default async function PromptsPage() {
           maxWidth: 680, 
           margin: '0 auto', 
           padding: '12px 16px', 
-          background: 'rgba(15, 23, 42, 0.03)', 
+          background: 'rgba(var(--ink-tint-rgb), 0.03)', 
           backdropFilter: 'blur(12px)', 
-          border: '1px solid rgba(15, 23, 42, 0.08)', 
+          border: '1px solid rgba(var(--ink-tint-rgb), 0.08)', 
           borderRadius: 14 
         }}>
           <div>
-            <div style={{ fontSize: 20, fontWeight: 800, color: '#0f172a' }}>{serializedPrompts.length}+</div>
+            <div style={{ fontSize: 20, fontWeight: 800, color: 'var(--text-strong)' }}>{serializedPrompts.length}+</div>
             <div style={{ fontSize: 11.5, fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase' }}>Vetted Prompts</div>
           </div>
           <div>
-            <div style={{ fontSize: 20, fontWeight: 800, color: '#4f46e5' }}>8 Top</div>
+            <div style={{ fontSize: 20, fontWeight: 800, color: 'var(--accent-secondary)' }}>8 Top</div>
             <div style={{ fontSize: 11.5, fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase' }}>MCP Servers</div>
           </div>
           <div>
@@ -106,7 +106,7 @@ export default async function PromptsPage() {
             <div style={{ fontSize: 11.5, fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase' }}>Real Outputs</div>
           </div>
           <div>
-            <div style={{ fontSize: 20, fontWeight: 800, color: '#10b981' }}>1-Click</div>
+            <div style={{ fontSize: 20, fontWeight: 800, color: 'var(--color-success)' }}>1-Click</div>
             <div style={{ fontSize: 11.5, fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase' }}>Instant Copy</div>
           </div>
         </div>

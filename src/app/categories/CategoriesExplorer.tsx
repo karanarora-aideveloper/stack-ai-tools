@@ -208,7 +208,7 @@ export default function CategoriesExplorer({
                           size={16} 
                         />
                         <span style={{ fontWeight: 600 }}>{t.name.split(' ')[0]}</span>
-                        <span style={{ fontSize: 11, color: '#f59e0b', display: 'inline-flex', alignItems: 'center', gap: 2 }}>
+                        <span style={{ fontSize: 11, color: 'var(--color-warning)', display: 'inline-flex', alignItems: 'center', gap: 2 }}>
                           ★ {t.rating.toFixed(1)}
                         </span>
                       </Link>
@@ -245,12 +245,12 @@ export default function CategoriesExplorer({
         <div style={{ 
           textAlign: 'center', 
           padding: '60px 20px', 
-          background: 'rgba(15, 23, 42, 0.02)', 
-          border: '1px dashed rgba(15, 23, 42, 0.1)', 
+          background: 'rgba(var(--ink-tint-rgb), 0.02)', 
+          border: '1px dashed rgba(var(--ink-tint-rgb), 0.1)', 
           borderRadius: 20 
         }}>
           <Layers size={36} color="var(--text-muted)" style={{ margin: '0 auto 12px' }} />
-          <h3 style={{ fontSize: 18, fontWeight: 700, color: '#0f172a', marginBottom: 6 }}>No categories matched "{searchQuery}"</h3>
+          <h3 style={{ fontSize: 18, fontWeight: 700, color: 'var(--text-strong)', marginBottom: 6 }}>No categories matched "{searchQuery}"</h3>
           <p style={{ fontSize: 14, color: 'var(--text-secondary)', marginBottom: 16 }}>Try searching for 'code', 'video', 'audio', 'mcp', or clear your filters.</p>
           <button 
             className="btn btn-secondary"

@@ -102,7 +102,7 @@ export default function Submit() {
           </div>
 
           <div className="submit-benefit-item">
-            <div className="benefit-icon-wrap" style={{ background: 'rgba(52, 211, 153, 0.1)', color: '#34d399' }}>
+            <div className="benefit-icon-wrap" style={{ background: 'rgba(52, 211, 153, 0.1)', color: 'var(--color-success)' }}>
               <ShieldCheck size={18} />
             </div>
             <div>

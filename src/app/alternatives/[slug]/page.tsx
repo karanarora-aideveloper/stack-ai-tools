@@ -137,7 +137,7 @@ export default async function AlternativeDetailPage({ params }: AlternativePageP
 
       {/* Header */}
       <div className="page-header" style={{ textAlign: 'left', marginBottom: 36 }}>
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: '#4f46e5', fontSize: 13, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 8 }}>
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: 'var(--accent-secondary)', fontSize: 13, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 8 }}>
           <GitCompare size={15} />
           <span>Competitor Comparison 2026</span>
         </div>
@@ -176,7 +176,7 @@ export default async function AlternativeDetailPage({ params }: AlternativePageP
                   </div>
                 </td>
                 <td><span className={`tool-price-tag price-${tool.priceClass}`}>{tool.pricingModel}</span></td>
-                <td><span style={{ color: '#d97706' }}>★ {tool.rating}</span> ({tool.reviewsCount})</td>
+                <td><span style={{ color: 'var(--color-warning)' }}>★ {tool.rating}</span> ({tool.reviewsCount})</td>
                 <td>{tool.category}</td>
                 <td>
                   <Link href={`/tool/${tool.slug}`} className="btn btn-secondary" style={{ padding: '6px 12px', fontSize: 12 }}>
@@ -191,13 +191,13 @@ export default async function AlternativeDetailPage({ params }: AlternativePageP
                   <td>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                       <ToolLogo name={alt.name} domain={alt.domain} logoUrl={alt.logoUrl} icon={alt.icon} size={28} />
-                      <Link href={`/tool/${alt.slug}`} style={{ color: '#0f172a', fontWeight: 600 }}>
+                      <Link href={`/tool/${alt.slug}`} style={{ color: 'var(--text-strong)', fontWeight: 600 }}>
                         {alt.name}
                       </Link>
                     </div>
                   </td>
                   <td><span className={`tool-price-tag price-${alt.priceClass}`}>{alt.pricingModel}</span></td>
-                  <td><span style={{ color: '#d97706' }}>★ {alt.rating}</span> ({alt.reviewsCount})</td>
+                  <td><span style={{ color: 'var(--color-warning)' }}>★ {alt.rating}</span> ({alt.reviewsCount})</td>
                   <td>{alt.category}</td>
                   <td>
                     <a 
@@ -219,7 +219,7 @@ export default async function AlternativeDetailPage({ params }: AlternativePageP
 
       {/* Deep-Dive Cards for Each Alternative */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 32, marginBottom: 48 }}>
-        <h2 style={{ fontSize: 24, fontWeight: 700, color: '#0f172a' }}>
+        <h2 style={{ fontSize: 24, fontWeight: 700, color: 'var(--text-strong)' }}>
           Detailed Breakdown of Each Alternative
         </h2>
 
@@ -232,10 +232,10 @@ export default async function AlternativeDetailPage({ params }: AlternativePageP
                 </div>
                 <div className="tool-title-wrapper">
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                    <span style={{ background: '#4f46e5', color: '#fff', fontSize: 12, fontWeight: 700, padding: '2px 8px', borderRadius: 4 }}>
+                    <span style={{ background: 'var(--accent-secondary)', color: '#fff', fontSize: 12, fontWeight: 700, padding: '2px 8px', borderRadius: 4 }}>
                       #{index + 1} Alternative
                     </span>
-                    <h3 style={{ fontSize: 22, fontWeight: 700, color: '#0f172a', margin: 0 }}>
+                    <h3 style={{ fontSize: 22, fontWeight: 700, color: 'var(--text-strong)', margin: 0 }}>
                       {alt.name}
                     </h3>
                   </div>
@@ -268,7 +268,7 @@ export default async function AlternativeDetailPage({ params }: AlternativePageP
             </p>
 
             <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-              <Link href={`/tool/${alt.slug}`} style={{ color: '#4f46e5', fontSize: 13, fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+              <Link href={`/tool/${alt.slug}`} style={{ color: 'var(--accent-secondary)', fontSize: 13, fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 4 }}>
                 <span>Read Full {alt.name} Review</span>
                 <ChevronRight size={14} />
               </Link>
@@ -285,8 +285,8 @@ export default async function AlternativeDetailPage({ params }: AlternativePageP
         </h2>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
           {faqs.map((faq, idx) => (
-            <div key={idx} style={{ borderBottom: idx !== faqs.length - 1 ? '1px solid rgba(15, 23, 42, 0.06)' : 'none', paddingBottom: 16 }}>
-              <h3 style={{ fontSize: 16, fontWeight: 600, color: '#0f172a', marginBottom: 6 }}>
+            <div key={idx} style={{ borderBottom: idx !== faqs.length - 1 ? '1px solid rgba(var(--ink-tint-rgb), 0.06)' : 'none', paddingBottom: 16 }}>
+              <h3 style={{ fontSize: 16, fontWeight: 600, color: 'var(--text-strong)', marginBottom: 6 }}>
                 {faq.question}
               </h3>
               <p style={{ fontSize: 14, color: 'var(--text-secondary)', lineHeight: 1.6 }}>

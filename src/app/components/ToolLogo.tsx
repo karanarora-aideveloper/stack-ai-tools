@@ -43,7 +43,7 @@ export default function ToolLogo({
         alignItems: 'center',
         justifyContent: 'center',
         background: 'linear-gradient(135deg, #ffffff 0%, #f4f5f8 100%)',
-        border: '1px solid rgba(15, 23, 42, 0.1)',
+        border: '1px solid rgba(var(--ink-tint-rgb), 0.1)',
         boxShadow: '0 2px 8px rgba(15, 23, 42, 0.06)',
         flexShrink: 0,
         overflow: 'hidden',

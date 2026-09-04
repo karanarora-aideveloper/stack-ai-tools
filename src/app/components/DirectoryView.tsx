@@ -605,8 +605,8 @@ export default function DirectoryView({ initialTools, initialPrompts }: Director
 
                   {/* Primary Use Case Tag if present */}
                   {tool.primaryUseCase && (
-                    <div style={{ fontSize: 12, color: '#4f46e5', marginBottom: 10, display: 'flex', alignItems: 'flex-start', gap: 5 }}>
-                      <span style={{ flexShrink: 0 }}>🎯</span>
+                    <div style={{ fontSize: 12, color: 'var(--text-secondary)', marginBottom: 10, display: 'flex', alignItems: 'flex-start', gap: 5 }}>
+                      <span style={{ flexShrink: 0, color: 'var(--accent-secondary)' }}>🎯</span>
                       <span style={{ fontWeight: 500, lineHeight: 1.4 }}>{tool.primaryUseCase}</span>
                     </div>
                   )}

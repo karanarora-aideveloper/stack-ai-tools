@@ -548,7 +548,7 @@ export default function AdminDashboard({
       <div className="admin-header-light">
         <div className="admin-title-group-light">
           <h1>
-            <Sparkles size={26} color="#4f46e5" />
+            <Sparkles size={26} color="var(--accent-secondary)" />
             <span>Stack AI Tools Admin Console</span>
             <span className="admin-live-badge-light">Live Production</span>
           </h1>
@@ -572,7 +572,7 @@ export default function AdminDashboard({
       {/* KPI Metrics Summary */}
       <div className="admin-kpi-grid-light">
         <div className="admin-kpi-card-light">
-          <div className="admin-kpi-icon-light" style={{ background: '#eef2ff', color: '#4f46e5' }}>
+          <div className="admin-kpi-icon-light" style={{ background: '#eef2ff', color: 'var(--accent-secondary)' }}>
             <Layers size={22} />
           </div>
           <div>
@@ -714,7 +714,7 @@ export default function AdminDashboard({
                 <span className="affiliate-micro-lbl">Available to Apply</span>
               </div>
               <div className="affiliate-micro-stat">
-                <span className="affiliate-micro-val" style={{ color: '#4f46e5' }}>
+                <span className="affiliate-micro-val" style={{ color: 'var(--accent-secondary)' }}>
                   {analyticsData?.totalOutboundClicks ?? 0}
                 </span>
                 <span className="affiliate-micro-lbl">Outbound Referrals</span>
@@ -1247,7 +1247,7 @@ export default function AdminDashboard({
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 14, marginTop: 2 }}>
               <div style={{ fontSize: 12, color: '#334155', lineHeight: 1.5 }}>
-                <strong style={{ color: '#4f46e5' }}>1. In-House MongoDB Engine (Active & Live):</strong>
+                <strong style={{ color: 'var(--accent-secondary)' }}>1. In-House MongoDB Engine (Active & Live):</strong>
                 <p style={{ margin: '3px 0 0 0', color: '#64748b' }}>
                   Every unique visitor session, scroll depth, prompt copy, and outbound affiliate redirect (<code>/go/[slug]</code>) is logged directly into the MongoDB Atlas <code>AnalyticsEvent</code> collection. This powers the real-time KPI metrics and top tools table below.
                 </p>
@@ -1277,7 +1277,7 @@ export default function AdminDashboard({
           <div className="admin-kpi-grid-light">
             <div className="admin-kpi-card-light">
               <div>
-                <div className="admin-kpi-val-light" style={{ color: '#4f46e5' }}>
+                <div className="admin-kpi-val-light" style={{ color: 'var(--accent-secondary)' }}>
                   {analyticsData?.totalVisitors ?? 0}
                 </div>
                 <div className="admin-kpi-lbl-light">Total Unique Visitors</div>
