@@ -47,16 +47,12 @@ export default function Navbar() {
           {/* Brand Logo */}
           <Link href="/" className="topbar-brand">
             <div className="topbar-logo-mark">
-              <Sparkles size={17} color="#ffffff" />
+              <Layers size={17} color="#ffffff" strokeWidth={2.25} />
             </div>
             <div className="topbar-brand-text">
               <span className="topbar-brand-main">Stack AI</span>
               <span className="topbar-brand-sub">Tools</span>
             </div>
-            <span className="modern-status-badge">
-              <span className="status-dot"></span>
-              2026 INDEX
-            </span>
           </Link>
 
           {/* Desktop Navigation Links */}
@@ -125,8 +121,10 @@ export default function Navbar() {
             {/* Theme Toggle */}
             <ThemeToggle />
 
+            <span className="topbar-actions-divider" aria-hidden="true" />
+
             <Link href="/submit" className="topbar-btn-submit">
-              <Plus size={14} />
+              <Plus size={14} strokeWidth={2.5} />
               <span>Submit Tool</span>
             </Link>
 
@@ -150,7 +148,7 @@ export default function Navbar() {
             <div className="mobile-drawer-header">
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                 <div className="topbar-logo-mark" style={{ width: 28, height: 28 }}>
-                  <Sparkles size={14} color="#ffffff" />
+                  <Layers size={14} color="#ffffff" strokeWidth={2.25} />
                 </div>
                 <span style={{ fontWeight: 700, color: 'var(--text-strong)', fontSize: 16 }}>Stack AI Tools</span>
               </div>

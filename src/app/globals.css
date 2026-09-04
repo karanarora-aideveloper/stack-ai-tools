@@ -272,7 +272,6 @@ button {
   flex-direction: column;
   min-height: 100vh;
   position: relative;
-  z-index: 1;
 }
 
 .main-content {
@@ -374,7 +373,10 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 14px var(--accent-primary-glow);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    inset 0 -6px 10px rgba(0, 0, 0, 0.12),
+    0 2px 8px rgba(99, 102, 241, 0.35);
 }
 
 .topbar-brand-text {
@@ -398,28 +400,6 @@ button {
   font-weight: 400;
   font-size: 18px;
   color: var(--text-secondary);
-}
-
-.modern-status-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 10.5px;
-  font-weight: 700;
-  color: var(--accent-secondary);
-  background: rgba(99, 102, 241, 0.1);
-  border: 1px solid rgba(99, 102, 241, 0.25);
-  padding: 2px 7px;
-  border-radius: var(--radius-pill);
-  letter-spacing: 0.05em;
-}
-
-.status-dot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: #10b981;
-  box-shadow: 0 0 6px #10b981;
 }
 
 /* Desktop Nav Links */
@@ -492,38 +472,58 @@ button {
   }
 }
 
+/* Thin separator marking the primary CTA off from the utility icons
+   (GitHub star, theme toggle) so it reads as the important action. */
+.topbar-actions-divider {
+  width: 1px;
+  height: 20px;
+  background: var(--border-subtle);
+  flex-shrink: 0;
+}
+
+@media (max-width: 600px) {
+  .topbar-actions-divider {
+    display: none;
+  }
+}
+
 .topbar-btn-submit {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 7px 16px;
+  padding: 8px 18px;
   border-radius: var(--radius-pill);
   background: var(--accent-primary);
   color: var(--text-on-accent);
   font-size: 13px;
   font-weight: 600;
-  box-shadow: 0 2px 10px var(--accent-primary-glow);
-  transition: all 0.2s ease;
+  letter-spacing: -0.01em;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 2px 10px var(--accent-primary-glow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .topbar-btn-submit:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    0 6px 18px var(--accent-primary-glow);
 }
 
-/* Prevent header overflow on narrow phones: drop the decorative
-   index badge first, then collapse the submit button to icon-only. */
-@media (max-width: 480px) {
-  .modern-status-badge {
-    display: none;
-  }
+.topbar-btn-submit:active {
+  transform: translateY(0);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 2px 8px var(--accent-primary-glow);
 }
 
+/* Prevent header overflow on narrow phones: collapse the submit
+   button to icon-only. */
 @media (max-width: 400px) {
   .topbar-btn-submit {
-    padding: 8px;
-    width: 34px;
-    height: 34px;
+    padding: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
     justify-content: center;
   }
 
@@ -581,6 +581,13 @@ button {
   padding: 24px 20px;
   display: flex;
   flex-direction: column;
+}
+
+.mobile-drawer-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
 }
 
 .mobile-drawer-header {
@@ -1189,12 +1196,10 @@ button {
   max-width: 680px;
   margin: 0 auto 24px;
   height: 52px;
-  background: rgba(var(--ink-tint-rgb), 0.04);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(var(--ink-tint-rgb), 0.12);
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
   border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.084), 0 0 20px rgba(99, 102, 241, 0.08);
+  box-shadow: var(--shadow-md);
   display: flex;
   align-items: center;
   padding: 0 18px;
@@ -1202,9 +1207,9 @@ button {
 }
 
 .prompts-search-container:focus-within {
-  border-color: rgba(99, 102, 241, 0.7);
-  box-shadow: 0 12px 36px rgba(15, 23, 42, 0.112), 0 0 25px rgba(99, 102, 241, 0.25);
-  background: rgba(var(--ink-tint-rgb), 0.06);
+  border-color: var(--accent-secondary);
+  box-shadow: var(--shadow-lg), 0 0 0 3px var(--accent-primary-glow);
+  background: var(--bg-card);
 }
 
 .prompts-search-icon {
@@ -1272,8 +1277,8 @@ button {
   border-radius: 100px;
   font-size: 13px;
   font-weight: 600;
-  background: rgba(var(--ink-tint-rgb), 0.035);
-  border: 1px solid rgba(var(--ink-tint-rgb), 0.08);
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
   color: var(--text-secondary);
   cursor: pointer;
   transition: all 0.2s ease;
@@ -1281,9 +1286,9 @@ button {
 }
 
 .prompts-model-pill:hover {
-  background: rgba(var(--ink-tint-rgb), 0.08);
+  background: var(--bg-card-hover);
   color: var(--text-strong);
-  border-color: rgba(var(--ink-tint-rgb), 0.18);
+  border-color: var(--accent-primary);
   transform: translateY(-1px);
 }
 
@@ -1321,23 +1326,23 @@ button {
   border-radius: 8px;
   font-size: 12.5px;
   font-weight: 600;
-  background: rgba(var(--ink-tint-rgb), 0.03);
-  border: 1px solid rgba(var(--ink-tint-rgb), 0.08);
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
   color: var(--text-secondary);
   cursor: pointer;
   transition: all 0.15s ease;
 }
 
 .prompts-type-pill:hover {
-  background: rgba(var(--ink-tint-rgb), 0.08);
+  background: var(--bg-card-hover);
   color: var(--text-strong);
 }
 
 .prompts-type-pill.active {
-  background: rgba(var(--ink-tint-rgb), 0.12);
-  border-color: rgba(var(--ink-tint-rgb), 0.25);
-  color: var(--text-strong);
-  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.056);
+  background: var(--accent-primary-glow);
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+  box-shadow: var(--shadow-sm);
 }
 
 .prompts-counter-pill {
@@ -1398,7 +1403,7 @@ button {
 .prompt-visual-header {
   width: 100%;
   position: relative;
-  background: #eef1f6;
+  background: var(--bg-secondary);
 }
 
 .prompt-image-container {
@@ -1406,7 +1411,7 @@ button {
   height: 220px;
   overflow: hidden;
   position: relative;
-  background: #eef1f6;
+  background: var(--bg-secondary);
 }
 
 .prompt-result-image {
@@ -1654,12 +1659,16 @@ button {
 .btn-primary {
   background: var(--accent-primary);
   color: var(--text-on-accent);
-  box-shadow: 0 2px 10px var(--accent-primary-glow);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 2px 10px var(--accent-primary-glow);
 }
 
 .btn-primary:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    0 6px 18px var(--accent-primary-glow);
 }
 
 .btn-secondary {
@@ -2209,7 +2218,7 @@ button {
   border-radius: var(--radius-md);
   overflow: hidden;
   aspect-ratio: 16/10;
-  background: #eef1f6;
+  background: var(--bg-secondary);
 }
 
 .featured-article-img {
@@ -2325,7 +2334,7 @@ button {
   position: relative;
   aspect-ratio: 16/10;
   overflow: hidden;
-  background: #eef1f6;
+  background: var(--bg-secondary);
 }
 
 .article-card-thumb {
@@ -2652,7 +2661,7 @@ button {
   border-radius: var(--radius-lg);
   overflow: hidden;
   border: 1px solid var(--border-light);
-  background: #eef1f6;
+  background: var(--bg-secondary);
   box-shadow: 0 12px 30px rgba(15, 23, 42, 0.112);
 }
 

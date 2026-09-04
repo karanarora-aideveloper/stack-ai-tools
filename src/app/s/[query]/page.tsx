@@ -308,16 +308,16 @@ export default async function SearchHubPage({ params }: SearchHubPageProps) {
           marginBottom: 60
         }}>
           {finalTools.map((tool) => {
-            const priceClassColor = 
-              tool.priceClass === 'free' ? '#34d399' : 
-              tool.priceClass === 'paid' ? '#f43f5e' : '#38bdf8';
+            const priceClassColor =
+              tool.priceClass === 'free' ? 'var(--color-success)' :
+              tool.priceClass === 'paid' ? 'var(--color-error)' : 'var(--color-info)';
 
             return (
               <div
                 key={tool.id}
                 style={{
-                  background: 'linear-gradient(180deg, rgba(30, 41, 59, 0.6) 0%, rgba(var(--ink-tint-rgb), 0.8) 100%)',
-                  border: '1px solid rgba(var(--ink-tint-rgb), 0.08)',
+                  background: 'linear-gradient(180deg, var(--bg-card-hover) 0%, var(--bg-card) 100%)',
+                  border: '1px solid var(--border-subtle)',
                   borderRadius: 16,
                   padding: 22,
                   display: 'flex',

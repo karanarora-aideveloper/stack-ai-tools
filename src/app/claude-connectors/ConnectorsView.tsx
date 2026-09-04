@@ -98,8 +98,8 @@ export default function ConnectorsView({ connectors }: ConnectorsViewProps) {
                 fontSize: 13.5,
                 fontWeight: 600,
                 cursor: 'pointer',
-                border: isActive ? '1px solid var(--arcade-cyan)' : '1px solid rgba(var(--ink-tint-rgb), 0.1)',
-                background: isActive ? 'linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(99, 102, 241, 0.15))' : 'rgba(var(--ink-tint-rgb), 0.03)',
+                border: isActive ? '1px solid var(--arcade-cyan)' : '1px solid var(--border-light)',
+                background: isActive ? 'linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(99, 102, 241, 0.15))' : 'var(--bg-card)',
                 color: isActive ? '#fff' : 'var(--text-secondary)',
                 boxShadow: isActive ? '0 0 16px rgba(56, 189, 248, 0.25)' : 'none',
                 transition: 'all 0.2s ease'
@@ -172,8 +172,8 @@ export default function ConnectorsView({ connectors }: ConnectorsViewProps) {
             <div
               key={c.id}
               style={{
-                background: 'linear-gradient(180deg, rgba(30, 41, 59, 0.6) 0%, rgba(var(--ink-tint-rgb), 0.8) 100%)',
-                border: '1px solid rgba(var(--ink-tint-rgb), 0.08)',
+                background: 'linear-gradient(180deg, var(--bg-card-hover) 0%, var(--bg-card) 100%)',
+                border: '1px solid var(--border-subtle)',
                 borderRadius: 16,
                 padding: 24,
                 display: 'flex',
@@ -185,10 +185,10 @@ export default function ConnectorsView({ connectors }: ConnectorsViewProps) {
               onMouseEnter={(e) => {
                 e.currentTarget.style.borderColor = 'rgba(56, 189, 248, 0.4)';
                 e.currentTarget.style.transform = 'translateY(-3px)';
-                e.currentTarget.style.boxShadow = '0 12px 30px rgba(15, 23, 42, 0.15)';
+                e.currentTarget.style.boxShadow = 'var(--shadow-lg)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = 'rgba(var(--ink-tint-rgb), 0.08)';
+                e.currentTarget.style.borderColor = 'var(--border-subtle)';
                 e.currentTarget.style.transform = 'translateY(0)';
                 e.currentTarget.style.boxShadow = 'none';
               }}
@@ -201,8 +201,8 @@ export default function ConnectorsView({ connectors }: ConnectorsViewProps) {
                       width: 46,
                       height: 46,
                       borderRadius: 12,
-                      background: 'rgba(var(--ink-tint-rgb), 0.05)',
-                      border: '1px solid rgba(var(--ink-tint-rgb), 0.1)',
+                      background: 'var(--bg-secondary)',
+                      border: '1px solid var(--border-light)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -228,7 +228,7 @@ export default function ConnectorsView({ connectors }: ConnectorsViewProps) {
                         padding: '3px 8px',
                         borderRadius: 12,
                         background: 'rgba(168, 85, 247, 0.15)',
-                        color: '#c084fc',
+                        color: 'var(--color-frontier)',
                         border: '1px solid rgba(168, 85, 247, 0.3)',
                         fontWeight: 600,
                         display: 'inline-flex',
@@ -266,10 +266,10 @@ export default function ConnectorsView({ connectors }: ConnectorsViewProps) {
                       style={{
                         fontSize: 11,
                         padding: '3px 8px',
-                        background: 'rgba(var(--ink-tint-rgb), 0.04)',
-                        border: '1px solid rgba(var(--ink-tint-rgb), 0.08)',
+                        background: 'var(--bg-secondary)',
+                        border: '1px solid var(--border-light)',
                         borderRadius: 6,
-                        color: 'var(--text-muted)'
+                        color: 'var(--text-secondary)'
                       }}
                     >
                       {feat}
@@ -294,9 +294,11 @@ export default function ConnectorsView({ connectors }: ConnectorsViewProps) {
                       alignItems: 'center',
                       justifyContent: 'center',
                       gap: 6,
-                      border: isCopied ? '1px solid #10b981' : '1px solid rgba(56, 189, 248, 0.4)',
-                      background: isCopied ? 'rgba(16, 185, 129, 0.15)' : 'rgba(56, 189, 248, 0.1)',
-                      color: isCopied ? '#34d399' : '#38bdf8',
+                      border: isCopied ? '1px solid var(--color-success)' : '1px solid var(--color-info)',
+                      background: isCopied
+                        ? 'color-mix(in srgb, var(--color-success) 15%, transparent)'
+                        : 'color-mix(in srgb, var(--color-info) 12%, transparent)',
+                      color: isCopied ? 'var(--color-success)' : 'var(--color-info)',
                       transition: 'all 0.2s ease'
                     }}
                   >
@@ -355,7 +357,7 @@ export default function ConnectorsView({ connectors }: ConnectorsViewProps) {
         maxWidth: 1100,
         margin: '0 auto 60px',
         padding: 36,
-        background: 'linear-gradient(180deg, rgba(var(--ink-tint-rgb), 0.9) 0%, rgba(10, 15, 30, 0.95) 100%)',
+        background: 'linear-gradient(180deg, var(--bg-card-hover) 0%, var(--bg-card) 100%)',
         border: '1px solid rgba(56, 189, 248, 0.25)',
         borderRadius: 20
       }}>
@@ -372,37 +374,37 @@ export default function ConnectorsView({ connectors }: ConnectorsViewProps) {
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
-          <div style={{ background: 'rgba(var(--ink-tint-rgb), 0.03)', border: '1px solid rgba(var(--ink-tint-rgb), 0.08)', borderRadius: 12, padding: 22 }}>
-            <div style={{ width: 32, height: 32, borderRadius: 8, background: 'var(--arcade-cyan)', color: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, marginBottom: 12 }}>
+          <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border-light)', borderRadius: 12, padding: 22 }}>
+            <div style={{ width: 32, height: 32, borderRadius: 8, background: 'var(--arcade-cyan)', color: 'var(--text-on-accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, marginBottom: 12 }}>
               1
             </div>
             <h4 style={{ color: 'var(--text-strong)', margin: '0 0 8px', fontSize: 15 }}>Locate Your Config File</h4>
             <p style={{ color: 'var(--text-muted)', fontSize: 13, lineHeight: 1.6, margin: '0 0 12px' }}>
               Open your Claude Desktop configuration file on your machine:
             </p>
-            <div style={{ background: 'rgba(0, 0, 0, 0.5)', padding: '8px 12px', borderRadius: 6, fontSize: 11.5, color: '#38bdf8', fontFamily: 'monospace' }}>
+            <div style={{ background: 'rgba(15, 23, 42, 0.85)', padding: '8px 12px', borderRadius: 6, fontSize: 11.5, color: '#38bdf8', fontFamily: 'monospace', overflowWrap: 'anywhere' }}>
               macOS: ~/Library/Application Support/Claude/claude_desktop_config.json
             </div>
-            <div style={{ background: 'rgba(0, 0, 0, 0.5)', padding: '8px 12px', borderRadius: 6, fontSize: 11.5, color: '#38bdf8', fontFamily: 'monospace', marginTop: 6 }}>
+            <div style={{ background: 'rgba(15, 23, 42, 0.85)', padding: '8px 12px', borderRadius: 6, fontSize: 11.5, color: '#38bdf8', fontFamily: 'monospace', marginTop: 6, overflowWrap: 'anywhere' }}>
               Windows: %APPDATA%\Claude\claude_desktop_config.json
             </div>
           </div>
 
-          <div style={{ background: 'rgba(var(--ink-tint-rgb), 0.03)', border: '1px solid rgba(var(--ink-tint-rgb), 0.08)', borderRadius: 12, padding: 22 }}>
-            <div style={{ width: 32, height: 32, borderRadius: 8, background: 'var(--arcade-cyan)', color: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, marginBottom: 12 }}>
+          <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border-light)', borderRadius: 12, padding: 22 }}>
+            <div style={{ width: 32, height: 32, borderRadius: 8, background: 'var(--arcade-cyan)', color: 'var(--text-on-accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, marginBottom: 12 }}>
               2
             </div>
             <h4 style={{ color: 'var(--text-strong)', margin: '0 0 8px', fontSize: 15 }}>Paste Connector JSON</h4>
             <p style={{ color: 'var(--text-muted)', fontSize: 13, lineHeight: 1.6, margin: '0 0 12px' }}>
               Click <strong>&ldquo;Copy Claude Config&rdquo;</strong> on any connector card above and merge it into your <code style={{ color: 'var(--color-info)' }}>mcpServers</code> dictionary.
             </p>
-            <div style={{ background: 'rgba(0, 0, 0, 0.5)', padding: '8px 12px', borderRadius: 6, fontSize: 11.5, color: '#a5b4fc', fontFamily: 'monospace' }}>
+            <div style={{ background: 'rgba(15, 23, 42, 0.85)', padding: '8px 12px', borderRadius: 6, fontSize: 11.5, color: '#a5b4fc', fontFamily: 'monospace', overflowWrap: 'anywhere' }}>
               &#123; &quot;mcpServers&quot;: &#123; &quot;github&quot;: &#123; ... &#125; &#125; &#125;
             </div>
           </div>
 
-          <div style={{ background: 'rgba(var(--ink-tint-rgb), 0.03)', border: '1px solid rgba(var(--ink-tint-rgb), 0.08)', borderRadius: 12, padding: 22 }}>
-            <div style={{ width: 32, height: 32, borderRadius: 8, background: 'var(--arcade-cyan)', color: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, marginBottom: 12 }}>
+          <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border-light)', borderRadius: 12, padding: 22 }}>
+            <div style={{ width: 32, height: 32, borderRadius: 8, background: 'var(--arcade-cyan)', color: 'var(--text-on-accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, marginBottom: 12 }}>
               3
             </div>
             <h4 style={{ color: 'var(--text-strong)', margin: '0 0 8px', fontSize: 15 }}>Restart Claude Desktop</h4>
@@ -583,7 +585,7 @@ export default function ConnectorsView({ connectors }: ConnectorsViewProps) {
                   fontSize: 13,
                   fontWeight: 600,
                   background: 'var(--arcade-cyan)',
-                  color: '#000',
+                  color: 'var(--text-on-accent)',
                   textDecoration: 'none',
                   display: 'inline-flex',
                   alignItems: 'center',
