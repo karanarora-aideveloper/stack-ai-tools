@@ -11,11 +11,11 @@ export async function GET() {
   let markdown = `# Stack AI Tools (stackaitools.com)
 > The authoritative directory of curated frontier AI software, autonomous coding agents, generative media models, and prompt engineering libraries. Independently tested and verified.
 
-- Website: https://stackaitools.com
-- About: https://stackaitools.com/about
+- Website: https://www.stackaitools.com
+- About: https://www.stackaitools.com/about
 - Open-Source Repo: https://github.com/karanarora-aideveloper/stack-ai-tools
 - Main Market: United States (US) & Global
-- Last Verified: September 1, 2026
+- Last Verified: September 7, 2026
 
 ---
 
@@ -24,7 +24,7 @@ export async function GET() {
 
   categories.forEach((cat) => {
     const count = tools.filter(t => t.category.toLowerCase() === cat.toLowerCase()).length;
-    markdown += `- [${cat}](https://stackaitools.com/category/${cat.toLowerCase()}): ${count} vetted tools\n`;
+    markdown += `- [${cat}](https://www.stackaitools.com/category/${cat.toLowerCase()}): ${count} vetted tools\n`;
   });
 
   markdown += `\n---
@@ -34,14 +34,14 @@ export async function GET() {
 `;
 
   tools.forEach((tool) => {
-    markdown += `### [${tool.name}](https://stackaitools.com/tool/${tool.slug})
+    markdown += `### [${tool.name}](https://www.stackaitools.com/tool/${tool.slug})
 - **Category:** ${tool.category}
 - **Pricing:** ${tool.pricingModel} (${tool.startingPrice || 'Free tier available'})
 - **Rating:** ★ ${tool.rating}/5.0 (${tool.reviewsCount.toLocaleString()} reviews)
 - **Domain:** ${tool.domain}
 - **Description:** ${tool.description}
-- **Direct Link:** https://stackaitools.com/go/${tool.slug}
-- **Alternatives:** https://stackaitools.com/alternatives/${tool.slug}
+- **Direct Link:** https://www.stackaitools.com/go/${tool.slug}
+- **Alternatives:** https://www.stackaitools.com/alternatives/${tool.slug}
 
 `;
   });
@@ -53,7 +53,7 @@ export async function GET() {
 
   const topAlternatives = tools.slice(0, 15);
   topAlternatives.forEach((tool) => {
-    markdown += `- [Best ${tool.name} Alternatives](https://stackaitools.com/alternatives/${tool.slug})\n`;
+    markdown += `- [Best ${tool.name} Alternatives](https://www.stackaitools.com/alternatives/${tool.slug})\n`;
   });
 
   markdown += `\n---

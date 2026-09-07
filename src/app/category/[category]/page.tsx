@@ -31,8 +31,8 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
   const { category } = await params;
   const capitalized = category.charAt(0).toUpperCase() + category.slice(1);
-  const title = `Best AI ${capitalized} Tools (2026)`;
-  const description = `Explore the top-rated AI ${capitalized.toLowerCase()} software, autonomous coding agents, and frontier models. Compare verified ratings, pricing tiers, pros & cons, and free access.`;
+  const title = `Best AI ${capitalized} Tools (2026): Vetted & Ranked`;
+  const description = `Explore top-rated AI ${capitalized.toLowerCase()} software, autonomous agents, and frontier models. Compare verified ratings, pricing tiers, pros & cons, and free access.`;
 
   return {
     title: { absolute: `${title} | Stack AI Tools` },
@@ -40,11 +40,11 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
     openGraph: {
       title,
       description,
-      url: `https://stackaitools.com/category/${category.toLowerCase()}`,
+      url: `https://www.stackaitools.com/category/${category.toLowerCase()}`,
       type: 'website'
     },
     alternates: {
-      canonical: `https://stackaitools.com/category/${category.toLowerCase()}`
+      canonical: `https://www.stackaitools.com/category/${category.toLowerCase()}`
     }
   };
 }
@@ -112,19 +112,19 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
         '@type': 'ListItem',
         position: 1,
         name: 'Home',
-        item: 'https://stackaitools.com'
+        item: 'https://www.stackaitools.com'
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: 'Categories',
-        item: 'https://stackaitools.com/categories'
+        item: 'https://www.stackaitools.com/categories'
       },
       {
         '@type': 'ListItem',
         position: 3,
         name: categoryName,
-        item: `https://stackaitools.com/category/${category.toLowerCase()}`
+        item: `https://www.stackaitools.com/category/${category.toLowerCase()}`
       }
     ]
   };
@@ -270,6 +270,15 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
                 <span>Try Free</span>
                 <ArrowRight size={14} />
               </a>
+            </div>
+            <div style={{ marginTop: 10, textAlign: 'center' }}>
+              <Link 
+                href={`/alternatives/${tool.slug}`} 
+                style={{ fontSize: 12, color: 'var(--text-muted)', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 4 }}
+              >
+                <span>Top Alternatives to {tool.name.split(' ')[0]}</span>
+                <ChevronRight size={12} />
+              </Link>
             </div>
           </div>
         ))}

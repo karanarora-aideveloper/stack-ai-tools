@@ -4,7 +4,7 @@ import Link from 'next/link';
 export const metadata: Metadata = {
   title: { absolute: 'Privacy Policy | Stack AI Tools' },
   description: 'How Stack AI Tools collects, uses, and protects your information.',
-  alternates: { canonical: 'https://stackaitools.com/privacy' },
+  alternates: { canonical: 'https://www.stackaitools.com/privacy' },
   robots: { index: true, follow: true }
 };
 

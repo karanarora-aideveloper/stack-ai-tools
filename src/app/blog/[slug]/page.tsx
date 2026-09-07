@@ -68,7 +68,7 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
     openGraph: {
       title,
       description,
-      url: `https://stackaitools.com/blog/${article.slug}`,
+      url: `https://www.stackaitools.com/blog/${article.slug}`,
       siteName: 'Stack AI Tools',
       images: [
         {
@@ -81,7 +81,7 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
       type: 'article',
       publishedTime: article.publishedAt,
       modifiedTime: article.updatedAt,
-      authors: ['https://stackaitools.com/about'],
+      authors: ['https://www.stackaitools.com/about'],
     },
     twitter: {
       card: 'summary_large_image',
@@ -90,7 +90,7 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
       images: [article.imageUrl],
     },
     alternates: {
-      canonical: `https://stackaitools.com/blog/${article.slug}`,
+      canonical: `https://www.stackaitools.com/blog/${article.slug}`,
     },
   };
 }
@@ -121,20 +121,20 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     author: {
       '@type': 'Organization',
       name: 'Stack AI Tools',
-      url: 'https://stackaitools.com'
+      url: 'https://www.stackaitools.com'
     },
     publisher: {
       '@type': 'Organization',
       name: 'Stack AI Tools',
-      url: 'https://stackaitools.com',
+      url: 'https://www.stackaitools.com',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://stackaitools.com/icon.svg'
+        url: 'https://www.stackaitools.com/icon.svg'
       }
     },
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `https://stackaitools.com/blog/${article.slug}`
+      '@id': `https://www.stackaitools.com/blog/${article.slug}`
     }
   };
 

@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Frontier AI Blog & Research Guides (10,000+ Guides) | Stack AI Tools',
     description: '10,000+ benchmarked AI guides, Claude updates, model showdowns, and programmatic reviews for US founders and developers.',
-    url: 'https://stackaitools.com/blog',
+    url: 'https://www.stackaitools.com/blog',
     siteName: 'Stack AI Tools',
     images: [
       {
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     type: 'website',
   },
   alternates: {
-    canonical: 'https://stackaitools.com/blog'
+    canonical: 'https://www.stackaitools.com/blog'
   }
 };
 
@@ -45,16 +45,16 @@ export default async function BlogPage() {
     '@type': 'Blog',
     name: 'Stack AI Tools Intelligence Chronicles',
     description: 'The authoritative research blog and benchmark directory for artificial intelligence software in 2026.',
-    url: 'https://stackaitools.com/blog',
+    url: 'https://www.stackaitools.com/blog',
     author: {
       '@type': 'Organization',
       name: 'Stack AI Tools',
-      url: 'https://stackaitools.com'
+      url: 'https://www.stackaitools.com'
     },
     publisher: {
       '@type': 'Organization',
       name: 'Stack AI Tools',
-      url: 'https://stackaitools.com'
+      url: 'https://www.stackaitools.com'
     }
   };
 

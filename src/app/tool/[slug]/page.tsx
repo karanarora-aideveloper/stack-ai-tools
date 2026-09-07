@@ -25,7 +25,8 @@ import {
   ChevronRight,
   TrendingUp,
   GitCompare,
-  BookOpen
+  BookOpen,
+  HelpCircle
 } from 'lucide-react';
 import { getAllArticles } from '@/lib/blog';
 
@@ -54,20 +55,20 @@ export async function generateMetadata({ params }: ToolPageProps): Promise<Metad
   // so the SEO title tag stays under Google's ~60-char display limit; the full display name
   // is used everywhere else on the page.
   const baseName = tool.name.replace(/\s*\([^)]*\)\s*$/, '').trim();
-  const title = `${baseName} Review 2026: Pricing & Alternatives`;
-  const description = `In-depth 2026 review of ${tool.name}. Explore verified user ratings (${tool.rating}/5), pricing plans (${tool.pricingModel}), core capabilities, pros & cons, and top alternatives. Try free →`;
+  const title = `${baseName} Review 2026: Pricing Plans, Free Tier & Top Alternatives`;
+  const description = `In-depth 2026 review of ${tool.name}. Explore verified user ratings (${tool.rating}/5), pricing plans (${tool.pricingModel} - ${tool.startingPrice || 'Free tier'}), core capabilities, pros & cons, and top alternatives. Try free →`;
 
   return {
     title: { absolute: title },
     description,
     keywords: [tool.name, `${tool.name} review`, `${tool.name} pricing`, `${tool.name} alternatives`, tool.category, 'AI tools 2026', ...(tool.tags || [])],
     alternates: {
-      canonical: `https://stackaitools.com/tool/${tool.slug}`,
+      canonical: `https://www.stackaitools.com/tool/${tool.slug}`,
     },
     openGraph: {
       title,
       description,
-      url: `https://stackaitools.com/tool/${tool.slug}`,
+      url: `https://www.stackaitools.com/tool/${tool.slug}`,
       type: 'article',
       images: [
         {
@@ -107,6 +108,26 @@ export default async function ToolPage({ params }: ToolPageProps) {
     a.slug.includes(tool.slug)
   ).slice(0, 3);
 
+  // Dynamic FAQs answering high-volume search intent (Pricing, Free tiers, Alternatives)
+  const faqs = [
+    {
+      question: `Is ${tool.name} free to use?`,
+      answer: `${tool.name} operates on a ${tool.pricingModel} pricing model with starting prices around ${tool.startingPrice || 'free access'}. ${tool.priceClass === 'free' || tool.priceClass === 'freemium' ? 'Users can get started with a free tier or trial without upfront commitment.' : 'Paid subscription plans are offered for professional and enterprise workloads.'}`
+    },
+    {
+      question: `How much does ${tool.name} cost in 2026?`,
+      answer: `Pricing for ${tool.name} starts at ${tool.startingPrice || 'free / flexible pay-as-you-go'}. Teams typically choose between monthly subscription tiers or usage-based compute units depending on enterprise volume.`
+    },
+    {
+      question: `What are the best alternatives to ${tool.name}?`,
+      answer: `Top vetted alternatives in the ${tool.category} space include ${alternatives.slice(0, 3).map(a => a.name).join(', ')}. Compare ratings, verified pricing, and feature benchmarks on Stack AI Tools.`
+    },
+    {
+      question: `What is ${tool.name} best used for?`,
+      answer: `${tool.name} is ideally suited for ${tool.bestFor || `${tool.category.toLowerCase()} automation and production workflows`}. Key strengths include ${(tool.keyUseCases || [tool.description]).slice(0, 2).join(' and ')}.`
+    }
+  ];
+
   // Schema.org Structured Data
   const softwareSchema = {
     '@context': 'https://schema.org',
@@ -117,9 +138,10 @@ export default async function ToolPage({ params }: ToolPageProps) {
     'description': tool.description,
     'offers': {
       '@type': 'Offer',
-      'price': tool.priceClass === 'free' ? '0.00' : '15.00',
+      'price': tool.priceClass === 'free' ? '0.00' : (tool.startingPrice ? tool.startingPrice.replace(/[^0-9.]/g, '') || '15.00' : '15.00'),
       'priceCurrency': 'USD',
-      'category': tool.pricingModel
+      'category': tool.pricingModel,
+      'url': `https://www.stackaitools.com/tool/${tool.slug}`
     },
     'aggregateRating': {
       '@type': 'AggregateRating',
@@ -138,21 +160,34 @@ export default async function ToolPage({ params }: ToolPageProps) {
         '@type': 'ListItem',
         'position': 1,
         'name': 'Home',
-        'item': 'https://stackaitools.com'
+        'item': 'https://www.stackaitools.com'
       },
       {
         '@type': 'ListItem',
         'position': 2,
         'name': tool.category,
-        'item': `https://stackaitools.com/category/${tool.category.toLowerCase()}`
+        'item': `https://www.stackaitools.com/category/${tool.category.toLowerCase()}`
       },
       {
         '@type': 'ListItem',
         'position': 3,
         'name': tool.name,
-        'item': `https://stackaitools.com/tool/${tool.slug}`
+        'item': `https://www.stackaitools.com/tool/${tool.slug}`
       }
     ]
+  };
+
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    'mainEntity': faqs.map(faq => ({
+      '@type': 'Question',
+      'name': faq.question,
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': faq.answer
+      }
+    }))
   };
 
   return (
@@ -165,6 +200,10 @@ export default async function ToolPage({ params }: ToolPageProps) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       {/* Breadcrumbs */}
@@ -441,6 +480,32 @@ export default async function ToolPage({ params }: ToolPageProps) {
               </div>
             </div>
           )}
+
+          {/* Frequently Asked Questions (Matches FAQPage Schema) */}
+          <div className="tool-card-box" style={{ marginTop: 24 }}>
+            <h2 className="tool-box-title">
+              <HelpCircle size={20} color="#818cf8" />
+              Frequently Asked Questions About {tool.name}
+            </h2>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+              {faqs.map((faq, idx) => (
+                <div 
+                  key={idx} 
+                  style={{ 
+                    borderBottom: idx !== faqs.length - 1 ? '1px solid rgba(var(--ink-tint-rgb), 0.08)' : 'none', 
+                    paddingBottom: 16 
+                  }}
+                >
+                  <h3 style={{ fontSize: 15.5, fontWeight: 600, color: 'var(--text-strong)', marginBottom: 6 }}>
+                    {faq.question}
+                  </h3>
+                  <p style={{ fontSize: 14, color: 'var(--text-secondary)', lineHeight: 1.65, margin: 0 }}>
+                    {faq.answer}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
         {/* Side Column: Specs & Monetization Action */}

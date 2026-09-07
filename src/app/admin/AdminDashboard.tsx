@@ -394,7 +394,7 @@ export default function AdminDashboard({
         `"${t.commissionRate || aff.commissionRate}"`,
         `"${t.affiliateNetwork || aff.network}"`,
         `"${t.link}"`,
-        `"https://stackaitools.com/go/${t.slug}"`,
+        `"https://www.stackaitools.com/go/${t.slug}"`,
         `"${aff.signupUrl}"`
       ].join(',');
     });
@@ -816,7 +816,7 @@ export default function AdminDashboard({
                       const status = isCustom ? 'active' : (tool.affiliateStatus || aff.status || 'not_applied');
                       const rate = tool.commissionRate || aff.commissionRate;
                       const network = tool.affiliateNetwork || aff.network;
-                      const shortUrl = `https://stackaitools.com/go/${tool.slug}`;
+                      const shortUrl = `https://www.stackaitools.com/go/${tool.slug}`;
 
                       return (
                         <tr key={tool.id}>

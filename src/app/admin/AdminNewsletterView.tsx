@@ -58,7 +58,7 @@ const TEMPLATES = {
       Today's Vetted AI Tools & Intelligence
     </h1>
     <p style="color: #94a3b8; margin: 8px 0 0 0; font-size: 14px;">
-      Independently Verified • Live on <a href="https://stackaitools.com" style="color: #818cf8; text-decoration: none; font-weight: 600;">stackaitools.com</a>
+      Independently Verified • Live on <a href="https://www.stackaitools.com" style="color: #818cf8; text-decoration: none; font-weight: 600;">stackaitools.com</a>
     </p>
   </div>
 
@@ -94,8 +94,8 @@ const TEMPLATES = {
         Anthropic's frontier release introduces dynamic hybrid thinking. In our benchmark on a Next.js 16 monorepo, it scored 70.3% on SWE-bench Verified and resolved recursive build issues on zero-shot execution.
       </p>
       <div style="display: flex; gap: 8px;">
-        <a href="https://stackaitools.com/tool/claude" style="display: inline-block; background: #6366f1; color: #ffffff; text-decoration: none; padding: 8px 16px; border-radius: 6px; font-size: 12px; font-weight: 700;">Read Full Review →</a>
-        <a href="https://stackaitools.com/go/claude" style="display: inline-block; background: rgba(255,255,255,0.06); color: #cbd5e1; text-decoration: none; padding: 8px 16px; border-radius: 6px; font-size: 12px; font-weight: 600;">Visit Official Site ↗</a>
+        <a href="https://www.stackaitools.com/tool/claude" style="display: inline-block; background: #6366f1; color: #ffffff; text-decoration: none; padding: 8px 16px; border-radius: 6px; font-size: 12px; font-weight: 700;">Read Full Review →</a>
+        <a href="https://www.stackaitools.com/go/claude" style="display: inline-block; background: rgba(255,255,255,0.06); color: #cbd5e1; text-decoration: none; padding: 8px 16px; border-radius: 6px; font-size: 12px; font-weight: 600;">Visit Official Site ↗</a>
       </div>
     </div>
 
@@ -115,8 +115,8 @@ const TEMPLATES = {
         The gold-standard AI IDE for software engineers. Multi-file editing directly reasons across terminal outputs, linters, and full codebase context. Cut refactoring time by 74% in our testing.
       </p>
       <div style="display: flex; gap: 8px;">
-        <a href="https://stackaitools.com/tool/cursor" style="display: inline-block; background: #10b981; color: #ffffff; text-decoration: none; padding: 8px 16px; border-radius: 6px; font-size: 12px; font-weight: 700;">Read Benchmark →</a>
-        <a href="https://stackaitools.com/go/cursor" style="display: inline-block; background: rgba(255,255,255,0.06); color: #cbd5e1; text-decoration: none; padding: 8px 16px; border-radius: 6px; font-size: 12px; font-weight: 600;">Try Cursor Free ↗</a>
+        <a href="https://www.stackaitools.com/tool/cursor" style="display: inline-block; background: #10b981; color: #ffffff; text-decoration: none; padding: 8px 16px; border-radius: 6px; font-size: 12px; font-weight: 700;">Read Benchmark →</a>
+        <a href="https://www.stackaitools.com/go/cursor" style="display: inline-block; background: rgba(255,255,255,0.06); color: #cbd5e1; text-decoration: none; padding: 8px 16px; border-radius: 6px; font-size: 12px; font-weight: 600;">Try Cursor Free ↗</a>
       </div>
     </div>
 
@@ -136,8 +136,8 @@ const TEMPLATES = {
         Produces studio-quality 48kHz stereo tracks complete with multi-track instrumentation, vocal harmonies, and genre transitions from a single text prompt in 18 seconds.
       </p>
       <div style="display: flex; gap: 8px;">
-        <a href="https://stackaitools.com/tool/suno-v4" style="display: inline-block; background: #ec4899; color: #ffffff; text-decoration: none; padding: 8px 16px; border-radius: 6px; font-size: 12px; font-weight: 700;">Listen to Samples →</a>
-        <a href="https://stackaitools.com/go/suno-v4" style="display: inline-block; background: rgba(255,255,255,0.06); color: #cbd5e1; text-decoration: none; padding: 8px 16px; border-radius: 6px; font-size: 12px; font-weight: 600;">Generate Track ↗</a>
+        <a href="https://www.stackaitools.com/tool/suno-v4" style="display: inline-block; background: #ec4899; color: #ffffff; text-decoration: none; padding: 8px 16px; border-radius: 6px; font-size: 12px; font-weight: 700;">Listen to Samples →</a>
+        <a href="https://www.stackaitools.com/go/suno-v4" style="display: inline-block; background: rgba(255,255,255,0.06); color: #cbd5e1; text-decoration: none; padding: 8px 16px; border-radius: 6px; font-size: 12px; font-weight: 600;">Generate Track ↗</a>
       </div>
     </div>
 
@@ -154,13 +154,13 @@ const TEMPLATES = {
         Modernist minimalist glass pavilion residence situated deep in misty Scandinavian pine forest, floor-to-ceiling ultra-clear glass, warm interior ambient glow, wet asphalt reflections, morning golden mist, architectural photography, shot on Hasselblad H6D-100c, 8k resolution, photorealistic --ar 16:9 --v 6.1 --style raw
       </div>
       <div style="margin-top: 14px; text-align: right;">
-        <a href="https://stackaitools.com/prompts" style="color: #818cf8; font-size: 12px; font-weight: 700; text-decoration: none;">Browse All 40+ Prompts on Directory →</a>
+        <a href="https://www.stackaitools.com/prompts" style="color: #818cf8; font-size: 12px; font-weight: 700; text-decoration: none;">Browse All 40+ Prompts on Directory →</a>
       </div>
     </div>
 
     <!-- Center Call-to-Action -->
     <div style="text-align: center; margin: 32px 0 20px 0;">
-      <a href="https://stackaitools.com" style="display: inline-block; background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); color: #ffffff; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-weight: 800; font-size: 15px; box-shadow: 0 8px 20px rgba(99,102,241,0.35);">
+      <a href="https://www.stackaitools.com" style="display: inline-block; background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); color: #ffffff; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-weight: 800; font-size: 15px; box-shadow: 0 8px 20px rgba(99,102,241,0.35);">
         Explore All 200+ Audited AI Tools →
       </a>
     </div>
@@ -176,11 +176,11 @@ const TEMPLATES = {
         An independently run, editorially vetted AI software directory.
       </p>
       <p style="font-size: 11px; line-height: 1.5; color: #475569; margin: 0 0 12px 0;">
-        You received this because you subscribed to daily intelligence alerts on <a href="https://stackaitools.com" style="color: #64748b; text-decoration: underline;">stackaitools.com</a>.<br />
+        You received this because you subscribed to daily intelligence alerts on <a href="https://www.stackaitools.com" style="color: #64748b; text-decoration: underline;">stackaitools.com</a>.<br />
         Dispatched via authenticated domain sender: <code style="color: #818cf8;">noreply@stackaitools.com</code>
       </p>
       <p style="font-size: 11px; color: #475569; margin: 0;">
-        <a href="https://stackaitools.com/api/newsletter/unsubscribe" style="color: #64748b; text-decoration: underline;">Unsubscribe in 1 click</a> • <a href="https://stackaitools.com/about" style="color: #64748b; text-decoration: underline;">About Us</a> • Zero Spam Guarantee
+        <a href="https://www.stackaitools.com/api/newsletter/unsubscribe" style="color: #64748b; text-decoration: underline;">Unsubscribe in 1 click</a> • <a href="https://www.stackaitools.com/about" style="color: #64748b; text-decoration: underline;">About Us</a> • Zero Spam Guarantee
       </p>
     </div>
   </div>
@@ -210,7 +210,7 @@ const TEMPLATES = {
     </div>
 
     <div style="text-align: center; margin: 32px 0;">
-      <a href="https://stackaitools.com" style="display: inline-block; background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); color: #ffffff; text-decoration: none; padding: 14px 28px; border-radius: 8px; font-weight: 700; font-size: 15px;">Explore All 200+ Vetted Tools →</a>
+      <a href="https://www.stackaitools.com" style="display: inline-block; background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); color: #ffffff; text-decoration: none; padding: 14px 28px; border-radius: 8px; font-weight: 700; font-size: 15px;">Explore All 200+ Vetted Tools →</a>
     </div>
 
     <hr style="border: none; border-top: 1px solid rgba(255,255,255,0.08); margin: 28px 0;" />
@@ -229,7 +229,7 @@ const TEMPLATES = {
     <strong style="color: #fff;">Verified Verdict:</strong>
     <p style="color: #cbd5e1; font-size: 14px; margin: 6px 0 0 0;">Hybrid reasoning dynamically allocates thinking tokens for complex logic, while answering standard queries instantly.</p>
   </div>
-  <a href="https://stackaitools.com/tool/claude" style="display: inline-block; background: #6366f1; color: #fff; text-decoration: none; padding: 12px 24px; border-radius: 6px; font-weight: 600;">Read In-depth Review →</a>
+  <a href="https://www.stackaitools.com/tool/claude" style="display: inline-block; background: #6366f1; color: #fff; text-decoration: none; padding: 12px 24px; border-radius: 6px; font-weight: 600;">Read In-depth Review →</a>
 </div>`
   }
 };

@@ -1,0 +1,236 @@
+/* ============================================================================
+   DARK MODE VARIABLES & STYLING
+   Add this to src/app/globals.css after the existing :root block
+   ============================================================================ */
+
+/* Dark Mode - Respects system preference AND manual toggle */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Dark Mode Surfaces */
+    --bg-primary: #1a1a2e;           /* Deep charcoal page background */
+    --bg-secondary: #262641;         /* Slightly lighter surface */
+    --bg-card: #262641;              /* Card background */
+    --bg-card-hover: #323250;        /* Card hover state */
+    --bg-glass: rgba(38, 38, 65, 0.92);
+
+    /* Dark Mode Borders */
+    --border-subtle: #3a3a52;
+    --border-light: #3a3a52;
+    --border-focus: rgba(16, 185, 129, 0.45);
+
+    /* Dark Mode Accents - Updated for dark background contrast */
+    --accent-primary: #10b981;       /* Emerald green (better contrast on dark) */
+    --accent-primary-glow: rgba(16, 185, 129, 0.15);
+    --accent-secondary: #7c63e0;     /* Lighter purple for dark mode */
+    --accent-azure: #3b82f6;         /* Lighter blue */
+    --accent-emerald: #10b981;       /* Keep emerald green */
+    --accent-amber: #fbbf24;         /* Lighter amber for dark mode */
+    --arcade-cyan: #10b981;
+    --card-accent-text: #10b981;
+    --link-blue: #10b981;
+    --tag-bg: #323250;
+    --tag-text: #b0b0d0;
+
+    /* Dark Mode Text */
+    --text-primary: #ffffff;         /* White text */
+    --text-strong: #ffffff;
+    --text-secondary: #b0b0d0;       /* Light gray secondary */
+    --text-muted: #8a8aa8;           /* Medium gray muted */
+    --text-dark: #ffffff;
+    --text-on-accent: #1a1a2e;       /* Dark text on accent backgrounds */
+
+    /* Dark Mode Shadows - More visible on dark backgrounds */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 2px 6px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 4px 14px rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* Manual Dark Mode Toggle - Override system preference when user chooses */
+html[data-theme="dark"] {
+  --bg-primary: #1a1a2e;
+  --bg-secondary: #262641;
+  --bg-card: #262641;
+  --bg-card-hover: #323250;
+  --bg-glass: rgba(38, 38, 65, 0.92);
+
+  --border-subtle: #3a3a52;
+  --border-light: #3a3a52;
+  --border-focus: rgba(16, 185, 129, 0.45);
+
+  --accent-primary: #10b981;
+  --accent-primary-glow: rgba(16, 185, 129, 0.15);
+  --accent-secondary: #7c63e0;
+  --accent-azure: #3b82f6;
+  --accent-emerald: #10b981;
+  --accent-amber: #fbbf24;
+  --arcade-cyan: #10b981;
+  --card-accent-text: #10b981;
+  --link-blue: #10b981;
+  --tag-bg: #323250;
+  --tag-text: #b0b0d0;
+
+  --text-primary: #ffffff;
+  --text-strong: #ffffff;
+  --text-secondary: #b0b0d0;
+  --text-muted: #8a8aa8;
+  --text-dark: #ffffff;
+  --text-on-accent: #1a1a2e;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 2px 6px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 4px 14px rgba(0, 0, 0, 0.5);
+}
+
+/* Manual Light Mode Toggle - Explicit override if user chooses light */
+html[data-theme="light"] {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f4f6f8;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f8f9fa;
+  --bg-glass: rgba(255, 255, 255, 0.92);
+
+  --border-subtle: #e3e6e8;
+  --border-light: #d6d9dc;
+  --border-focus: rgba(10, 93, 194, 0.45);
+
+  --accent-primary: #0a5dc2;
+  --accent-primary-glow: rgba(10, 93, 194, 0.15);
+  --accent-secondary: #6366f1;
+  --accent-azure: #0074cc;
+  --accent-emerald: #0a7a3c;
+  --accent-amber: #b7590a;
+  --arcade-cyan: #0a5dc2;
+  --card-accent-text: #0a5dc2;
+  --link-blue: #0a5dc2;
+  --tag-bg: #e1ecf4;
+  --tag-text: #2c6c94;
+
+  --text-primary: #232629;
+  --text-strong: #1a1c1f;
+  --text-secondary: #525960;
+  --text-muted: #6a737c;
+  --text-dark: #1a1c1f;
+  --text-on-accent: #ffffff;
+
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
+  --shadow-md: 0 2px 6px rgba(15, 23, 42, 0.07);
+  --shadow-lg: 0 4px 14px rgba(15, 23, 42, 0.09);
+}
+
+/* Smooth color transition when theme changes */
+html {
+  transition: background-color 200ms ease, color 200ms ease;
+}
+
+/* Disable transition on initial page load to prevent flash */
+html.no-transition,
+html.no-transition * {
+  transition: none !important;
+}
+
+/* ============================================================================
+   THEME TOGGLE BUTTON STYLES
+   ============================================================================ */
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 200ms ease;
+  padding: 0;
+  font-size: 16px; /* Prevent iOS auto-zoom */
+}
+
+.theme-toggle:hover:not(:disabled) {
+  background-color: var(--bg-card-hover);
+  border-color: var(--border-light);
+  box-shadow: var(--shadow-sm);
+}
+
+.theme-toggle:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+.theme-toggle:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+
+.theme-toggle--skeleton {
+  opacity: 0.5;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.theme-icon {
+  width: 20px;
+  height: 20px;
+  stroke-width: 2;
+  flex-shrink: 0;
+}
+
+.theme-icon--sun {
+  color: #fbbf24;
+}
+
+.theme-icon--moon {
+  color: #8a8aa8;
+}
+
+/* Pulse animation for skeleton state */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.75;
+  }
+}
+
+/* ============================================================================
+   REDUCE MOTION SUPPORT
+   Respect user's motion preferences
+   ============================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    transition: none !important;
+  }
+
+  .theme-toggle {
+    transition: none !important;
+  }
+
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* ============================================================================
+   PRINT STYLES
+   Ensure light mode for printing
+   ============================================================================ */
+
+@media print {
+  html {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  .theme-toggle {
+    display: none;
+  }
+}

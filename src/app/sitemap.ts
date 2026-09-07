@@ -3,7 +3,7 @@ import { getAllTools, getAllCategories } from '@/lib/tools';
 import { getAllArticles } from '@/lib/blog';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://stackaitools.com';
+  const baseUrl = 'https://www.stackaitools.com';
   const currentDate = new Date().toISOString();
 
   const [tools, categories, articles] = await Promise.all([

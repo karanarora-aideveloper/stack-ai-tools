@@ -10,7 +10,10 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'AI Prompts Library (2026) | Stack AI Tools',
     description: 'Battle-tested prompts for Midjourney v8, Flux.1, Cursor 3.1, Claude, and GPT-5.',
-    url: 'https://stackaitools.com/prompts',
+    url: 'https://www.stackaitools.com/prompts',
+  },
+  alternates: {
+    canonical: 'https://www.stackaitools.com/prompts',
   }
 };
 

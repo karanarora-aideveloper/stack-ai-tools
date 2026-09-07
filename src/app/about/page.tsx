@@ -21,12 +21,12 @@ export const metadata: Metadata = {
     'Stack AI Tools editorial standards'
   ],
   alternates: {
-    canonical: 'https://stackaitools.com/about'
+    canonical: 'https://www.stackaitools.com/about'
   },
   openGraph: {
     title: 'About Stack AI Tools',
     description: 'An independent, editorially vetted directory of frontier AI software, autonomous agents, and prompts.',
-    url: 'https://stackaitools.com/about',
+    url: 'https://www.stackaitools.com/about',
     type: 'website',
     siteName: 'Stack AI Tools'
   }
@@ -39,8 +39,8 @@ const orgJsonLd = {
     '@type': 'Organization',
     name: 'Stack AI Tools',
     description: 'An independent directory of frontier AI software, autonomous coding agents, generative media models, and tested prompt templates.',
-    url: 'https://stackaitools.com',
-    logo: 'https://stackaitools.com/icon.svg',
+    url: 'https://www.stackaitools.com',
+    logo: 'https://www.stackaitools.com/icon.svg',
     knowsAbout: [
       'Artificial Intelligence',
       'Autonomous Coding Agents',

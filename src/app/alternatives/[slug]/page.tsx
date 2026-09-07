@@ -37,16 +37,19 @@ export async function generateMetadata({ params }: AlternativePageProps): Promis
   }
 
   const baseName = tool.name.replace(/\s*\([^)]*\)\s*$/, '').trim();
-  const title = `Best ${baseName} Alternatives (2026)`;
-  const description = `Looking for the best alternatives to ${tool.name}? Explore vetted competitors, compare pricing, free tier options, and performance benchmarks.`;
+  const title = `Top 5 ${baseName} Alternatives (2026): Free & Paid Competitors`;
+  const description = `Compare the top 5 alternatives to ${tool.name} in 2026. Explore verified user ratings, pricing tiers (${tool.pricingModel}), free plans, and side-by-side feature comparisons.`;
 
   return {
     title: { absolute: title },
     description,
+    alternates: {
+      canonical: `https://www.stackaitools.com/alternatives/${tool.slug}`,
+    },
     openGraph: {
       title,
       description,
-      url: `https://stackaitools.com/alternatives/${tool.slug}`,
+      url: `https://www.stackaitools.com/alternatives/${tool.slug}`,
       type: 'article'
     }
   };
@@ -98,19 +101,19 @@ export default async function AlternativeDetailPage({ params }: AlternativePageP
         '@type': 'ListItem',
         'position': 1,
         'name': 'Home',
-        'item': 'https://stackaitools.com'
+        'item': 'https://www.stackaitools.com'
       },
       {
         '@type': 'ListItem',
         'position': 2,
         'name': 'Alternatives',
-        'item': 'https://stackaitools.com/alternatives'
+        'item': 'https://www.stackaitools.com/alternatives'
       },
       {
         '@type': 'ListItem',
         'position': 3,
         'name': `${tool.name} Alternatives`,
-        'item': `https://stackaitools.com/alternatives/${tool.slug}`
+        'item': `https://www.stackaitools.com/alternatives/${tool.slug}`
       }
     ]
   };

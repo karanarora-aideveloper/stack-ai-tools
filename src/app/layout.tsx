@@ -18,7 +18,7 @@ import { Analytics as VercelAnalytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://stackaitools.com'),
+  metadataBase: new URL('https://www.stackaitools.com'),
   title: {
     default: 'Stack AI Tools | Curated Directory of 200+ Frontier AI Tools, Autonomous Agents & Prompt Index (2026)',
     template: '%s | Stack AI Tools'
@@ -34,14 +34,14 @@ export const metadata: Metadata = {
     'Stack AI Tools'
   ],
   authors: [
-    { name: 'Stack AI Tools', url: 'https://stackaitools.com' }
+    { name: 'Stack AI Tools', url: 'https://www.stackaitools.com' }
   ],
   creator: 'Stack AI Tools',
   publisher: 'Stack AI Tools',
   openGraph: {
     title: 'Stack AI Tools | Curated AI Directory & Prompt Library',
     description: 'Discover and compare the world\'s top frontier AI software, autonomous agents, and prompts. Independently tested and verified.',
-    url: 'https://stackaitools.com',
+    url: 'https://www.stackaitools.com',
     siteName: 'Stack AI Tools',
     type: 'website',
     locale: 'en_US'
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     description: 'Discover and compare top frontier AI software and autonomous agents. Independently tested and verified.'
   },
   alternates: {
-    canonical: 'https://stackaitools.com',
+    canonical: 'https://www.stackaitools.com',
   },
   icons: {
     icon: [
@@ -80,18 +80,18 @@ const websiteSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
   name: 'Stack AI Tools',
-  url: 'https://stackaitools.com',
+  url: 'https://www.stackaitools.com',
   description: 'The authoritative US directory of top artificial intelligence software, autonomous coding agents, generative media, and ready-to-use prompt templates.',
   author: {
     '@type': 'Organization',
     name: 'Stack AI Tools',
-    url: 'https://stackaitools.com'
+    url: 'https://www.stackaitools.com'
   },
   potentialAction: {
     '@type': 'SearchAction',
     target: {
       '@type': 'EntryPoint',
-      urlTemplate: 'https://stackaitools.com/?q={search_term_string}',
+      urlTemplate: 'https://www.stackaitools.com/?q={search_term_string}',
     },
     'query-input': 'required name=search_term_string',
   },
@@ -101,8 +101,8 @@ const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: 'Stack AI Tools',
-  url: 'https://stackaitools.com',
-  logo: 'https://stackaitools.com/icon.svg'
+  url: 'https://www.stackaitools.com',
+  logo: 'https://www.stackaitools.com/icon.svg'
 };
 
 export default function RootLayout({

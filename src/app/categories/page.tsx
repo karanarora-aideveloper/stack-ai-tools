@@ -10,7 +10,10 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Explore AI Software by Category | Stack AI Tools',
     description: 'Vetted frontier software directory organized across developer agents, video, audio, design, writing, and workflow automation.',
-    url: 'https://stackaitools.com/categories'
+    url: 'https://www.stackaitools.com/categories'
+  },
+  alternates: {
+    canonical: 'https://www.stackaitools.com/categories'
   }
 };
 

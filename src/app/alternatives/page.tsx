@@ -18,7 +18,10 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Top AI Tool Alternatives (2026) | Stack AI Tools',
     description: 'Find top-rated alternatives to popular AI tools and software.',
-    url: 'https://stackaitools.com/alternatives',
+    url: 'https://www.stackaitools.com/alternatives',
+  },
+  alternates: {
+    canonical: 'https://www.stackaitools.com/alternatives',
   }
 };
 

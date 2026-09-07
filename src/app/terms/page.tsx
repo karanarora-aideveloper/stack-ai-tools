@@ -4,7 +4,7 @@ import Link from 'next/link';
 export const metadata: Metadata = {
   title: { absolute: 'Terms of Service | Stack AI Tools' },
   description: 'The terms that govern your use of Stack AI Tools (stackaitools.com).',
-  alternates: { canonical: 'https://stackaitools.com/terms' },
+  alternates: { canonical: 'https://www.stackaitools.com/terms' },
   robots: { index: true, follow: true }
 };
 

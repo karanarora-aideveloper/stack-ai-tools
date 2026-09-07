@@ -8,8 +8,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Stack AI Tools | 200+ AI Tools & Prompts Directory (2026)',
     description: 'Explore the definitive expert-curated directory of 2026 AI tools, coding agents, and prompt libraries.',
-    url: 'https://stackaitools.com',
+    url: 'https://www.stackaitools.com',
     type: 'website',
+  },
+  alternates: {
+    canonical: 'https://www.stackaitools.com',
   }
 };
 
