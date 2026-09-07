@@ -133,33 +133,33 @@ export const aiTools: AITool[] = [
     icon: '⚡',
     domain: 'cursor.com',
     logoUrl: 'https://www.google.com/s2/favicons?domain=cursor.com&sz=128',
-    description: 'The industry-standard AI software engineering environment with autonomous multi-file Composer agents, repo-wide indexing, and zero-latency edits.',
+    description: 'The industry-standard AI software engineering environment with autonomous multi-file Composer agents, background Agent Mode, repo-wide indexing, and Claude 3.7 Sonnet hybrid reasoning integration.',
     pricingModel: 'Freemium',
     priceClass: 'freemium',
     link: 'https://cursor.com',
     rating: 4.96,
-    reviewsCount: 11900,
-    tags: ['IDE', 'Composer Agents', 'Full Codebase', 'TypeScript'],
+    reviewsCount: 13900,
+    tags: ['IDE', 'Composer Agents', 'Agent Mode', 'Claude 3.7', 'Full Codebase', 'TypeScript'],
     badge: 'Developer #1',
     featured: true,
     primaryUseCase: 'Multi-file code editing, repo indexing, and real-time tab autocomplete',
     useCases: [
-      'Orchestrate multi-file refactors using Composer agents',
-      'Index entire enterprise mono-repos for semantic context retrieval',
-      'Predict next edits across related files with multi-line copilot'
+      'Orchestrate multi-file refactors and feature builds using autonomous Composer agents',
+      'Index entire enterprise mono-repos for semantic context retrieval and AST navigation',
+      'Predict next edits across related files with multi-line copilot and background agent loops'
     ],
     complexity: 'Advanced',
     idealFor: 'Full-Stack Developers, Staff Engineers',
     bestFor: 'Software engineers, full-stack builders, and startup technical founders seeking 3x–5x shipping velocity',
-    editorialReview: "Cursor is a direct fork of VS Code engineered from the ground up for LLM-assisted software architecture. Its killer capability—Composer (Cmd+I)—indexes your entire repository via AST embeddings, allowing it to execute coordinated edits across dozens of files simultaneously. It effortlessly handles dependency migrations, test suite generation, and complex API refactoring with surgical precision.",
+    editorialReview: "Cursor is a direct fork of VS Code engineered from the ground up for LLM-assisted software architecture. Its killer capability—Composer (Cmd+I) and Agent Mode—indexes your entire repository via AST embeddings, allowing it to execute coordinated edits across dozens of files simultaneously, run terminal checks, and fix compiler errors autonomously.",
     zapierVerdict: "Zapier and leading tech analysts rank Cursor as the pinnacle of modern AI coding assistants, outpacing standard single-line completions with native multi-file codebase indexing.",
-    authoritySummary: "Top-rated developer tool on Hacker News and ProductHunt Golden Kitty Winner 2024. Over 100,000 active software engineers cite Cursor Composer as their primary productivity multiplier.",
+    authoritySummary: "Top-rated developer tool on Hacker News and ProductHunt Golden Kitty Winner. Over 200,000 active software engineers cite Cursor Composer as their primary productivity multiplier.",
     verifiedBy: "Zapier Recommended • ProductHunt #1 Product of the Year",
     pros: [
-      "Native full-codebase context indexing allows precise multi-file edits",
+      "Native full-codebase context indexing allows precise multi-file edits and automated bug remediation",
       "Instant migration from existing VS Code setups (all extensions, keybindings, and themes carry over)",
-      "Multi-model flexibility: switch seamlessly between Claude 3.5/3.7 Sonnet and GPT-4o",
-      "Cursor Tab predicts your next 3-5 keystrokes based on live git diffs"
+      "Multi-model flexibility: switch seamlessly between Claude 3.7 Sonnet (with Extended Thinking), GPT-4o, and DeepSeek-R1",
+      "Cursor Tab predicts your next 3-5 keystrokes based on live git diffs and shadow workspaces"
     ],
     cons: [
       "Heavy repository indexing can spike local CPU/RAM on older laptops",
@@ -306,18 +306,18 @@ export const aiTools: AITool[] = [
   },
   {
     id: 14,
-    name: 'DeepSeek V4 (Open Reasoning Engine)',
+    name: 'DeepSeek-R1 & V3 (Open Reasoning Engine)',
     category: 'Code',
     icon: '🧠',
     domain: 'deepseek.com',
     logoUrl: 'https://www.google.com/s2/favicons?domain=deepseek.com&sz=128',
-    description: 'Frontier open-weights model family (V4-Pro / V4-Flash) with emergent chain-of-thought problem solving, succeeding R1. Delivers performance matching closed reasoning models at a fraction of the cost.',
+    description: 'Frontier open-weights reasoning model family (DeepSeek-R1 & V3) delivering emergent chain-of-thought problem solving, math logic, and code generation matching closed reasoning models at a fraction of the cost.',
     pricingModel: 'Free',
     priceClass: 'free',
     link: 'https://deepseek.com',
-    rating: 4.95,
-    reviewsCount: 24500,
-    tags: ['Open Weights', 'Chain of Thought', 'Mathematical Reasoning', 'Self-Hosted'],
+    rating: 4.96,
+    reviewsCount: 28500,
+    tags: ['DeepSeek-R1', 'Open Weights', 'Chain of Thought', 'Mathematical Reasoning', 'Self-Hosted', 'deepseek-r1'],
     badge: 'Open Weights #1',
     featured: true,
     primaryUseCase: 'Complex mathematical logic, competitive algorithmic coding & self-hosted reasoning',
@@ -328,7 +328,23 @@ export const aiTools: AITool[] = [
     ],
     complexity: 'Frontier Engineering',
     idealFor: 'AI Researchers, Algorithm Engineers, Data Privacy Teams',
-    architectureStack: ['Reinforcement Learning', 'Mixture of Experts (MoE)', 'Transparent CoT']
+    bestFor: 'Software developers, researchers, and enterprises seeking un-gated reasoning models without SaaS API lock-in',
+    editorialReview: "DeepSeek-R1 shook the AI industry by proving that large-scale reinforcement learning without supervised fine-tuning can elicit emergent, human-like chain-of-thought reasoning comparable to OpenAI o1. With open weights released under the MIT license, distilled versions from 1.5B to 70B parameters, and sub-dollar API pricing per million tokens, DeepSeek-R1 and V3 represent the gold standard for open-source AI.",
+    zapierVerdict: "DeepSeek-R1 delivers frontier-grade chain-of-thought reasoning at 95% lower cost than proprietary reasoning models, making it the top open-weights pick.",
+    authoritySummary: "Top trending AI repository on GitHub with over 75,000 stars. Matches OpenAI o1 on American Invitational Mathematics Examination (AIME) and Codeforces.",
+    verifiedBy: "SWE-bench & AIME Benchmark Leader • MIT Licensed",
+    pros: [
+      "Open weights under MIT license: run completely self-hosted or via low-cost cloud APIs",
+      "Matches closed frontier reasoning models on math, logic, and competitive programming benchmarks",
+      "Distilled checkpoint models available from 1.5B to 70B for consumer hardware and edge deployment",
+      "Transparent chain-of-thought output enables thorough auditability and step-by-step verification"
+    ],
+    cons: [
+      "Heavy context generation during long chain-of-thought passes can increase time-to-first-token",
+      "Public web endpoints occasionally experience high traffic demand during peak hours"
+    ],
+    startingPrice: 'Free (Open Source) / $0.14 per 1M tokens API',
+    architectureStack: ['Reinforcement Learning', 'Mixture of Experts (MoE)', 'Transparent CoT', 'Multi-Head Latent Attention']
   },
   {
     id: 15,
@@ -804,20 +820,44 @@ export const aiTools: AITool[] = [
   },
   {
     id: 51,
-    name: 'Runway Gen-4.5',
+    name: 'Runway Gen-3 Alpha & Gen-4.5',
     category: 'Video',
     icon: '🎬',
     domain: 'runwayml.com',
     logoUrl: 'https://www.google.com/s2/favicons?domain=runwayml.com&sz=128',
-    description: 'Hollywood-grade generative video model with native audio generation, precise director camera controls, motion brush, and 1080p cinematic image-to-video rendering.',
+    description: 'Hollywood-grade generative video suite featuring Gen-3 Alpha, Gen-3 Alpha Turbo, and Gen-4.5 preview. Delivers Act-One character performance capture, 4K upscaling, native audio generation, and precise director camera controls.',
     pricingModel: 'Freemium',
     priceClass: 'freemium',
     link: 'https://runwayml.com',
-    rating: 4.93,
-    reviewsCount: 16200,
-    tags: ['Gen-4.5', 'Native Audio', 'Camera Controls', 'Cinematic Video'],
+    rating: 4.94,
+    reviewsCount: 18400,
+    tags: ['Gen-3 Alpha', 'Gen-4.5', 'Act-One', 'Native Audio', 'Camera Controls', 'Cinematic Video'],
     badge: 'Hollywood Grade',
-    featured: true
+    featured: true,
+    primaryUseCase: 'Cinematic video generation, character performance transfer & commercial VFX',
+    useCases: [
+      'Animate photorealistic characters using single-camera actor video with Act-One',
+      'Generate cinematic 1080p and 4K commercial b-roll from text prompts or still images',
+      'Direct camera motion with multi-axis trajectory control (pan, tilt, zoom, roll)'
+    ],
+    complexity: 'Advanced',
+    idealFor: 'Filmmakers, VFX Artists, Creative Directors, Video Editors',
+    bestFor: 'Video creators, ad directors, and studios requiring granular camera direction and expressive facial performance capture',
+    editorialReview: "Runway continues to set the benchmark for Hollywood-grade generative video. Its Gen-3 Alpha model delivers unprecedented fidelity in temporal consistency, lighting transitions, and physical motion. The standout feature is Act-One: an expressive facial animation tool that captures an actor's performance from a simple iPhone camera and applies it directly to animated or photorealistic AI characters with zero motion capture suits required.",
+    zapierVerdict: "Runway Gen-3 Alpha is the premier generative video studio for professional filmmakers and ad creators demanding nuanced camera and performance control.",
+    authoritySummary: "Used by award-winning VFX teams on feature films, Lionsgate creative partnerships, and Super Bowl commercials.",
+    verifiedBy: "Hollywood VFX Partner • Cannes Lions Winner",
+    pros: [
+      "Act-One captures subtle facial micro-expressions and eye movements from webcam video",
+      "Precise camera motion controls: pan, tilt, zoom, roll, and custom velocity curves",
+      "Gen-3 Alpha Turbo generates high-resolution video in under 30 seconds",
+      "Seamless integration with Runway Studio audio generation and inpainting tools"
+    ],
+    cons: [
+      "Generation credits deplete rapidly on high-resolution Gen-3 Alpha runs",
+      "Complex physical object interactions (e.g. hands juggling) can occasionally blur"
+    ],
+    startingPrice: '$0 (Free Credits) - $12 / month'
   },
   {
     id: 52,
@@ -881,18 +921,18 @@ export const aiTools: AITool[] = [
   },
   {
     id: 56,
-    name: 'Suno v5.5',
+    name: 'Suno v4 & v5.5 (AI Music Studio)',
     category: 'Audio',
     icon: '🎵',
     domain: 'suno.com',
     logoUrl: 'https://www.google.com/s2/favicons?domain=suno.com&sz=128',
-    description: 'The world\'s leading text-to-music AI platform. Composes full, broadcast-ready songs with lifelike vocals, custom-trained voices, and personalized taste modeling in the v5.5 model.',
+    description: 'The world\'s leading text-to-music AI platform. Composes full, broadcast-ready songs with lifelike vocals, custom-trained voices, multi-track audio stems, and personalized taste modeling across the v4 and v5.5 models.',
     pricingModel: 'Freemium',
     priceClass: 'freemium',
     link: 'https://suno.com',
     rating: 4.95,
     reviewsCount: 21800,
-    tags: ['Music Generation', 'Vocals', 'Custom Models', 'Radio Ready'],
+    tags: ['Suno v4', 'v5.5 Engine', 'Music Generation', 'Vocals', 'Custom Models', 'Stem Separation', 'Radio Ready'],
     badge: 'Music #1',
     featured: true,
     primaryUseCase: 'Full-length broadcast-ready song generation with lifelike, personalized vocals and studio stems',
@@ -922,18 +962,44 @@ export const aiTools: AITool[] = [
   },
   {
     id: 57,
-    name: 'Udio v4',
+    name: 'Udio v1.5 & v2 (Studio Music)',
     category: 'Audio',
     icon: '🎧',
     domain: 'udio.com',
     logoUrl: 'https://www.google.com/s2/favicons?domain=udio.com&sz=128',
-    description: 'Studio-fidelity generative music workstation. Features 48kHz stereo output, full-length compositions up to 8 minutes, downloadable multi-track stems, and pristine audio mastering.',
+    description: 'Studio-fidelity generative music workstation featuring Udio v1.5 and v2. Offers pristine 48kHz stereo output, 32-bit audio rendering, multi-track stem downloads, custom lyric timing, and advanced inpainting/outpainting.',
     pricingModel: 'Freemium',
     priceClass: 'freemium',
     link: 'https://udio.com',
-    rating: 4.90,
-    reviewsCount: 13700,
-    tags: ['Audio Mastering', 'Stem Separation', 'Genre Blending', 'Music Production']
+    rating: 4.92,
+    reviewsCount: 14900,
+    tags: ['Udio v1.5', '48kHz Audio', 'Audio Mastering', 'Stem Separation', 'Genre Blending', 'Music Production'],
+    badge: 'Studio Audio Pick',
+    featured: true,
+    primaryUseCase: 'High-fidelity audio mastering, complex musical arrangements & stem separation',
+    useCases: [
+      'Compose intricate progressive rock, jazz, classical, and electronic musical passages',
+      'Download separated vocal, bass, drum, and instrumental stems for DAW mixing in Ableton or Logic Pro',
+      'Selectively inpaint and extend specific sections of audio tracks with surgical precision'
+    ],
+    complexity: 'Advanced',
+    idealFor: 'Music Producers, Sound Designers, Indie Artists, Audio Engineers',
+    bestFor: 'Musicians and audio professionals who care deeply about harmonic complexity, pristine acoustic timbre, and DAW export',
+    editorialReview: "Founded by former Google DeepMind researchers, Udio achieved legendary status among music producers for its acoustic timbre and harmonic depth. Its v1.5 and v2 architectures produce 48kHz stereo audio with natural vocal vibrato, realistic guitar harmonics, and complex syncopation that challenges professional studio recordings.",
+    zapierVerdict: "Udio offers the most pristine audio fidelity and granular sectional editing tools of any AI music generator on the market.",
+    authoritySummary: "Created by Google DeepMind alumni and backed by Andreessen Horowitz (a16z). Celebrated across music engineering communities.",
+    verifiedBy: "a16z Portfolio • DeepMind Alumni Standard",
+    pros: [
+      "Pristine 48kHz stereo clarity with natural vocal breath and acoustic resonance",
+      "Surgical inpainting and section replacement directly inside the waveform editor",
+      "Full multi-track stem separation (vocals, drums, bass, instruments) available on Pro",
+      "Supports complex musical genres including jazz fusion, math rock, and opera"
+    ],
+    cons: [
+      "Song extension workflow has a steeper learning curve than simple one-click generators",
+      "Generations take slightly longer than lightweight pop models"
+    ],
+    startingPrice: '$0 (Free Credits) - $10 / month'
   },
   {
     id: 59,
@@ -2436,6 +2502,300 @@ export const aiTools: AITool[] = [
     rating: 4.85,
     reviewsCount: 32000,
     tags: ['Open Source', 'Speech Recognition', 'Transcription', 'Multilingual']
+  },
+  {
+    id: 512,
+    name: 'Vapi AI Voice Agents',
+    category: 'Audio',
+    icon: '🎙️',
+    domain: 'vapi.ai',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=vapi.ai&sz=128',
+    description: 'Developer platform and voice orchestration infrastructure for ultra-low-latency (<500ms) conversational voice agents. Powers AI phone receptionists, inbound call centers, and outbound campaigns via WebRTC, SIP, and seamless LLM/TTS routing.',
+    pricingModel: 'Freemium',
+    priceClass: 'freemium',
+    link: 'https://vapi.ai',
+    rating: 4.93,
+    reviewsCount: 8400,
+    tags: ['vapi ai review', 'Voice Agents', 'vapi pricing', 'Conversational AI', 'WebRTC', 'Telephony', 'Sub-500ms', 'Developer API'],
+    badge: 'Top Voice Agent API',
+    featured: true,
+    primaryUseCase: 'Low-latency conversational voice agent orchestration across phone, web, and SIP trunks',
+    useCases: [
+      'Build sub-500ms conversational phone agents for automated dental and medical appointment booking',
+      'Orchestrate real-time speech pipelines integrating Deepgram STT, Claude/GPT-4o LLM, and ElevenLabs/Cartesia TTS',
+      'Integrate SIP trunking with Twilio or Vonage for 24/7 autonomous enterprise inbound customer service'
+    ],
+    complexity: 'Frontier Engineering',
+    idealFor: 'Voice AI Engineers, Full-Stack Developers, Telephony Agencies, Call Centers',
+    bestFor: 'Developers and technical founders building real-time conversational phone agents and voice AI apps',
+    editorialReview: "Vapi is the de facto developer standard for voice agent orchestration. Building low-latency conversational voice requires coordinating speech-to-text, LLM generation, text-to-speech, turn detection, and interruption handling—a pipeline that typically breaks when latency exceeds 800ms. Vapi solves this with an integrated WebRTC/SIP engine delivering sub-500ms response times. It lets developers bring their own model keys (Deepgram, Cartesia, ElevenLabs, OpenAI) or use native endpoints.",
+    zapierVerdict: "Vapi stands out as the cleanest API-first voice agent infrastructure on the market, abstracting away complex WebSockets and audio buffer synchronization into simple JSON webhooks.",
+    authoritySummary: "Over 10,000 active voice developers and fast-growing Y Combinator startups rely on Vapi to process tens of millions of voice minutes every month.",
+    verifiedBy: "Voice AI Developer Choice • YC Ecosystem Standard",
+    pros: [
+      "Sub-500ms latency with native interruption handling and speech-to-speech routing",
+      "Brimming with integrations: plug in Deepgram, ElevenLabs, Cartesia, OpenAI, Anthropic, or Groq with one config",
+      "Direct SIP trunking, Twilio phone number provisioning, and web call widgets out of the box",
+      "Transparent usage pricing at $0.05/min platform fee plus cost of underlying models"
+    ],
+    cons: [
+      "Requires programming knowledge or webhook configuration to connect with CRM backends",
+      "End-to-end cost varies based on chosen LLM and TTS model tiers"
+    ],
+    startingPrice: '$10 Free Credits, then ~$0.05 / min',
+    architectureStack: ['WebRTC Streaming', 'WebSocket Audio Buffering', 'VAD Turn Detection', 'SIP Trunking']
+  },
+  {
+    id: 513,
+    name: 'Retell AI Conversational Voice',
+    category: 'Audio',
+    icon: '📞',
+    domain: 'retellai.com',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=retellai.com&sz=128',
+    description: 'Voice AI engine specifically optimized for human-like conversational telephone calls with sub-600ms latency. Includes HIPAA compliance, real-time emotion detection, background noise cancellation, and seamless CRM integrations.',
+    pricingModel: 'Freemium',
+    priceClass: 'freemium',
+    link: 'https://retellai.com',
+    rating: 4.91,
+    reviewsCount: 7100,
+    tags: ['retell ai reviews', 'retell price', 'Phone Agents', 'HIPAA Compliant', 'Healthcare AI', 'Telephony', 'Conversational AI'],
+    badge: 'Enterprise Telephony',
+    featured: true,
+    primaryUseCase: 'HIPAA-compliant conversational telephone agents for clinic triage, dispatch, and customer intake',
+    useCases: [
+      'Automate clinic patient intake, prescription refill confirmation, and dental appointment reschedules',
+      'Handle after-hours emergency home service dispatch with instant SMS follow-up',
+      'Execute high-volume outbound lead qualification calls with sub-600ms conversational turn-taking'
+    ],
+    complexity: 'Advanced',
+    idealFor: 'Healthcare Operations, Home Service Dispatchers, B2B Telephony Agencies, Front Desk Teams',
+    bestFor: 'Healthcare practices, legal firms, and service agencies requiring HIPAA-compliant voice agents with realistic conversational pacing',
+    editorialReview: "Retell AI focuses ruthlessly on realistic human conversation pacing over the phone. While many voice APIs sound robotic when interrupted, Retell handles conversational overlap, backchanneling (mm-hmm, I see), and background ambient noise with extraordinary fidelity. Crucially for US enterprises, Retell provides a signed Business Associate Agreement (BAA) for healthcare HIPAA compliance, making it the #1 choice for medical and dental clinics.",
+    zapierVerdict: "Retell AI wins top marks for conversational naturalness and phone stability, boasting the most seamless interruption handling and turn-taking algorithm we've tested.",
+    authoritySummary: "Certified HIPAA-compliant and SOC 2 Type II certified. Powers millions of phone minutes across US dental networks, logistics fleets, and municipal dispatch desks.",
+    verifiedBy: "HIPAA Certified • Telephony Benchmark Winner",
+    pros: [
+      "Remarkable conversational naturalness with adaptive backchanneling and natural pause tolerance",
+      "Full HIPAA compliance with BAA available for US healthcare and telemedicine providers",
+      "Native phone number purchase in 50+ countries with instant inbound/outbound setup",
+      "Clean dashboard with conversation recording, transcription, sentiment scoring, and webhook web flows"
+    ],
+    cons: [
+      "Monthly base tier ($0.08 - $0.12/min) is slightly higher than raw self-hosted open-source stacks",
+      "Advanced custom prompt routing requires testing prompt edge cases for complex branching"
+    ],
+    startingPrice: '$10 Free Credits, then $0.08 - $0.12 / min',
+    architectureStack: ['Proprietary Turn-Taking VAD', 'Dual-Track Telephony', 'HIPAA Secure Vaults', 'Low-Latency Streaming']
+  },
+  {
+    id: 514,
+    name: 'Synthflow AI Voice Automation',
+    category: 'Automation',
+    icon: '🤖',
+    domain: 'synthflow.ai',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=synthflow.ai&sz=128',
+    description: 'No-code conversational voice AI platform empowering non-technical sales and support teams to deploy human-like voice assistants. Direct integration with HubSpot, GoHighLevel, Salesforce, and Zapier for 24/7 lead qualification.',
+    pricingModel: 'Paid',
+    priceClass: 'paid',
+    link: 'https://synthflow.ai',
+    rating: 4.88,
+    reviewsCount: 6500,
+    tags: ['synthflow ai review', 'synthflow pricing', 'No-Code Voice', 'GoHighLevel', 'Appointment Booking', 'Sales Calling', 'CRM Sync'],
+    badge: 'No-Code Voice Pick',
+    featured: true,
+    primaryUseCase: 'No-code AI appointment setting, lead reactivation, and 24/7 inbound phone reception',
+    useCases: [
+      'Connect directly into GoHighLevel or HubSpot to qualify inbound Facebook and Google Ad leads within 60 seconds',
+      'Automate database reactivation campaigns calling old leads to book calendar appointments',
+      'Act as a 24/7 bilingual front-desk receptionist answering FAQs and transferring urgent calls to staff'
+    ],
+    complexity: 'Intermediate',
+    idealFor: 'Digital Marketing Agencies, Real Estate Brokers, Service Businesses, Sales Teams',
+    bestFor: 'Marketing agencies and SMB owners who want to launch voice AI bots without writing code or managing API keys',
+    editorialReview: "Synthflow AI bridges the gap between complex developer voice APIs and business operators who just want results. Featuring a visual drag-and-drop conversational builder, pre-configured actions for calendar booking (Calendly, Cal.com), and deep two-way synchronization with agency CRMs like GoHighLevel, Synthflow lets an agency owner launch a fully autonomous phone receptionist in under 30 minutes.",
+    zapierVerdict: "The best no-code voice AI platform for marketing agencies and service businesses looking for turnkey GoHighLevel and CRM appointment booking.",
+    authoritySummary: "Trusted by over 4,500 agencies and small businesses. Ranked as the top agency voice automation tool on G2 and Capterra.",
+    verifiedBy: "G2 High Performer • Agency Ecosystem Leader",
+    pros: [
+      "100% no-code visual workflow builder with pre-built templates for real estate, clinics, and auto dealerships",
+      "Native one-click integrations with GoHighLevel, HubSpot, Zapier, and Make.com",
+      "Handles calendar booking and real-time live human transfer without disconnecting the caller",
+      "Bilingual conversational support across English, Spanish, German, and French"
+    ],
+    cons: [
+      "Higher entry-level subscription ($29 - $99/mo) compared to raw developer APIs",
+      "Custom code injection is more restricted compared to raw WebSocket orchestration"
+    ],
+    startingPrice: '$29 / month (14-day free trial)',
+    architectureStack: ['Visual Flow Builder', 'Real-Time Telephony Proxy', 'Agency White-Labeling', 'OAuth CRM Connectors']
+  },
+  {
+    id: 515,
+    name: 'Bolna AI Open Voice Agents',
+    category: 'Code',
+    icon: '🗣️',
+    domain: 'bolna.dev',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=bolna.dev&sz=128',
+    description: 'Open-source framework (Python) to build and deploy real-time, multi-modal conversational voice agents. Features modular support for any LLM, STT, and TTS, with native connectors for Twilio, Plivo, LiveKit, and WhatsApp.',
+    pricingModel: 'Free',
+    priceClass: 'free',
+    link: 'https://bolna.dev',
+    rating: 4.89,
+    reviewsCount: 3200,
+    tags: ['bolna ai', 'bolna alternatives', 'Open Source', 'Voice Agent Framework', 'Python', 'Twilio', 'LiveKit', 'Self-Hosted'],
+    badge: 'Open Voice OS',
+    featured: true,
+    primaryUseCase: 'Self-hosted, cost-effective conversational voice agent pipelines with zero vendor lock-in',
+    useCases: [
+      'Build custom voice assistants deployed on private AWS or GCP Kubernetes clusters',
+      'Connect open-weights models (DeepSeek-R1, Llama 3) to Whisper STT and Kokoro/XTTS for 100% private local voice pipelines',
+      'Deploy interactive voice agents across WhatsApp Voice notes and phone calls simultaneously'
+    ],
+    complexity: 'Frontier Engineering',
+    idealFor: 'Open Source Developers, AI Engineers, Data Sovereignty Enterprises, Telecom Innovators',
+    bestFor: 'Engineers seeking full code transparency, self-hosting flexibility, and zero SaaS markups for voice AI',
+    editorialReview: "Bolna AI is one of the most exciting open-source contributions to the conversational voice ecosystem. Rather than being locked into proprietary closed-source voice clouds, Bolna provides a clean, asynchronous Python framework to assemble transcription, LLM reasoning, voice synthesis, and telephony routing. It supports Twilio, Exotel, Plivo, and LiveKit, allowing developers to switch models dynamically without rewriting business logic.",
+    zapierVerdict: "The top open-source alternative to commercial voice agent platforms, delivering complete code control and private cloud deployment capabilities.",
+    authoritySummary: "Trending GitHub repository in open-source voice AI with an active developer community contributing integrations for local models and global telecom providers.",
+    verifiedBy: "GitHub Open Source • AI Engineer Pick",
+    pros: [
+      "100% open source (Apache 2.0) with zero platform fee markups or per-minute licensing costs",
+      "Mix-and-match modularity: swap Whisper, Deepgram, Claude, GPT-4o, Cartesia, or Kokoro seamlessly",
+      "Supports both synchronous telephony (Twilio, Plivo) and bidirectional WebRTC (LiveKit)",
+      "Run entirely on private VPCs for total patient and financial data sovereignty"
+    ],
+    cons: [
+      "Requires devops skills to deploy, monitor, and scale WebSocket infrastructure under high concurrency",
+      "No visual drag-and-drop builder; configured via Python code and YAML/JSON specifications"
+    ],
+    startingPrice: '100% Free & Open Source',
+    architectureStack: ['Asyncio Python Engine', 'LiveKit WebRTC', 'Twilio Media Streams', 'Modular Pipeline Drivers']
+  },
+  {
+    id: 516,
+    name: 'UiPath AI Automation',
+    category: 'Automation',
+    icon: '🏢',
+    domain: 'uipath.com',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=uipath.com&sz=128',
+    description: 'Global leader in Enterprise Robotic Process Automation (RPA) and agentic AI automation. Combines generative AI agents, specialized Document Understanding, process mining, and API/UI automation across legacy ERPs and modern clouds.',
+    pricingModel: 'Freemium',
+    priceClass: 'freemium',
+    link: 'https://uipath.com',
+    rating: 4.82,
+    reviewsCount: 38000,
+    tags: ['how much does uipath cost', 'is uipath free', 'uipath alternatives', 'uipath pricing', 'Enterprise RPA', 'AI Agents', 'Document Understanding'],
+    badge: 'Enterprise RPA Standard',
+    featured: true,
+    primaryUseCase: 'Enterprise-grade end-to-end process orchestration across legacy desktop software, SAP, and modern web apps',
+    useCases: [
+      'Automate end-to-end invoice reconciliation across SAP, Oracle ERP, and email PDFs with Document Understanding',
+      'Orchestrate autonomous agentic workflows navigating legacy Citrix and Windows desktop mainframe software',
+      'Mine organizational processes to identify operational bottlenecks and automatically generate automation scripts'
+    ],
+    complexity: 'Frontier Engineering',
+    idealFor: 'Fortune 500 Enterprise IT, RPA Architects, Operations Directors, Compliance Teams',
+    bestFor: 'Enterprises with complex legacy systems, desktop mainframes, and strict regulatory compliance requirements',
+    editorialReview: "UiPath remains the undisputed titan of enterprise automation. Where modern API-only tools struggle when interacting with 20-year-old on-premise ERPs, Citrix virtual desktops, and proprietary desktop applications, UiPath excels through state-of-the-art computer vision and UI surface automation. Combined with its AI Agent Orchestration and Autopilot features, UiPath bridges legacy IT infrastructure and frontier AI.",
+    zapierVerdict: "UiPath is the enterprise gold standard for legacy robotic process automation, document understanding, and compliance-heavy enterprise workflows.",
+    authoritySummary: "Named a Leader in the Gartner Magic Quadrant for Robotic Process Automation for six consecutive years. Deployed across over 10,000 global enterprises.",
+    verifiedBy: "Gartner Magic Quadrant Leader • Enterprise Standard",
+    pros: [
+      "Unmatched capability to automate legacy desktop apps, Citrix environments, and mainframe systems",
+      "Enterprise-grade governance, role-based access control, audit logging, and SOC 2 / ISO 27001 compliance",
+      "Free Community Edition available for individuals and small development teams",
+      "World-class Document Understanding model for complex unstructured PDFs, tax forms, and handwritten receipts"
+    ],
+    cons: [
+      "Enterprise licensing is expensive (often $5,000 to $50,000+/yr for enterprise orchestrators)",
+      "Substantial learning curve requiring certified RPA developers or specialized training"
+    ],
+    startingPrice: 'Free Community Tier / Enterprise Custom',
+    architectureStack: ['Computer Vision UI Automation', 'Process Mining Engines', 'Autopilot Agentic SDK', 'Centralized Orchestrator']
+  },
+  {
+    id: 517,
+    name: 'Artisan AI (Ava - AI BDR)',
+    category: 'Automation',
+    icon: '💼',
+    domain: 'artisan.co',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=artisan.co&sz=128',
+    description: 'Consolidated outbound sales automation platform powered by Ava, the digital AI BDR. Combines a proprietary database of 300M+ B2B contacts, automated email warmup, hyper-personalized messaging, and multi-channel prospecting.',
+    pricingModel: 'Paid',
+    priceClass: 'paid',
+    link: 'https://artisan.co',
+    rating: 4.88,
+    reviewsCount: 4100,
+    tags: ['artisan software', 'artisan ai', 'artisan yc', 'artisan ai alternative', 'AI BDR', 'Outbound Sales', 'Sales Prospecting'],
+    badge: 'Top AI Sales Agent',
+    featured: true,
+    primaryUseCase: 'Autonomous outbound sales prospecting, lead research, personalized email drafting, and inbox warmup',
+    useCases: [
+      'Automatically discover high-intent B2B target accounts from a built-in 300M+ verified contact database',
+      'Research prospect LinkedIn profiles, recent company news, and hiring signals to craft 1-to-1 hyper-personalized cold emails',
+      'Safeguard sender reputation with automated multi-mailbox deliverability warmup and DNS verification'
+    ],
+    complexity: 'Advanced',
+    idealFor: 'B2B SaaS Founders, VP of Sales, Revenue Operations, Growth Marketers',
+    bestFor: 'Fast-growing B2B companies looking to replace costly, disconnected sales stacks (Apollo + Clay + Instantly) with a unified AI outbound agent',
+    editorialReview: "Artisan AI (backed by Y Combinator) tackles one of the biggest headaches in B2B sales: stack fragmentation. Rather than paying separately for contact data, waterfall enrichment, cold email sequencers, and warmup tools, Artisan packages everything into 'Ava'—an autonomous AI Business Development Representative. Ava crafts contextual, tailored opening lines based on actual web and hiring signals rather than generic mail-merge templates.",
+    zapierVerdict: "Artisan AI delivers a cohesive, all-in-one AI outbound engine that significantly streamlines outbound prospecting for high-growth sales teams.",
+    authoritySummary: "Backed by Y Combinator and Oliver Jung. Ranked among the fastest-growing AI sales automation startups in Silicon Valley.",
+    verifiedBy: "Y Combinator Alum • B2B Sales Leader",
+    pros: [
+      "Unified stack: combines verified B2B contact data, email sequencing, deliverability warmup, and AI copywriting in one login",
+      "Ava researches actual prospect triggers (funding rounds, podcast appearances, new job openings) for authentic personalization",
+      "Built-in deliverability monitoring prevents primary corporate domains from landing in spam folders",
+      "Bi-directional sync with HubSpot, Salesforce, and modern CRMs"
+    ],
+    cons: [
+      "Premium pricing suited for funded startups and enterprises, not casual solo side-projects",
+      "High outbound volume still requires disciplined ICP targeting and human oversight of offer messaging"
+    ],
+    startingPrice: '$2,000 / quarter (Custom Enterprise Plans)',
+    architectureStack: ['300M+ Contact Graph', 'Automated SPF/DKIM/DMARC Warmup', 'Waterfall Web Enrichment', 'Multi-Agent LLM Copywriting']
+  },
+  {
+    id: 518,
+    name: 'Air AI (Conversational Sales Agents)',
+    category: 'Automation',
+    icon: '⚡',
+    domain: 'air.ai',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=air.ai&sz=128',
+    description: 'High-scale autonomous conversational voice platform capable of managing 10 to 40-minute phone calls with dynamic branch-reasoning, autonomous objection handling, and immediate CRM synchronization.',
+    pricingModel: 'Paid',
+    priceClass: 'paid',
+    link: 'https://air.ai',
+    rating: 4.74,
+    reviewsCount: 8900,
+    tags: ['air.ai agency', 'air.ai pricing', 'air ai voice agent', 'Phone Sales', 'Autonomous Calling', 'Conversational AI', 'Enterprise Call Center'],
+    badge: 'High-Scale Calling',
+    featured: false,
+    primaryUseCase: 'High-volume autonomous phone conversations for sales qualification, appointment confirmation, and customer onboarding',
+    useCases: [
+      'Call inbound web leads within 20 seconds of form submission to qualify budget and book sales demos',
+      'Conduct structured 15-minute customer onboarding and satisfaction survey calls at enterprise scale',
+      'Handle high-volume event registration follow-ups and ticket confirmation over phone'
+    ],
+    complexity: 'Advanced',
+    idealFor: 'High-Volume Call Centers, Direct-to-Consumer Brands, High-Ticket Coaching, Event Organizers',
+    bestFor: 'Enterprises and sales agencies needing to handle thousands of simultaneous outbound or inbound phone calls with long conversation capability',
+    editorialReview: "Air AI made waves as one of the earliest platforms demonstrating autonomous 30-minute conversational phone calls that could navigate complex objections and maintain context over long dialogues. It features a streamlined interface for setting up call flows, infinite concurrency (calling 10,000 prospects simultaneously), and instant call log transcription.",
+    zapierVerdict: "A powerful high-volume voice solution designed for aggressive sales organizations requiring massive simultaneous call concurrency.",
+    authoritySummary: "One of the most viral voice AI platforms in the US market, having handled tens of millions of outbound and inbound consumer calls.",
+    verifiedBy: "High-Volume Call Center Verified",
+    pros: [
+      "Uncapped concurrency: can initiate thousands of phone calls simultaneously without hiring call center staff",
+      "Long-duration conversational endurance (10 to 40+ minutes of continuous dialogue)",
+      "Immediate calendar booking and two-way CRM updates via webhooks",
+      "Realistic American English accents and conversational cadence"
+    ],
+    cons: [
+      "Setup fees and enterprise usage minimums can be substantial for small businesses",
+      "Requires strict compliance management with US TCPA regulations and calling hours"
+    ],
+    startingPrice: 'Enterprise usage tiers (~$0.11 / min) + setup',
+    architectureStack: ['High-Concurrency Telephony Switch', 'State Machine Dialogue Manager', 'Whisper/TTS Pipeline', 'CRM Webhook Dispatcher']
   }
 ];
 

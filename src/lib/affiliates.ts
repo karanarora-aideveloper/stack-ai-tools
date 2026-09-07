@@ -377,6 +377,91 @@ export const MASTER_AFFILIATE_REGISTRY: Record<string, AffiliateProgramInfo> = {
     signupUrl: 'https://ollama.com',
     status: 'direct',
     notes: 'Local LLM runner on Mac, Linux, and Windows.'
+  },
+  'vapi': {
+    toolSlug: 'vapi',
+    toolName: 'Vapi AI Voice Agents',
+    hasAffiliateProgram: true,
+    commissionRate: '20% Usage Referral',
+    commissionType: 'recurring',
+    cookieDays: 60,
+    network: 'Rewardful',
+    signupUrl: 'https://vapi.ai/partners',
+    status: 'not_applied',
+    notes: 'High conversion for telephony developers and AI agencies.'
+  },
+  'retell-ai': {
+    toolSlug: 'retell-ai',
+    toolName: 'Retell AI Conversational Voice',
+    hasAffiliateProgram: true,
+    commissionRate: '15% - 20% Recurring',
+    commissionType: 'recurring',
+    cookieDays: 60,
+    network: 'Direct',
+    signupUrl: 'https://retellai.com/partner',
+    status: 'not_applied',
+    notes: 'Strong recurring spend from healthcare and home service dispatchers.'
+  },
+  'synthflow': {
+    toolSlug: 'synthflow',
+    toolName: 'Synthflow AI Voice Automation',
+    hasAffiliateProgram: true,
+    commissionRate: '30% Lifetime Recurring',
+    commissionType: 'recurring',
+    cookieDays: 60,
+    network: 'FirstPromoter',
+    signupUrl: 'https://synthflow.ai/affiliate',
+    loginUrl: 'https://synthflow.firstpromoter.com',
+    status: 'not_applied',
+    notes: 'Top performing affiliate program in agency and no-code voice AI.'
+  },
+  'bolna': {
+    toolSlug: 'bolna',
+    toolName: 'Bolna AI Open Voice Agents',
+    hasAffiliateProgram: false,
+    commissionRate: 'Open Source',
+    commissionType: 'free_credits',
+    cookieDays: 0,
+    network: 'None',
+    signupUrl: 'https://bolna.dev',
+    status: 'direct',
+    notes: 'Open-source Python voice framework with zero platform fees.'
+  },
+  'uipath': {
+    toolSlug: 'uipath',
+    toolName: 'UiPath AI Automation',
+    hasAffiliateProgram: true,
+    commissionRate: 'Enterprise Partner Tier',
+    commissionType: 'hybrid',
+    cookieDays: 90,
+    network: 'Direct',
+    signupUrl: 'https://www.uipath.com/partners',
+    status: 'not_applied',
+    notes: 'Enterprise RPA referrals with substantial contractual payouts.'
+  },
+  'artisan-ai': {
+    toolSlug: 'artisan-ai',
+    toolName: 'Artisan AI (Ava - AI BDR)',
+    hasAffiliateProgram: true,
+    commissionRate: '20% First Year Recurring',
+    commissionType: 'recurring',
+    cookieDays: 60,
+    network: 'Rewardful',
+    signupUrl: 'https://artisan.co/partners',
+    status: 'not_applied',
+    notes: 'High average order value B2B outbound platform ($2k+/quarter).'
+  },
+  'air-ai': {
+    toolSlug: 'air-ai',
+    toolName: 'Air AI (Conversational Sales Agents)',
+    hasAffiliateProgram: true,
+    commissionRate: '20% Recurring',
+    commissionType: 'recurring',
+    cookieDays: 60,
+    network: 'Direct',
+    signupUrl: 'https://air.ai/partners',
+    status: 'not_applied',
+    notes: 'High-volume phone calling agency affiliate commission.'
   }
 };
 

@@ -64,15 +64,18 @@ const SLUG_MAP: Record<string, string> = {
   'LangChain & LangGraph': 'langchain',
   'Surfer SEO': 'surfer-seo',
   'Cartesia (Sonic-3.6)': 'cartesia',
+  'Runway Gen-3 Alpha & Gen-4.5': 'runway',
   'Runway Gen-4.5': 'runway',
   'ElevenLabs (Eleven v3)': 'elevenlabs',
   'ComfyUI Modular Diffusion': 'comfyui',
+  'Suno v4 & v5.5 (AI Music Studio)': 'suno-v4',
   'Suno v5.5': 'suno-v4',
   'v0 by Vercel': 'v0',
   'Bolt.new': 'bolt-new',
   'Lovable.dev': 'lovable',
   'Windsurf by Codeium': 'windsurf',
   'Aider AI': 'aider',
+  'DeepSeek-R1 & V3 (Open Reasoning Engine)': 'deepseek-r1',
   'DeepSeek V4 (Open Reasoning Engine)': 'deepseek-r1',
   'Dify.ai Enterprise LLM': 'dify',
   'CrewAI Multi-Agent Teams': 'crewai',
@@ -94,6 +97,7 @@ const SLUG_MAP: Record<string, string> = {
   'Copy.ai GTM Agents': 'copy-ai',
   'Framer AI': 'framer-ai',
   'Luma Dream Machine (Ray 3)': 'luma-dream-machine',
+  'Udio v1.5 & v2 (Studio Music)': 'udio-v15',
   'Udio v4': 'udio-v15',
   'Fireflies.ai': 'fireflies',
   'Glean Work Assistant': 'glean',
@@ -116,7 +120,14 @@ const SLUG_MAP: Record<string, string> = {
   'Zapier Central Agents': 'zapier-central',
   'CodeRabbit': 'coderabbit',
   'LlamaIndex': 'llamaindex',
-  'Langfuse': 'langfuse'
+  'Langfuse': 'langfuse',
+  'Vapi AI Voice Agents': 'vapi',
+  'Retell AI Conversational Voice': 'retell-ai',
+  'Synthflow AI Voice Automation': 'synthflow',
+  'Bolna AI Open Voice Agents': 'bolna',
+  'UiPath AI Automation': 'uipath',
+  'Artisan AI (Ava - AI BDR)': 'artisan-ai',
+  'Air AI (Conversational Sales Agents)': 'air-ai'
 };
 
 export function slugify(text: string): string {
