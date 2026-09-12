@@ -203,6 +203,68 @@ export default function DirectoryView({ initialTools, initialPrompts }: Director
           </div>
         </FadeIn>
 
+        {/* MCP Direct Quick Links Banner */}
+        <FadeIn delay={0.03} y={8}>
+          <div style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            gap: 10,
+            marginBottom: 20,
+            padding: '7px 16px',
+            background: 'linear-gradient(135deg, rgba(56, 189, 248, 0.08), rgba(168, 85, 247, 0.08))',
+            border: '1px solid rgba(56, 189, 248, 0.25)',
+            borderRadius: 30,
+            fontSize: 13,
+            color: 'var(--text-secondary)'
+          }}>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontWeight: 600, color: 'var(--text-strong)' }}>
+              <span style={{ display: 'inline-block', width: 7, height: 7, borderRadius: '50%', background: 'var(--color-success)', boxShadow: '0 0 8px var(--color-success)' }} />
+              <span>Model Context Protocol Hubs:</span>
+            </span>
+            <Link
+              href="/antigravity-mcp"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 5,
+                fontWeight: 700,
+                color: 'var(--arcade-cyan)',
+                textDecoration: 'none',
+                padding: '3px 10px',
+                borderRadius: 14,
+                background: 'rgba(56, 189, 248, 0.12)',
+                border: '1px solid rgba(56, 189, 248, 0.3)',
+                transition: 'all 0.15s ease'
+              }}
+            >
+              <span>Antigravity MCP (32 Tools)</span>
+              <span style={{ fontSize: 9.5, padding: '1px 5px', borderRadius: 4, background: 'var(--arcade-cyan)', color: 'var(--text-on-accent)', fontWeight: 800 }}>AGY</span>
+            </Link>
+            <span style={{ color: 'rgba(var(--ink-tint-rgb), 0.2)' }}>•</span>
+            <Link
+              href="/claude-connectors"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 5,
+                fontWeight: 700,
+                color: 'var(--accent-secondary)',
+                textDecoration: 'none',
+                padding: '3px 10px',
+                borderRadius: 14,
+                background: 'rgba(168, 85, 247, 0.12)',
+                border: '1px solid rgba(168, 85, 247, 0.3)',
+                transition: 'all 0.15s ease'
+              }}
+            >
+              <span>Claude Connectors (24 Tools)</span>
+              <span style={{ fontSize: 9.5, padding: '1px 5px', borderRadius: 4, background: 'var(--accent-secondary)', color: '#fff', fontWeight: 800 }}>MCP</span>
+            </Link>
+          </div>
+        </FadeIn>
+
         <FadeIn delay={0.05} y={14}>
           <h1 className="modern-hero-title">
             Discover & Deploy the World&apos;s <span className="modern-hero-gradient">Specialized AI Systems</span>

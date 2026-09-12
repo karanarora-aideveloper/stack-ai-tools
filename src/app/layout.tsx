@@ -14,8 +14,6 @@ import Analytics from '@/app/components/Analytics';
 import MobileDock from '@/app/components/MobileDock';
 import Navbar from '@/app/components/Navbar';
 import NewsletterCapture from '@/app/components/NewsletterCapture';
-import { Analytics as VercelAnalytics } from '@vercel/analytics/react';
-import { SpeedInsights } from '@vercel/speed-insights/next';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.stackaitools.com'),
@@ -178,8 +176,6 @@ gtag('config', 'G-WCL9JTB6TC');`
       </head>
       <body>
         <Analytics />
-        <VercelAnalytics />
-        <SpeedInsights />
         <MobileDock />
         <div id="app" className="app-container">
           <Navbar />
@@ -259,6 +255,7 @@ gtag('config', 'G-WCL9JTB6TC');`
                 <div className="footer-col">
                   <h4 className="footer-heading">Resources</h4>
                   <ul className="footer-links-list">
+                    <li><Link href="/antigravity-mcp">Antigravity MCP Servers</Link></li>
                     <li><Link href="/claude-connectors">Claude Connectors & MCP</Link></li>
                     <li><Link href="/blog">Frontier AI Research Blog</Link></li>
                     <li><Link href="/prompts">Visual Prompt Showcase</Link></li>

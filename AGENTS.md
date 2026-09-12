@@ -10,27 +10,18 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 # Project: Stack AI Tools (stackaitools.com)
 
-- **Domain Selected**: `stackaitools.com` (Targeted for purchase via Porkbun / Spaceship / Cloudflare)
-- **Live Vercel Production URL**: `https://stack-ai-tools.vercel.app`
+- **Custom Domains**: `https://stackaitools.com` & `https://www.stackaitools.com` (Live & Active)
+- **Live Vercel Production URL**: `https://aitools-one-delta.vercel.app`
 - **GitHub Open-Source Repo**: `https://github.com/karanarora-aideveloper/stack-ai-tools`
-- **Vercel Project**: `karanprojects1/stack-ai-tools` (`prj_T3HBpATYFw4aFmU4f2y3b5cf7Oiv`)
+- **Vercel Project**: `addyfunstudios/ai_tools` (`prj_ryhh62GSi0NMYSKQhEdnCKF9HJOZ`)
+- **Deploy Command**: `vercel deploy --prod` (Must be logged into `addyfunstudios` account)
 - **Founder & Chief AI Architect**: **Karan Arora** (`karan@stackaitools.com`, `https://stackaitools.com/about`)
 - **Admin Portal**: `/admin` (Passkey protected via `ADMIN_PASSWORD`, includes Deep Analytics & Churn Tracker)
 - **Catalog Size**: 222 Frontier AI Tools, 45 Curated Prompts & 500+ Prerendered Static Pages
-- **Analytics**: Triple Engine (Google Analytics 4 + PostHog + MongoDB Event Store)
+- **Analytics**: GA4 + PostHog (Vercel Analytics & Speed Insights removed to protect Hobby limits)
 - **Primary Market**: United States (USA) & Global
 - **Status**: Live in Production on Vercel (Edge SSG & Prerendered)
-- **Last Updated**: September 2, 2026
-
-### Domain Connection Instructions (When domain purchase completes)
-Once `stackaitools.com` is purchased, run:
-```bash
-vercel domains add stackaitools.com stack-ai-tools
-vercel domains add www.stackaitools.com stack-ai-tools
-```
-Then configure DNS at your registrar:
-- **A Record**: `@` points to `76.76.21.21`
-- **CNAME Record**: `www` points to `cname.vercel-dns.com`
+- **Last Updated**: September 12, 2026
 
 ---
 

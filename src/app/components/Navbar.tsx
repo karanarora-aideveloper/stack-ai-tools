@@ -15,7 +15,8 @@ import {
   Compass,
   ArrowRight,
   ExternalLink,
-  Terminal
+  Terminal,
+  Cpu
 } from 'lucide-react';
 import { AnimatePresence } from 'framer-motion';
 import { DrawerBackdrop, DrawerPanel } from './motion/Drawer';
@@ -94,6 +95,14 @@ export default function Navbar() {
             >
               <span>Claude Connectors</span>
               <span style={{ fontSize: 9.5, padding: '1px 5px', borderRadius: 6, background: 'rgba(168, 85, 247, 0.25)', color: 'var(--accent-secondary)', border: '1px solid rgba(168, 85, 247, 0.4)', fontWeight: 700 }}>NEW</span>
+            </Link>
+            <Link 
+              href="/antigravity-mcp" 
+              className={`topbar-nav-pill ${isActive('/antigravity-mcp') ? 'active' : ''}`}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
+            >
+              <span>Antigravity MCP</span>
+              <span style={{ fontSize: 9.5, padding: '1px 5px', borderRadius: 6, background: 'rgba(56, 189, 248, 0.25)', color: 'var(--arcade-cyan)', border: '1px solid rgba(56, 189, 248, 0.4)', fontWeight: 700 }}>AGY</span>
             </Link>
             <Link 
               href="/about" 
@@ -215,6 +224,15 @@ export default function Navbar() {
                 >
                   <Terminal size={18} color="#0284c7" />
                   <span>Claude Connectors & MCP</span>
+                </Link>
+
+                <Link 
+                  href="/antigravity-mcp" 
+                  className={`mobile-drawer-link ${isActive('/antigravity-mcp') ? 'active' : ''}`}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <Cpu size={18} color="#38bdf8" />
+                  <span>Antigravity MCP Tools</span>
                 </Link>
 
                 <Link 
