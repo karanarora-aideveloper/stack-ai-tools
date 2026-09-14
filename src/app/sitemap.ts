@@ -26,15 +26,13 @@ export default async function sitemap(
   const baseUrl = 'https://www.stackaitools.com';
   const currentDate = new Date().toISOString();
 
-  // Resolve id whether passed as a Promise (Next 15/16), an object, or direct primitive
+  // Resolve id whether passed as a Promise (Next 16), an object, or direct primitive
   let resolvedId = 0;
   if (typeof props === 'number') {
     resolvedId = props;
-  } else if (props && typeof props === 'object') {
-    const raw = 'then' in props ? await props : props;
-    if (raw && typeof raw === 'object' && 'id' in raw) {
-      resolvedId = Number(raw.id) || 0;
-    }
+  } else if (props && typeof props === 'object' && 'id' in props) {
+    const idVal = 'then' in (props.id as any) ? await (props.id as any) : props.id;
+    resolvedId = Number(idVal) || 0;
   }
 
   // -------------------------------------------------------------
