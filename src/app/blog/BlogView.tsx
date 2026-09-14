@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Article } from '@/lib/blog';
@@ -23,6 +23,9 @@ import {
 
 interface BlogViewProps {
   articles: Article[];
+  initialPage?: number;
+  initialCategory?: string;
+  initialQuery?: string;
 }
 
 const CATEGORY_ICONS: Record<string, React.ReactNode> = {
@@ -35,13 +38,27 @@ const CATEGORY_ICONS: Record<string, React.ReactNode> = {
   writing: <PenTool size={14} />
 };
 
-export default function BlogView({ articles }: BlogViewProps) {
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [searchQuery, setSearchQuery] = useState<string>('');
-  const [currentPage, setCurrentPage] = useState<number>(1);
+export default function BlogView({ 
+  articles, 
+  initialPage = 1, 
+  initialCategory = 'all', 
+  initialQuery = '' 
+}: BlogViewProps) {
+  const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory);
+  const [searchQuery, setSearchQuery] = useState<string>(initialQuery);
+  const [currentPage, setCurrentPage] = useState<number>(initialPage);
   const articlesPerPage = 12;
 
   const categories = ['all', 'video', 'code', 'audio', 'design', 'automation', 'writing'];
+
+  // Sync state if initial props change (e.g. browser navigation)
+  useEffect(() => {
+    if (initialPage) setCurrentPage(initialPage);
+  }, [initialPage]);
+
+  useEffect(() => {
+    if (initialCategory) setSelectedCategory(initialCategory);
+  }, [initialCategory]);
 
   const filteredArticles = useMemo(() => {
     return articles.filter((a) => {
@@ -62,6 +79,15 @@ export default function BlogView({ articles }: BlogViewProps) {
 
   const featuredArticle = articles.find((a) => a.featured) || articles[0];
 
+  const getPageUrl = (page: number, cat = selectedCategory, q = searchQuery) => {
+    const params = new URLSearchParams();
+    if (cat && cat !== 'all') params.set('category', cat);
+    if (page > 1) params.set('page', String(page));
+    if (q) params.set('q', q);
+    const qs = params.toString();
+    return qs ? `/blog?${qs}` : '/blog';
+  };
+
   const handleCategorySelect = (cat: string) => {
     setSelectedCategory(cat);
     setCurrentPage(1);
@@ -71,6 +97,45 @@ export default function BlogView({ articles }: BlogViewProps) {
     setCurrentPage(page);
     window.scrollTo({ top: 400, behavior: 'smooth' });
   };
+
+  // Generate clean pagination items with smart jump links for Googlebot crawl efficiency
+  const paginationItems = useMemo(() => {
+    if (totalPages <= 1) return [];
+
+    const pageSet = new Set<number>();
+    
+    // Always include first 2 pages
+    pageSet.add(1);
+    if (totalPages >= 2) pageSet.add(2);
+
+    // Current neighborhood
+    for (let i = Math.max(1, currentPage - 2); i <= Math.min(totalPages, currentPage + 2); i++) {
+      pageSet.add(i);
+    }
+
+    // High-value jump hops so Googlebot can traverse 10k articles in <= 3 clicks
+    const jumpCheckpoints = [10, 25, 50, 100, 250, 500];
+    jumpCheckpoints.forEach((jump) => {
+      if (jump < totalPages && jump > 1) {
+        pageSet.add(jump);
+      }
+    });
+
+    // Always include last page
+    pageSet.add(totalPages);
+
+    const sorted = Array.from(pageSet).sort((a, b) => a - b);
+    const result: (number | 'ellipsis')[] = [];
+
+    for (let i = 0; i < sorted.length; i++) {
+      if (i > 0 && sorted[i] - sorted[i - 1] > 1) {
+        result.push('ellipsis');
+      }
+      result.push(sorted[i]);
+    }
+
+    return result;
+  }, [totalPages, currentPage]);
 
   return (
     <div className="blog-hub-container">
@@ -99,31 +164,40 @@ export default function BlogView({ articles }: BlogViewProps) {
               onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
             />
             {searchQuery && (
-              <button className="search-clear-btn" onClick={() => setSearchQuery('')}>
+              <button 
+                className="search-clear-btn" 
+                onClick={() => setSearchQuery('')}
+                aria-label="Clear search"
+              >
                 <X size={15} />
               </button>
             )}
           </div>
         </div>
 
-        {/* Category Pills */}
+        {/* Category Pills (Crawlable HTML Links) */}
         <div className="modern-categories-scroll">
           <div className="modern-categories-list">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                className={`category-pill-btn ${selectedCategory === cat ? 'active' : ''}`}
-                onClick={() => handleCategorySelect(cat)}
-              >
-                {CATEGORY_ICONS[cat]}
-                <span style={{ textTransform: 'capitalize' }}>{cat === 'all' ? 'All Guides' : cat}</span>
-              </button>
-            ))}
+            {categories.map((cat) => {
+              const isActive = selectedCategory === cat;
+              return (
+                <Link
+                  key={cat}
+                  href={getPageUrl(1, cat, searchQuery)}
+                  className={`category-pill-btn ${isActive ? 'active' : ''}`}
+                  onClick={() => handleCategorySelect(cat)}
+                  style={{ textDecoration: 'none' }}
+                >
+                  {CATEGORY_ICONS[cat]}
+                  <span style={{ textTransform: 'capitalize' }}>{cat === 'all' ? 'All Guides' : cat}</span>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </header>
 
-      {/* Featured Headline Article (Only when on page 1 & no search) */}
+      {/* Featured Headline Article (Only on page 1 with no search filter) */}
       {currentPage === 1 && !searchQuery && selectedCategory === 'all' && featuredArticle && (
         <section className="featured-article-card" aria-label="Featured Story">
           <div className="featured-article-grid">
@@ -186,7 +260,7 @@ export default function BlogView({ articles }: BlogViewProps) {
       <section className="blog-articles-grid" aria-label="Articles Feed">
         <div className="blog-results-header">
           <span style={{ fontSize: 14, color: 'var(--text-secondary)' }}>
-            Showing <strong>{filteredArticles.length}</strong> guides & benchmarks
+            Showing <strong>{filteredArticles.length}</strong> guides &amp; benchmarks
           </span>
           <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>
             Page {currentPage} of {totalPages || 1}
@@ -254,43 +328,72 @@ export default function BlogView({ articles }: BlogViewProps) {
           </div>
         )}
 
-        {/* Pagination Bar */}
+        {/* Crawlable Pagination Bar with Real Next.js HTML Links */}
         {totalPages > 1 && (
           <div className="blog-pagination">
-            <button 
-              className="pagination-btn"
-              onClick={() => handlePageChange(currentPage - 1)}
-              disabled={currentPage === 1}
-            >
-              <ChevronLeft size={16} />
-              <span>Previous</span>
-            </button>
+            {currentPage > 1 ? (
+              <Link 
+                href={getPageUrl(currentPage - 1)}
+                className="pagination-btn"
+                onClick={() => handlePageChange(currentPage - 1)}
+                style={{ textDecoration: 'none' }}
+                aria-label="Previous page"
+              >
+                <ChevronLeft size={16} />
+                <span>Previous</span>
+              </Link>
+            ) : (
+              <span className="pagination-btn" style={{ opacity: 0.35, cursor: 'not-allowed' }}>
+                <ChevronLeft size={16} />
+                <span>Previous</span>
+              </span>
+            )}
 
-            <div className="pagination-pages">
-              {[...Array(Math.min(5, totalPages))].map((_, i) => {
-                let pageNum = currentPage <= 3 ? i + 1 : currentPage + i - 2;
-                if (pageNum > totalPages) pageNum = totalPages - (4 - i);
-                if (pageNum < 1) pageNum = i + 1;
+            <div className="pagination-pages" style={{ flexWrap: 'wrap', justifyContent: 'center' }}>
+              {paginationItems.map((item, idx) => {
+                if (item === 'ellipsis') {
+                  return (
+                    <span key={`ellipsis-${idx}`} style={{ padding: '0 4px', color: 'var(--text-muted)' }}>
+                      …
+                    </span>
+                  );
+                }
+
+                const pageNum = item;
+                const isCurrent = currentPage === pageNum;
+
                 return (
-                  <button
+                  <Link
                     key={pageNum}
-                    className={`pagination-num ${currentPage === pageNum ? 'active' : ''}`}
+                    href={getPageUrl(pageNum)}
+                    className={`pagination-num ${isCurrent ? 'active' : ''}`}
                     onClick={() => handlePageChange(pageNum)}
+                    style={{ textDecoration: 'none' }}
+                    aria-current={isCurrent ? 'page' : undefined}
                   >
                     {pageNum}
-                  </button>
+                  </Link>
                 );
               })}
             </div>
 
-            <button 
-              className="pagination-btn"
-              onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage === totalPages}
-            >
-              <span>Next</span>
-              <ChevronRight size={16} />
-            </button>
+            {currentPage < totalPages ? (
+              <Link 
+                href={getPageUrl(currentPage + 1)}
+                className="pagination-btn"
+                onClick={() => handlePageChange(currentPage + 1)}
+                style={{ textDecoration: 'none' }}
+                aria-label="Next page"
+              >
+                <span>Next</span>
+                <ChevronRight size={16} />
+              </Link>
+            ) : (
+              <span className="pagination-btn" style={{ opacity: 0.35, cursor: 'not-allowed' }}>
+                <span>Next</span>
+                <ChevronRight size={16} />
+              </span>
+            )}
           </div>
         )}
       </section>

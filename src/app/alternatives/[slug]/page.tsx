@@ -12,8 +12,10 @@ import {
   ShieldCheck, 
   Sparkles,
   CheckCircle2,
-  HelpCircle
+  HelpCircle,
+  BookOpen
 } from 'lucide-react';
+import { getAllArticles } from '@/lib/blog';
 
 interface AlternativePageProps {
   params: Promise<{ slug: string }>;
@@ -64,6 +66,24 @@ export default async function AlternativeDetailPage({ params }: AlternativePageP
   }
 
   const alternatives = await getAlternativesForTool(tool.slug, 5);
+  const allArticles = await getAllArticles();
+  const toolFirstWord = tool.name.split(' ')[0].toLowerCase();
+  const altNames = alternatives.map(a => a.name.split(' ')[0].toLowerCase());
+
+  const comparisonArticles = allArticles.filter(a => {
+    const tLower = a.title.toLowerCase();
+    const kLower = a.primaryKeyword.toLowerCase();
+    const sLower = a.slug.toLowerCase();
+    return tLower.includes(toolFirstWord) || kLower.includes(toolFirstWord) || sLower.includes(tool.slug) ||
+      altNames.some(alt => tLower.includes(alt) || kLower.includes(alt));
+  });
+
+  const categoryFallback = allArticles.filter(a => 
+    !comparisonArticles.some(m => m.slug === a.slug) &&
+    (a.category.toLowerCase() === tool.category.toLowerCase() || a.category.toLowerCase().includes(tool.category.toLowerCase()) || tool.category.toLowerCase().includes(a.category.toLowerCase()))
+  );
+
+  const relatedArticles = [...comparisonArticles, ...categoryFallback].slice(0, 5);
 
   const faqs = [
     {
@@ -279,6 +299,43 @@ export default async function AlternativeDetailPage({ params }: AlternativePageP
           </div>
         ))}
       </div>
+
+      {/* Related Head-to-Head Comparison Guides */}
+      {relatedArticles.length > 0 && (
+        <div className="tool-card-box" style={{ marginBottom: 48 }}>
+          <h2 className="tool-box-title">
+            <BookOpen size={20} color="#818cf8" />
+            Head-to-Head Comparison & Review Guides
+          </h2>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            {relatedArticles.map((art) => (
+              <Link 
+                key={art.slug} 
+                href={`/blog/${art.slug}`} 
+                style={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'space-between', 
+                  padding: '14px 18px', 
+                  background: 'rgba(var(--ink-tint-rgb), 0.03)', 
+                  border: '1px solid rgba(var(--ink-tint-rgb), 0.08)', 
+                  borderRadius: 8, 
+                  textDecoration: 'none',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                <div>
+                  <h4 style={{ color: 'var(--text-strong)', margin: '0 0 4px', fontSize: 14.5 }}>{art.title}</h4>
+                  <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>{art.readTime} • Verified Comparison</span>
+                </div>
+                <span style={{ color: 'var(--arcade-cyan)', fontSize: 13, fontWeight: 600, whiteSpace: 'nowrap', marginLeft: 12 }}>
+                  Read Guide →
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* FAQ Section */}
       <div className="tool-card-box" style={{ marginBottom: 48 }}>

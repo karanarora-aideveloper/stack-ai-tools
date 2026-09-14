@@ -2,128 +2,165 @@ import { MetadataRoute } from 'next';
 import { getAllTools, getAllCategories } from '@/lib/tools';
 import { getAllArticles } from '@/lib/blog';
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+export async function generateSitemaps() {
+  // 0: Core pages, categories, tools, alternatives, search hubs (~600 URLs)
+  // 1-10: 1,000 articles per chunk for the 10,000 article catalog
+  return [
+    { id: 0 },
+    { id: 1 },
+    { id: 2 },
+    { id: 3 },
+    { id: 4 },
+    { id: 5 },
+    { id: 6 },
+    { id: 7 },
+    { id: 8 },
+    { id: 9 },
+    { id: 10 },
+  ];
+}
+
+export default async function sitemap(
+  props: { id: Promise<{ id: string | number }> | { id: string | number } | number }
+): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://www.stackaitools.com';
   const currentDate = new Date().toISOString();
 
-  const [tools, categories, articles] = await Promise.all([
-    getAllTools(),
-    getAllCategories(),
-    getAllArticles()
-  ]);
+  // Resolve id whether passed as a Promise (Next 15/16), an object, or direct primitive
+  let resolvedId = 0;
+  if (typeof props === 'number') {
+    resolvedId = props;
+  } else if (props && typeof props === 'object') {
+    const raw = 'then' in props ? await props : props;
+    if (raw && typeof raw === 'object' && 'id' in raw) {
+      resolvedId = Number(raw.id) || 0;
+    }
+  }
 
-  // 1. Static Core Landing Pages
-  const staticRoutes: MetadataRoute.Sitemap = [
-    {
-      url: baseUrl,
+  // -------------------------------------------------------------
+  // SITEMAP 0: Core static, categories, tools, alternatives, hubs
+  // -------------------------------------------------------------
+  if (resolvedId === 0) {
+    const [tools, categories] = await Promise.all([
+      getAllTools(),
+      getAllCategories(),
+    ]);
+
+    const staticRoutes: MetadataRoute.Sitemap = [
+      {
+        url: baseUrl,
+        lastModified: currentDate,
+        changeFrequency: 'daily',
+        priority: 1.0,
+      },
+      {
+        url: `${baseUrl}/blog`,
+        lastModified: currentDate,
+        changeFrequency: 'daily',
+        priority: 0.95,
+      },
+      {
+        url: `${baseUrl}/categories`,
+        lastModified: currentDate,
+        changeFrequency: 'weekly',
+        priority: 0.9,
+      },
+      {
+        url: `${baseUrl}/alternatives`,
+        lastModified: currentDate,
+        changeFrequency: 'weekly',
+        priority: 0.9,
+      },
+      {
+        url: `${baseUrl}/prompts`,
+        lastModified: currentDate,
+        changeFrequency: 'weekly',
+        priority: 0.9,
+      },
+      {
+        url: `${baseUrl}/antigravity-mcp`,
+        lastModified: currentDate,
+        changeFrequency: 'daily',
+        priority: 0.95,
+      },
+      {
+        url: `${baseUrl}/claude-connectors`,
+        lastModified: currentDate,
+        changeFrequency: 'daily',
+        priority: 0.95,
+      },
+      {
+        url: `${baseUrl}/submit`,
+        lastModified: currentDate,
+        changeFrequency: 'monthly',
+        priority: 0.7,
+      },
+      {
+        url: `${baseUrl}/about`,
+        lastModified: currentDate,
+        changeFrequency: 'monthly',
+        priority: 0.8,
+      },
+      {
+        url: `${baseUrl}/llms.txt`,
+        lastModified: currentDate,
+        changeFrequency: 'weekly',
+        priority: 0.5,
+      },
+    ];
+
+    const categoryRoutes: MetadataRoute.Sitemap = categories.map((cat) => ({
+      url: `${baseUrl}/category/${cat.toLowerCase()}`,
       lastModified: currentDate,
       changeFrequency: 'daily',
-      priority: 1.0,
-    },
-    {
-      url: `${baseUrl}/blog`,
+      priority: 0.85,
+    }));
+
+    const toolRoutes: MetadataRoute.Sitemap = tools.map((tool) => ({
+      url: `${baseUrl}/tool/${tool.slug}`,
       lastModified: currentDate,
       changeFrequency: 'daily',
-      priority: 0.95,
-    },
-    {
-      url: `${baseUrl}/categories`,
+      priority: 0.85,
+    }));
+
+    const alternativeRoutes: MetadataRoute.Sitemap = tools.map((tool) => ({
+      url: `${baseUrl}/alternatives/${tool.slug}`,
       lastModified: currentDate,
       changeFrequency: 'weekly',
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/alternatives`,
-      lastModified: currentDate,
-      changeFrequency: 'weekly',
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/prompts`,
-      lastModified: currentDate,
-      changeFrequency: 'weekly',
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/antigravity-mcp`,
-      lastModified: currentDate,
-      changeFrequency: 'daily',
-      priority: 0.95,
-    },
-    {
-      url: `${baseUrl}/claude-connectors`,
-      lastModified: currentDate,
-      changeFrequency: 'daily',
-      priority: 0.95,
-    },
-    {
-      url: `${baseUrl}/submit`,
-      lastModified: currentDate,
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/about`,
-      lastModified: currentDate,
-      changeFrequency: 'monthly',
       priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/llms.txt`,
+    }));
+
+    const { getAllSearchHubs } = await import('@/data/search-hubs');
+    const searchHubs = getAllSearchHubs();
+    const searchHubRoutes: MetadataRoute.Sitemap = searchHubs.map((hub) => ({
+      url: `${baseUrl}/s/${hub.slug}`,
       lastModified: currentDate,
       changeFrequency: 'weekly',
-      priority: 0.5,
-    },
-  ];
+      priority: 0.85,
+    }));
 
-  // 2. Dynamic Category Clusters (8 High-Intent Categories)
-  const categoryRoutes: MetadataRoute.Sitemap = categories.map((cat) => ({
-    url: `${baseUrl}/category/${cat.toLowerCase()}`,
-    lastModified: currentDate,
-    changeFrequency: 'daily',
-    priority: 0.85,
-  }));
+    return [
+      ...staticRoutes,
+      ...categoryRoutes,
+      ...toolRoutes,
+      ...alternativeRoutes,
+      ...searchHubRoutes,
+    ];
+  }
 
-  // 3. Dynamic Programmatic Tool Profile Routes (222 Vetted Frontier Tools)
-  const toolRoutes: MetadataRoute.Sitemap = tools.map((tool) => ({
-    url: `${baseUrl}/tool/${tool.slug}`,
-    lastModified: currentDate,
-    changeFrequency: 'daily',
-    priority: 0.85,
-  }));
+  // -------------------------------------------------------------
+  // SITEMAPS 1-10: 1,000 blog articles each (Chunked for GSC speed)
+  // -------------------------------------------------------------
+  const articles = await getAllArticles();
+  const chunkSize = 1000;
+  const startIndex = (resolvedId - 1) * chunkSize;
+  const endIndex = startIndex + chunkSize;
+  const chunkedArticles = articles.slice(startIndex, endIndex);
 
-  // 4. Dynamic Head-to-Head Alternative Comparison Routes (222 Alternative Clusters)
-  const alternativeRoutes: MetadataRoute.Sitemap = tools.map((tool) => ({
-    url: `${baseUrl}/alternatives/${tool.slug}`,
-    lastModified: currentDate,
-    changeFrequency: 'weekly',
-    priority: 0.8,
-  }));
-
-  // 5. Dynamic Programmatic Blog Article Routes (All 10,000 In-Depth Research Guides)
-  const articleRoutes: MetadataRoute.Sitemap = articles.map((article) => ({
+  return chunkedArticles.map((article) => ({
     url: `${baseUrl}/blog/${article.slug}`,
     lastModified: article.updatedAt || currentDate,
     changeFrequency: 'weekly',
     priority: 0.8,
   }));
-
-  // 6. Dynamic Programmatic Search Hub Routes (High-Volume Competitor Search Gaps)
-  const { getAllSearchHubs } = await import('@/data/search-hubs');
-  const searchHubs = getAllSearchHubs();
-  const searchHubRoutes: MetadataRoute.Sitemap = searchHubs.map((hub) => ({
-    url: `${baseUrl}/s/${hub.slug}`,
-    lastModified: currentDate,
-    changeFrequency: 'weekly',
-    priority: 0.85,
-  }));
-
-  return [
-    ...staticRoutes,
-    ...categoryRoutes,
-    ...toolRoutes,
-    ...alternativeRoutes,
-    ...searchHubRoutes,
-    ...articleRoutes,
-  ];
 }

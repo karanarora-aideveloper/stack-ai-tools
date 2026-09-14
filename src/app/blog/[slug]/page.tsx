@@ -39,8 +39,9 @@ export const revalidate = 3600;
 
 export async function generateStaticParams() {
   const articles = await getAllArticles();
-  // Pre-render the top 50 articles at build time, remaining resolve via ISR
-  return articles.slice(0, 50).map((a) => ({
+  // Pre-render top 150 highest-demand US commercial articles at build time, remaining resolve via ISR
+  const sorted = [...articles].sort((a, b) => (b.searchVolume || 0) - (a.searchVolume || 0));
+  return sorted.slice(0, 150).map((a) => ({
     slug: a.slug,
   }));
 }

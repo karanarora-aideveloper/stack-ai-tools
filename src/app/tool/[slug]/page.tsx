@@ -102,11 +102,16 @@ export default async function ToolPage({ params }: ToolPageProps) {
 
   const allArticles = await getAllArticles();
   const toolFirstWord = tool.name.split(' ')[0].toLowerCase();
-  const relatedBlogArticles = allArticles.filter(a => 
+  const directMatches = allArticles.filter(a => 
     a.title.toLowerCase().includes(toolFirstWord) || 
     a.primaryKeyword.toLowerCase().includes(toolFirstWord) ||
     a.slug.includes(tool.slug)
-  ).slice(0, 3);
+  );
+  const categoryFallback = allArticles.filter(a => 
+    !directMatches.some(m => m.slug === a.slug) &&
+    (a.category.toLowerCase() === tool.category.toLowerCase() || a.category.toLowerCase().includes(tool.category.toLowerCase()) || tool.category.toLowerCase().includes(a.category.toLowerCase()))
+  );
+  const relatedBlogArticles = [...directMatches, ...categoryFallback].slice(0, 6);
 
   // Dynamic FAQs answering high-volume search intent (Pricing, Free tiers, Alternatives)
   const faqs = [
