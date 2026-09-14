@@ -53,6 +53,11 @@ export async function generateMetadata({ params }: AlternativePageProps): Promis
       description,
       url: `https://www.stackaitools.com/alternatives/${tool.slug}`,
       type: 'article'
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
     }
   };
 }

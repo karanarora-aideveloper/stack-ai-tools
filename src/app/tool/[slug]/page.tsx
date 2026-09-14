@@ -70,17 +70,9 @@ export async function generateMetadata({ params }: ToolPageProps): Promise<Metad
       description,
       url: `https://www.stackaitools.com/tool/${tool.slug}`,
       type: 'article',
-      images: [
-        {
-          url: tool.logoUrl,
-          width: 128,
-          height: 128,
-          alt: `${tool.name} logo`,
-        }
-      ]
     },
     twitter: {
-      card: 'summary',
+      card: 'summary_large_image',
       title,
       description,
     }

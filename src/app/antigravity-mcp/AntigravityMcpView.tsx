@@ -26,7 +26,8 @@ import {
   FolderGit2, 
   Monitor, 
   Zap, 
-  Cpu
+  Cpu,
+  Share2
 } from 'lucide-react';
 
 interface AntigravityMcpViewProps {

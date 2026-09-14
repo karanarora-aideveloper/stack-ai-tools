@@ -29,21 +29,12 @@ export const metadata: Metadata = {
     description: 'Curated directory of top Claude connectors, plugins, and Model Context Protocol (MCP) servers on GitHub. Instant one-click configs for Claude Desktop and Claude Code CLI.',
     url: 'https://www.stackaitools.com/claude-connectors',
     siteName: 'Stack AI Tools',
-    images: [
-      {
-        url: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80',
-        width: 1200,
-        height: 630,
-        alt: 'Top Claude Connectors and Plugins Directory 2026',
-      }
-    ],
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Top Claude Connectors & Plugins (2026): 40+ Verified MCP Servers',
     description: 'Curated directory of top Claude connectors, plugins, and MCP servers on GitHub. Instant one-click configs for Claude Desktop.',
-    images: ['https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80'],
   }
 };
 

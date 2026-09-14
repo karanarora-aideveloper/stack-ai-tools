@@ -71,14 +71,6 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
       description,
       url: `https://www.stackaitools.com/blog/${article.slug}`,
       siteName: 'Stack AI Tools',
-      images: [
-        {
-          url: article.imageUrl,
-          width: 1200,
-          height: 630,
-          alt: article.title,
-        },
-      ],
       type: 'article',
       publishedTime: article.publishedAt,
       modifiedTime: article.updatedAt,

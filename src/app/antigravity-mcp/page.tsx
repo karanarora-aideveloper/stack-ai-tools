@@ -27,21 +27,12 @@ export const metadata: Metadata = {
     description: 'Curated catalog of top Model Context Protocol (MCP) servers and tools for Google Antigravity (AGY). One-click mcp_config.json configs and setup guide.',
     url: 'https://www.stackaitools.com/antigravity-mcp',
     siteName: 'Stack AI Tools',
-    images: [
-      {
-        url: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80',
-        width: 1200,
-        height: 630,
-        alt: 'Antigravity MCP Servers and Tools Directory 2026',
-      }
-    ],
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Top Antigravity MCP Servers & Tools (2026): 30+ Verified Connectors',
     description: 'Curated directory of top Model Context Protocol (MCP) servers for Google Antigravity. Instant one-click mcp_config.json configs.',
-    images: ['https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80'],
   }
 };
 
