@@ -41,7 +41,10 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/go/'],
       },
     ],
-    sitemap: `${baseUrl}/sitemap.xml`,
+    sitemap: [
+      `${baseUrl}/sitemap.xml`,
+      ...Array.from({ length: 11 }, (_, i) => `${baseUrl}/sitemap/${i}.xml`),
+    ],
     host: baseUrl,
   };
 }
