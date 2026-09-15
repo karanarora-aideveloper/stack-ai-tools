@@ -43,7 +43,7 @@ export interface PromptItem {
   tags?: string[];
 }
 
-export const aiTools: AITool[] = [
+export const aiTools: AITool[] = [ { id: 519, name: 'Durofy', category: 'Design', domain: 'durofy.com', logoUrl: 'https://www.google.com/s2/favicons?domain=durofy.com&sz=128', description: 'Free AI magazine cover generator — upload a photo, pick a style, get a magazine cover; first 3 covers free, no signup', pricingModel: 'Freemium', priceClass: 'freemium', link: 'https://durofy.com/', tags: ['Magazine Cover Generator', 'Photo to Magazine', 'AI Portraits'] },
   {
     id: 1,
     name: 'Devin AI (Cognition Labs)',
