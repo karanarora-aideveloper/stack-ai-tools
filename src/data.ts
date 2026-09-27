@@ -45,6 +45,47 @@ export interface PromptItem {
 
 export const aiTools: AITool[] = [
   {
+    id: 1001,
+    name: 'OpenAI o3 & o3-mini (Reasoning Engine)',
+    category: 'Code',
+    icon: '🧠',
+    domain: 'openai.com',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=openai.com&sz=128',
+    description: 'OpenAI\'s flagship frontier reasoning engine featuring dynamic reasoning effort calibration (low, medium, high), native Structured Outputs (JSON Schema), 91.8% AIME 2024 score, and high-throughput production API endpoints.',
+    pricingModel: 'Freemium',
+    priceClass: 'freemium',
+    link: 'https://openai.com',
+    rating: 4.97,
+    reviewsCount: 19400,
+    tags: ['Reasoning Model', 'o3-mini', 'Formal Verification', 'Structured Outputs', 'STEM', 'Math', 'Prompt Caching'],
+    badge: 'Reasoning #1',
+    featured: true,
+    primaryUseCase: 'Complex mathematical reasoning, competitive algorithmic coding, and formal software verification',
+    useCases: [
+      'Formally verify concurrency race conditions, memory safety, and distributed invariants',
+      'Solve master-level competitive programming algorithms (Codeforces 2240+ Elo)',
+      'Generate guaranteed syntactical JSON Schema and Pydantic structured output payloads'
+    ],
+    complexity: 'Frontier Engineering',
+    idealFor: 'Software Architects, Quantitative Researchers, AI Platform Engineers',
+    bestFor: 'Engineering teams building mission-critical services that require verifiable chain-of-thought proofs and zero schema hallucination',
+    editorialReview: "OpenAI o3 and o3-mini represent the industrialization of inference-time reasoning. With granular reasoning_effort controls, native JSON Schema enforcement, and an 80% lower cost than early preview checkpoints, o3-mini is the premier choice for algorithmic logic, competitive coding, and formal proof verification.",
+    zapierVerdict: "OpenAI o3-mini sets the benchmark for production reasoning compute, delivering master-tier STEM problem solving with predictable latency.",
+    authoritySummary: "Scored 91.8% on AIME 2024 and 2240 Elo on Codeforces. Backed by Microsoft and OpenAI's frontier supercomputing clusters.",
+    verifiedBy: "AIME 2024 Verified • Codeforces Master Tier",
+    pros: [
+      "Configurable reasoning effort: low for fast sub-2.5s streaming, high for formal proofs",
+      "Native Structured Outputs guarantee 100% adherence to Pydantic/Zod schemas",
+      "Prompt caching yields 50% discount on cached input context ($0.55/MTok)",
+      "Supports native Function Calling and Server-Sent Events (SSE) streaming"
+    ],
+    cons: [
+      "Reasoning tokens consume output billing budget",
+      "High reasoning effort mode can take 15-20 seconds before outputting visible tokens"
+    ],
+    architectureStack: ['Test-Time Compute Scaling', 'Hidden Deliberation Tokens', 'Key-Value Cache Compression']
+  },
+  {
     id: 1,
     name: 'Devin AI (Cognition Labs)',
     category: 'Code',

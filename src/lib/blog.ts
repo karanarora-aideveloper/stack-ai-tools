@@ -1,6 +1,7 @@
 import articlesData from '../../data/articles.json';
 import { VisualToolItem } from '../app/components/VisualToolList';
 import { getToolSlug, getPrisma, getAllTools, EnrichedTool } from './tools';
+import { breakingNewsArticlesMetadata, breakingNewsArticlesContent } from '../data/blogs';
 
 // Match an article to the best real tool from the full live catalog (DB-backed, ~216 tools,
 // falling back to the ~98-tool static list only if the DB is unreachable) rather than the
@@ -116,6 +117,7 @@ export async function getAllArticles(): Promise<Article[]> {
     return articlesCache.data;
   }
 
+  let baseArticles: Article[] = [];
   try {
     const db = getPrisma();
     const dbArticles = await fetchWithTimeout(db.article.findMany({
@@ -123,7 +125,7 @@ export async function getAllArticles(): Promise<Article[]> {
     }), 20000);
 
     if (dbArticles && dbArticles.length > 0) {
-      const mapped: Article[] = dbArticles
+      baseArticles = dbArticles
         .sort((a, b) => a.legacyId - b.legacyId)
         .map((a) => ({
           id: a.legacyId,
@@ -144,16 +146,20 @@ export async function getAllArticles(): Promise<Article[]> {
           updatedAt: a.updatedAt,
           tags: a.tags || []
         }));
-
-      articlesCache = { data: mapped, timestamp: now };
-      return mapped;
+    } else {
+      baseArticles = staticArticlesList;
     }
   } catch (e) {
-    // Graceful fallback to static dataset
+    baseArticles = staticArticlesList;
   }
 
-  articlesCache = { data: staticArticlesList, timestamp: now };
-  return staticArticlesList;
+  // Prepend breaking news articles so they appear first and de-duplicate if in DB
+  const breakingSlugs = new Set(breakingNewsArticlesMetadata.map((a) => a.slug));
+  const filteredBase = baseArticles.filter((a) => !breakingSlugs.has(a.slug));
+  const combined = [...breakingNewsArticlesMetadata, ...filteredBase];
+
+  articlesCache = { data: combined, timestamp: now };
+  return combined;
 }
 
 export async function getArticleBySlug(slug: string): Promise<Article | undefined> {
@@ -229,6 +235,11 @@ export interface DeepArticleContent {
 }
 
 export async function generateArticleContent(article: Article): Promise<DeepArticleContent> {
+  // Check if article has dedicated in-depth breaking news content
+  if (breakingNewsArticlesContent[article.slug]) {
+    return breakingNewsArticlesContent[article.slug];
+  }
+
   const isClaudeTopic = article.title.toLowerCase().includes('claude') || article.tags.some(t => t.toLowerCase().includes('claude'));
   const cat = article.category.toLowerCase();
 

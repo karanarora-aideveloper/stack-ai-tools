@@ -24,6 +24,7 @@ const SLUG_MAP: Record<string, string> = {
   'Claude Code (Anthropic CLI)': 'claude-code',
   'Claude Sonnet 5 & Artifacts (Anthropic)': 'claude',
   'ChatGPT Plus & Team (OpenAI)': 'chatgpt',
+  'OpenAI o3 & o3-mini (Reasoning Engine)': 'openai-o3',
   'Cursor 3.1 (Composer Agents)': 'cursor',
   'Cursor AI (Anysphere)': 'cursor',
   'Midjourney v8.1': 'midjourney',
