@@ -60,6 +60,19 @@ export default function BlogView({
     if (initialCategory) setSelectedCategory(initialCategory);
   }, [initialCategory]);
 
+  // Sync state from URL search params on client mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const cat = params.get('category');
+      const page = parseInt(params.get('page') || '', 10);
+      const q = params.get('q');
+      if (cat) setSelectedCategory(cat);
+      if (page && !isNaN(page)) setCurrentPage(page);
+      if (q) setSearchQuery(q);
+    }
+  }, []);
+
   const filteredArticles = useMemo(() => {
     return articles.filter((a) => {
       const matchCat = selectedCategory === 'all' || a.category.toLowerCase() === selectedCategory.toLowerCase();

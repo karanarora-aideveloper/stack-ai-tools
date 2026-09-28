@@ -2,6 +2,8 @@ import { MetadataRoute } from 'next';
 import { getAllTools, getAllCategories } from '@/lib/tools';
 import { getAllArticles } from '@/lib/blog';
 
+export const dynamic = 'force-static';
+
 export async function generateSitemaps() {
   // 0: Core pages, categories, tools, alternatives, search hubs (~600 URLs)
   // 1-10: 1,000 articles per chunk for the 10,000 article catalog

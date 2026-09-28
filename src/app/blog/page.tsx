@@ -2,36 +2,9 @@ import { Metadata } from 'next';
 import BlogView from './BlogView';
 import { getAllArticles } from '@/lib/blog';
 
-interface BlogPageProps {
-  searchParams: Promise<{
-    page?: string;
-    category?: string;
-    q?: string;
-  }>;
-}
-
-export async function generateMetadata({ searchParams }: BlogPageProps): Promise<Metadata> {
-  const { page, category } = (await searchParams) || {};
-  const pageNum = parseInt(page || '1', 10) || 1;
-  const catParam = category && category !== 'all' ? category.toLowerCase() : null;
-
-  let title = 'AI Tools Blog & Reviews (2026) | Stack AI Tools';
-  if (catParam) {
-    const formattedCat = catParam.charAt(0).toUpperCase() + catParam.slice(1);
-    title = `${formattedCat} AI Guides & Reviews (2026) | Stack AI Tools`;
-  }
-  if (pageNum > 1) {
-    title = `${title} - Page ${pageNum}`;
-  }
-
-  const queryParams = new URLSearchParams();
-  if (catParam) queryParams.set('category', catParam);
-  if (pageNum > 1) queryParams.set('page', String(pageNum));
-  const queryString = queryParams.toString();
-
-  const canonicalUrl = queryString
-    ? `https://www.stackaitools.com/blog?${queryString}`
-    : 'https://www.stackaitools.com/blog';
+export async function generateMetadata(): Promise<Metadata> {
+  const title = 'AI Tools Blog & Reviews (2026) | Stack AI Tools';
+  const canonicalUrl = 'https://www.stackaitools.com/blog';
 
   return {
     title: { absolute: title },
@@ -69,12 +42,7 @@ export async function generateMetadata({ searchParams }: BlogPageProps): Promise
   };
 }
 
-export default async function BlogPage({ searchParams }: BlogPageProps) {
-  const { page, category, q } = (await searchParams) || {};
-  const initialPage = Math.max(1, parseInt(page || '1', 10) || 1);
-  const initialCategory = category || 'all';
-  const initialQuery = q || '';
-
+export default async function BlogPage() {
   const articles = await getAllArticles();
 
   const blogSchema = {
@@ -101,12 +69,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(blogSchema) }}
       />
-      <BlogView 
-        articles={articles} 
-        initialPage={initialPage}
-        initialCategory={initialCategory}
-        initialQuery={initialQuery}
-      />
+      <BlogView articles={articles} />
     </>
   );
 }

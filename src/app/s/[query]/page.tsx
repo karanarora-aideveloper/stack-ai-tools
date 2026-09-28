@@ -23,6 +23,8 @@ interface SearchHubPageProps {
   params: Promise<{ query: string }>;
 }
 
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   const hubs = getAllSearchHubs();
   return hubs.map((h) => ({

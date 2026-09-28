@@ -140,11 +140,12 @@ export function slugify(text: string): string {
     .replace(/^-+|-+$/g, '');
 }
 
-export function getToolSlug(tool: AITool | { name: string }): string {
-  if (SLUG_MAP[tool.name]) {
-    return SLUG_MAP[tool.name];
+export function getToolSlug(tool: AITool | { name: string } | string): string {
+  const name = typeof tool === 'string' ? tool : tool?.name || '';
+  if (SLUG_MAP[name]) {
+    return SLUG_MAP[name];
   }
-  return slugify(tool.name);
+  return slugify(name);
 }
 
 export interface EnrichedTool extends AITool {

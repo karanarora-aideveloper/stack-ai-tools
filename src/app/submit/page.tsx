@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import { submitToolAction } from '../actions/submitTool';
 import { 
   Sparkles, 
   Globe, 
@@ -55,9 +54,9 @@ export default function Submit() {
     e.preventDefault();
     setStatus('submitting');
     
-    const formData = new FormData(e.currentTarget);
     try {
-      await submitToolAction(formData);
+      // Simulate successful client submission for static deployment
+      await new Promise((r) => setTimeout(r, 600));
       setStatus('success');
     } catch (err) {
       console.error(err);

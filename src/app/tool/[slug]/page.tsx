@@ -34,6 +34,8 @@ interface ToolPageProps {
   params: Promise<{ slug: string }>;
 }
 
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   const tools = await getAllTools();
   return tools.map((tool) => ({

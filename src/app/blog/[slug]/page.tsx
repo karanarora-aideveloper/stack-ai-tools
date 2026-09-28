@@ -9,6 +9,7 @@ import {
   getRelatedArticles,
   getVisualToolsForArticle
 } from '@/lib/blog';
+import { breakingNewsArticlesMetadata } from '@/data/blogs';
 import VisualToolList from '@/app/components/VisualToolList';
 import { 
   Clock, 
@@ -34,14 +35,21 @@ interface ArticlePageProps {
   }>;
 }
 
-export const dynamicParams = true;
+export const dynamicParams = false;
 export const revalidate = 3600;
 
 export async function generateStaticParams() {
   const articles = await getAllArticles();
-  // Pre-render top 150 highest-demand US commercial articles at build time, remaining resolve via ISR
-  const sorted = [...articles].sort((a, b) => (b.searchVolume || 0) - (a.searchVolume || 0));
-  return sorted.slice(0, 150).map((a) => ({
+  const breakingSlugs = new Set(breakingNewsArticlesMetadata.map((a) => a.slug));
+  const remaining = articles.filter((a) => !breakingSlugs.has(a.slug));
+  const sortedRemaining = [...remaining].sort((a, b) => (b.searchVolume || 0) - (a.searchVolume || 0));
+
+  const targetArticles = [
+    ...breakingNewsArticlesMetadata,
+    ...sortedRemaining.slice(0, 200)
+  ];
+
+  return targetArticles.map((a) => ({
     slug: a.slug,
   }));
 }
