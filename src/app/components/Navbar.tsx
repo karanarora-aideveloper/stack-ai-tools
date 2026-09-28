@@ -41,7 +41,14 @@ export default function Navbar() {
     return false;
   };
 
-  if (pathname === '/redesign' || pathname?.startsWith('/redesign')) {
+  if (
+    pathname === '/' ||
+    pathname === '/redesign' ||
+    pathname?.startsWith('/redesign') ||
+    pathname === '/categories' ||
+    pathname?.startsWith('/categories') ||
+    pathname?.startsWith('/category')
+  ) {
     return null;
   }
 

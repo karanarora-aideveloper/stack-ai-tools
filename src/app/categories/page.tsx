@@ -1,8 +1,9 @@
 import { Metadata } from 'next';
-import { getAllTools, getAllPrompts, EnrichedTool } from '@/lib/tools';
+import { getAllTools, getAllPrompts } from '@/lib/tools';
 import CategoriesExplorer, { CategoryCardData } from './CategoriesExplorer';
-import ModernBackground from '@/app/components/ModernBackground';
-import { Sparkles, Layers, ShieldCheck, Zap } from 'lucide-react';
+import ObsidianHeader from '@/app/components/ObsidianHeader';
+import ObsidianFooter from '@/app/components/ObsidianFooter';
+import { Sparkles, ShieldCheck } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: { absolute: 'AI Software Categories (2026) | Stack AI Tools' },
@@ -182,92 +183,68 @@ export default async function CategoriesPage() {
   });
 
   return (
-    <div style={{ position: 'relative', minHeight: '100vh', paddingBottom: 80 }}>
-      {/* Ambient Radial Mesh Background */}
-      <ModernBackground />
+    <div data-redesign-page="true" className="min-h-screen bg-[#040406] text-[#e3e1ec] antialiased selection:bg-[#8b5cf6] selection:text-white relative">
+      {/* Atmospheric Ambient Glow Mesh */}
+      <div className="obsidian-glow-mesh fixed inset-x-0 top-0 h-[700px] pointer-events-none -z-10" />
+
+      {/* Shared Obsidian Luxury Header */}
+      <ObsidianHeader activeNav="categories" />
 
       {/* Hero Header Section */}
-      <header className="page-header" style={{ maxWidth: 880, margin: '0 auto 40px', textAlign: 'center', position: 'relative', zIndex: 2 }}>
-        <div style={{ 
-          display: 'inline-flex', 
-          alignItems: 'center', 
-          gap: 8, 
-          padding: '6px 16px', 
-          borderRadius: 100,
-          background: 'rgba(99, 102, 241, 0.12)', 
-          border: '1px solid rgba(99, 102, 241, 0.3)', 
-          color: 'var(--accent-secondary)', 
-          fontSize: 12.5, 
-          fontWeight: 700, 
-          letterSpacing: '0.04em', 
-          textTransform: 'uppercase', 
-          marginBottom: 16 
-        }}>
-          <Sparkles size={14} color="#818cf8" />
-          <span>Frontier AI Software Taxonomy (2026)</span>
+      <header className="pt-16 pb-8 px-4 md:px-8 max-w-5xl mx-auto text-center relative z-10">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-zinc-900/90 border border-violet-500/30 text-xs text-zinc-300 mb-6 shadow-sm">
+          <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span className="tracking-wide uppercase font-mono text-[11px] text-zinc-400">FRONTIER AI TAXONOMY</span>
+          <span className="text-zinc-600">•</span>
+          <span className="text-violet-400 font-medium">8 CORE ECOSYSTEMS</span>
         </div>
 
-        <h1 className="page-title" style={{ 
-          fontSize: 'clamp(32px, 5vw, 48px)', 
-          fontWeight: 900, 
-          letterSpacing: '-0.03em', 
-          lineHeight: 1.15, 
-          color: 'var(--text-strong)', 
-          marginBottom: 16 
-        }}>
-          Explore AI Tools by <span className="modern-hero-gradient">Category & Ecosystem</span>
+        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-white mb-6 font-['Geist',sans-serif] leading-[1.12]">
+          Explore AI Tools by{' '}
+          <span className="bg-gradient-to-r from-violet-400 via-purple-300 to-cyan-400 bg-clip-text text-transparent">
+            Category & Ecosystem
+          </span>
         </h1>
 
-        <p className="page-subtitle" style={{ 
-          fontSize: 'clamp(15px, 2vw, 17px)', 
-          color: 'var(--text-secondary)', 
-          lineHeight: 1.6, 
-          maxWidth: 720, 
-          margin: '0 auto 28px' 
-        }}>
-          Discover curated directories of verified frontier tools, autonomous agents, and production prompts segmented across engineering, media, workflow automation, and enterprise intelligence.
+        <p className="text-base sm:text-lg text-zinc-400 max-w-2xl mx-auto leading-relaxed font-light mb-10">
+          Discover curated directories of verified frontier tools, autonomous agents, and production prompts segmented across engineering, generative media, and enterprise intelligence.
         </p>
 
-        {/* 4-Stat Metric Ribbon */}
-        <div style={{ 
-          display: 'grid', 
-          gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', 
-          gap: 12, 
-          maxWidth: 720, 
-          margin: '0 auto', 
-          padding: '12px 16px', 
-          background: 'rgba(var(--ink-tint-rgb), 0.03)', 
-          backdropFilter: 'blur(12px)', 
-          border: '1px solid rgba(var(--ink-tint-rgb), 0.08)', 
-          borderRadius: 14 
-        }}>
-          <div>
-            <div style={{ fontSize: 20, fontWeight: 800, color: 'var(--text-strong)' }}>8 Core</div>
-            <div style={{ fontSize: 11.5, fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase' }}>Ecosystems</div>
+        {/* 4-Stat Metric Ribbon in Obsidian Style */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl mx-auto p-2 rounded-xl bg-zinc-950/60 border border-white/10 backdrop-blur-md">
+          <div className="text-center py-2 px-3">
+            <div className="text-xl font-bold text-white font-['Geist',sans-serif]">8 Core</div>
+            <div className="text-[11px] text-zinc-500 font-mono uppercase tracking-wider">Ecosystems</div>
           </div>
-          <div>
-            <div style={{ fontSize: 20, fontWeight: 800, color: 'var(--accent-secondary)' }}>{allTools.length}+</div>
-            <div style={{ fontSize: 11.5, fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase' }}>Frontier Tools</div>
+          <div className="text-center py-2 px-3 sm:border-l border-white/10">
+            <div className="text-xl font-bold text-violet-400 font-['Geist',sans-serif]">{allTools.length}+</div>
+            <div className="text-[11px] text-zinc-500 font-mono uppercase tracking-wider">Frontier Tools</div>
           </div>
-          <div>
-            <div style={{ fontSize: 20, fontWeight: 800, color: '#ec4899' }}>{allPrompts.length}+</div>
-            <div style={{ fontSize: 11.5, fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase' }}>Vetted Prompts</div>
+          <div className="text-center py-2 px-3 sm:border-l border-white/10">
+            <div className="text-xl font-bold text-pink-400 font-['Geist',sans-serif]">{allPrompts.length}+</div>
+            <div className="text-[11px] text-zinc-500 font-mono uppercase tracking-wider">Vetted Prompts</div>
           </div>
-          <div>
-            <div style={{ fontSize: 20, fontWeight: 800, color: 'var(--color-success)' }}>100%</div>
-            <div style={{ fontSize: 11.5, fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase' }}>Vetted & Active</div>
+          <div className="text-center py-2 px-3 sm:border-l border-white/10 flex flex-col items-center justify-center">
+            <div className="text-xl font-bold text-emerald-400 font-['Geist',sans-serif] flex items-center gap-1">
+              <ShieldCheck size={18} className="text-emerald-400" />
+              <span>100%</span>
+            </div>
+            <div className="text-[11px] text-zinc-500 font-mono uppercase tracking-wider">Vetted & Active</div>
           </div>
         </div>
       </header>
 
       {/* Main Interactive Categories Explorer */}
-      <main style={{ position: 'relative', zIndex: 2 }}>
+      <main className="relative z-10">
         <CategoriesExplorer 
           categories={categoriesData} 
           totalTools={allTools.length}
           totalPrompts={allPrompts.length}
         />
       </main>
+
+      {/* Shared Obsidian Luxury Footer */}
+      <ObsidianFooter />
     </div>
   );
 }

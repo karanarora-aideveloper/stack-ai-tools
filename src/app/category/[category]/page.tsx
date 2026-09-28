@@ -3,18 +3,15 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { getToolsByCategory, getAllCategories } from '@/lib/tools';
 import ToolLogo from '@/app/components/ToolLogo';
+import ObsidianHeader from '@/app/components/ObsidianHeader';
+import ObsidianFooter from '@/app/components/ObsidianFooter';
 import { 
   Star, 
-  ExternalLink, 
   ChevronRight, 
-  Layers, 
   ArrowRight, 
   ShieldCheck, 
   Sparkles,
-  HelpCircle,
-  CheckCircle2,
-  Zap,
-  TrendingUp
+  HelpCircle
 } from 'lucide-react';
 
 interface CategoryPageProps {
@@ -132,7 +129,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   };
 
   return (
-    <div className="category-page-container">
+    <div data-redesign-page="true" className="min-h-screen bg-[#040406] text-[#e3e1ec] antialiased selection:bg-[#8b5cf6] selection:text-white relative">
       {/* Schema.org Injections */}
       <script
         type="application/ld+json"
@@ -143,59 +140,77 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
+      {/* Atmospheric Ambient Glow Mesh */}
+      <div className="obsidian-glow-mesh fixed inset-x-0 top-0 h-[700px] pointer-events-none -z-10" />
+
+      {/* Shared Obsidian Luxury Header */}
+      <ObsidianHeader activeNav="categories" />
+
       {/* Breadcrumbs */}
-      <nav className="tool-breadcrumbs" aria-label="Breadcrumb">
-        <Link href="/">Home</Link>
-        <ChevronRight size={14} />
-        <Link href="/categories">Categories</Link>
-        <ChevronRight size={14} />
-        <span style={{ color: 'var(--arcade-cyan)', fontWeight: 600 }}>{categoryName}</span>
-      </nav>
+      <div className="max-w-7xl mx-auto px-4 md:px-8 pt-8">
+        <nav className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-zinc-900/70 border border-white/10 text-xs text-zinc-400 font-mono" aria-label="Breadcrumb">
+          <Link href="/" className="hover:text-white transition-colors">Home</Link>
+          <ChevronRight size={12} className="text-zinc-600" />
+          <Link href="/categories" className="hover:text-white transition-colors">Categories</Link>
+          <ChevronRight size={12} className="text-zinc-600" />
+          <span className="text-violet-400 font-medium">{categoryName}</span>
+        </nav>
+      </div>
 
       {/* Hero Banner */}
-      <header className="category-hero-header">
-        <div className="category-hero-pill">
-          <Sparkles size={14} color="#00f0ff" />
-          <span>Curated Category Leaderboard</span>
+      <header className="pt-10 pb-8 px-4 md:px-8 max-w-7xl mx-auto text-center">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-zinc-900/90 border border-violet-500/30 text-xs text-zinc-300 mb-6 shadow-sm">
+          <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span className="tracking-wide uppercase font-mono text-[11px] text-zinc-400">CURATED 2026 LEADERBOARD</span>
+          <span className="text-zinc-600">•</span>
+          <span className="text-violet-400 font-medium">{tools.length} VETTED TOOLS</span>
         </div>
 
-        <h1 className="category-hero-title">
-          Top AI {categoryName} Software & Agents (2026)
+        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-white mb-5 font-['Geist',sans-serif] leading-[1.12]">
+          Top AI {categoryName} Software &{' '}
+          <span className="bg-gradient-to-r from-violet-400 via-purple-300 to-cyan-400 bg-clip-text text-transparent">
+            Autonomous Agents
+          </span>
         </h1>
 
-        <p className="category-hero-subtitle">
-          {categoryDescriptions[category.toLowerCase()] || `Explore ${tools.length} hand-vetted ${categoryName.toLowerCase()} solutions benchmarked for accuracy, speed, and production integration.`}
+        <p className="text-base sm:text-lg text-zinc-400 max-w-3xl mx-auto leading-relaxed font-light mb-8">
+          {categoryDescriptions[category.toLowerCase()] || `Explore ${tools.length} hand-vetted ${categoryName.toLowerCase()} solutions benchmarked for zero-shot accuracy, latency, and production integration.`}
         </p>
 
-        {/* Stats Pill Row */}
-        <div className="category-stats-bar">
-          <div className="cat-stat-chip">
-            <span className="stat-highlight">{tools.length}</span>
-            <span>Vetted Tools</span>
+        {/* 3-Stat Metric Bar */}
+        <div className="grid grid-cols-3 gap-3 max-w-xl mx-auto mb-10 p-2 rounded-xl bg-zinc-950/60 border border-white/10 backdrop-blur-md">
+          <div className="text-center py-2 px-3">
+            <div className="text-xl font-bold text-white font-['Geist',sans-serif]">{tools.length}</div>
+            <div className="text-[11px] text-zinc-500 font-mono uppercase tracking-wider">Vetted Tools</div>
           </div>
-          <span className="stat-separator">•</span>
-          <div className="cat-stat-chip">
-            <span className="stat-highlight" style={{ color: 'var(--color-success)' }}>{freeToolsCount}</span>
-            <span>Free Tiers Available</span>
+          <div className="text-center py-2 px-3 border-x border-white/10">
+            <div className="text-xl font-bold text-emerald-400 font-['Geist',sans-serif]">{freeToolsCount}</div>
+            <div className="text-[11px] text-zinc-500 font-mono uppercase tracking-wider">Free Tiers</div>
           </div>
-          <span className="stat-separator">•</span>
-          <div className="cat-stat-chip" style={{ color: 'var(--color-success)' }}>
-            <ShieldCheck size={14} />
-            <span>Verified 2026 Audit</span>
+          <div className="text-center py-2 px-3 flex flex-col items-center justify-center">
+            <div className="text-xl font-bold text-violet-400 font-['Geist',sans-serif] flex items-center gap-1">
+              <ShieldCheck size={18} className="text-emerald-400" />
+              <span>100%</span>
+            </div>
+            <div className="text-[11px] text-zinc-500 font-mono uppercase tracking-wider">Audit Pass</div>
           </div>
         </div>
 
         {/* Quick Category Switcher Tabs */}
-        <div className="category-switcher-scroll">
+        <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-2 px-1 max-w-4xl mx-auto justify-start sm:justify-center">
           {allCategories.map((cat) => {
             const isActive = cat.toLowerCase() === category.toLowerCase();
             return (
               <Link
                 key={cat}
                 href={`/category/${cat.toLowerCase()}`}
-                className={`category-switch-tab ${isActive ? 'active' : ''}`}
+                className={`px-3.5 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all duration-200 border ${
+                  isActive
+                    ? 'bg-violet-600 text-white border-violet-400/50 shadow-[0_0_15px_rgba(139,92,246,0.4)]'
+                    : 'bg-zinc-900/80 text-zinc-400 hover:text-white hover:bg-zinc-800 border-white/10'
+                }`}
               >
-                <span>{cat}</span>
+                {cat}
               </Link>
             );
           })}
@@ -203,107 +218,144 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       </header>
 
       {/* Tools Grid */}
-      <main className="category-tools-grid">
-        {tools.map((tool) => (
-          <div key={tool.id} className="category-tool-card">
-            {/* Card Header */}
-            <div className="cat-card-header">
-              <div className="cat-card-identity">
-                <ToolLogo 
-                  name={tool.name}
-                  domain={tool.domain}
-                  logoUrl={tool.logoUrl}
-                  icon={tool.icon}
-                  size={46}
-                />
-                <div className="cat-card-titles">
-                  <h3 className="cat-card-name">
-                    <Link href={`/tool/${tool.slug}`}>
-                      {tool.name}
-                    </Link>
-                  </h3>
-                  <div className="cat-card-badges">
-                    <span className="tool-category-tag">{tool.category}</span>
-                    <span className={`tool-price-tag price-${tool.priceClass}`}>
-                      {tool.pricingModel}
-                    </span>
+      <main className="max-w-7xl mx-auto px-4 md:px-8 py-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {tools.map((tool) => (
+            <div 
+              key={tool.id} 
+              className="obsidian-card rounded-2xl p-6 flex flex-col justify-between border border-white/[0.08] hover:border-violet-500/40 transition-all duration-200 group"
+            >
+              <div>
+                {/* Card Header */}
+                <div className="flex items-start justify-between gap-3 mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-xl bg-zinc-900 border border-white/10 p-1 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                      <ToolLogo 
+                        name={tool.name}
+                        domain={tool.domain}
+                        logoUrl={tool.logoUrl}
+                        icon={tool.icon}
+                        size={38}
+                      />
+                    </div>
+                    <div>
+                      <h3 className="text-base font-semibold text-white group-hover:text-violet-300 transition-colors font-['Geist',sans-serif] leading-tight">
+                        <Link href={`/tool/${tool.slug}`}>
+                          {tool.name}
+                        </Link>
+                      </h3>
+                      <div className="flex items-center gap-2 mt-1">
+                        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-900 border border-white/10 text-zinc-400">
+                          {tool.category}
+                        </span>
+                        <span className={`text-[10px] font-mono px-2 py-0.5 rounded border ${
+                          tool.priceClass === 'free' 
+                            ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/25' 
+                            : tool.priceClass === 'freemium'
+                            ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/25'
+                            : 'bg-zinc-800 text-zinc-300 border-white/10'
+                        }`}>
+                          {tool.pricingModel}
+                        </span>
+                      </div>
+                    </div>
                   </div>
+
+                  {/* Star Rating */}
+                  <div className="flex items-center gap-1 px-2 py-1 rounded-md bg-zinc-900/80 border border-white/10 text-xs font-mono shrink-0">
+                    <Star size={12} className="text-amber-400 fill-amber-400" />
+                    <span className="text-white font-semibold">{tool.rating.toFixed(1)}</span>
+                    <span className="text-zinc-500 text-[10px]">({tool.reviewsCount.toLocaleString()})</span>
+                  </div>
+                </div>
+
+                {/* Editorial / Zapier Pill if available */}
+                {tool.zapierVerdict && (
+                  <div className="flex items-center gap-1.5 text-[11px] font-mono text-amber-300/90 bg-amber-500/10 border border-amber-500/20 px-2.5 py-1 rounded-md mb-3">
+                    <ShieldCheck size={12} className="text-amber-400" />
+                    <span>Zapier & Editorial Verified</span>
+                  </div>
+                )}
+
+                {/* Description */}
+                <p className="text-xs text-zinc-400 line-clamp-3 leading-relaxed mb-4 font-light">
+                  {tool.description}
+                </p>
+
+                {/* Tags List */}
+                <div className="flex flex-wrap gap-1.5 mb-6">
+                  {tool.tags.slice(0, 3).map((tag) => (
+                    <span key={tag} className="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-900/80 border border-white/10 text-zinc-400">
+                      #{tag}
+                    </span>
+                  ))}
                 </div>
               </div>
 
-              <div className="cat-card-rating">
-                <Star size={13} className="star-icon" fill="currentColor" />
-                <span className="rating-val">{tool.rating.toFixed(1)}</span>
-                <span className="review-val">({tool.reviewsCount.toLocaleString()})</span>
+              {/* Card Footer Actions */}
+              <div className="space-y-2.5 pt-4 border-t border-white/[0.06]">
+                <div className="flex items-center gap-2">
+                  <Link 
+                    href={`/tool/${tool.slug}`} 
+                    className="flex-1 py-2 px-3 text-center text-xs font-medium rounded-lg bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white border border-white/10 transition-colors"
+                  >
+                    In-depth Review
+                  </Link>
+                  <a 
+                    href={tool.link.startsWith('http') ? `/go/${tool.slug}` : tool.link} 
+                    target="_blank" 
+                    rel="sponsored nofollow noopener"
+                    className="flex-1 py-2 px-3 text-center text-xs font-medium rounded-lg bg-white text-zinc-950 hover:bg-zinc-100 transition-all flex items-center justify-center gap-1 shadow-[0_0_12px_rgba(255,255,255,0.15)] active:scale-95"
+                  >
+                    <span>Try Free</span>
+                    <ArrowRight size={13} />
+                  </a>
+                </div>
+
+                <div className="text-center pt-1">
+                  <Link 
+                    href={`/alternatives/${tool.slug}`} 
+                    className="text-[11px] text-zinc-500 hover:text-violet-300 transition-colors inline-flex items-center gap-1 font-mono"
+                  >
+                    <span>Top Alternatives to {tool.name.split(' ')[0]}</span>
+                    <ChevronRight size={11} />
+                  </Link>
+                </div>
               </div>
             </div>
-
-            {/* Editorial / Zapier Pill if available */}
-            {tool.zapierVerdict && (
-              <div className="cat-card-verdict">
-                <ShieldCheck size={12} color="#fbbf24" />
-                <span>Zapier & Editorial Verified</span>
-              </div>
-            )}
-
-            {/* Description */}
-            <p className="cat-card-desc">
-              {tool.description}
-            </p>
-
-            {/* Tags List */}
-            <div className="cat-card-tags">
-              {tool.tags.slice(0, 3).map((tag) => (
-                <span key={tag} className="tag-pill">#{tag}</span>
-              ))}
-            </div>
-
-            {/* Card Footer Actions */}
-            <div className="cat-card-footer">
-              <Link href={`/tool/${tool.slug}`} className="cat-btn-review">
-                <span>In-depth Review</span>
-              </Link>
-              <a 
-                href={`/go/${tool.slug}`} 
-                target="_blank" 
-                rel="sponsored nofollow noopener"
-                className="cat-btn-try"
-              >
-                <span>Try Free</span>
-                <ArrowRight size={14} />
-              </a>
-            </div>
-            <div style={{ marginTop: 10, textAlign: 'center' }}>
-              <Link 
-                href={`/alternatives/${tool.slug}`} 
-                style={{ fontSize: 12, color: 'var(--text-muted)', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 4 }}
-              >
-                <span>Top Alternatives to {tool.name.split(' ')[0]}</span>
-                <ChevronRight size={12} />
-              </Link>
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </main>
 
       {/* FAQ & Buying Guide */}
-      <section className="category-faq-section">
-        <div className="tool-card-box">
-          <h2 className="tool-box-title">
-            <HelpCircle size={20} color="#00f0ff" />
-            Frequently Asked Questions: {categoryName} AI Software
-          </h2>
-          <div className="category-faq-list">
+      <section className="max-w-4xl mx-auto px-4 md:px-8 py-16">
+        <div className="obsidian-card rounded-3xl p-8 md:p-10 border border-white/10">
+          <div className="flex items-center gap-2.5 mb-6">
+            <div className="w-8 h-8 rounded-lg bg-cyan-500/10 border border-cyan-500/25 flex items-center justify-center text-cyan-400">
+              <HelpCircle size={18} />
+            </div>
+            <h2 className="text-xl sm:text-2xl font-semibold text-white tracking-tight font-['Geist',sans-serif]">
+              Frequently Asked Questions: {categoryName} AI Software
+            </h2>
+          </div>
+
+          <div className="space-y-4">
             {faqs.map((faq, idx) => (
-              <div key={idx} className="category-faq-item">
-                <h3>{faq.question}</h3>
-                <p>{faq.answer}</p>
+              <div key={idx} className="p-5 rounded-xl bg-zinc-950/60 border border-white/[0.08]">
+                <h3 className="text-sm sm:text-base font-semibold text-zinc-200 mb-2 font-['Geist',sans-serif]">
+                  {faq.question}
+                </h3>
+                <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed font-light">
+                  {faq.answer}
+                </p>
               </div>
             ))}
           </div>
         </div>
       </section>
+
+      {/* Shared Obsidian Luxury Footer */}
+      <ObsidianFooter />
     </div>
   );
 }
-
