@@ -41,6 +41,10 @@ export default function Navbar() {
     return false;
   };
 
+  if (pathname === '/redesign' || pathname?.startsWith('/redesign')) {
+    return null;
+  }
+
   return (
     <>
       <header className={`top-navbar-wrapper ${isScrolled ? 'scrolled' : ''}`}>

@@ -28,6 +28,10 @@ export default function MobileDock() {
     return false;
   };
 
+  if (pathname === '/redesign' || pathname?.startsWith('/redesign')) {
+    return null;
+  }
+
   return (
     <>
       {/* Mobile Drawer Overlay */}

@@ -612,14 +612,15 @@ export default function RedesignView({ initialTools, initialPrompts }: RedesignV
         </section>
 
         {/* Category & Directory Shelf */}
-        <section id="directory" className="sticky top-16 z-30 bg-[#040406]/90 backdrop-blur-xl border-y border-white/[0.08] py-3.5">
-          <div className="px-4 md:px-8 max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-            {/* View Switcher: Tools vs Prompts */}
-            <div className="flex items-center gap-2 w-full md:w-auto">
+        <section id="directory" className="sticky top-16 z-30 bg-[#040406]/95 backdrop-blur-xl border-y border-white/[0.08] py-3">
+          <div className="px-4 md:px-8 max-w-7xl mx-auto space-y-3">
+            {/* Top Row: Mode Switcher, Pricing Chips & Sort */}
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+              {/* View Switcher: Tools vs Prompts */}
               <div className="flex items-center bg-zinc-900/90 border border-white/10 rounded-xl p-1 shrink-0">
                 <button
                   onClick={() => setActiveTab('tools')}
-                  className={`flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-medium transition-colors ${
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
                     activeTab === 'tools'
                       ? 'bg-violet-600 text-white shadow-sm'
                       : 'text-zinc-400 hover:text-white'
@@ -630,7 +631,7 @@ export default function RedesignView({ initialTools, initialPrompts }: RedesignV
                 </button>
                 <button
                   onClick={() => setActiveTab('prompts')}
-                  className={`flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-medium transition-colors ${
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
                     activeTab === 'prompts'
                       ? 'bg-violet-600 text-white shadow-sm'
                       : 'text-zinc-400 hover:text-white'
@@ -641,64 +642,64 @@ export default function RedesignView({ initialTools, initialPrompts }: RedesignV
                 </button>
               </div>
 
-              {/* Category Pills (horizontal scroll) */}
+              {/* Controls: Pricing Pills & Sort */}
               {activeTab === 'tools' && (
-                <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
-                  {CATEGORIES.map(cat => {
-                    const Icon = cat.icon;
-                    const isSelected = selectedCategory === cat.id;
-                    return (
+                <div className="flex items-center gap-3 justify-between sm:justify-end shrink-0">
+                  {/* Pricing Filter */}
+                  <div className="flex items-center gap-1 bg-zinc-900/90 border border-white/10 rounded-xl p-1 text-xs font-mono text-zinc-400">
+                    {(['all', 'free', 'freemium', 'paid'] as const).map(p => (
                       <button
-                        key={cat.id}
-                        onClick={() => setSelectedCategory(cat.id)}
-                        className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-colors border ${
-                          isSelected
-                            ? 'bg-white text-zinc-950 border-white shadow-sm'
-                            : 'bg-zinc-900/60 hover:bg-zinc-800 text-zinc-400 hover:text-white border-white/[0.08]'
+                        key={p}
+                        onClick={() => setSelectedPrice(p)}
+                        className={`px-2.5 py-1 rounded-lg capitalize transition-colors ${
+                          selectedPrice === p ? 'bg-zinc-800 text-white font-medium shadow-sm' : 'hover:text-white'
                         }`}
                       >
-                        <Icon size={13} className={isSelected ? 'text-zinc-950' : 'text-zinc-500'} />
-                        <span>{cat.label}</span>
+                        {p}
                       </button>
-                    );
-                  })}
+                    ))}
+                  </div>
+
+                  {/* Sort Dropdown */}
+                  <div className="flex items-center gap-1.5 text-xs font-mono text-zinc-400 bg-zinc-900/90 border border-white/10 rounded-xl px-3 py-1.5">
+                    <span className="text-zinc-500">Sort:</span>
+                    <select
+                      value={sortBy}
+                      onChange={e => setSortBy(e.target.value as any)}
+                      aria-label="Sort tools"
+                      className="bg-transparent border-none text-white text-xs p-0 focus:ring-0 cursor-pointer"
+                    >
+                      <option value="trending" className="bg-zinc-900 text-white">Trending</option>
+                      <option value="rating" className="bg-zinc-900 text-white">Highest Rated</option>
+                      <option value="reviews" className="bg-zinc-900 text-white">Most Reviews</option>
+                      <option value="name" className="bg-zinc-900 text-white">A — Z</option>
+                    </select>
+                  </div>
                 </div>
               )}
             </div>
 
-            {/* Filter Controls (Pricing & Sort) */}
+            {/* Bottom Row: Category Pills (Horizontal Scroll Tray) */}
             {activeTab === 'tools' && (
-              <div className="flex items-center gap-3 self-end md:self-center shrink-0">
-                {/* Pricing Filter */}
-                <div className="flex items-center bg-zinc-900/60 border border-white/10 rounded-lg p-0.5 text-xs font-mono text-zinc-400">
-                  {(['all', 'free', 'freemium', 'paid'] as const).map(p => (
+              <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
+                {CATEGORIES.map(cat => {
+                  const Icon = cat.icon;
+                  const isSelected = selectedCategory === cat.id;
+                  return (
                     <button
-                      key={p}
-                      onClick={() => setSelectedPrice(p)}
-                      className={`px-2 py-1 rounded capitalize transition-colors ${
-                        selectedPrice === p ? 'bg-zinc-800 text-white font-medium' : 'hover:text-white'
+                      key={cat.id}
+                      onClick={() => setSelectedCategory(cat.id)}
+                      className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all border ${
+                        isSelected
+                          ? 'bg-white text-zinc-950 border-white shadow-[0_0_12px_rgba(255,255,255,0.25)]'
+                          : 'bg-zinc-900/70 hover:bg-zinc-800 text-zinc-400 hover:text-white border-white/[0.08]'
                       }`}
                     >
-                      {p}
+                      <Icon size={13} className={isSelected ? 'text-zinc-950' : 'text-zinc-500'} />
+                      <span>{cat.label}</span>
                     </button>
-                  ))}
-                </div>
-
-                {/* Sort Dropdown */}
-                <div className="flex items-center gap-1.5 text-xs font-mono text-zinc-400 bg-zinc-900/60 border border-white/10 rounded-lg px-2.5 py-1.5">
-                  <span className="text-zinc-600">Sort:</span>
-                  <select
-                    value={sortBy}
-                    onChange={e => setSortBy(e.target.value as any)}
-                    aria-label="Sort tools"
-                    className="bg-transparent border-none text-white text-xs p-0 focus:ring-0 cursor-pointer"
-                  >
-                    <option value="trending" className="bg-zinc-900 text-white">Trending</option>
-                    <option value="rating" className="bg-zinc-900 text-white">Highest Rated</option>
-                    <option value="reviews" className="bg-zinc-900 text-white">Most Reviews</option>
-                    <option value="name" className="bg-zinc-900 text-white">A — Z</option>
-                  </select>
-                </div>
+                  );
+                })}
               </div>
             )}
           </div>

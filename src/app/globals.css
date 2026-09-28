@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 /* ==========================================================================
    DESIGN SYSTEM: GOOGLE & ADOBE EXPERT MODERN UI/UX
@@ -5105,7 +5103,8 @@ body:has([data-redesign-page]) {
 
 body:has([data-redesign-page]) .top-navbar-wrapper,
 body:has([data-redesign-page]) footer.footer,
-body:has([data-redesign-page]) .mobile-dock {
+body:has([data-redesign-page]) .mobile-dock,
+body:has([data-redesign-page]) .mobile-bottom-dock {
   display: none !important;
 }
 
