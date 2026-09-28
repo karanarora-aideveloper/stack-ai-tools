@@ -333,7 +333,7 @@ export default function RedesignView({ initialTools, initialPrompts }: RedesignV
 
       {/* Hero Section */}
       <main className="relative z-10">
-        <section className="pt-16 pb-12 px-4 md:px-8 max-w-5xl mx-auto text-center">
+        <section id="hero" className="pt-16 pb-12 px-4 md:px-8 max-w-5xl mx-auto text-center">
           {/* Eyebrow Pill */}
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900/90 border border-white/10 text-xs text-zinc-300 mb-6 shadow-sm">
             <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
@@ -497,7 +497,7 @@ export default function RedesignView({ initialTools, initialPrompts }: RedesignV
 
               <div className="flex items-center justify-between pt-4 border-t border-white/[0.08]">
                 <span className="text-xs font-mono text-violet-400">Freemium • Pro $20/mo</span>
-                <Link
+                <a
                   href="/go/claude-code"
                   target="_blank"
                   rel="sponsored nofollow noopener"
@@ -505,7 +505,7 @@ export default function RedesignView({ initialTools, initialPrompts }: RedesignV
                 >
                   <span>Try Tool</span>
                   <ArrowUpRight size={14} />
-                </Link>
+                </a>
               </div>
             </div>
 
@@ -547,7 +547,7 @@ export default function RedesignView({ initialTools, initialPrompts }: RedesignV
 
               <div className="flex items-center justify-between pt-4 border-t border-white/[0.08]">
                 <span className="text-xs font-mono text-cyan-400">Freemium • Pro $20/mo</span>
-                <Link
+                <a
                   href="/go/cursor"
                   target="_blank"
                   rel="sponsored nofollow noopener"
@@ -555,7 +555,7 @@ export default function RedesignView({ initialTools, initialPrompts }: RedesignV
                 >
                   <span>Try Tool</span>
                   <ArrowUpRight size={14} />
-                </Link>
+                </a>
               </div>
             </div>
 
@@ -597,7 +597,7 @@ export default function RedesignView({ initialTools, initialPrompts }: RedesignV
 
               <div className="flex items-center justify-between pt-4 border-t border-white/[0.08]">
                 <span className="text-xs font-mono text-emerald-400">Freemium • Plus $20/mo</span>
-                <Link
+                <a
                   href="/go/openai-o3"
                   target="_blank"
                   rel="sponsored nofollow noopener"
@@ -605,7 +605,7 @@ export default function RedesignView({ initialTools, initialPrompts }: RedesignV
                 >
                   <span>Try Tool</span>
                   <ArrowUpRight size={14} />
-                </Link>
+                </a>
               </div>
             </div>
           </div>
@@ -651,8 +651,10 @@ export default function RedesignView({ initialTools, initialPrompts }: RedesignV
                       <button
                         key={p}
                         onClick={() => setSelectedPrice(p)}
-                        className={`px-2.5 py-1 rounded-lg capitalize transition-colors ${
-                          selectedPrice === p ? 'bg-zinc-800 text-white font-medium shadow-sm' : 'hover:text-white'
+                        className={`px-3 py-1.5 rounded-lg capitalize transition-colors text-xs ${
+                          selectedPrice === p
+                            ? 'bg-white text-zinc-950 font-semibold shadow-sm'
+                            : 'text-zinc-400 hover:text-white hover:bg-zinc-800/60'
                         }`}
                       >
                         {p}
@@ -812,11 +814,12 @@ export default function RedesignView({ initialTools, initialPrompts }: RedesignV
                         <div className="flex items-center gap-2">
                           <Link
                             href={`/tool/${toolSlug}`}
+                            prefetch={false}
                             className="text-xs text-zinc-400 hover:text-white px-2 py-1 transition-colors"
                           >
                             Details
                           </Link>
-                          <Link
+                          <a
                             href={tool.link.startsWith('http') ? `/go/${toolSlug}` : tool.link}
                             target="_blank"
                             rel="sponsored nofollow noopener"
@@ -824,7 +827,7 @@ export default function RedesignView({ initialTools, initialPrompts }: RedesignV
                           >
                             <span>Try</span>
                             <ArrowUpRight size={13} />
-                          </Link>
+                          </a>
                         </div>
                       </div>
                     </div>
