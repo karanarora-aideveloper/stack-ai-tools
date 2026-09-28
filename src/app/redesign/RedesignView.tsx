@@ -90,12 +90,13 @@ const CATEGORIES = [
 ];
 
 const TRENDING_QUERIES = [
-  'SWE-bench > 70%',
-  'Claude 3.7',
-  'Cursor',
-  'Autonomous Agents',
-  'Voice AI',
-  'Flux.1'
+  'Claude Sonnet 5',
+  'Claude Opus 5.5',
+  'GPT-6 Astra',
+  'Cursor 4.0',
+  'Gemini 3.8 Flash',
+  'DeepSeek-V4',
+  'FLUX 3 Action'
 ];
 
 export default function RedesignView({ initialTools, initialPrompts }: RedesignViewProps) {
@@ -459,7 +460,7 @@ export default function RedesignView({ initialTools, initialPrompts }: RedesignV
 
           {/* Spotlight Cards Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Spotlight Card 1: Claude 3.7 Sonnet */}
+            {/* Spotlight Card 1: Claude Opus 5.5 & Sonnet 5 */}
             <div className="obsidian-card rounded-2xl p-6 flex flex-col justify-between relative group hover:border-violet-500/50">
               <div>
                 <div className="flex items-start justify-between mb-4">
@@ -473,24 +474,24 @@ export default function RedesignView({ initialTools, initialPrompts }: RedesignV
 
                 <div className="flex items-baseline gap-2 mb-1.5">
                   <h3 className="text-xl font-semibold text-white group-hover:text-violet-300 transition-colors">
-                    Claude 3.7 Sonnet
+                    Claude Opus 5.5 & Sonnet 5
                   </h3>
                   <span className="text-xs font-mono text-zinc-500">Anthropic</span>
                 </div>
 
                 <p className="text-sm text-zinc-400 mb-5 leading-relaxed">
-                  State-of-the-art hybrid reasoning engine with dynamic test-time thinking allocation and frontier coding synthesis.
+                  Anthropic's flagship 5.5 generation combining Claude Opus 5.5 deep strategic reasoning with Claude Sonnet 5 autonomous coding agents and dynamic thinking budgets.
                 </p>
 
                 {/* Metrics Cluster */}
                 <div className="grid grid-cols-2 gap-2 p-3 rounded-xl bg-zinc-950/80 border border-white/[0.08] mb-5 font-mono text-xs">
                   <div>
                     <span className="text-zinc-500 block text-[10px] uppercase">SWE-bench Verified</span>
-                    <span className="text-emerald-400 font-semibold">70.3% Score</span>
+                    <span className="text-emerald-400 font-semibold">79.4% Score</span>
                   </div>
                   <div>
-                    <span className="text-zinc-500 block text-[10px] uppercase">Thinking Tokens</span>
-                    <span className="text-zinc-200 font-semibold">Dynamic / 64k</span>
+                    <span className="text-zinc-500 block text-[10px] uppercase">Flagship Tier</span>
+                    <span className="text-zinc-200 font-semibold">Opus 5.5 / Sonnet 5</span>
                   </div>
                 </div>
               </div>
@@ -498,7 +499,7 @@ export default function RedesignView({ initialTools, initialPrompts }: RedesignV
               <div className="flex items-center justify-between pt-4 border-t border-white/[0.08]">
                 <span className="text-xs font-mono text-violet-400">Freemium • Pro $20/mo</span>
                 <a
-                  href="/go/claude-code"
+                  href="/go/claude"
                   target="_blank"
                   rel="sponsored nofollow noopener"
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-white text-xs font-medium transition-colors"
@@ -509,7 +510,7 @@ export default function RedesignView({ initialTools, initialPrompts }: RedesignV
               </div>
             </div>
 
-            {/* Spotlight Card 2: Cursor IDE */}
+            {/* Spotlight Card 2: Cursor 4.0 IDE */}
             <div className="obsidian-card obsidian-card-cyan rounded-2xl p-6 flex flex-col justify-between relative group hover:border-cyan-500/50">
               <div>
                 <div className="flex items-start justify-between mb-4">
@@ -523,24 +524,24 @@ export default function RedesignView({ initialTools, initialPrompts }: RedesignV
 
                 <div className="flex items-baseline gap-2 mb-1.5">
                   <h3 className="text-xl font-semibold text-white group-hover:text-cyan-300 transition-colors">
-                    Cursor IDE
+                    Cursor 4.0 IDE
                   </h3>
                   <span className="text-xs font-mono text-zinc-500">Anysphere</span>
                 </div>
 
                 <p className="text-sm text-zinc-400 mb-5 leading-relaxed">
-                  AI-native fork of VS Code equipped with deep multi-file codebase indexing, Composer background agents, and instant Tab prediction.
+                  AI-native VS Code fork equipped with Composer 2.0 background agents, multi-file codebase indexing, and instant Tab prediction with Sonnet 5 & GPT-6 Astra.
                 </p>
 
                 {/* Metrics Cluster */}
                 <div className="grid grid-cols-2 gap-2 p-3 rounded-xl bg-zinc-950/80 border border-white/[0.08] mb-5 font-mono text-xs">
                   <div>
                     <span className="text-zinc-500 block text-[10px] uppercase">Acceptance Rate</span>
-                    <span className="text-cyan-400 font-semibold">41.2% Tab Infill</span>
+                    <span className="text-cyan-400 font-semibold">44.8% Tab Infill</span>
                   </div>
                   <div>
-                    <span className="text-zinc-500 block text-[10px] uppercase">Codebase Index</span>
-                    <span className="text-zinc-200 font-semibold">Vector + AST</span>
+                    <span className="text-zinc-500 block text-[10px] uppercase">Agent Engine</span>
+                    <span className="text-zinc-200 font-semibold">Composer 2.0</span>
                   </div>
                 </div>
               </div>
@@ -559,7 +560,7 @@ export default function RedesignView({ initialTools, initialPrompts }: RedesignV
               </div>
             </div>
 
-            {/* Spotlight Card 3: OpenAI o3 & o3-mini */}
+            {/* Spotlight Card 3: OpenAI GPT-6 Astra & Sol */}
             <div className="obsidian-card obsidian-card-emerald rounded-2xl p-6 flex flex-col justify-between relative group hover:border-emerald-500/50">
               <div>
                 <div className="flex items-start justify-between mb-4">
@@ -573,24 +574,24 @@ export default function RedesignView({ initialTools, initialPrompts }: RedesignV
 
                 <div className="flex items-baseline gap-2 mb-1.5">
                   <h3 className="text-xl font-semibold text-white group-hover:text-emerald-300 transition-colors">
-                    OpenAI o3 & o3-mini
+                    OpenAI GPT-6 Astra & Sol
                   </h3>
                   <span className="text-xs font-mono text-zinc-500">OpenAI</span>
                 </div>
 
                 <p className="text-sm text-zinc-400 mb-5 leading-relaxed">
-                  Breakthrough STEM and competitive math reasoning model with Structured Outputs and adaptive thought calibration.
+                  OpenAI's September 2026 flagship frontier model family with 2M token context, deep prompt caching, and master-tier STEM reasoning.
                 </p>
 
                 {/* Metrics Cluster */}
                 <div className="grid grid-cols-2 gap-2 p-3 rounded-xl bg-zinc-950/80 border border-white/[0.08] mb-5 font-mono text-xs">
                   <div>
                     <span className="text-zinc-500 block text-[10px] uppercase">Frontier Math</span>
-                    <span className="text-emerald-400 font-semibold">92.4% Score</span>
+                    <span className="text-emerald-400 font-semibold">96.2% AIME</span>
                   </div>
                   <div>
-                    <span className="text-zinc-500 block text-[10px] uppercase">Fast Latency</span>
-                    <span className="text-zinc-200 font-semibold">&lt; 1.8s Fast-Mode</span>
+                    <span className="text-zinc-500 block text-[10px] uppercase">Context Window</span>
+                    <span className="text-zinc-200 font-semibold">2M Tokens</span>
                   </div>
                 </div>
               </div>
@@ -598,7 +599,7 @@ export default function RedesignView({ initialTools, initialPrompts }: RedesignV
               <div className="flex items-center justify-between pt-4 border-t border-white/[0.08]">
                 <span className="text-xs font-mono text-emerald-400">Freemium • Plus $20/mo</span>
                 <a
-                  href="/go/openai-o3"
+                  href="/go/chatgpt"
                   target="_blank"
                   rel="sponsored nofollow noopener"
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-white text-xs font-medium transition-colors"

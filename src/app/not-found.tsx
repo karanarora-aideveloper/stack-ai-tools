@@ -25,39 +25,39 @@ import {
 
 const POPULAR_TOOLS = [
   {
-    name: 'Cursor',
+    name: 'Cursor 4.0',
     slug: 'cursor',
     category: 'Code & Dev Agents',
-    description: 'Frontier AI-first code editor with multi-file reasoning and deep codebase context.',
+    description: 'Frontier AI-first code editor with Composer 2.0 multi-file reasoning and deep codebase context.',
     pricing: 'Freemium',
-    rating: '4.9',
+    rating: '4.97',
     badge: 'Editor\'s Choice'
   },
   {
-    name: 'Claude 3.7 Sonnet',
-    slug: 'claude-code',
-    category: 'Code & Dev Agents',
-    description: 'Anthropic\'s hybrid model combining near-instant responses with extended reasoning.',
+    name: 'Claude Sonnet 5 & Opus 5.5',
+    slug: 'claude',
+    category: 'Code & Reasoning',
+    description: 'Anthropic\'s flagship 5.5 generation combining Opus 5.5 strategic reasoning with Sonnet 5 autonomous coding.',
     pricing: 'Freemium',
-    rating: '4.9',
+    rating: '4.99',
     badge: 'Frontier Benchmark'
   },
   {
-    name: 'ElevenLabs',
-    slug: 'elevenlabs',
-    category: 'Voice & Audio AI',
-    description: 'Industry-standard ultra-realistic voice cloning, text-to-speech, and audio isolation.',
+    name: 'OpenAI GPT-6 Astra',
+    slug: 'openai-o3',
+    category: 'Reasoning & Agents',
+    description: 'OpenAI\'s frontier intelligence model with 2M context and master-tier STEM reasoning.',
     pricing: 'Freemium',
-    rating: '4.8',
-    badge: 'Industry Standard'
+    rating: '4.98',
+    badge: 'GPT-6 Series'
   },
   {
-    name: 'DeepSeek-R1',
+    name: 'DeepSeek-V4 Pro',
     slug: 'deepseek-r1',
     category: 'Code & Reasoning',
-    description: 'Open-weights reasoning model matching frontier performance with accessible inference.',
+    description: '552B MoE open-weights model featuring integrated reasoning modes and Engram memory architecture.',
     pricing: 'Open Source',
-    rating: '4.9',
+    rating: '4.97',
     badge: 'Open Weights'
   }
 ];

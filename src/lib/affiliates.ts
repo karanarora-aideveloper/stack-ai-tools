@@ -222,9 +222,33 @@ export const MASTER_AFFILIATE_REGISTRY: Record<string, AffiliateProgramInfo> = {
     status: 'not_applied',
     notes: 'Sub-100ms voice API. Great for telecom & voice bot integrations.'
   },
+  'claude': {
+    toolSlug: 'claude',
+    toolName: 'Claude Opus 5.5 & Sonnet 5',
+    hasAffiliateProgram: false,
+    commissionRate: 'Direct SaaS',
+    commissionType: 'free_credits',
+    cookieDays: 0,
+    network: 'Direct',
+    signupUrl: 'https://claude.ai',
+    status: 'direct',
+    notes: 'Anthropic flagship frontier intelligence platform.'
+  },
+  'gemini': {
+    toolSlug: 'gemini',
+    toolName: 'Google Gemini 3.8 Flash',
+    hasAffiliateProgram: false,
+    commissionRate: 'Direct SaaS',
+    commissionType: 'free_credits',
+    cookieDays: 0,
+    network: 'Direct',
+    signupUrl: 'https://gemini.google.com',
+    status: 'direct',
+    notes: 'Google DeepMind 1M context multimodal flagship.'
+  },
   'deepseek-r1': {
     toolSlug: 'deepseek-r1',
-    toolName: 'DeepSeek-R1 (Open Reasoning)',
+    toolName: 'DeepSeek-V4.1-Flash & V4 Pro',
     hasAffiliateProgram: false,
     commissionRate: 'Open Source / Free',
     commissionType: 'free_credits',
@@ -232,7 +256,7 @@ export const MASTER_AFFILIATE_REGISTRY: Record<string, AffiliateProgramInfo> = {
     network: 'None',
     signupUrl: 'https://deepseek.com',
     status: 'direct',
-    notes: 'Open weights model. Hosted on Ollama, vLLM, and cloud GPU providers.'
+    notes: 'Open weights 552B MoE model. Hosted on Ollama, vLLM, and cloud GPU providers.'
   },
   'bolt-new': {
     toolSlug: 'bolt-new',

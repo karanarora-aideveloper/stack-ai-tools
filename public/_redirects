@@ -7,6 +7,7 @@
 /go/github-copilot https://github.com/features/copilot 302
 /go/stable-diffusion-4 https://stability.ai 302
 /go/deepseek-r1 https://deepseek.com 302
+/go/chatgpt-gpt-56-frontier https://chatgpt.com 302
 /go/suno-v4 https://suno.com 302
 /go/sora-2 https://sora.com 302
 /go/comfyui https://github.com/comfyanonymous/ComfyUI 302
@@ -17,6 +18,7 @@
 /go/ollama https://ollama.com 302
 /go/chatgpt https://chatgpt.com 302
 /go/perplexity https://perplexity.ai 302
+/go/google-gemini-38-flash https://gemini.google.com 302
 /go/cursor https://cursor.com 302
 /go/bolt-new https://bolt.new 302
 /go/cartesia https://cartesia.ai 302
@@ -231,9 +233,20 @@
 /go/paymanai https://www.paymanai.com/ 302
 /go/do-anything-machine https://www.doanythingmachine.com/ 302
 /go/mightybot https://www.mightybot.ai/ 302
+/go/gemini https://gemini.google.com 302
 /go/descript https://descript.com 302
+/go/flux-3-action-flux2-max-black-forest-labs https://blackforestlabs.ai 302
 /go/synthflow https://synthflow.ai 302
 /go/artisan-ai https://artisan.co 302
+/go/claude-sonnet-5 https://claude.ai 302
+/go/claude-opus-5-5 https://claude.ai 302
+/go/claude-3-7-sonnet https://claude.ai 302
+/go/gpt-6 https://chatgpt.com 302
+/go/gpt-6-astra https://chatgpt.com 302
+/go/gpt-6-sol https://chatgpt.com 302
+/go/gemini-3-8-flash https://gemini.google.com 302
+/go/deepseek-v4 https://deepseek.com 302
+/go/deepseek-v4-1 https://deepseek.com 302
 /go/lovabledev https://lovable.dev 302
 /go/v0-by-vercel https://v0.dev 302
 

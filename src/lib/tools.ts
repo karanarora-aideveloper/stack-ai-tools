@@ -10,10 +10,7 @@ export function getPrisma(): PrismaClient {
   return prisma;
 }
 
-const EXCLUDED_COMMODITY_TOOLS = new Set([
-  'chatgpt-gpt-56-frontier',
-  'google-gemini-38-flash'
-]);
+const EXCLUDED_COMMODITY_TOOLS = new Set<string>();
 
 // Curated slug mapping for cleaner, high-intent SEO URLs.
 // IMPORTANT: keys must match the tool's current `name` field exactly. When a tool's
@@ -22,12 +19,19 @@ const EXCLUDED_COMMODITY_TOOLS = new Set([
 const SLUG_MAP: Record<string, string> = {
   'Devin AI (Cognition Labs)': 'devin',
   'Claude Code (Anthropic CLI)': 'claude-code',
+  'Claude Opus 5.5 & Sonnet 5 (Anthropic)': 'claude',
   'Claude Sonnet 5 & Artifacts (Anthropic)': 'claude',
+  'OpenAI GPT-6 Astra & Sol (Frontier Reasoning Engine)': 'openai-o3',
   'ChatGPT Plus & Team (OpenAI)': 'chatgpt',
+  'Google Gemini 3.8 Flash & 3.1 Pro': 'gemini',
   'OpenAI o3 & o3-mini (Reasoning Engine)': 'openai-o3',
+  'Cursor 4.0 (Composer 2.0 Agents)': 'cursor',
   'Cursor 3.1 (Composer Agents)': 'cursor',
   'Cursor AI (Anysphere)': 'cursor',
+  'Midjourney V8.2': 'midjourney',
   'Midjourney v8.1': 'midjourney',
+  'DeepSeek-V4.1-Flash & V4 Pro (Open MoE & Reasoning Engine)': 'deepseek-r1',
+  'FLUX 3 Action & FLUX.2 Max': 'flux',
   'Perplexity Pro (Deep Research)': 'perplexity',
   'Perplexity AI': 'perplexity',
   'Lenso AI': 'lenso-ai',

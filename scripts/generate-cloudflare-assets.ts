@@ -43,7 +43,17 @@ export async function generateCloudflareAssets() {
   // Common aliases and variations
   const aliases: Record<string, string> = {
     'claude': 'https://claude.ai',
+    'claude-sonnet-5': 'https://claude.ai',
+    'claude-opus-5-5': 'https://claude.ai',
+    'claude-3-7-sonnet': 'https://claude.ai',
     'chatgpt': 'https://chatgpt.com',
+    'gpt-6': 'https://chatgpt.com',
+    'gpt-6-astra': 'https://chatgpt.com',
+    'gpt-6-sol': 'https://chatgpt.com',
+    'gemini': 'https://gemini.google.com',
+    'gemini-3-8-flash': 'https://gemini.google.com',
+    'deepseek-v4': 'https://deepseek.com',
+    'deepseek-v4-1': 'https://deepseek.com',
     'windsurf-codeium': 'https://codeium.com/windsurf',
     'lovabledev': 'https://lovable.dev',
     'v0-by-vercel': 'https://v0.dev',
