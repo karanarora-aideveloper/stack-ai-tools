@@ -78,6 +78,13 @@ async function build() {
           console.log(`Copied ${file} to out/`);
         }
       }
+
+      // Ensure /redesign has both redesign.html and redesign/index.html for clean routing
+      if (fs.existsSync(path.join(outDir, 'redesign.html'))) {
+        const redesignDir = path.join(outDir, 'redesign');
+        if (!fs.existsSync(redesignDir)) fs.mkdirSync(redesignDir, { recursive: true });
+        fs.copyFileSync(path.join(outDir, 'redesign.html'), path.join(redesignDir, 'index.html'));
+      }
     }
 
     console.log('\n✨ Cloudflare Pages static export completed successfully in out/ directory!');

@@ -5092,6 +5092,96 @@ button {
   }
 }
 
+/* ==========================================================================
+   STITCH REDESIGN 2026: "Obsidian AI Index"
+   Linear & Raycast Inspired Luxury Developer Aesthetic
+   Targeted isolation on [data-redesign-page]
+   ========================================================================== */
+body:has([data-redesign-page]) {
+  background-color: #040406 !important;
+  color: #e3e1ec !important;
+  overflow-x: hidden;
+}
+
+body:has([data-redesign-page]) .top-navbar-wrapper,
+body:has([data-redesign-page]) footer.footer,
+body:has([data-redesign-page]) .mobile-dock {
+  display: none !important;
+}
+
+body:has([data-redesign-page]) .app-container,
+body:has([data-redesign-page]) .main-content {
+  padding: 0 !important;
+  margin: 0 !important;
+  max-width: 100% !important;
+  min-height: 100vh !important;
+  background-color: #040406 !important;
+}
+
+/* Atmospheric Gradients & Glows */
+.obsidian-glow-mesh {
+  background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(139, 92, 246, 0.18) 0%, rgba(6, 182, 212, 0.07) 45%, transparent 70%);
+}
+
+.obsidian-spotlight-glow {
+  background: radial-gradient(circle at 50% 0%, rgba(139, 92, 246, 0.12) 0%, transparent 60%);
+}
+
+/* Obsidian Glassmorphic Cards */
+.obsidian-card {
+  background: rgba(18, 18, 24, 0.65);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.08), 0 4px 20px -2px rgba(0, 0, 0, 0.5);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.obsidian-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(139, 92, 246, 0.45);
+  box-shadow: inset 0 1px 0 0 rgba(208, 188, 255, 0.25), 0 16px 36px -8px rgba(139, 92, 246, 0.18);
+}
+
+.obsidian-card-cyan:hover {
+  border-color: rgba(6, 182, 212, 0.45);
+  box-shadow: inset 0 1px 0 0 rgba(103, 232, 249, 0.25), 0 16px 36px -8px rgba(6, 182, 212, 0.18);
+}
+
+.obsidian-card-emerald:hover {
+  border-color: rgba(16, 185, 129, 0.45);
+  box-shadow: inset 0 1px 0 0 rgba(110, 231, 183, 0.25), 0 16px 36px -8px rgba(16, 185, 129, 0.18);
+}
+
+/* Command Bar (Raycast / Linear Style) */
+.obsidian-command-bar {
+  background: rgba(18, 18, 24, 0.85);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow: 0 20px 48px -12px rgba(0, 0, 0, 0.7), inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.obsidian-command-bar:focus-within {
+  border-color: rgba(139, 92, 246, 0.65);
+  box-shadow: 0 0 0 1px rgba(139, 92, 246, 0.35), 0 24px 54px -10px rgba(139, 92, 246, 0.22);
+}
+
+/* Pill & Tag Badges */
+.obsidian-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+
 
 
 
