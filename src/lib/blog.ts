@@ -179,8 +179,33 @@ export async function getArticlesByCategory(category: string): Promise<Article[]
   return articles.filter((a) => a.category.toLowerCase() === cat);
 }
 
-export async function getRelatedArticles(currentSlug: string, category: string, limit = 4): Promise<Article[]> {
+export async function getPrerenderedArticles(): Promise<Article[]> {
   const articles = await getAllArticles();
+  const breakingSlugs = new Set(breakingNewsArticlesMetadata.map((a) => a.slug));
+  const remaining = articles.filter((a) => !breakingSlugs.has(a.slug));
+  const sortedRemaining = [...remaining].sort((a, b) => (b.searchVolume || 0) - (a.searchVolume || 0));
+
+  const prioritySlugs = new Set([
+    'deepseek-v3-review-2026-pricing-latency-tested-roi',
+  ]);
+  const priorityArticles = articles.filter(a => prioritySlugs.has(a.slug));
+
+  const targetArticles = [
+    ...breakingNewsArticlesMetadata,
+    ...priorityArticles,
+    ...sortedRemaining.slice(0, 220)
+  ];
+
+  const seen = new Set<string>();
+  return targetArticles.filter(a => {
+    if (seen.has(a.slug)) return false;
+    seen.add(a.slug);
+    return true;
+  });
+}
+
+export async function getRelatedArticles(currentSlug: string, category: string, limit = 4): Promise<Article[]> {
+  const articles = await getPrerenderedArticles();
   const cat = category.toLowerCase();
   const catArticles = articles.filter((a) => a.category.toLowerCase() === cat);
   const pool = catArticles.length > 0 ? catArticles : articles;

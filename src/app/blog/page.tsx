@@ -1,6 +1,8 @@
 import { Metadata } from 'next';
 import BlogView from './BlogView';
-import { getAllArticles } from '@/lib/blog';
+import { getPrerenderedArticles } from '@/lib/blog';
+import ObsidianHeader from '@/app/components/ObsidianHeader';
+import ObsidianFooter from '@/app/components/ObsidianFooter';
 
 export async function generateMetadata(): Promise<Metadata> {
   const title = 'AI Tools Blog & Reviews (2026) | Stack AI Tools';
@@ -43,7 +45,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function BlogPage() {
-  const articles = await getAllArticles();
+  const articles = await getPrerenderedArticles();
 
   const blogSchema = {
     '@context': 'https://schema.org',
@@ -64,12 +66,16 @@ export default async function BlogPage() {
   };
 
   return (
-    <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogSchema) }}
-      />
-      <BlogView articles={articles} />
-    </>
+    <div data-redesign-page="true" className="min-h-screen bg-[#040406] text-[#e3e1ec] antialiased selection:bg-[#8b5cf6] selection:text-white relative flex flex-col justify-between">
+      <ObsidianHeader activeNav="research" />
+      <main className="flex-1 w-full">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(blogSchema) }}
+        />
+        <BlogView articles={articles} />
+      </main>
+      <ObsidianFooter />
+    </div>
   );
 }

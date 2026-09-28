@@ -36,7 +36,15 @@ export default function MobileDock() {
     pathname?.startsWith('/categories') ||
     pathname?.startsWith('/category') ||
     pathname === '/alternatives' ||
-    pathname?.startsWith('/alternatives')
+    pathname?.startsWith('/alternatives') ||
+    pathname === '/prompts' ||
+    pathname?.startsWith('/prompts') ||
+    pathname === '/claude-connectors' ||
+    pathname?.startsWith('/claude-connectors') ||
+    pathname === '/antigravity-mcp' ||
+    pathname?.startsWith('/antigravity-mcp') ||
+    pathname === '/about' ||
+    pathname?.startsWith('/about')
   ) {
     return null;
   }

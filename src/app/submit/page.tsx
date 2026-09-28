@@ -17,6 +17,8 @@ import {
   Lock
 } from 'lucide-react';
 import Link from 'next/link';
+import ObsidianHeader from '@/app/components/ObsidianHeader';
+import ObsidianFooter from '@/app/components/ObsidianFooter';
 
 export default function Submit() {
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success'>('idle');
@@ -66,9 +68,12 @@ export default function Submit() {
   };
 
   return (
-    <div className="submit-page-wrapper">
-      {/* Header Section */}
-      <div className="submit-header">
+    <div data-redesign-page="true" className="min-h-screen bg-[#040406] text-[#e3e1ec] antialiased selection:bg-[#8b5cf6] selection:text-white relative flex flex-col justify-between">
+      <ObsidianHeader />
+      <main className="flex-1 w-full max-w-5xl mx-auto px-4 py-12">
+        <div className="submit-page-wrapper" style={{ margin: '0 auto', maxWidth: 840 }}>
+          {/* Header Section */}
+          <div className="submit-header">
         <div className="submit-pill-badge">
           <Sparkles size={14} className="sparkle-icon" color="#00f0ff" />
           <span>Creator & Founder Submissions</span>
@@ -279,7 +284,10 @@ export default function Submit() {
             </div>
           </form>
         )}
+        </div>
       </div>
+      </main>
+      <ObsidianFooter />
     </div>
   );
 }

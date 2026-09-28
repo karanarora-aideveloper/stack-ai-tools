@@ -132,99 +132,56 @@ export default function AntigravityMcpView({ servers }: AntigravityMcpViewProps)
 }`;
 
   return (
-    <div style={{ minHeight: '100vh', paddingBottom: 80 }}>
+    <div className="pb-16">
       {/* ------------------------------------------------------------- */}
       {/* HOW TO ADD MCPs IN ANTIGRAVITY - INTERACTIVE QUICKSTART GUIDE */}
       {/* ------------------------------------------------------------- */}
-      <section style={{
-        background: 'var(--bg-glass)',
-        border: '1px solid rgba(var(--ink-tint-rgb), 0.12)',
-        borderRadius: 20,
-        padding: '28px 24px',
-        marginBottom: 40,
-        boxShadow: '0 12px 36px rgba(15, 23, 42, 0.08)'
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12, marginBottom: 16 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <div style={{
-              width: 36,
-              height: 36,
-              borderRadius: 10,
-              background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: '#fff'
-            }}>
-              <Terminal size={18} />
+      <section className="obsidian-card rounded-2xl p-6 sm:p-8 mb-10 border border-white/10">
+        <div className="flex items-center justify-between flex-wrap gap-4 mb-6">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 flex items-center justify-center">
+              <Terminal size={20} />
             </div>
             <div>
-              <h2 style={{ fontSize: 18, fontWeight: 700, margin: 0, color: 'var(--text-strong)' }}>
+              <h2 className="text-lg font-bold text-white font-['Geist',sans-serif]">
                 How to Add MCPs to Google Antigravity (AGY)
               </h2>
-              <p style={{ fontSize: 13, color: 'var(--text-muted)', margin: 0 }}>
+              <p className="text-xs text-zinc-400 font-light">
                 Choose your configuration method: Global (all sessions), Workspace (repo-specific), or Antigravity IDE UI.
               </p>
             </div>
           </div>
 
-          <div style={{ display: 'inline-flex', background: 'var(--bg-card)', borderRadius: 12, padding: 3, border: '1px solid var(--border-light)' }}>
+          <div className="inline-flex bg-zinc-900/90 rounded-xl p-1 border border-white/10">
             <button
               onClick={() => setActiveTabGuide('global')}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 6,
-                padding: '6px 14px',
-                borderRadius: 9,
-                fontSize: 12.5,
-                fontWeight: 600,
-                border: 'none',
-                cursor: 'pointer',
-                background: activeTabGuide === 'global' ? 'var(--arcade-cyan)' : 'transparent',
-                color: activeTabGuide === 'global' ? 'var(--text-on-accent)' : 'var(--text-secondary)',
-                transition: 'all 0.15s ease'
-              }}
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                activeTabGuide === 'global'
+                  ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-[0_0_12px_rgba(6,182,212,0.25)]'
+                  : 'text-zinc-400 hover:text-white'
+              }`}
             >
               <Settings size={13} />
               <span>Global Config</span>
             </button>
             <button
               onClick={() => setActiveTabGuide('workspace')}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 6,
-                padding: '6px 14px',
-                borderRadius: 9,
-                fontSize: 12.5,
-                fontWeight: 600,
-                border: 'none',
-                cursor: 'pointer',
-                background: activeTabGuide === 'workspace' ? 'var(--arcade-cyan)' : 'transparent',
-                color: activeTabGuide === 'workspace' ? 'var(--text-on-accent)' : 'var(--text-secondary)',
-                transition: 'all 0.15s ease'
-              }}
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                activeTabGuide === 'workspace'
+                  ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-[0_0_12px_rgba(6,182,212,0.25)]'
+                  : 'text-zinc-400 hover:text-white'
+              }`}
             >
               <FolderGit2 size={13} />
               <span>Workspace Repo</span>
             </button>
             <button
               onClick={() => setActiveTabGuide('gui')}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 6,
-                padding: '6px 14px',
-                borderRadius: 9,
-                fontSize: 12.5,
-                fontWeight: 600,
-                border: 'none',
-                cursor: 'pointer',
-                background: activeTabGuide === 'gui' ? 'var(--arcade-cyan)' : 'transparent',
-                color: activeTabGuide === 'gui' ? 'var(--text-on-accent)' : 'var(--text-secondary)',
-                transition: 'all 0.15s ease'
-              }}
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                activeTabGuide === 'gui'
+                  ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-[0_0_12px_rgba(6,182,212,0.25)]'
+                  : 'text-zinc-400 hover:text-white'
+              }`}
             >
               <Monitor size={13} />
               <span>Antigravity IDE GUI</span>
@@ -234,52 +191,40 @@ export default function AntigravityMcpView({ servers }: AntigravityMcpViewProps)
 
         {/* Tab 1: Global Config */}
         {activeTabGuide === 'global' && (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 20, alignItems: 'center' }}>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
             <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
-                <span style={{ fontSize: 12, fontWeight: 700, padding: '2px 8px', borderRadius: 6, background: 'rgba(56, 189, 248, 0.15)', color: 'var(--color-info)' }}>
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">
                   FILE PATH
                 </span>
-                <code style={{ fontSize: 13, color: 'var(--text-strong)', fontFamily: 'monospace' }}>
+                <code className="text-xs text-white font-mono bg-zinc-900 px-2 py-0.5 rounded border border-white/10">
                   ~/.gemini/config/mcp_config.json
                 </code>
               </div>
-              <p style={{ fontSize: 13.5, color: 'var(--text-secondary)', lineHeight: 1.6, margin: '0 0 12px' }}>
-                Global MCP servers are mounted across <strong>all Antigravity workspaces</strong> and <strong>CLI conversations</strong> on your computer. Simply create or edit this JSON file in your user home directory.
+              <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed font-light mb-3">
+                Global MCP servers are mounted across <strong className="text-white">all Antigravity workspaces</strong> and <strong className="text-white">CLI conversations</strong> on your computer.
               </p>
-              <ul style={{ margin: 0, paddingLeft: 18, fontSize: 13, color: 'var(--text-muted)', lineHeight: 1.6 }}>
-                <li>Supports standard <code style={{ color: 'var(--arcade-cyan)' }}>stdio</code> commands (npx, uvx, docker, binaries).</li>
-                <li>Supports <code style={{ color: 'var(--arcade-cyan)' }}>sse</code> remote streaming URLs.</li>
+              <ul className="text-xs text-zinc-400 space-y-1.5 font-light pl-4 list-disc">
+                <li>Supports standard <code className="text-cyan-300 font-mono">stdio</code> commands (npx, uvx, docker, binaries).</li>
+                <li>Supports <code className="text-violet-300 font-mono">sse</code> remote streaming URLs.</li>
                 <li>Lazy tools are automatically discovered and called on demand via native reasoning.</li>
               </ul>
             </div>
 
-            <div style={{ background: '#090d16', border: '1px solid rgba(var(--ink-tint-rgb), 0.12)', borderRadius: 12, padding: 14, position: 'relative' }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
-                <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase' }}>
-                  mcp_config.json example
+            <div className="bg-black/80 border border-white/10 rounded-xl p-4 relative">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">
+                  mcp_config.json boilerplate
                 </span>
                 <button
                   onClick={() => handleCopyBoilerplate(globalConfigSnippet)}
-                  style={{
-                    background: 'rgba(56, 189, 248, 0.12)',
-                    border: '1px solid rgba(56, 189, 248, 0.3)',
-                    color: 'var(--color-info)',
-                    padding: '3px 8px',
-                    borderRadius: 6,
-                    fontSize: 11,
-                    fontWeight: 600,
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 4
-                  }}
+                  className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-cyan-500/15 border border-cyan-500/30 text-cyan-300 text-[11px] font-medium hover:bg-cyan-500/25 transition-colors"
                 >
                   {copiedBoilerplate ? <Check size={11} /> : <Copy size={11} />}
                   <span>{copiedBoilerplate ? 'Copied!' : 'Copy'}</span>
                 </button>
               </div>
-              <pre style={{ margin: 0, fontSize: 11.5, color: '#a5b4fc', fontFamily: 'monospace', overflowX: 'auto', lineHeight: 1.45 }}>
+              <pre className="text-xs text-cyan-300 font-mono overflow-x-auto leading-relaxed">
                 {globalConfigSnippet}
               </pre>
             </div>
@@ -288,33 +233,33 @@ export default function AntigravityMcpView({ servers }: AntigravityMcpViewProps)
 
         {/* Tab 2: Workspace Repo */}
         {activeTabGuide === 'workspace' && (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 20 }}>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
             <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
-                <span style={{ fontSize: 12, fontWeight: 700, padding: '2px 8px', borderRadius: 6, background: 'rgba(168, 85, 247, 0.15)', color: 'var(--accent-secondary)' }}>
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-violet-500/15 text-violet-300 border border-violet-500/30">
                   WORKSPACE PATH
                 </span>
-                <code style={{ fontSize: 13, color: 'var(--text-strong)', fontFamily: 'monospace' }}>
+                <code className="text-xs text-white font-mono bg-zinc-900 px-2 py-0.5 rounded border border-white/10">
                   .agents/mcp_config.json
                 </code>
               </div>
-              <p style={{ fontSize: 13.5, color: 'var(--text-secondary)', lineHeight: 1.6, margin: '0 0 12px' }}>
-                Commit this file to your git repository root inside the <code style={{ color: 'var(--arcade-cyan)' }}>.agents/</code> folder. Antigravity automatically detects it when opening the repository, allowing your entire team to share the exact same tools and databases.
+              <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed font-light mb-3">
+                Commit this file to your git repository root inside the <code className="text-cyan-300 font-mono">.agents/</code> folder. Antigravity automatically detects it when opening the repository, allowing your entire team to share identical tools and databases.
               </p>
-              <div style={{ background: 'rgba(234, 179, 8, 0.08)', border: '1px solid rgba(234, 179, 8, 0.25)', padding: '10px 14px', borderRadius: 8, fontSize: 12.5, color: 'var(--accent-amber)' }}>
+              <div className="p-3 rounded-lg bg-amber-500/10 border border-amber-500/25 text-xs text-amber-300 font-light">
                 <strong>Security Tip:</strong> Never commit API keys or database passwords to git. Reference environment variables or keep credentials in local untracked config files.
               </div>
             </div>
 
-            <div style={{ background: '#090d16', border: '1px solid rgba(var(--ink-tint-rgb), 0.12)', borderRadius: 12, padding: 14 }}>
-              <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--text-strong)', marginBottom: 8 }}>
-                Quick Terminal Setup:
+            <div className="bg-black/80 border border-white/10 rounded-xl p-4">
+              <div className="text-xs font-mono text-zinc-400 mb-2 font-medium">
+                Quick Terminal Command:
               </div>
-              <pre style={{ margin: '0 0 10px', fontSize: 12, color: 'var(--color-success)', fontFamily: 'monospace', overflowX: 'auto', background: 'rgba(0,0,0,0.5)', padding: 10, borderRadius: 6 }}>
+              <pre className="text-xs text-emerald-300 font-mono bg-zinc-950 p-2.5 rounded-lg border border-white/5 overflow-x-auto mb-2">
                 mkdir -p .agents &amp;&amp; touch .agents/mcp_config.json
               </pre>
-              <p style={{ fontSize: 12, color: 'var(--text-muted)', margin: 0 }}>
-                Antigravity will merge workspace servers with your global servers, giving precedence to the project repository.
+              <p className="text-xs text-zinc-500 font-light">
+                Antigravity merges workspace servers with your global servers, giving precedence to the project repository.
               </p>
             </div>
           </div>
@@ -322,70 +267,58 @@ export default function AntigravityMcpView({ servers }: AntigravityMcpViewProps)
 
         {/* Tab 3: Antigravity IDE GUI */}
         {activeTabGuide === 'gui' && (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16 }}>
-            <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border-light)', borderRadius: 12, padding: 16 }}>
-              <div style={{ width: 28, height: 28, borderRadius: 8, background: 'var(--arcade-cyan)', color: 'var(--text-on-accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: 13, marginBottom: 10 }}>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="p-4 rounded-xl bg-zinc-950/60 border border-white/[0.08]">
+              <div className="w-6 h-6 rounded-md bg-cyan-500/20 text-cyan-300 flex items-center justify-center font-bold text-xs mb-2 font-mono">
                 1
               </div>
-              <h4 style={{ margin: '0 0 6px', fontSize: 14, color: 'var(--text-strong)' }}>Open Skills &amp; Customizations</h4>
-              <p style={{ margin: 0, fontSize: 12.5, color: 'var(--text-muted)', lineHeight: 1.5 }}>
-                In Antigravity 2.0 or Antigravity IDE, navigate to the Left Sidebar and select <strong>Skills &amp; Customizations</strong> (or click the <strong>&ldquo;...&rdquo;</strong> menu &gt; <strong>MCP Servers</strong>).
+              <h4 className="text-xs font-semibold text-white mb-1 font-['Geist',sans-serif]">Skills &amp; Customizations</h4>
+              <p className="text-xs text-zinc-400 leading-relaxed font-light">
+                In Antigravity 2.0 or Antigravity IDE, navigate to the Left Sidebar and select <strong>Skills &amp; Customizations</strong> (or <strong>&ldquo;...&rdquo;</strong> menu &gt; <strong>MCP Servers</strong>).
               </p>
             </div>
 
-            <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border-light)', borderRadius: 12, padding: 16 }}>
-              <div style={{ width: 28, height: 28, borderRadius: 8, background: 'var(--arcade-cyan)', color: 'var(--text-on-accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: 13, marginBottom: 10 }}>
+            <div className="p-4 rounded-xl bg-zinc-950/60 border border-white/[0.08]">
+              <div className="w-6 h-6 rounded-md bg-cyan-500/20 text-cyan-300 flex items-center justify-center font-bold text-xs mb-2 font-mono">
                 2
               </div>
-              <h4 style={{ margin: '0 0 6px', fontSize: 14, color: 'var(--text-strong)' }}>Add Server Config</h4>
-              <p style={{ margin: 0, fontSize: 12.5, color: 'var(--text-muted)', lineHeight: 1.5 }}>
+              <h4 className="text-xs font-semibold text-white mb-1 font-['Geist',sans-serif]">Add Server Config</h4>
+              <p className="text-xs text-zinc-400 leading-relaxed font-light">
                 Click <strong>&ldquo;Add MCP Server&rdquo;</strong>. Choose between Stdio (Command/Args) or SSE (Remote URL). Paste the one-click JSON block from below.
               </p>
             </div>
 
-            <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border-light)', borderRadius: 12, padding: 16 }}>
-              <div style={{ width: 28, height: 28, borderRadius: 8, background: 'var(--arcade-cyan)', color: 'var(--text-on-accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: 13, marginBottom: 10 }}>
+            <div className="p-4 rounded-xl bg-zinc-950/60 border border-white/[0.08]">
+              <div className="w-6 h-6 rounded-md bg-cyan-500/20 text-cyan-300 flex items-center justify-center font-bold text-xs mb-2 font-mono">
                 3
               </div>
-              <h4 style={{ margin: '0 0 6px', fontSize: 14, color: 'var(--text-strong)' }}>Instant Tool Injection</h4>
-              <p style={{ margin: 0, fontSize: 12.5, color: 'var(--text-muted)', lineHeight: 1.5 }}>
-                Save the server. Antigravity instantly runs discovery, registering the tools for your conversation. You can prompt the agent immediately!
+              <h4 className="text-xs font-semibold text-white mb-1 font-['Geist',sans-serif]">Instant Tool Injection</h4>
+              <p className="text-xs text-zinc-400 leading-relaxed font-light">
+                Save the server. Antigravity runs discovery and registers the tools for your active session immediately.
               </p>
             </div>
           </div>
         )}
       </section>
 
-      {/* ------------------------------------------------------------- */}
-      {/* CATEGORY TABS */}
-      {/* ------------------------------------------------------------- */}
-      <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 10, margin: '0 0 28px' }}>
+      {/* Category Navigation Filter Pills */}
+      <div className="flex justify-center flex-wrap gap-2 mb-8">
         {ANTIGRAVITY_MCP_CATEGORIES.map((cat) => {
           const isActive = selectedCategory === cat;
           return (
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 7,
-                padding: '9px 18px',
-                borderRadius: 24,
-                fontSize: 13.5,
-                fontWeight: 600,
-                cursor: 'pointer',
-                border: isActive ? '1px solid var(--arcade-cyan)' : '1px solid var(--border-light)',
-                background: isActive ? 'linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(99, 102, 241, 0.15))' : 'var(--bg-card)',
-                color: isActive ? 'var(--text-strong)' : 'var(--text-secondary)',
-                boxShadow: isActive ? '0 0 16px rgba(56, 189, 248, 0.25)' : 'none',
-                transition: 'all 0.2s ease'
-              }}
+              className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-medium transition-all ${
+                isActive
+                  ? 'bg-cyan-500/20 border border-cyan-500/50 text-white shadow-[0_0_15px_rgba(6,182,212,0.3)]'
+                  : 'bg-zinc-900/80 border border-white/10 text-zinc-400 hover:text-white hover:border-white/20'
+              }`}
             >
               {CATEGORY_ICONS[cat]}
               <span>{cat}</span>
               {cat === 'All MCPs' && (
-                <span style={{ fontSize: 11, background: 'rgba(var(--ink-tint-rgb), 0.1)', padding: '2px 7px', borderRadius: 10 }}>
+                <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-zinc-800 text-zinc-300">
                   {servers.length}
                 </span>
               )}
@@ -394,223 +327,133 @@ export default function AntigravityMcpView({ servers }: AntigravityMcpViewProps)
         })}
       </div>
 
-      {/* ------------------------------------------------------------- */}
-      {/* SEARCH BAR */}
-      {/* ------------------------------------------------------------- */}
-      <div style={{ maxWidth: 680, margin: '0 auto 36px', position: 'relative' }}>
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          background: 'var(--bg-glass)',
-          border: '1px solid rgba(var(--ink-tint-rgb), 0.15)',
-          borderRadius: 14,
-          padding: '12px 20px',
-          boxShadow: '0 8px 30px rgba(15, 23, 42, 0.12)'
-        }}>
-          <Search size={19} style={{ color: 'var(--arcade-cyan)', marginRight: 12, flexShrink: 0 }} />
+      {/* Raycast-style Search Command Bar */}
+      <div className="max-w-xl mx-auto mb-10 relative">
+        <div className="relative flex items-center">
+          <Search size={18} className="absolute left-4 text-zinc-500 pointer-events-none" />
           <input
             type="text"
-            placeholder="Search Antigravity MCP servers (e.g. Google Flow, DevTools, Postgres, GitHub, Playwright)..."
+            placeholder="Search Antigravity MCP servers (Google Flow, DevTools, Postgres, GitHub)..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            style={{
-              width: '100%',
-              background: 'transparent',
-              border: 'none',
-              outline: 'none',
-              color: 'var(--text-strong)',
-              fontSize: 15
-            }}
+            className="w-full pl-11 pr-24 py-3 bg-zinc-950/80 border border-white/10 hover:border-cyan-500/30 focus:border-cyan-500/60 rounded-xl text-sm text-white placeholder-zinc-500 outline-none backdrop-blur-md transition-all shadow-[0_4px_20px_rgba(0,0,0,0.5)]"
           />
-          {searchQuery && (
+          {searchQuery ? (
             <button
               onClick={() => setSearchQuery('')}
-              style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', padding: 4 }}
-              aria-label="Clear search query"
+              className="absolute right-4 p-1 rounded-md text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
+              aria-label="Clear search"
             >
-              <X size={16} />
+              <X size={15} />
             </button>
+          ) : (
+            <kbd className="absolute right-4 text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-800/80 border border-white/10 text-zinc-400 pointer-events-none">
+              ⌘K
+            </kbd>
           )}
         </div>
       </div>
 
-      {/* ------------------------------------------------------------- */}
-      {/* SERVERS GRID */}
-      {/* ------------------------------------------------------------- */}
+      {/* Servers Grid */}
       {filteredServers.length === 0 ? (
-        <div style={{ textAlign: 'center', padding: '60px 20px', background: 'var(--bg-card)', borderRadius: 16, border: '1px solid var(--border-light)' }}>
-          <Layers size={36} style={{ color: 'var(--text-muted)', marginBottom: 12 }} />
-          <h3 style={{ color: 'var(--text-strong)', margin: '0 0 8px' }}>No Antigravity MCP servers match &ldquo;{searchQuery}&rdquo;</h3>
-          <p style={{ color: 'var(--text-muted)', margin: '0 0 16px', fontSize: 14 }}>Try searching for &ldquo;Google&rdquo;, &ldquo;database&rdquo;, &ldquo;git&rdquo;, or &ldquo;devtools&rdquo;.</p>
+        <div className="text-center py-16 px-4 bg-zinc-950/50 rounded-2xl border border-white/10 max-w-md mx-auto">
+          <Layers size={32} className="mx-auto text-zinc-600 mb-3" />
+          <h3 className="text-white font-medium mb-1">No MCP servers match &ldquo;{searchQuery}&rdquo;</h3>
+          <p className="text-xs text-zinc-400 mb-4">Try searching for &ldquo;google&rdquo;, &ldquo;database&rdquo;, or &ldquo;git&rdquo;</p>
           <button
             onClick={() => { setSearchQuery(''); setSelectedCategory('All MCPs'); }}
-            style={{ padding: '8px 16px', borderRadius: 8, background: 'var(--arcade-cyan)', color: 'var(--text-on-accent)', border: 'none', fontWeight: 600, cursor: 'pointer' }}
+            className="px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-xs text-white transition-colors"
           >
-            Reset Filters
+            Clear Filters
           </button>
         </div>
       ) : (
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(360px, 1fr))',
-          gap: 24
-        }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-7xl mx-auto">
           {filteredServers.map((server) => {
             const isCopied = copiedId === server.id;
             return (
               <div
                 key={server.id}
-                style={{
-                  background: 'var(--bg-card)',
-                  border: '1px solid var(--border-light)',
-                  borderRadius: 16,
-                  padding: 24,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between',
-                  boxShadow: '0 4px 20px rgba(15, 23, 42, 0.04)',
-                  transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-                  position: 'relative'
-                }}
+                className="obsidian-card rounded-2xl p-6 flex flex-col justify-between border border-white/10 hover:border-cyan-500/30 transition-all duration-200 group relative"
               >
                 <div>
                   {/* Card Header */}
-                  <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12, marginBottom: 14 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                      <div style={{
-                        width: 44,
-                        height: 44,
-                        borderRadius: 12,
-                        background: 'rgba(var(--ink-tint-rgb), 0.04)',
-                        border: '1px solid rgba(var(--ink-tint-rgb), 0.08)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        fontSize: 22,
-                        flexShrink: 0
-                      }}>
+                  <div className="flex items-start justify-between gap-3 mb-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 rounded-xl bg-zinc-900 border border-white/10 flex items-center justify-center text-2xl group-hover:scale-105 transition-transform flex-shrink-0">
                         {server.icon}
                       </div>
                       <div>
-                        <h3 style={{ margin: 0, fontSize: 16, fontWeight: 700, color: 'var(--text-strong)' }}>
+                        <h3 className="text-white font-semibold text-base font-['Geist',sans-serif] group-hover:text-cyan-300 transition-colors">
                           {server.name}
                         </h3>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 3 }}>
-                          <span style={{ fontSize: 11.5, color: 'var(--arcade-cyan)', fontWeight: 500 }}>
+                        <div className="flex items-center gap-2 mt-0.5">
+                          <span className="text-xs text-cyan-400 font-mono">
                             {server.maintainer}
                           </span>
                           {server.verified && (
-                            <span title="Verified Antigravity Server" style={{ display: 'inline-flex', alignItems: 'center' }}>
-                              <ShieldCheck size={13} color="var(--color-info)" />
+                            <span title="Verified Antigravity Server">
+                              <ShieldCheck size={13} className="text-emerald-400" />
                             </span>
                           )}
                         </div>
                       </div>
                     </div>
 
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 4 }}>
-                      <span style={{
-                        fontSize: 10.5,
-                        fontWeight: 700,
-                        padding: '2px 7px',
-                        borderRadius: 6,
-                        background: server.transport === 'sse' ? 'rgba(168, 85, 247, 0.15)' : 'rgba(56, 189, 248, 0.15)',
-                        color: server.transport === 'sse' ? 'var(--accent-secondary)' : 'var(--color-info)',
-                        textTransform: 'uppercase'
-                      }}>
+                    {/* Transport & Stars Badges */}
+                    <div className="flex flex-col items-end gap-1.5 flex-shrink-0">
+                      <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-full uppercase ${
+                        server.transport === 'sse'
+                          ? 'bg-violet-500/15 border border-violet-500/30 text-violet-300'
+                          : 'bg-cyan-500/15 border border-cyan-500/30 text-cyan-300'
+                      }`}>
                         {server.transport}
                       </span>
                       {server.stars && (
-                        <span style={{ fontSize: 11.5, color: 'var(--text-muted)', display: 'inline-flex', alignItems: 'center', gap: 3 }}>
-                          <Star size={11} color="var(--accent-amber)" fill="var(--accent-amber)" />
-                          <span>{server.stars}</span>
+                        <span className="inline-flex items-center gap-1 text-[11px] text-amber-300 font-mono">
+                          <Star size={11} className="fill-amber-400 text-amber-400" /> {server.stars}
                         </span>
                       )}
                     </div>
                   </div>
 
                   {/* Description */}
-                  <p style={{
-                    fontSize: 13.5,
-                    color: 'var(--text-secondary)',
-                    lineHeight: 1.55,
-                    margin: '0 0 16px',
-                    display: '-webkit-box',
-                    WebkitLineClamp: 3,
-                    WebkitBoxOrient: 'vertical',
-                    overflow: 'hidden'
-                  }}>
+                  <p className="text-zinc-400 text-xs sm:text-sm leading-relaxed mb-4 line-clamp-3">
                     {server.description}
                   </p>
 
-                  {/* Key Features Bullets */}
-                  <div style={{ marginBottom: 20 }}>
-                    <div style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em', color: 'var(--text-muted)', marginBottom: 8 }}>
-                      Core Capabilities:
-                    </div>
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-                      {server.keyFeatures.slice(0, 3).map((feat, idx) => (
-                        <span
-                          key={idx}
-                          style={{
-                            fontSize: 11.5,
-                            padding: '3px 8px',
-                            borderRadius: 6,
-                            background: 'rgba(var(--ink-tint-rgb), 0.04)',
-                            color: 'var(--text-secondary)',
-                            border: '1px solid rgba(var(--ink-tint-rgb), 0.08)'
-                          }}
-                        >
-                          • {feat}
-                        </span>
-                      ))}
-                    </div>
+                  {/* Key Features Chips */}
+                  <div className="flex flex-wrap gap-1.5 mb-6">
+                    {server.keyFeatures.slice(0, 3).map((feat, idx) => (
+                      <span
+                        key={idx}
+                        className="text-[11px] font-mono text-zinc-400 px-2 py-0.5 rounded bg-zinc-900/80 border border-white/5"
+                      >
+                        • {feat}
+                      </span>
+                    ))}
                   </div>
                 </div>
 
                 {/* Card Action Buttons */}
-                <div style={{ borderTop: '1px solid var(--border-light)', paddingTop: 16, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
+                <div className="pt-4 border-t border-white/10 flex items-center justify-between gap-2">
                   <button
                     onClick={() => handleCopy(server)}
-                    style={{
-                      flex: 1,
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: 6,
-                      padding: '9px 14px',
-                      borderRadius: 10,
-                      fontSize: 12.5,
-                      fontWeight: 600,
-                      border: '1px solid rgba(56, 189, 248, 0.3)',
-                      background: isCopied ? 'rgba(16, 185, 129, 0.15)' : 'rgba(56, 189, 248, 0.1)',
-                      color: isCopied ? 'var(--color-success)' : 'var(--color-info)',
-                      cursor: 'pointer',
-                      transition: 'all 0.15s ease'
-                    }}
+                    className={`flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-all ${
+                      isCopied
+                        ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
+                        : 'bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/30'
+                    }`}
                   >
-                    {isCopied ? <Check size={14} /> : <Copy size={14} />}
-                    <span>{isCopied ? 'Config Copied!' : 'Copy Antigravity JSON'}</span>
+                    {isCopied ? <Check size={13} /> : <Copy size={13} />}
+                    <span>{isCopied ? 'Config Copied!' : 'Copy AGY JSON'}</span>
                   </button>
 
                   <button
                     onClick={() => setActiveModalServer(server)}
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: 4,
-                      padding: '9px 14px',
-                      borderRadius: 10,
-                      fontSize: 12.5,
-                      fontWeight: 600,
-                      border: '1px solid var(--border-light)',
-                      background: 'var(--bg-glass)',
-                      color: 'var(--text-strong)',
-                      cursor: 'pointer'
-                    }}
+                    className="px-3 py-2 rounded-lg bg-zinc-900/80 hover:bg-zinc-800 border border-white/10 text-xs text-zinc-300 hover:text-white transition-colors"
                   >
-                    <span>Details</span>
-                    <ArrowRight size={13} />
+                    Details
                   </button>
                 </div>
               </div>
@@ -619,52 +462,30 @@ export default function AntigravityMcpView({ servers }: AntigravityMcpViewProps)
         </div>
       )}
 
-      {/* ------------------------------------------------------------- */}
-      {/* MODAL DETAIL DRAWER */}
-      {/* ------------------------------------------------------------- */}
+      {/* Modal Detail Drawer */}
       {activeModalServer && (
         <div
-          style={{
-            position: 'fixed',
-            inset: 0,
-            background: 'rgba(0, 0, 0, 0.75)',
-            backdropFilter: 'blur(6px)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: 20,
-            zIndex: 9999
-          }}
+          className="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 z-50 animate-in fade-in duration-200"
           onClick={() => setActiveModalServer(null)}
         >
           <div
-            style={{
-              background: 'var(--bg-card)',
-              border: '1px solid rgba(56, 189, 248, 0.3)',
-              borderRadius: 20,
-              width: '100%',
-              maxWidth: 680,
-              padding: 28,
-              maxHeight: '90vh',
-              overflowY: 'auto',
-              position: 'relative',
-              boxShadow: '0 25px 60px rgba(15, 23, 42, 0.25)'
-            }}
+            className="obsidian-card bg-zinc-950 border border-white/10 rounded-2xl p-6 sm:p-8 max-w-xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                <span style={{ fontSize: 32 }}>{activeModalServer.icon}</span>
+            <div className="flex items-center justify-between gap-3 mb-5">
+              <div className="flex items-center gap-3">
+                <span className="text-3xl">{activeModalServer.icon}</span>
                 <div>
-                  <h3 style={{ margin: 0, color: 'var(--text-strong)', fontSize: 20, fontWeight: 700 }}>
+                  <h3 className="text-white text-lg font-semibold font-['Geist',sans-serif]">
                     {activeModalServer.name}
                   </h3>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 3 }}>
-                    <span style={{ fontSize: 12.5, color: 'var(--arcade-cyan)' }}>
-                      Maintainer: {activeModalServer.maintainer}
+                  <div className="flex items-center gap-2 mt-0.5">
+                    <span className="text-xs text-cyan-400 font-mono">
+                      {activeModalServer.maintainer}
                     </span>
-                    <span style={{ fontSize: 11, background: 'rgba(var(--ink-tint-rgb), 0.08)', padding: '1px 6px', borderRadius: 4, color: 'var(--text-muted)' }}>
+                    <span className="text-zinc-600">•</span>
+                    <span className="text-[11px] text-zinc-400">
                       {activeModalServer.category}
                     </span>
                   </div>
@@ -672,125 +493,77 @@ export default function AntigravityMcpView({ servers }: AntigravityMcpViewProps)
               </div>
               <button
                 onClick={() => setActiveModalServer(null)}
-                style={{
-                  background: 'rgba(var(--ink-tint-rgb), 0.06)',
-                  border: 'none',
-                  borderRadius: 8,
-                  width: 32,
-                  height: 32,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: 'var(--text-muted)',
-                  cursor: 'pointer'
-                }}
+                className="w-8 h-8 rounded-lg bg-zinc-900 border border-white/10 text-zinc-400 hover:text-white flex items-center justify-center transition-colors"
                 aria-label="Close modal"
               >
-                <X size={18} />
+                <X size={16} />
               </button>
             </div>
 
             {/* Description */}
-            <p style={{ color: 'var(--text-secondary)', fontSize: 14, lineHeight: 1.6, marginBottom: 20 }}>
+            <p className="text-zinc-300 text-sm leading-relaxed mb-5 font-light">
               {activeModalServer.description}
             </p>
 
             {/* Antigravity Pro Tip (Lazy Loading) */}
             {activeModalServer.lazyRecommendation && (
-              <div style={{ background: 'rgba(56, 189, 248, 0.08)', border: '1px solid rgba(56, 189, 248, 0.25)', borderRadius: 10, padding: 12, marginBottom: 20, display: 'flex', gap: 10, alignItems: 'flex-start' }}>
-                <Zap size={16} color="var(--arcade-cyan)" style={{ marginTop: 2, flexShrink: 0 }} />
-                <div style={{ fontSize: 12.5, color: 'var(--text-secondary)', lineHeight: 1.5 }}>
-                  <strong style={{ color: 'var(--text-strong)' }}>Antigravity Lazy-Loading Recommended:</strong> This server provides extensive tool schemas. In Antigravity, lazy-loading mounts the tool on demand, saving ~1,200 tokens of initial system context for your coding tasks.
+              <div className="p-3.5 rounded-xl bg-cyan-500/10 border border-cyan-500/25 mb-5 flex items-start gap-2.5">
+                <Zap size={16} className="text-cyan-400 flex-shrink-0 mt-0.5" />
+                <div className="text-xs text-zinc-300 leading-relaxed font-light">
+                  <strong className="text-white">Antigravity Lazy-Loading Recommended:</strong> This server provides extensive tool schemas. In Antigravity, lazy-loading mounts tools on demand, saving ~1,200 tokens of initial context.
                 </div>
               </div>
             )}
 
             {/* Tested Agent Prompt */}
-            <div style={{ background: 'rgba(var(--ink-tint-rgb), 0.03)', border: '1px solid rgba(var(--ink-tint-rgb), 0.08)', borderRadius: 10, padding: 14, marginBottom: 20 }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
-                <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--accent-amber)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+            <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/25 mb-5">
+              <div className="flex items-center justify-between mb-1.5">
+                <span className="text-[11px] font-mono font-bold text-amber-300 uppercase tracking-wider">
                   Tested Prompt for Antigravity Agent:
                 </span>
                 <button
                   onClick={() => handleCopyPrompt(activeModalServer.samplePrompt, activeModalServer.id)}
-                  style={{
-                    background: 'none',
-                    border: 'none',
-                    color: 'var(--arcade-cyan)',
-                    fontSize: 11.5,
-                    fontWeight: 600,
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 4
-                  }}
+                  className="inline-flex items-center gap-1 text-xs font-mono text-cyan-400 hover:text-cyan-300"
                 >
-                  {copiedPromptId === activeModalServer.id ? <Check size={12} /> : <Copy size={12} />}
-                  <span>{copiedPromptId === activeModalServer.id ? 'Copied Prompt!' : 'Copy Prompt'}</span>
+                  {copiedPromptId === activeModalServer.id ? <Check size={11} /> : <Copy size={11} />}
+                  <span>{copiedPromptId === activeModalServer.id ? 'Copied!' : 'Copy'}</span>
                 </button>
               </div>
-              <p style={{ margin: 0, color: 'var(--text-primary)', fontSize: 13, fontStyle: 'italic', lineHeight: 1.5 }}>
+              <p className="text-xs sm:text-sm text-zinc-200 font-light italic">
                 &ldquo;{activeModalServer.samplePrompt}&rdquo;
               </p>
             </div>
 
             {/* JSON Config Snippet */}
-            <div style={{ marginBottom: 20 }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
-                <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--text-strong)' }}>
-                  Add to <code style={{ color: 'var(--arcade-cyan)' }}>mcp_config.json</code> under <code style={{ color: 'var(--arcade-cyan)' }}>mcpServers</code>:
+            <div className="mb-5">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs font-mono font-medium text-zinc-300">
+                  Add to <code className="text-cyan-300">mcp_config.json</code>:
                 </span>
                 <button
                   onClick={() => handleCopy(activeModalServer)}
-                  style={{
-                    background: 'rgba(56, 189, 248, 0.1)',
-                    border: '1px solid rgba(56, 189, 248, 0.3)',
-                    color: 'var(--color-info)',
-                    padding: '4px 10px',
-                    borderRadius: 6,
-                    fontSize: 11.5,
-                    fontWeight: 600,
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 5
-                  }}
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 text-xs font-medium hover:bg-cyan-500/30 transition-colors"
                 >
                   {copiedId === activeModalServer.id ? <Check size={12} /> : <Copy size={12} />}
                   <span>{copiedId === activeModalServer.id ? 'Copied!' : 'Copy Snippet'}</span>
                 </button>
               </div>
-              <pre style={{
-                background: '#090d16',
-                border: '1px solid rgba(var(--ink-tint-rgb), 0.1)',
-                padding: 14,
-                borderRadius: 8,
-                fontSize: 12.5,
-                color: 'var(--color-info)',
-                overflowX: 'auto',
-                fontFamily: 'monospace',
-                margin: 0
-              }}>
+              <pre className="p-3.5 rounded-xl bg-black/80 border border-white/10 font-mono text-xs text-cyan-300 overflow-x-auto">
                 {getSnippet(activeModalServer)}
               </pre>
             </div>
 
             {/* Environment Variables Requirement */}
             {activeModalServer.env && Object.keys(activeModalServer.env).length > 0 && (
-              <div style={{ marginBottom: 24 }}>
-                <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--text-strong)', display: 'block', marginBottom: 6 }}>
+              <div className="mb-6">
+                <span className="text-xs font-mono font-medium text-zinc-300 block mb-2">
                   Required Environment Variables:
                 </span>
-                <div style={{
-                  background: 'rgba(var(--ink-tint-rgb), 0.03)',
-                  border: '1px solid var(--border-light)',
-                  borderRadius: 8,
-                  padding: '10px 14px'
-                }}>
+                <div className="p-3 rounded-xl bg-black/60 border border-white/10 space-y-1.5">
                   {Object.entries(activeModalServer.env).map(([key, val]) => (
-                    <div key={key} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 12, padding: '3px 0' }}>
-                      <code style={{ color: 'var(--accent-amber)', fontFamily: 'monospace', fontWeight: 600 }}>{key}</code>
-                      <span style={{ color: 'var(--text-muted)', fontSize: 11 }}>{val}</span>
+                    <div key={key} className="flex items-center justify-between text-xs font-mono">
+                      <code className="text-amber-300">{key}</code>
+                      <span className="text-zinc-500 text-[11px]">{val}</span>
                     </div>
                   ))}
                 </div>
@@ -798,19 +571,10 @@ export default function AntigravityMcpView({ servers }: AntigravityMcpViewProps)
             )}
 
             {/* Footer External Links */}
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10, borderTop: '1px solid var(--border-light)', paddingTop: 16 }}>
+            <div className="flex justify-end gap-2.5 pt-4 border-t border-white/10">
               <button
                 onClick={() => setActiveModalServer(null)}
-                style={{
-                  padding: '9px 16px',
-                  borderRadius: 8,
-                  fontSize: 13,
-                  fontWeight: 600,
-                  border: '1px solid rgba(var(--ink-tint-rgb), 0.15)',
-                  background: 'transparent',
-                  color: 'var(--text-muted)',
-                  cursor: 'pointer'
-                }}
+                className="px-4 py-2 rounded-lg bg-zinc-900 border border-white/10 text-xs text-zinc-300 hover:text-white transition-colors"
               >
                 Close
               </button>
@@ -818,21 +582,10 @@ export default function AntigravityMcpView({ servers }: AntigravityMcpViewProps)
                 href={activeModalServer.githubUrl}
                 target="_blank"
                 rel="noopener nofollow"
-                style={{
-                  padding: '9px 18px',
-                  borderRadius: 8,
-                  fontSize: 13,
-                  fontWeight: 600,
-                  background: 'var(--arcade-cyan)',
-                  color: 'var(--text-on-accent)',
-                  textDecoration: 'none',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 6
-                }}
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-medium transition-colors"
               >
-                <span>View Documentation / Code</span>
-                <ExternalLink size={14} />
+                <span>Documentation & Code</span>
+                <ExternalLink size={13} />
               </a>
             </div>
           </div>

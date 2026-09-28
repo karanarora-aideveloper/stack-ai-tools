@@ -28,7 +28,7 @@ import {
   BookOpen,
   HelpCircle
 } from 'lucide-react';
-import { getAllArticles } from '@/lib/blog';
+import { getPrerenderedArticles } from '@/lib/blog';
 
 interface ToolPageProps {
   params: Promise<{ slug: string }>;
@@ -94,7 +94,7 @@ export default async function ToolPage({ params }: ToolPageProps) {
     getPromptsForTool(tool.name)
   ]);
 
-  const allArticles = await getAllArticles();
+  const allArticles = await getPrerenderedArticles();
   const toolFirstWord = tool.name.split(' ')[0].toLowerCase();
   const directMatches = allArticles.filter(a => 
     a.title.toLowerCase().includes(toolFirstWord) || 

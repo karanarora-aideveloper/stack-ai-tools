@@ -69,7 +69,7 @@ async function build() {
     const outDir = path.join(rootDir, 'out');
     if (fs.existsSync(outDir)) {
       const publicDir = path.join(rootDir, 'public');
-      const filesToCopy = ['_redirects', '_headers', 'sitemap.xml', 'sitemap-index.xml', 'llms.txt'];
+      const filesToCopy = ['_redirects', '_headers', 'sitemap.xml', 'sitemap-index.xml', 'llms.txt', '_worker.js'];
       for (const file of filesToCopy) {
         const src = path.join(publicDir, file);
         const dest = path.join(outDir, file);

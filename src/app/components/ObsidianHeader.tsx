@@ -20,7 +20,7 @@ import {
 
 interface ObsidianHeaderProps {
   onSearchClick?: () => void;
-  activeNav?: 'categories' | 'prompts' | 'research' | 'mcp' | 'spotlight' | 'directory' | 'alternatives';
+  activeNav?: 'categories' | 'prompts' | 'research' | 'mcp' | 'spotlight' | 'directory' | 'alternatives' | 'about';
 }
 
 export default function ObsidianHeader({ onSearchClick, activeNav }: ObsidianHeaderProps) {
@@ -87,7 +87,7 @@ export default function ObsidianHeader({ onSearchClick, activeNav }: ObsidianHea
             </Link>
             <Link 
               href="/antigravity-mcp" 
-              className="hover:text-cyan-400 transition-colors flex items-center gap-1.5"
+              className={`hover:text-cyan-400 transition-colors flex items-center gap-1.5 ${activeNav === 'mcp' ? 'text-cyan-400 font-medium' : ''}`}
             >
               <span>MCP Servers</span>
               <span className="text-[9px] px-1.5 py-0.2 rounded bg-cyan-500/15 border border-cyan-500/30 text-cyan-300 font-mono">NEW</span>

@@ -45,6 +45,9 @@ next-env.d.ts
 __pycache__/
 *.pyc
 
+# cloudflare
+.wrangler/
+
 .playwright-mcp/
 
 

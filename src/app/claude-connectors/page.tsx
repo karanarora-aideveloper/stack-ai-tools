@@ -1,8 +1,11 @@
 import React from 'react';
 import { Metadata } from 'next';
+import Link from 'next/link';
 import ConnectorsView from './ConnectorsView';
 import { getAllConnectors } from '@/data/claude-connectors';
-import { Sparkles, Terminal, ShieldCheck, Zap } from 'lucide-react';
+import ObsidianHeader from '@/app/components/ObsidianHeader';
+import ObsidianFooter from '@/app/components/ObsidianFooter';
+import { Sparkles, Terminal, ShieldCheck, Zap, ChevronRight, HelpCircle } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: { absolute: 'Claude Connectors & MCP Servers (2026)' },
@@ -84,8 +87,27 @@ export default function ClaudeConnectorsPage() {
     ]
   };
 
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://www.stackaitools.com'
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Claude Connectors',
+        item: 'https://www.stackaitools.com/claude-connectors'
+      }
+    ]
+  };
+
   return (
-    <main style={{ minHeight: '100vh', background: 'var(--bg-primary)' }}>
+    <div data-redesign-page="true" className="min-h-screen bg-[#040406] text-[#e3e1ec] antialiased selection:bg-[#8b5cf6] selection:text-white relative">
       {/* Schema.org Injection */}
       <script
         type="application/ld+json"
@@ -95,83 +117,77 @@ export default function ClaudeConnectorsPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
 
-      <div style={{ maxWidth: 1320, margin: '0 auto', padding: '48px 24px 0' }}>
-        {/* Hero Section */}
-        <header style={{ textAlign: 'center', marginBottom: 32 }}>
-          <div style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: 8,
-            padding: '6px 16px',
-            borderRadius: 20,
-            background: 'linear-gradient(135deg, rgba(168, 85, 247, 0.15), rgba(56, 189, 248, 0.15))',
-            border: '1px solid rgba(168, 85, 247, 0.3)',
-            color: '#c084fc',
-            fontSize: 12.5,
-            fontWeight: 700,
-            letterSpacing: '0.04em',
-            marginBottom: 16
-          }}>
-            <Sparkles size={14} />
-            <span>MODEL CONTEXT PROTOCOL (MCP) DIRECTORY • 2026 TESTED</span>
-          </div>
+      {/* Atmospheric Ambient Glow Mesh */}
+      <div className="obsidian-glow-mesh fixed inset-x-0 top-0 h-[700px] pointer-events-none -z-10" />
 
-          <h1 style={{
-            fontSize: 'clamp(2.2rem, 4.5vw, 3.4rem)',
-            fontWeight: 800,
-            letterSpacing: '-0.03em',
-            lineHeight: 1.15,
-            color: 'var(--text-strong)',
-            margin: '0 0 16px'
-          }}>
-            Top Claude <span style={{
-              background: 'linear-gradient(135deg, #38bdf8 0%, #a855f7 50%, #f43f5e 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent'
-            }}>Connectors & Plugins</span>
-          </h1>
+      {/* Shared Obsidian Luxury Header */}
+      <ObsidianHeader activeNav="mcp" />
 
-          <p style={{
-            color: 'var(--text-muted)',
-            fontSize: '1.08rem',
-            lineHeight: 1.7,
-            maxWidth: 780,
-            margin: '0 auto 28px'
-          }}>
-            Curated catalog of official and open-source Model Context Protocol (MCP) servers connecting <strong>Anthropic Claude Desktop</strong> and <strong>Claude Code CLI</strong> directly to your local filesystem, GitHub repos, PostgreSQL databases, Slack, Notion, and real-time web search.
-          </p>
-
-          {/* Quick Metrics Badge Strip */}
-          <div style={{
-            display: 'inline-flex',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-            gap: 16,
-            padding: '12px 24px',
-            background: 'var(--bg-glass)',
-            border: '1px solid rgba(var(--ink-tint-rgb), 0.08)',
-            borderRadius: 30,
-            fontSize: 13,
-            color: 'var(--text-secondary)'
-          }}>
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-              <ShieldCheck size={14} color="var(--color-info)" /> <strong>{connectors.length} Verified Connectors</strong>
-            </span>
-            <span style={{ color: 'rgba(var(--ink-tint-rgb), 0.3)' }}>•</span>
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-              <Terminal size={14} color="var(--color-success)" /> <strong>One-Click JSON Configs</strong>
-            </span>
-            <span style={{ color: 'rgba(var(--ink-tint-rgb), 0.3)' }}>•</span>
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-              <Zap size={14} color="var(--color-warning)" /> <strong>Claude 3.7 & Claude Code Ready</strong>
-            </span>
-          </div>
-        </header>
-
-        {/* Connectors Explorer */}
-        <ConnectorsView connectors={connectors} />
+      {/* Breadcrumbs */}
+      <div className="max-w-7xl mx-auto px-4 md:px-8 pt-8">
+        <nav className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-zinc-900/70 border border-white/10 text-xs text-zinc-400 font-mono" aria-label="Breadcrumb">
+          <Link href="/" className="hover:text-white transition-colors">Home</Link>
+          <ChevronRight size={12} className="text-zinc-600" />
+          <span className="text-cyan-400 font-medium">Claude Connectors & MCP Servers</span>
+        </nav>
       </div>
-    </main>
+
+      {/* Hero Header Section */}
+      <header className="pt-10 pb-8 px-4 md:px-8 max-w-5xl mx-auto text-center relative z-10">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-zinc-900/90 border border-cyan-500/30 text-xs text-zinc-300 mb-6 shadow-sm">
+          <span className="inline-block w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+          <span className="tracking-wide uppercase font-mono text-[11px] text-zinc-400">MODEL CONTEXT PROTOCOL (MCP)</span>
+          <span className="text-zinc-600">•</span>
+          <span className="text-cyan-400 font-medium">{connectors.length}+ VERIFIED CONNECTORS</span>
+        </div>
+
+        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-white mb-5 font-['Geist',sans-serif] leading-[1.12]">
+          Top Claude{' '}
+          <span className="bg-gradient-to-r from-cyan-400 via-violet-400 to-pink-400 bg-clip-text text-transparent">
+            Connectors &amp; Plugins
+          </span>
+        </h1>
+
+        <p className="text-base sm:text-lg text-zinc-400 max-w-2xl mx-auto leading-relaxed font-light mb-10">
+          Curated catalog of official and open-source Model Context Protocol (MCP) servers connecting <strong className="text-zinc-200">Anthropic Claude Desktop</strong> and <strong className="text-zinc-200">Claude Code CLI</strong> directly to your local filesystem, GitHub repos, PostgreSQL databases, Slack, Notion, and real-time web search.
+        </p>
+
+        {/* 4-Stat Metric Ribbon */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl mx-auto p-2 rounded-xl bg-zinc-950/60 border border-white/10 backdrop-blur-md">
+          <div className="text-center py-2 px-3">
+            <div className="text-xl font-bold text-white font-['Geist',sans-serif]">{connectors.length}+</div>
+            <div className="text-[11px] text-zinc-500 font-mono uppercase tracking-wider">Verified Connectors</div>
+          </div>
+          <div className="text-center py-2 px-3 sm:border-l border-white/10">
+            <div className="text-xl font-bold text-cyan-400 font-['Geist',sans-serif]">1-Click</div>
+            <div className="text-[11px] text-zinc-500 font-mono uppercase tracking-wider">JSON Configs</div>
+          </div>
+          <div className="text-center py-2 px-3 sm:border-l border-white/10">
+            <div className="text-xl font-bold text-violet-400 font-['Geist',sans-serif]">Claude 3.7</div>
+            <div className="text-[11px] text-zinc-500 font-mono uppercase tracking-wider">Code CLI Ready</div>
+          </div>
+          <div className="text-center py-2 px-3 sm:border-l border-white/10 flex flex-col items-center justify-center">
+            <div className="text-xl font-bold text-emerald-400 font-['Geist',sans-serif] flex items-center gap-1">
+              <ShieldCheck size={17} className="text-emerald-400" />
+              <span>100%</span>
+            </div>
+            <div className="text-[11px] text-zinc-500 font-mono uppercase tracking-wider">Audited Stdio</div>
+          </div>
+        </div>
+      </header>
+
+      {/* Main Interactive Connectors Explorer */}
+      <main className="relative z-10 max-w-7xl mx-auto px-4 md:px-8">
+        <ConnectorsView connectors={connectors} />
+      </main>
+
+      {/* Shared Obsidian Luxury Footer */}
+      <ObsidianFooter />
+    </div>
   );
 }

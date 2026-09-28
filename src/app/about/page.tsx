@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import ObsidianHeader from '@/app/components/ObsidianHeader';
+import ObsidianFooter from '@/app/components/ObsidianFooter';
 import {
   Sparkles,
   ShieldCheck,
@@ -8,7 +10,12 @@ import {
   Cpu,
   Send,
   Layers,
-  Compass
+  Compass,
+  ChevronRight,
+  ExternalLink,
+  CheckCircle2,
+  Lock,
+  Zap
 } from 'lucide-react';
 
 export const metadata: Metadata = {
@@ -41,160 +48,280 @@ const orgJsonLd = {
     description: 'An independent directory of frontier AI software, autonomous coding agents, generative media models, and tested prompt templates.',
     url: 'https://www.stackaitools.com',
     logo: 'https://www.stackaitools.com/icon.svg',
+    founder: {
+      '@type': 'Person',
+      name: 'Karan Arora',
+      jobTitle: 'Founder & Chief AI Architect'
+    },
     knowsAbout: [
       'Artificial Intelligence',
       'Autonomous Coding Agents',
       'Prompt Engineering',
       'Large Language Models (LLMs)',
+      'Model Context Protocol (MCP)',
       'Machine Learning Systems'
     ]
   }
 };
 
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: 'https://www.stackaitools.com'
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'About Us',
+      item: 'https://www.stackaitools.com/about'
+    }
+  ]
+};
+
 export default function AboutPage() {
   return (
-    <div className="about-container" style={{ maxWidth: 1040, margin: '0 auto', padding: '40px 20px 80px' }}>
+    <div data-redesign-page="true" className="min-h-screen bg-[#040406] text-[#e3e1ec] antialiased selection:bg-[#8b5cf6] selection:text-white relative">
+      {/* Schema.org Structured Data */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+
+      {/* Atmospheric Ambient Glow Mesh */}
+      <div className="obsidian-glow-mesh fixed inset-x-0 top-0 h-[700px] pointer-events-none -z-10" />
+
+      {/* Shared Obsidian Luxury Header */}
+      <ObsidianHeader activeNav="about" />
 
       {/* Breadcrumbs */}
-      <div className="breadcrumbs" style={{ marginBottom: 28 }}>
-        <Link href="/" className="crumb-link">Home</Link>
-        <span className="crumb-sep">/</span>
-        <span className="crumb-current">About Us</span>
+      <div className="max-w-7xl mx-auto px-4 md:px-8 pt-8">
+        <nav className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-zinc-900/70 border border-white/10 text-xs text-zinc-400 font-mono" aria-label="Breadcrumb">
+          <Link href="/" className="hover:text-white transition-colors">Home</Link>
+          <ChevronRight size={12} className="text-zinc-600" />
+          <span className="text-violet-400 font-medium">About Us</span>
+        </nav>
       </div>
 
-      {/* Hero Card */}
-      <div
-        className="founder-hero-card"
-        style={{
-          background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.06) 0%, rgba(255, 255, 255, 0.9) 100%)',
-          border: '1px solid rgba(var(--ink-tint-rgb), 0.08)',
-          borderRadius: 24,
-          padding: '44px 36px',
-          boxShadow: '0 10px 30px rgba(15, 23, 42, 0.06)',
-          position: 'relative',
-          overflow: 'hidden',
-          marginBottom: 40
-        }}
-      >
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'rgba(99, 102, 241, 0.1)', border: '1px solid rgba(99, 102, 241, 0.25)', borderRadius: 20, padding: '4px 12px', marginBottom: 16 }}>
-          <Sparkles size={13} color="var(--accent-secondary)" />
-          <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.05em', color: 'var(--accent-secondary)', textTransform: 'uppercase' }}>
-            Independent AI Software Directory
-          </span>
+      {/* Hero Header Section */}
+      <header className="pt-10 pb-12 px-4 md:px-8 max-w-5xl mx-auto text-center relative z-10">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-zinc-900/90 border border-violet-500/30 text-xs text-zinc-300 mb-6 shadow-sm">
+          <span className="inline-block w-2 h-2 rounded-full bg-violet-400 animate-pulse"></span>
+          <span className="tracking-wide uppercase font-mono text-[11px] text-zinc-400">INDEPENDENT DIRECTORY</span>
+          <span className="text-zinc-600">•</span>
+          <span className="text-violet-400 font-medium">AUDITED 2026</span>
         </div>
 
-        <h1 style={{ fontSize: 'clamp(2rem, 4vw, 2.75rem)', fontWeight: 800, margin: '0 0 14px', color: 'var(--text-strong)', letterSpacing: '-0.02em' }}>
-          About Stack AI Tools
+        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-white mb-5 font-['Geist',sans-serif] leading-[1.12]">
+          About{' '}
+          <span className="bg-gradient-to-r from-violet-400 via-purple-300 to-cyan-400 bg-clip-text text-transparent">
+            Stack AI Tools
+          </span>
         </h1>
 
-        <p style={{ fontSize: 16, color: 'var(--text-secondary)', lineHeight: 1.65, margin: 0, maxWidth: 680 }}>
-          <strong>Stack AI Tools</strong> (<code>stackaitools.com</code>) is an independently run directory built to give builders, founders, and creators a transparent, high-performance catalog of vetted artificial intelligence software, autonomous coding agents, and tested prompts — without the marketing noise.
+        <p className="text-base sm:text-lg text-zinc-400 max-w-2xl mx-auto leading-relaxed font-light mb-10">
+          <strong className="text-zinc-200">Stack AI Tools</strong> (<code className="text-violet-300 font-mono text-xs px-1.5 py-0.5 rounded bg-zinc-900 border border-white/10">stackaitools.com</code>) is an independently run directory built to give builders, founders, and creators a transparent, high-performance catalog of vetted artificial intelligence software, autonomous coding agents, and tested prompts — without the marketing noise.
         </p>
-      </div>
 
-      {/* Grid: Mission & Standards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 24, marginBottom: 40 }}>
-        <div style={{ background: 'var(--bg-card)', border: '1px solid rgba(var(--ink-tint-rgb), 0.08)', borderRadius: 20, padding: 30, boxShadow: '0 4px 16px rgba(15, 23, 42, 0.05)' }}>
-          <div style={{ width: 44, height: 44, borderRadius: 12, background: 'rgba(99, 102, 241, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
-            <Cpu size={22} color="var(--accent-secondary)" />
+        {/* 4-Stat Metric Ribbon */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl mx-auto p-2 rounded-xl bg-zinc-950/60 border border-white/10 backdrop-blur-md">
+          <div className="text-center py-2 px-3">
+            <div className="text-xl font-bold text-white font-['Geist',sans-serif]">220+</div>
+            <div className="text-[11px] text-zinc-500 font-mono uppercase tracking-wider">Vetted Tools</div>
           </div>
-          <h3 style={{ fontSize: 18, fontWeight: 700, margin: '0 0 10px', color: 'var(--text-strong)' }}>
-            Why We Built This
-          </h3>
-          <p style={{ fontSize: 14, color: 'var(--text-secondary)', lineHeight: 1.65, margin: 0 }}>
-            In the explosion of AI startups, hundreds of tools claim revolutionary features while hiding real pricing or repackaging basic wrappers. Stack AI Tools exists to give builders an unvarnished, transparent directory with verified reviews, accurate pricing models, and direct alternative comparisons.
+          <div className="text-center py-2 px-3 sm:border-l border-white/10">
+            <div className="text-xl font-bold text-violet-400 font-['Geist',sans-serif]">45+</div>
+            <div className="text-[11px] text-zinc-500 font-mono uppercase tracking-wider">Battle-Tested Prompts</div>
+          </div>
+          <div className="text-center py-2 px-3 sm:border-l border-white/10">
+            <div className="text-xl font-bold text-emerald-400 font-['Geist',sans-serif]">0%</div>
+            <div className="text-[11px] text-zinc-500 font-mono uppercase tracking-wider">Pay-to-Rank Bias</div>
+          </div>
+          <div className="text-center py-2 px-3 sm:border-l border-white/10 flex flex-col items-center justify-center">
+            <div className="text-xl font-bold text-cyan-400 font-['Geist',sans-serif] flex items-center gap-1">
+              <Zap size={17} className="text-cyan-400" />
+              <span>Edge</span>
+            </div>
+            <div className="text-[11px] text-zinc-500 font-mono uppercase tracking-wider">Sub-100ms Global CDN</div>
+          </div>
+        </div>
+      </header>
+
+      {/* Main Content Area */}
+      <main className="max-w-6xl mx-auto px-4 md:px-8 space-y-12 relative z-10 pb-16">
+        {/* Core Pillars Grid */}
+        <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="obsidian-card rounded-2xl p-6 sm:p-8 border border-white/10 flex flex-col justify-between">
+            <div>
+              <div className="w-12 h-12 rounded-xl bg-violet-500/10 border border-violet-500/25 flex items-center justify-center text-violet-400 mb-6">
+                <Cpu size={24} />
+              </div>
+              <h2 className="text-lg font-semibold text-white mb-2 font-['Geist',sans-serif]">
+                Why We Built This
+              </h2>
+              <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed font-light">
+                In the explosion of AI startups, hundreds of tools claim revolutionary features while hiding real pricing or repackaging basic wrappers. Stack AI Tools exists to give builders an unvarnished, transparent directory with verified reviews, accurate pricing models, and direct alternative comparisons.
+              </p>
+            </div>
+          </div>
+
+          <div className="obsidian-card rounded-2xl p-6 sm:p-8 border border-white/10 flex flex-col justify-between">
+            <div>
+              <div className="w-12 h-12 rounded-xl bg-pink-500/10 border border-pink-500/25 flex items-center justify-center text-pink-400 mb-6">
+                <ShieldCheck size={24} />
+              </div>
+              <h2 className="text-lg font-semibold text-white mb-2 font-['Geist',sans-serif]">
+                Strict Editorial Standard
+              </h2>
+              <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed font-light">
+                Every tool in this directory is evaluated for speed, developer ergonomics, model backing, and value. We never list broken software or deceptive subscriptions, and listings are never ranked by payment or sponsored ad auctions.
+              </p>
+            </div>
+          </div>
+
+          <div className="obsidian-card rounded-2xl p-6 sm:p-8 border border-white/10 flex flex-col justify-between">
+            <div>
+              <div className="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/25 flex items-center justify-center text-cyan-400 mb-6">
+                <Terminal size={24} />
+              </div>
+              <h2 className="text-lg font-semibold text-white mb-2 font-['Geist',sans-serif]">
+                Open Source &amp; Community
+              </h2>
+              <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed font-light">
+                The code and data behind Stack AI Tools is open source on GitHub. Anyone can submit pull requests, contribute prompt recipes, verify tool features, or consume clean Markdown context via our machine-readable <code className="text-cyan-300 font-mono">/llms.txt</code> endpoint.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* How We Vet Every Tool */}
+        <section className="obsidian-card rounded-3xl p-8 md:p-10 border border-white/10">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-center text-emerald-400">
+              <CheckCircle2 size={18} />
+            </div>
+            <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight font-['Geist',sans-serif]">
+              How We Vet &amp; Benchmark Every Listing
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="p-5 rounded-xl bg-zinc-950/60 border border-white/[0.08]">
+              <div className="flex items-center gap-2 mb-2 text-violet-400 font-mono text-xs font-bold">
+                <Layers size={14} />
+                <span>01. PRICING AUDIT</span>
+              </div>
+              <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed font-light">
+                Pricing, plan tiers, and free-tier token or credit limits are checked directly against the vendor&apos;s own checkout pages, never third-party press releases.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-xl bg-zinc-950/60 border border-white/[0.08]">
+              <div className="flex items-center gap-2 mb-2 text-pink-400 font-mono text-xs font-bold">
+                <Compass size={14} />
+                <span>02. HANDS-ON TESTING</span>
+              </div>
+              <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed font-light">
+                Category and use-case fit is based on hands-on developer testing of core workflows, API reliability, and benchmark scores rather than vendor marketing claims.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-xl bg-zinc-950/60 border border-white/[0.08]">
+              <div className="flex items-center gap-2 mb-2 text-cyan-400 font-mono text-xs font-bold">
+                <ShieldCheck size={14} />
+                <span>03. SENTIMENT REFRESH</span>
+              </div>
+              <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed font-light">
+                Ratings, review counts, and community discussions across GitHub, X, and Reddit are refreshed regularly to ensure our index reflects current product quality.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Founder Profile Card */}
+        <section className="obsidian-card rounded-3xl p-8 md:p-10 border border-white/10 flex flex-col md:flex-row items-center justify-between gap-8">
+          <div className="flex items-center gap-6">
+            <div className="w-20 h-20 rounded-2xl bg-gradient-to-tr from-violet-600 to-cyan-500 p-0.5 flex-shrink-0">
+              <div className="w-full h-full bg-zinc-950 rounded-2xl flex items-center justify-center text-3xl font-bold text-white font-['Geist',sans-serif]">
+                KA
+              </div>
+            </div>
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <h3 className="text-xl font-bold text-white font-['Geist',sans-serif]">Karan Arora</h3>
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-violet-500/15 border border-violet-500/30 text-violet-300 text-[10px] font-mono">
+                  Verified Founder
+                </span>
+              </div>
+              <div className="text-xs text-zinc-400 font-mono mb-2">
+                Chief AI Architect &amp; Creator of Stack AI Tools
+              </div>
+              <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed font-light max-w-xl">
+                Building autonomous agent systems, AI workflow optimizations, and developer directories. Passionate about empowering founders and engineers with unbiased, transparent AI tooling.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
+            <a
+              href="mailto:karan@stackaitools.com"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-zinc-900 border border-white/10 hover:border-violet-500/40 text-xs font-medium text-white transition-colors"
+            >
+              <span>karan@stackaitools.com</span>
+            </a>
+            <a
+              href="https://github.com/karanarora-aideveloper/stack-ai-tools"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-violet-600 hover:bg-violet-500 text-xs font-medium text-white transition-colors shadow-[0_0_15px_rgba(139,92,246,0.3)]"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+              </svg>
+              <span>GitHub Profile</span>
+            </a>
+          </div>
+        </section>
+
+        {/* Call to Action */}
+        <section className="obsidian-card rounded-3xl p-8 md:p-10 border border-white/10 text-center">
+          <h2 className="text-2xl font-bold text-white mb-3 font-['Geist',sans-serif]">
+            Want to Feature Your AI Tool?
+          </h2>
+          <p className="text-sm text-zinc-400 max-w-xl mx-auto mb-8 font-light leading-relaxed">
+            Whether you are launching an autonomous coding agent, a generative model, or want to explore partnership opportunities, submit it for editorial review.
           </p>
-        </div>
+          <div className="inline-flex flex-wrap gap-3 justify-center">
+            <Link
+              href="/submit"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white hover:bg-zinc-100 text-zinc-950 font-medium text-xs sm:text-sm transition-all shadow-[0_0_20px_rgba(255,255,255,0.15)] active:scale-95"
+            >
+              <span>Submit Tool for Review</span>
+              <Send size={14} />
+            </Link>
+            <a
+              href="https://github.com/karanarora-aideveloper/stack-ai-tools"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-white/10 text-zinc-300 hover:text-white font-medium text-xs sm:text-sm transition-colors"
+            >
+              <Code2 size={15} />
+              <span>Open Source Repo</span>
+            </a>
+          </div>
+        </section>
+      </main>
 
-        <div style={{ background: 'var(--bg-card)', border: '1px solid rgba(var(--ink-tint-rgb), 0.08)', borderRadius: 20, padding: 30, boxShadow: '0 4px 16px rgba(15, 23, 42, 0.05)' }}>
-          <div style={{ width: 44, height: 44, borderRadius: 12, background: 'rgba(219, 39, 119, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
-            <ShieldCheck size={22} color="#db2777" />
-          </div>
-          <h3 style={{ fontSize: 18, fontWeight: 700, margin: '0 0 10px', color: 'var(--text-strong)' }}>
-            Strict Editorial Standard
-          </h3>
-          <p style={{ fontSize: 14, color: 'var(--text-secondary)', lineHeight: 1.65, margin: 0 }}>
-            Every tool in this directory is evaluated for speed, developer ergonomics, model backing, and value. We never list broken software or deceptive subscriptions, and listings are never ranked by payment.
-          </p>
-        </div>
-
-        <div style={{ background: 'var(--bg-card)', border: '1px solid rgba(var(--ink-tint-rgb), 0.08)', borderRadius: 20, padding: 30, boxShadow: '0 4px 16px rgba(15, 23, 42, 0.05)' }}>
-          <div style={{ width: 44, height: 44, borderRadius: 12, background: 'rgba(16, 185, 129, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
-            <Terminal size={22} color="#059669" />
-          </div>
-          <h3 style={{ fontSize: 18, fontWeight: 700, margin: '0 0 10px', color: 'var(--text-strong)' }}>
-            Open Source & Community Driven
-          </h3>
-          <p style={{ fontSize: 14, color: 'var(--text-secondary)', lineHeight: 1.65, margin: 0 }}>
-            The code and data behind Stack AI Tools is open source. Anyone can submit pull requests, contribute prompt recipes, or consume clean Markdown context via <code>/llms.txt</code>.
-          </p>
-        </div>
-      </div>
-
-      {/* How We Vet Tools */}
-      <div style={{ background: 'var(--bg-card)', border: '1px solid rgba(var(--ink-tint-rgb), 0.08)', borderRadius: 20, padding: 32, marginBottom: 40, boxShadow: '0 4px 16px rgba(15, 23, 42, 0.05)' }}>
-        <h2 style={{ fontSize: 22, fontWeight: 800, margin: '0 0 18px', color: 'var(--text-strong)' }}>
-          How We Vet Every Tool
-        </h2>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 20 }}>
-          <div style={{ display: 'flex', gap: 12 }}>
-            <Layers size={18} color="var(--accent-secondary)" style={{ flexShrink: 0, marginTop: 2 }} />
-            <p style={{ fontSize: 13.5, color: 'var(--text-secondary)', margin: 0, lineHeight: 1.6 }}>
-              Pricing, plan tiers, and free-tier limits are checked directly against the vendor&apos;s own pricing page, not press releases.
-            </p>
-          </div>
-          <div style={{ display: 'flex', gap: 12 }}>
-            <Compass size={18} color="var(--accent-secondary)" style={{ flexShrink: 0, marginTop: 2 }} />
-            <p style={{ fontSize: 13.5, color: 'var(--text-secondary)', margin: 0, lineHeight: 1.6 }}>
-              Category and use-case fit is based on hands-on testing of core workflows, not marketing copy.
-            </p>
-          </div>
-          <div style={{ display: 'flex', gap: 12 }}>
-            <ShieldCheck size={18} color="var(--accent-secondary)" style={{ flexShrink: 0, marginTop: 2 }} />
-            <p style={{ fontSize: 13.5, color: 'var(--text-secondary)', margin: 0, lineHeight: 1.6 }}>
-              Ratings and review counts are cross-checked and refreshed on an ongoing basis, not set once and forgotten.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* Call to Action */}
-      <div
-        style={{
-          background: 'rgba(99, 102, 241, 0.06)',
-          border: '1px solid rgba(99, 102, 241, 0.2)',
-          borderRadius: 20,
-          padding: '36px 30px',
-          textAlign: 'center'
-        }}
-      >
-        <h2 style={{ fontSize: 24, fontWeight: 800, color: 'var(--text-strong)', margin: '0 0 12px' }}>
-          Want to Feature Your AI Tool?
-        </h2>
-        <p style={{ fontSize: 15, color: 'var(--text-secondary)', maxWidth: 620, margin: '0 auto 24px', lineHeight: 1.6 }}>
-          Whether you are launching an autonomous coding agent, a generative model, or want to explore partnership opportunities, submit it for editorial review.
-        </p>
-        <div style={{ display: 'inline-flex', flexWrap: 'wrap', gap: 14, justifyContent: 'center' }}>
-          <Link href="/submit" className="btn btn-primary" style={{ padding: '12px 24px' }}>
-            <span>Submit Tool for Review</span>
-            <Send size={16} />
-          </Link>
-          <a
-            href="https://github.com/karanarora-aideveloper/stack-ai-tools"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn btn-secondary"
-            style={{ padding: '12px 24px' }}
-          >
-            <Code2 size={16} />
-            <span>Open Source Repo</span>
-          </a>
-        </div>
-      </div>
+      {/* Shared Obsidian Luxury Footer */}
+      <ObsidianFooter />
     </div>
   );
 }

@@ -15,7 +15,7 @@ import {
   HelpCircle,
   BookOpen
 } from 'lucide-react';
-import { getAllArticles } from '@/lib/blog';
+import { getPrerenderedArticles } from '@/lib/blog';
 
 interface AlternativePageProps {
   params: Promise<{ slug: string }>;
@@ -73,7 +73,7 @@ export default async function AlternativeDetailPage({ params }: AlternativePageP
   }
 
   const alternatives = await getAlternativesForTool(tool.slug, 5);
-  const allArticles = await getAllArticles();
+  const allArticles = await getPrerenderedArticles();
   const toolFirstWord = tool.name.split(' ')[0].toLowerCase();
   const altNames = alternatives.map(a => a.name.split(' ')[0].toLowerCase());
 

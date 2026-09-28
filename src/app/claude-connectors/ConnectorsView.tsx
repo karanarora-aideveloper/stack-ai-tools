@@ -80,35 +80,25 @@ export default function ConnectorsView({ connectors }: ConnectorsViewProps) {
   }
 
   return (
-    <div style={{ minHeight: '100vh', paddingBottom: 80 }}>
-      {/* Category Navigation Pills */}
-      <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 10, margin: '24px 0 32px' }}>
+    <div className="pb-16">
+      {/* Category Navigation Filter Pills */}
+      <div className="flex justify-center flex-wrap gap-2 mb-8">
         {CONNECTOR_CATEGORIES.map((cat) => {
           const isActive = selectedCategory === cat;
           return (
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 7,
-                padding: '9px 18px',
-                borderRadius: 24,
-                fontSize: 13.5,
-                fontWeight: 600,
-                cursor: 'pointer',
-                border: isActive ? '1px solid var(--arcade-cyan)' : '1px solid var(--border-light)',
-                background: isActive ? 'linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(99, 102, 241, 0.15))' : 'var(--bg-card)',
-                color: isActive ? '#fff' : 'var(--text-secondary)',
-                boxShadow: isActive ? '0 0 16px rgba(56, 189, 248, 0.25)' : 'none',
-                transition: 'all 0.2s ease'
-              }}
+              className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-medium transition-all ${
+                isActive
+                  ? 'bg-violet-600/20 border border-violet-500/50 text-white shadow-[0_0_15px_rgba(139,92,246,0.3)]'
+                  : 'bg-zinc-900/80 border border-white/10 text-zinc-400 hover:text-white hover:border-white/20'
+              }`}
             >
               {CATEGORY_ICONS[cat]}
               <span>{cat}</span>
               {cat === 'All Connectors' && (
-                <span style={{ fontSize: 11, background: 'rgba(var(--ink-tint-rgb), 0.1)', padding: '2px 7px', borderRadius: 10 }}>
+                <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-zinc-800 text-zinc-300">
                   {connectors.length}
                 </span>
               )}
@@ -117,212 +107,134 @@ export default function ConnectorsView({ connectors }: ConnectorsViewProps) {
         })}
       </div>
 
-      {/* Search Input Bar */}
-      <div style={{ maxWidth: 680, margin: '0 auto 36px', position: 'relative' }}>
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          background: 'var(--bg-glass)',
-          border: '1px solid rgba(var(--ink-tint-rgb), 0.15)',
-          borderRadius: 14,
-          padding: '12px 20px',
-          boxShadow: '0 8px 30px rgba(15, 23, 42, 0.12)'
-        }}>
-          <Search size={19} style={{ color: 'var(--arcade-cyan)', marginRight: 12, flexShrink: 0 }} />
+      {/* Raycast-style Search Command Bar */}
+      <div className="max-w-xl mx-auto mb-10 relative">
+        <div className="relative flex items-center">
+          <Search size={18} className="absolute left-4 text-zinc-500 pointer-events-none" />
           <input
             type="text"
-            placeholder="Search Claude connectors (e.g. GitHub, Postgres, Notion, Slack, Brave, MCP)..."
+            placeholder="Search Claude connectors (GitHub, Postgres, Notion, Slack, Brave)..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            style={{
-              width: '100%',
-              background: 'transparent',
-              border: 'none',
-              outline: 'none',
-              color: 'var(--text-strong)',
-              fontSize: 15
-            }}
+            className="w-full pl-11 pr-24 py-3 bg-zinc-950/80 border border-white/10 hover:border-violet-500/30 focus:border-violet-500/60 rounded-xl text-sm text-white placeholder-zinc-500 outline-none backdrop-blur-md transition-all shadow-[0_4px_20px_rgba(0,0,0,0.5)]"
           />
-          {searchQuery && (
+          {searchQuery ? (
             <button
               onClick={() => setSearchQuery('')}
-              style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', padding: 4 }}
+              className="absolute right-4 p-1 rounded-md text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
+              aria-label="Clear search"
             >
-              <X size={16} />
+              <X size={15} />
             </button>
+          ) : (
+            <kbd className="absolute right-4 text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-800/80 border border-white/10 text-zinc-400 pointer-events-none">
+              ⌘K
+            </kbd>
           )}
         </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 10, padding: '0 8px', fontSize: 12.5, color: 'var(--text-muted)' }}>
-          <span>Showing <strong>{filteredConnectors.length}</strong> of {connectors.length} verified connectors</span>
-          <span>Updated as of <strong>September 2026</strong></span>
+        <div className="flex justify-between items-center mt-2.5 px-2 text-xs text-zinc-500 font-mono">
+          <span>Showing <strong className="text-zinc-300">{filteredConnectors.length}</strong> of {connectors.length} connectors</span>
+          <span>Claude 3.7 & Claude Code Tested</span>
         </div>
       </div>
 
       {/* Connectors Grid */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(360px, 1fr))',
-        gap: 24,
-        maxWidth: 1280,
-        margin: '0 auto 60px'
-      }}>
-        {filteredConnectors.map((c) => {
-          const isCopied = copiedId === c.id;
-          return (
-            <div
-              key={c.id}
-              style={{
-                background: 'linear-gradient(180deg, var(--bg-card-hover) 0%, var(--bg-card) 100%)',
-                border: '1px solid var(--border-subtle)',
-                borderRadius: 16,
-                padding: 24,
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                transition: 'transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease',
-                position: 'relative'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = 'rgba(56, 189, 248, 0.4)';
-                e.currentTarget.style.transform = 'translateY(-3px)';
-                e.currentTarget.style.boxShadow = 'var(--shadow-lg)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = 'var(--border-subtle)';
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = 'none';
-              }}
-            >
-              {/* Header */}
-              <div>
-                <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 14 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                    <div style={{
-                      width: 46,
-                      height: 46,
-                      borderRadius: 12,
-                      background: 'var(--bg-secondary)',
-                      border: '1px solid var(--border-light)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontSize: 24
-                    }}>
-                      {c.icon}
+      {filteredConnectors.length === 0 ? (
+        <div className="text-center py-16 px-4 bg-zinc-950/50 rounded-2xl border border-white/10 max-w-md mx-auto">
+          <Layers size={32} className="mx-auto text-zinc-600 mb-3" />
+          <h3 className="text-white font-medium mb-1">No connectors match &ldquo;{searchQuery}&rdquo;</h3>
+          <p className="text-xs text-zinc-400 mb-4">Try searching for &ldquo;github&rdquo;, &ldquo;postgres&rdquo;, or &ldquo;search&rdquo;</p>
+          <button
+            onClick={() => { setSearchQuery(''); setSelectedCategory('All Connectors'); }}
+            className="px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-xs text-white transition-colors"
+          >
+            Clear Filters
+          </button>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-7xl mx-auto">
+          {filteredConnectors.map((c) => {
+            const isCopied = copiedId === c.id;
+            return (
+              <div
+                key={c.id}
+                className="obsidian-card rounded-2xl p-6 flex flex-col justify-between border border-white/10 hover:border-violet-500/30 transition-all duration-200 group relative"
+              >
+                <div>
+                  {/* Card Header */}
+                  <div className="flex items-start justify-between gap-3 mb-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 rounded-xl bg-zinc-900 border border-white/10 flex items-center justify-center text-2xl group-hover:scale-105 transition-transform flex-shrink-0">
+                        {c.icon}
+                      </div>
+                      <div>
+                        <h3 className="text-white font-semibold text-base font-['Geist',sans-serif] group-hover:text-violet-300 transition-colors">
+                          {c.name}
+                        </h3>
+                        <div className="flex items-center gap-2 mt-0.5">
+                          <span className="text-xs text-cyan-400 font-mono">
+                            {c.category}
+                          </span>
+                          <span className="text-zinc-600">•</span>
+                          <span className="text-[11px] text-zinc-500">
+                            {c.maintainer}
+                          </span>
+                        </div>
+                      </div>
                     </div>
-                    <div>
-                      <h3 style={{ margin: 0, fontSize: 17, fontWeight: 700, color: 'var(--text-strong)' }}>
-                        {c.name}
-                      </h3>
-                      <span style={{ fontSize: 12, color: 'var(--arcade-cyan)', fontWeight: 600 }}>
-                        {c.category}
-                      </span>
+
+                    {/* Badges */}
+                    <div className="flex flex-col items-end gap-1.5 flex-shrink-0">
+                      {c.official && (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-violet-500/15 border border-violet-500/30 text-violet-300 text-[10px] font-mono font-medium">
+                          <ShieldCheck size={11} /> Official
+                        </span>
+                      )}
+                      {c.stars && (
+                        <span className="inline-flex items-center gap-1 text-[11px] text-amber-300 font-mono">
+                          <Star size={11} className="fill-amber-400 text-amber-400" /> {c.stars}
+                        </span>
+                      )}
                     </div>
                   </div>
 
-                  {/* Badges */}
-                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 4 }}>
-                    {c.official && (
-                      <span style={{
-                        fontSize: 11,
-                        padding: '3px 8px',
-                        borderRadius: 12,
-                        background: 'rgba(168, 85, 247, 0.15)',
-                        color: 'var(--color-frontier)',
-                        border: '1px solid rgba(168, 85, 247, 0.3)',
-                        fontWeight: 600,
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: 4
-                      }}>
-                        <ShieldCheck size={11} /> Official
+                  {/* Description */}
+                  <p className="text-zinc-400 text-xs sm:text-sm leading-relaxed mb-4 line-clamp-3">
+                    {c.description}
+                  </p>
+
+                  {/* Key Features Chips */}
+                  <div className="flex flex-wrap gap-1.5 mb-6">
+                    {c.keyFeatures.slice(0, 3).map((feat, fIdx) => (
+                      <span
+                        key={fIdx}
+                        className="text-[11px] font-mono text-zinc-400 px-2 py-0.5 rounded bg-zinc-900/80 border border-white/5"
+                      >
+                        {feat}
                       </span>
-                    )}
-                    {c.stars && (
-                      <span style={{
-                        fontSize: 11,
-                        color: 'var(--color-warning)',
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: 3,
-                        fontWeight: 600
-                      }}>
-                        <Star size={11} fill="#fbbf24" /> {c.stars}
-                      </span>
-                    )}
+                    ))}
                   </div>
                 </div>
 
-                {/* Description */}
-                <p style={{ color: 'var(--text-secondary)', fontSize: 13.5, lineHeight: 1.6, margin: '0 0 16px', minHeight: 64 }}>
-                  {c.description}
-                </p>
-
-                {/* Key Features Chips */}
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 18 }}>
-                  {c.keyFeatures.map((feat, fIdx) => (
-                    <span
-                      key={fIdx}
-                      style={{
-                        fontSize: 11,
-                        padding: '3px 8px',
-                        background: 'var(--bg-secondary)',
-                        border: '1px solid var(--border-light)',
-                        borderRadius: 6,
-                        color: 'var(--text-secondary)'
-                      }}
-                    >
-                      {feat}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {/* Action Buttons */}
-              <div style={{ paddingTop: 16, borderTop: '1px solid rgba(var(--ink-tint-rgb), 0.08)' }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
+                {/* Action Buttons */}
+                <div className="pt-4 border-t border-white/10 flex items-center justify-between gap-2">
                   <button
                     onClick={() => handleCopy(c)}
-                    style={{
-                      flex: 1,
-                      padding: '8px 14px',
-                      borderRadius: 8,
-                      fontSize: 12.5,
-                      fontWeight: 600,
-                      cursor: 'pointer',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: 6,
-                      border: isCopied ? '1px solid var(--color-success)' : '1px solid var(--color-info)',
-                      background: isCopied
-                        ? 'color-mix(in srgb, var(--color-success) 15%, transparent)'
-                        : 'color-mix(in srgb, var(--color-info) 12%, transparent)',
-                      color: isCopied ? 'var(--color-success)' : 'var(--color-info)',
-                      transition: 'all 0.2s ease'
-                    }}
+                    className={`flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-all ${
+                      isCopied
+                        ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
+                        : 'bg-violet-600/20 hover:bg-violet-600/30 text-violet-300 border border-violet-500/30'
+                    }`}
                   >
-                    {isCopied ? <Check size={14} /> : <Copy size={14} />}
-                    <span>{isCopied ? 'Copied Config!' : 'Copy Claude Config'}</span>
+                    {isCopied ? <Check size={13} /> : <Copy size={13} />}
+                    <span>{isCopied ? 'Copied Config!' : 'Copy Config'}</span>
                   </button>
 
                   <button
                     onClick={() => setActiveModalConnector(c)}
-                    style={{
-                      padding: '8px 14px',
-                      borderRadius: 8,
-                      fontSize: 12.5,
-                      fontWeight: 600,
-                      cursor: 'pointer',
-                      border: '1px solid rgba(var(--ink-tint-rgb), 0.15)',
-                      background: 'rgba(var(--ink-tint-rgb), 0.04)',
-                      color: 'var(--text-strong)',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: 6
-                    }}
+                    className="px-3 py-2 rounded-lg bg-zinc-900/80 hover:bg-zinc-800 border border-white/10 text-xs text-zinc-300 hover:text-white transition-colors"
                   >
-                    <span>View Setup</span>
+                    Setup
                   </button>
 
                   <a
@@ -330,89 +242,70 @@ export default function ConnectorsView({ connectors }: ConnectorsViewProps) {
                     target="_blank"
                     rel="noopener nofollow"
                     title="View GitHub Repository"
-                    style={{
-                      width: 36,
-                      height: 36,
-                      borderRadius: 8,
-                      border: '1px solid rgba(var(--ink-tint-rgb), 0.15)',
-                      background: 'rgba(var(--ink-tint-rgb), 0.04)',
-                      color: 'var(--text-secondary)',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      textDecoration: 'none'
-                    }}
+                    className="w-9 h-9 rounded-lg bg-zinc-900/80 hover:bg-zinc-800 border border-white/10 text-zinc-400 hover:text-white flex items-center justify-center transition-colors flex-shrink-0"
                   >
-                    <ExternalLink size={15} />
+                    <ExternalLink size={14} />
                   </a>
                 </div>
               </div>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Step-by-Step Installation Tutorial Section */}
-      <section style={{
-        maxWidth: 1100,
-        margin: '0 auto 60px',
-        padding: 36,
-        background: 'linear-gradient(180deg, var(--bg-card-hover) 0%, var(--bg-card) 100%)',
-        border: '1px solid rgba(56, 189, 248, 0.25)',
-        borderRadius: 20
-      }}>
-        <div style={{ textAlign: 'center', marginBottom: 32 }}>
-          <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--arcade-cyan)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-            STEP-BY-STEP QUICKSTART
-          </span>
-          <h2 style={{ fontSize: '1.85rem', fontWeight: 800, color: 'var(--text-strong)', margin: '6px 0 10px' }}>
-            How to Install Claude Connectors & Plugins (MCP)
-          </h2>
-          <p style={{ color: 'var(--text-muted)', maxWidth: 640, margin: '0 auto', fontSize: 14.5 }}>
-            Follow these three quick steps to enable persistent files, databases, search, and development tools inside Claude Desktop or Claude Code CLI.
-          </p>
+            );
+          })}
         </div>
+      )}
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
-          <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border-light)', borderRadius: 12, padding: 22 }}>
-            <div style={{ width: 32, height: 32, borderRadius: 8, background: 'var(--arcade-cyan)', color: 'var(--text-on-accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, marginBottom: 12 }}>
-              1
-            </div>
-            <h4 style={{ color: 'var(--text-strong)', margin: '0 0 8px', fontSize: 15 }}>Locate Your Config File</h4>
-            <p style={{ color: 'var(--text-muted)', fontSize: 13, lineHeight: 1.6, margin: '0 0 12px' }}>
-              Open your Claude Desktop configuration file on your machine:
+      {/* Step-by-Step Quickstart Section */}
+      <section className="max-w-5xl mx-auto mt-16 px-4">
+        <div className="obsidian-card rounded-3xl p-8 md:p-10 border border-white/10">
+          <div className="text-center mb-8">
+            <span className="text-xs font-mono font-bold text-cyan-400 uppercase tracking-widest">
+              QUICKSTART GUIDE
+            </span>
+            <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight font-['Geist',sans-serif] mt-1 mb-2">
+              How to Install MCP Connectors in Claude Desktop
+            </h2>
+            <p className="text-xs sm:text-sm text-zinc-400 max-w-xl mx-auto font-light">
+              Follow these three quick steps to enable persistent files, databases, search, and development tools.
             </p>
-            <div style={{ background: 'rgba(15, 23, 42, 0.85)', padding: '8px 12px', borderRadius: 6, fontSize: 11.5, color: '#38bdf8', fontFamily: 'monospace', overflowWrap: 'anywhere' }}>
-              macOS: ~/Library/Application Support/Claude/claude_desktop_config.json
-            </div>
-            <div style={{ background: 'rgba(15, 23, 42, 0.85)', padding: '8px 12px', borderRadius: 6, fontSize: 11.5, color: '#38bdf8', fontFamily: 'monospace', marginTop: 6, overflowWrap: 'anywhere' }}>
-              Windows: %APPDATA%\Claude\claude_desktop_config.json
-            </div>
           </div>
 
-          <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border-light)', borderRadius: 12, padding: 22 }}>
-            <div style={{ width: 32, height: 32, borderRadius: 8, background: 'var(--arcade-cyan)', color: 'var(--text-on-accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, marginBottom: 12 }}>
-              2
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="p-5 rounded-xl bg-zinc-950/60 border border-white/[0.08]">
+              <div className="w-7 h-7 rounded-lg bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 flex items-center justify-center font-bold text-xs mb-3 font-mono">
+                1
+              </div>
+              <h4 className="text-sm font-semibold text-white mb-1.5 font-['Geist',sans-serif]">Locate Config File</h4>
+              <p className="text-xs text-zinc-400 mb-3 leading-relaxed font-light">
+                Open your Claude Desktop user configuration file on your machine:
+              </p>
+              <div className="p-2 rounded bg-black/60 border border-white/5 font-mono text-[11px] text-cyan-300 overflow-x-auto">
+                ~/Library/Application Support/Claude/claude_desktop_config.json
+              </div>
             </div>
-            <h4 style={{ color: 'var(--text-strong)', margin: '0 0 8px', fontSize: 15 }}>Paste Connector JSON</h4>
-            <p style={{ color: 'var(--text-muted)', fontSize: 13, lineHeight: 1.6, margin: '0 0 12px' }}>
-              Click <strong>&ldquo;Copy Claude Config&rdquo;</strong> on any connector card above and merge it into your <code style={{ color: 'var(--color-info)' }}>mcpServers</code> dictionary.
-            </p>
-            <div style={{ background: 'rgba(15, 23, 42, 0.85)', padding: '8px 12px', borderRadius: 6, fontSize: 11.5, color: '#a5b4fc', fontFamily: 'monospace', overflowWrap: 'anywhere' }}>
-              &#123; &quot;mcpServers&quot;: &#123; &quot;github&quot;: &#123; ... &#125; &#125; &#125;
-            </div>
-          </div>
 
-          <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border-light)', borderRadius: 12, padding: 22 }}>
-            <div style={{ width: 32, height: 32, borderRadius: 8, background: 'var(--arcade-cyan)', color: 'var(--text-on-accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, marginBottom: 12 }}>
-              3
+            <div className="p-5 rounded-xl bg-zinc-950/60 border border-white/[0.08]">
+              <div className="w-7 h-7 rounded-lg bg-violet-500/20 border border-violet-500/30 text-violet-300 flex items-center justify-center font-bold text-xs mb-3 font-mono">
+                2
+              </div>
+              <h4 className="text-sm font-semibold text-white mb-1.5 font-['Geist',sans-serif]">Paste Connector JSON</h4>
+              <p className="text-xs text-zinc-400 mb-3 leading-relaxed font-light">
+                Click <strong>&ldquo;Copy Config&rdquo;</strong> above and merge it into your <code className="text-violet-300 font-mono">mcpServers</code> dictionary.
+              </p>
+              <div className="p-2 rounded bg-black/60 border border-white/5 font-mono text-[11px] text-violet-300 overflow-x-auto">
+                &#123; &quot;mcpServers&quot;: &#123; &quot;github&quot;: &#123; ... &#125; &#125; &#125;
+              </div>
             </div>
-            <h4 style={{ color: 'var(--text-strong)', margin: '0 0 8px', fontSize: 15 }}>Restart Claude Desktop</h4>
-            <p style={{ color: 'var(--text-muted)', fontSize: 13, lineHeight: 1.6, margin: '0 0 12px' }}>
-              Restart the Claude Desktop application. You will see a small hammer icon 🔨 in the input prompt indicating active tools ready to execute!
-            </p>
-            <div style={{ background: 'rgba(16, 185, 129, 0.1)', border: '1px solid rgba(16, 185, 129, 0.2)', padding: '8px 12px', borderRadius: 6, fontSize: 12, color: 'var(--color-success)' }}>
-              ✓ Ready for autonomous tool use
+
+            <div className="p-5 rounded-xl bg-zinc-950/60 border border-white/[0.08]">
+              <div className="w-7 h-7 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 flex items-center justify-center font-bold text-xs mb-3 font-mono">
+                3
+              </div>
+              <h4 className="text-sm font-semibold text-white mb-1.5 font-['Geist',sans-serif]">Restart Claude Desktop</h4>
+              <p className="text-xs text-zinc-400 mb-3 leading-relaxed font-light">
+                Restart Claude Desktop. You will see a small hammer icon 🔨 in the input prompt indicating active tools!
+              </p>
+              <div className="p-2 rounded bg-emerald-500/10 border border-emerald-500/20 font-mono text-[11px] text-emerald-300">
+                ✓ Ready for autonomous tool use
+              </div>
             </div>
           </div>
         </div>
@@ -421,157 +314,84 @@ export default function ConnectorsView({ connectors }: ConnectorsViewProps) {
       {/* Modal Detail Drawer */}
       {activeModalConnector && (
         <div
-          style={{
-            position: 'fixed',
-            inset: 0,
-            background: 'rgba(0, 0, 0, 0.75)',
-            backdropFilter: 'blur(6px)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: 20,
-            zIndex: 9999
-          }}
+          className="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 z-50 animate-in fade-in duration-200"
           onClick={() => setActiveModalConnector(null)}
         >
           <div
-            style={{
-              background: 'var(--bg-card)',
-              border: '1px solid rgba(56, 189, 248, 0.3)',
-              borderRadius: 20,
-              width: '100%',
-              maxWidth: 680,
-              padding: 28,
-              maxHeight: '90vh',
-              overflowY: 'auto',
-              position: 'relative',
-              boxShadow: '0 25px 60px rgba(15, 23, 42, 0.18)'
-            }}
+            className="obsidian-card bg-zinc-950 border border-white/10 rounded-2xl p-6 sm:p-8 max-w-xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                <span style={{ fontSize: 32 }}>{activeModalConnector.icon}</span>
+            <div className="flex items-center justify-between gap-3 mb-5">
+              <div className="flex items-center gap-3">
+                <span className="text-3xl">{activeModalConnector.icon}</span>
                 <div>
-                  <h3 style={{ margin: 0, color: 'var(--text-strong)', fontSize: 20, fontWeight: 700 }}>
+                  <h3 className="text-white text-lg font-semibold font-['Geist',sans-serif]">
                     {activeModalConnector.name} Setup
                   </h3>
-                  <span style={{ fontSize: 12.5, color: 'var(--arcade-cyan)' }}>
+                  <span className="text-xs text-cyan-400 font-mono">
                     Maintainer: {activeModalConnector.maintainer}
                   </span>
                 </div>
               </div>
               <button
                 onClick={() => setActiveModalConnector(null)}
-                style={{
-                  background: 'rgba(var(--ink-tint-rgb), 0.06)',
-                  border: 'none',
-                  borderRadius: 8,
-                  width: 32,
-                  height: 32,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: 'var(--text-muted)',
-                  cursor: 'pointer'
-                }}
+                className="w-8 h-8 rounded-lg bg-zinc-900 border border-white/10 text-zinc-400 hover:text-white flex items-center justify-center transition-colors"
+                aria-label="Close modal"
               >
-                <X size={18} />
+                <X size={16} />
               </button>
             </div>
 
             {/* Description */}
-            <p style={{ color: 'var(--text-secondary)', fontSize: 14, lineHeight: 1.6, marginBottom: 20 }}>
+            <p className="text-zinc-300 text-sm leading-relaxed mb-5 font-light">
               {activeModalConnector.description}
             </p>
 
             {/* Sample Prompt Box */}
-            <div style={{ background: 'rgba(var(--ink-tint-rgb), 0.03)', border: '1px solid rgba(var(--ink-tint-rgb), 0.08)', borderRadius: 10, padding: 14, marginBottom: 20 }}>
-              <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--accent-amber)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+            <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/25 mb-5">
+              <span className="text-[11px] font-mono font-bold text-amber-300 uppercase tracking-wider block mb-1">
                 Tested Prompt to Run in Claude:
               </span>
-              <p style={{ margin: '6px 0 0', color: 'var(--text-primary)', fontSize: 13, fontStyle: 'italic' }}>
+              <p className="text-xs sm:text-sm text-zinc-200 font-light italic">
                 &ldquo;{activeModalConnector.samplePrompt}&rdquo;
               </p>
             </div>
 
             {/* JSON Config Snippet */}
-            <div style={{ marginBottom: 20 }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
-                <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--text-strong)' }}>
-                  claude_desktop_config.json block:
+            <div className="mb-5">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs font-mono font-medium text-zinc-300">
+                  claude_desktop_config.json snippet:
                 </span>
                 <button
                   onClick={() => handleCopy(activeModalConnector)}
-                  style={{
-                    background: 'rgba(56, 189, 248, 0.1)',
-                    border: '1px solid rgba(56, 189, 248, 0.3)',
-                    color: 'var(--color-info)',
-                    padding: '4px 10px',
-                    borderRadius: 6,
-                    fontSize: 11.5,
-                    fontWeight: 600,
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 5
-                  }}
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-violet-600/20 border border-violet-500/30 text-violet-300 text-xs font-medium hover:bg-violet-600/30 transition-colors"
                 >
                   {copiedId === activeModalConnector.id ? <Check size={12} /> : <Copy size={12} />}
                   <span>{copiedId === activeModalConnector.id ? 'Copied!' : 'Copy Code'}</span>
                 </button>
               </div>
-              <pre style={{
-                background: '#090d16',
-                border: '1px solid rgba(var(--ink-tint-rgb), 0.1)',
-                padding: 14,
-                borderRadius: 8,
-                fontSize: 12.5,
-                color: 'var(--color-info)',
-                overflowX: 'auto',
-                fontFamily: 'monospace',
-                margin: 0
-              }}>
+              <pre className="p-3.5 rounded-xl bg-black/80 border border-white/10 font-mono text-xs text-cyan-300 overflow-x-auto">
                 {getSnippet(activeModalConnector)}
               </pre>
             </div>
 
             {/* Claude Code CLI command */}
-            <div style={{ marginBottom: 24 }}>
-              <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--text-strong)', display: 'block', marginBottom: 6 }}>
+            <div className="mb-6">
+              <span className="text-xs font-mono font-medium text-zinc-300 block mb-2">
                 Or Add via Claude Code CLI:
               </span>
-              <div style={{
-                background: '#090d16',
-                border: '1px solid rgba(var(--ink-tint-rgb), 0.1)',
-                padding: '10px 14px',
-                borderRadius: 8,
-                fontSize: 12,
-                color: 'var(--color-success)',
-                fontFamily: 'monospace',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between'
-              }}>
+              <div className="p-3 rounded-xl bg-black/80 border border-white/10 font-mono text-xs text-emerald-300 overflow-x-auto">
                 <code>claude mcp add {activeModalConnector.slug} {activeModalConnector.command} {activeModalConnector.args.join(' ')}</code>
               </div>
             </div>
 
             {/* Footer External Links */}
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10 }}>
+            <div className="flex justify-end gap-2.5 pt-4 border-t border-white/10">
               <button
                 onClick={() => setActiveModalConnector(null)}
-                style={{
-                  padding: '9px 16px',
-                  borderRadius: 8,
-                  fontSize: 13,
-                  fontWeight: 600,
-                  border: '1px solid rgba(var(--ink-tint-rgb), 0.15)',
-                  background: 'transparent',
-                  color: 'var(--text-muted)',
-                  cursor: 'pointer'
-                }}
+                className="px-4 py-2 rounded-lg bg-zinc-900 border border-white/10 text-xs text-zinc-300 hover:text-white transition-colors"
               >
                 Close
               </button>
@@ -579,21 +399,10 @@ export default function ConnectorsView({ connectors }: ConnectorsViewProps) {
                 href={activeModalConnector.githubUrl}
                 target="_blank"
                 rel="noopener nofollow"
-                style={{
-                  padding: '9px 18px',
-                  borderRadius: 8,
-                  fontSize: 13,
-                  fontWeight: 600,
-                  background: 'var(--arcade-cyan)',
-                  color: 'var(--text-on-accent)',
-                  textDecoration: 'none',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 6
-                }}
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-violet-600 hover:bg-violet-500 text-white text-xs font-medium transition-colors"
               >
                 <span>View on GitHub</span>
-                <ExternalLink size={14} />
+                <ExternalLink size={13} />
               </a>
             </div>
           </div>

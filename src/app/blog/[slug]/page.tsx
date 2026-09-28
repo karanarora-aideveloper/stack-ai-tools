@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { 
   getArticleBySlug, 
   getAllArticles, 
+  getPrerenderedArticles,
   generateArticleContent, 
   getRelatedArticles,
   getVisualToolsForArticle
@@ -39,17 +40,8 @@ export const dynamicParams = false;
 export const revalidate = 3600;
 
 export async function generateStaticParams() {
-  const articles = await getAllArticles();
-  const breakingSlugs = new Set(breakingNewsArticlesMetadata.map((a) => a.slug));
-  const remaining = articles.filter((a) => !breakingSlugs.has(a.slug));
-  const sortedRemaining = [...remaining].sort((a, b) => (b.searchVolume || 0) - (a.searchVolume || 0));
-
-  const targetArticles = [
-    ...breakingNewsArticlesMetadata,
-    ...sortedRemaining.slice(0, 200)
-  ];
-
-  return targetArticles.map((a) => ({
+  const articles = await getPrerenderedArticles();
+  return articles.map((a) => ({
     slug: a.slug,
   }));
 }

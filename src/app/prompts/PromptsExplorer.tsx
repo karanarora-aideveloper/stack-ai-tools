@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import PromptCard, { PromptData } from '@/app/components/PromptCard';
 import { 
   Sparkles, 
   Terminal, 
@@ -10,11 +9,29 @@ import {
   FileText, 
   Search, 
   X,
+  Copy,
+  Check,
+  User,
   SlidersHorizontal,
-  RotateCcw,
+  Flame,
   Zap,
-  Flame
+  Layers
 } from 'lucide-react';
+import StaggerGrid, { StaggerItem } from '@/app/components/motion/StaggerGrid';
+
+export interface PromptData {
+  id: string | number;
+  title: string;
+  targetAI: string;
+  category: string;
+  prompt: string;
+  outputType?: 'image' | 'code' | 'text';
+  outputImageUrl?: string | null;
+  outputPreview?: string | null;
+  author?: string | null;
+  aspectRatio?: string | null;
+  tags?: string[];
+}
 
 interface PromptsExplorerProps {
   initialPrompts: PromptData[];
@@ -47,16 +64,17 @@ const SUGGESTED_SEARCHES = [
   'GitHub MCP',
   'Playwright MCP',
   'Postgres MCP',
-  'Dragon on Cliff Edge',
-  'Full-Stack SaaS Dashboard'
+  'Cursor 3.1',
+  'Midjourney v8.1'
 ];
 
 export default function PromptsExplorer({ initialPrompts }: PromptsExplorerProps) {
   const [selectedTarget, setSelectedTarget] = useState<string>('All Models');
   const [selectedType, setSelectedType] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [copiedId, setCopiedId] = useState<string | number | null>(null);
 
-  // Dynamically extract all target AI models from the database
+  // Dynamically extract all target AI models
   const availableModels = useMemo(() => {
     const set = new Set<string>();
     initialPrompts.forEach(p => {
@@ -90,7 +108,7 @@ export default function PromptsExplorer({ initialPrompts }: PromptsExplorerProps
     return counts;
   }, [initialPrompts]);
 
-  // Filtered prompts calculation
+  // Filtered prompts
   const filteredPrompts = useMemo(() => {
     return initialPrompts.filter((p) => {
       // Model match
@@ -114,7 +132,7 @@ export default function PromptsExplorer({ initialPrompts }: PromptsExplorerProps
 
       // Search query
       if (searchQuery.trim()) {
-        const q = searchQuery.toLowerCase();
+        const q = searchQuery.toLowerCase().trim();
         const matchTitle = p.title.toLowerCase().includes(q);
         const matchPrompt = p.prompt.toLowerCase().includes(q);
         const matchModel = p.targetAI.toLowerCase().includes(q);
@@ -128,167 +146,267 @@ export default function PromptsExplorer({ initialPrompts }: PromptsExplorerProps
     });
   }, [initialPrompts, selectedTarget, selectedType, searchQuery]);
 
-  const hasActiveFilters = selectedTarget !== 'All Models' || selectedType !== 'all' || searchQuery.trim() !== '';
-
-  const handleResetFilters = () => {
-    setSelectedTarget('All Models');
-    setSelectedType('all');
-    setSearchQuery('');
+  const handleCopyPrompt = (p: PromptData) => {
+    navigator.clipboard.writeText(p.prompt);
+    setCopiedId(p.id);
+    setTimeout(() => setCopiedId(null), 2000);
   };
 
   return (
-    <div className="prompts-vault-container">
-      {/* 1. Centered Hero Search Bar */}
-      <div className="prompts-search-container">
-        <Search size={20} className="prompts-search-icon" />
-        <input
-          type="text"
-          className="prompts-search-input"
-          placeholder="Search 45+ prompts (e.g. 'Gmail MCP', 'GitHub PR review', 'Midjourney v8', 'Cursor 3.1')..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-        {searchQuery && (
-          <button 
-            className="prompts-search-clear-btn" 
-            onClick={() => setSearchQuery('')}
-            title="Clear search"
-          >
-            <X size={14} />
-          </button>
-        )}
+    <div className="max-w-7xl mx-auto px-4 md:px-8 py-6">
+      {/* 1. Raycast Command Search Bar */}
+      <div className="max-w-2xl mx-auto mb-4">
+        <div className="obsidian-command-bar rounded-2xl flex items-center px-4 py-3 gap-3">
+          <Search size={18} className="text-zinc-400 shrink-0" />
+          <input
+            type="text"
+            className="w-full bg-transparent text-sm text-white placeholder:text-zinc-500 focus:outline-none"
+            placeholder="Search prompts (e.g. 'Gmail MCP', 'GitHub PR review', 'Midjourney v8', 'Cursor 3.1')..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          {searchQuery && (
+            <button 
+              className="p-1 rounded-md text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors" 
+              onClick={() => setSearchQuery('')}
+              title="Clear search"
+              aria-label="Clear search"
+            >
+              <X size={15} />
+            </button>
+          )}
+        </div>
       </div>
 
-      {/* Quick Search Suggestions */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: 6, marginBottom: 20 }}>
-        <span style={{ fontSize: 12, color: 'var(--text-muted)', marginRight: 4, display: 'inline-flex', alignItems: 'center', gap: 4 }}>
-          <Sparkles size={12} color="#818cf8" />
+      {/* Suggested Search Pills */}
+      <div className="flex items-center justify-center flex-wrap gap-2 mb-8">
+        <span className="text-xs text-zinc-500 font-mono flex items-center gap-1.5 mr-1">
+          <Sparkles size={12} className="text-violet-400" />
           <span>Popular:</span>
         </span>
         {SUGGESTED_SEARCHES.map(term => (
           <button
             key={term}
             onClick={() => { setSearchQuery(term); setSelectedTarget('All Models'); setSelectedType('all'); }}
-            style={{
-              background: term.includes('MCP') ? 'rgba(99, 102, 241, 0.12)' : 'rgba(var(--ink-tint-rgb), 0.04)',
-              border: term.includes('MCP') ? '1px solid rgba(99, 102, 241, 0.35)' : '1px solid rgba(var(--ink-tint-rgb), 0.08)',
-              borderRadius: 100,
-              padding: '3px 10px',
-              fontSize: 11.5,
-              color: term.includes('MCP') ? 'var(--accent-secondary)' : 'var(--text-secondary)',
-              cursor: 'pointer',
-              transition: 'all 0.15s ease'
-            }}
-            onMouseEnter={e => {
-              (e.currentTarget as HTMLElement).style.color = 'var(--text-strong)';
-              (e.currentTarget as HTMLElement).style.borderColor = 'rgba(99, 102, 241, 0.5)';
-            }}
-            onMouseLeave={e => {
-              (e.currentTarget as HTMLElement).style.color = term.includes('MCP') ? 'var(--accent-secondary)' : 'var(--text-secondary)';
-              (e.currentTarget as HTMLElement).style.borderColor = term.includes('MCP') ? 'rgba(99, 102, 241, 0.35)' : 'rgba(var(--ink-tint-rgb), 0.08)';
-            }}
+            className={`px-3 py-1 rounded-full text-[11px] font-mono transition-all border ${
+              searchQuery === term
+                ? 'bg-violet-600 text-white border-violet-400/50 shadow-[0_0_12px_rgba(139,92,246,0.4)]'
+                : 'bg-zinc-900/80 text-zinc-400 hover:text-white hover:bg-zinc-800 border-white/10'
+            }`}
           >
             {term}
           </button>
         ))}
       </div>
 
-      {/* 2. Target AI Model Filter Carousel with Live Counts */}
-      <div className="prompts-model-pills">
-        {availableModels.map((target) => (
-          <button
-            key={target}
-            className={`prompts-model-pill ${selectedTarget === target ? 'active' : ''}`}
-            onClick={() => { setSelectedTarget(target); if (target.includes('MCP')) setSelectedType('all'); }}
-          >
-            <span>{MODEL_ICONS[target] || '✨'}</span>
-            <span>{target}</span>
-            <span style={{ fontSize: 11, opacity: 0.75, marginLeft: 2 }}>({modelCounts[target] || 0})</span>
-          </button>
-        ))}
-      </div>
-
-      {/* 3. Output Type Toolbar & Results Counter */}
-      <div className="prompts-sub-toolbar">
-        <div className="prompts-type-filters">
-          <button
-            className={`prompts-type-pill ${selectedType === 'all' ? 'active' : ''}`}
-            onClick={() => setSelectedType('all')}
-          >
-            <span>All Formats</span>
-            <span style={{ opacity: 0.7, fontSize: 11.5 }}>({typeCounts.all})</span>
-          </button>
-          <button
-            className={`prompts-type-pill ${selectedType === 'mcp' ? 'active' : ''}`}
-            onClick={() => { setSelectedType('mcp'); setSelectedTarget('All Models'); }}
-            style={selectedType === 'mcp' ? { background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.3) 0%, rgba(236, 72, 153, 0.2) 100%)', borderColor: '#818cf8' } : {}}
-          >
-            <span>🔌 Top MCP Servers</span>
-            <span style={{ opacity: 0.85, fontSize: 11.5, color: 'var(--accent-secondary)', fontWeight: 700 }}>({typeCounts.mcp})</span>
-          </button>
-          <button
-            className={`prompts-type-pill ${selectedType === 'code' ? 'active' : ''}`}
-            onClick={() => setSelectedType('code')}
-          >
-            <Code2 size={13} />
-            <span>Coding & Sandboxes</span>
-            <span style={{ opacity: 0.7, fontSize: 11.5 }}>({typeCounts.code})</span>
-          </button>
-          <button
-            className={`prompts-type-pill ${selectedType === 'image' ? 'active' : ''}`}
-            onClick={() => setSelectedType('image')}
-          >
-            <ImageIcon size={13} />
-            <span>Visual Images</span>
-            <span style={{ opacity: 0.7, fontSize: 11.5 }}>({typeCounts.image})</span>
-          </button>
-          <button
-            className={`prompts-type-pill ${selectedType === 'text' ? 'active' : ''}`}
-            onClick={() => setSelectedType('text')}
-          >
-            <FileText size={13} />
-            <span>Text & Reasoning</span>
-            <span style={{ opacity: 0.7, fontSize: 11.5 }}>({typeCounts.text})</span>
-          </button>
-        </div>
-
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <span className="prompts-counter-pill">
-            Showing <strong>{filteredPrompts.length}</strong> curated prompts
-          </span>
-          {hasActiveFilters && (
+      {/* 2. Target AI Model Filter Shelf */}
+      <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-2 px-1 max-w-5xl mx-auto justify-start sm:justify-center mb-6">
+        {availableModels.map((target) => {
+          const isActive = selectedTarget === target;
+          return (
             <button
-              className="prompts-reset-btn"
-              onClick={handleResetFilters}
-              title="Reset all filters"
+              key={target}
+              className={`px-3.5 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all duration-200 border flex items-center gap-1.5 ${
+                isActive
+                  ? 'bg-violet-600 text-white border-violet-400/50 shadow-[0_0_15px_rgba(139,92,246,0.4)]'
+                  : 'bg-zinc-900/80 text-zinc-400 hover:text-white hover:bg-zinc-800 border-white/10'
+              }`}
+              onClick={() => { setSelectedTarget(target); if (target.includes('MCP')) setSelectedType('all'); }}
             >
-              Reset Filters
+              <span>{MODEL_ICONS[target] || '✨'}</span>
+              <span>{target}</span>
+              <span className="text-[10px] opacity-70 font-mono">({modelCounts[target] || 0})</span>
             </button>
-          )}
-        </div>
+          );
+        })}
       </div>
 
-      {/* 4. Prompts Grid Showcase */}
+      {/* 3. Output Format Filter Tabs */}
+      <div className="flex flex-wrap items-center justify-center gap-2 mb-10">
+        <button
+          className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all border ${
+            selectedType === 'all'
+              ? 'bg-zinc-800 text-white border-white/20'
+              : 'bg-zinc-900/80 text-zinc-400 hover:text-white border-white/10'
+          }`}
+          onClick={() => setSelectedType('all')}
+        >
+          <span>All Formats</span>
+          <span className="ml-1 opacity-70 font-mono text-[10px]">({typeCounts.all})</span>
+        </button>
+
+        <button
+          className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all border flex items-center gap-1.5 ${
+            selectedType === 'mcp'
+              ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40 shadow-[0_0_12px_rgba(6,182,212,0.3)]'
+              : 'bg-zinc-900/80 text-zinc-400 hover:text-cyan-300 border-white/10'
+          }`}
+          onClick={() => { setSelectedType('mcp'); setSelectedTarget('All Models'); }}
+        >
+          <span>🔌 MCP Configs</span>
+          <span className="font-mono text-[10px]">({typeCounts.mcp})</span>
+        </button>
+
+        <button
+          className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all border flex items-center gap-1.5 ${
+            selectedType === 'code'
+              ? 'bg-violet-600 text-white border-violet-400/50 shadow-[0_0_12px_rgba(139,92,246,0.3)]'
+              : 'bg-zinc-900/80 text-zinc-400 hover:text-white border-white/10'
+          }`}
+          onClick={() => setSelectedType('code')}
+        >
+          <Code2 size={13} />
+          <span>Coding</span>
+          <span className="font-mono text-[10px]">({typeCounts.code})</span>
+        </button>
+
+        <button
+          className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all border flex items-center gap-1.5 ${
+            selectedType === 'image'
+              ? 'bg-pink-600 text-white border-pink-400/50 shadow-[0_0_12px_rgba(236,72,153,0.3)]'
+              : 'bg-zinc-900/80 text-zinc-400 hover:text-white border-white/10'
+          }`}
+          onClick={() => setSelectedType('image')}
+        >
+          <ImageIcon size={13} />
+          <span>Visual Images</span>
+          <span className="font-mono text-[10px]">({typeCounts.image})</span>
+        </button>
+
+        <button
+          className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all border flex items-center gap-1.5 ${
+            selectedType === 'text'
+              ? 'bg-emerald-600 text-white border-emerald-400/50 shadow-[0_0_12px_rgba(16,185,129,0.3)]'
+              : 'bg-zinc-900/80 text-zinc-400 hover:text-white border-white/10'
+          }`}
+          onClick={() => setSelectedType('text')}
+        >
+          <FileText size={13} />
+          <span>Reasoning & Text</span>
+          <span className="font-mono text-[10px]">({typeCounts.text})</span>
+        </button>
+      </div>
+
+      {/* 4. Prompts Grid */}
       {filteredPrompts.length > 0 ? (
-        <div className="prompts-grid">
-          {filteredPrompts.map((item) => (
-            <PromptCard key={item.id} item={item} />
-          ))}
-        </div>
+        <StaggerGrid className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredPrompts.map((p) => {
+            const isCopied = copiedId === p.id;
+            const hasImage = p.outputType === 'image' && p.outputImageUrl;
+
+            return (
+              <StaggerItem
+                key={p.id}
+                className="obsidian-card rounded-2xl p-6 flex flex-col justify-between border border-white/[0.08] hover:border-violet-500/40 transition-all duration-200 group"
+              >
+                <div>
+                  {/* Visual Output Image Preview (if image prompt) */}
+                  {hasImage && (
+                    <div className="mb-4 rounded-xl overflow-hidden border border-white/10 relative group/img max-h-52 bg-zinc-950">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img 
+                        src={p.outputImageUrl!} 
+                        alt={`Generated result for ${p.title}`} 
+                        className="w-full h-48 object-cover group-hover/img:scale-105 transition-transform duration-300"
+                        loading="lazy"
+                        referrerPolicy="no-referrer"
+                      />
+                      <div className="absolute top-2 right-2 flex items-center gap-1.5">
+                        {p.aspectRatio && (
+                          <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-black/70 backdrop-blur-md text-white border border-white/20">
+                            {p.aspectRatio}
+                          </span>
+                        )}
+                        <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-violet-600/80 backdrop-blur-md text-white border border-violet-400/40 flex items-center gap-1">
+                          <ImageIcon size={10} /> Verified
+                        </span>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Header Meta Pills */}
+                  <div className="flex items-center justify-between gap-2 mb-3">
+                    <span className="text-[10px] font-mono px-2.5 py-0.5 rounded-md bg-violet-500/10 border border-violet-500/25 text-violet-300">
+                      {p.targetAI}
+                    </span>
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-900 border border-white/10 text-zinc-400">
+                      {p.category}
+                    </span>
+                  </div>
+
+                  {/* Title */}
+                  <h3 className="text-base font-semibold text-white group-hover:text-violet-300 transition-colors font-['Geist',sans-serif] mb-2 leading-tight">
+                    {p.title}
+                  </h3>
+
+                  {/* Author if available */}
+                  {p.author && (
+                    <div className="flex items-center gap-1.5 text-[11px] text-zinc-500 font-mono mb-3">
+                      <User size={11} />
+                      <span>Curated by {p.author}</span>
+                    </div>
+                  )}
+
+                  {/* Code/Prompt Content Box */}
+                  <div className="relative mb-4 group/box">
+                    <div className="bg-zinc-950/80 border border-white/[0.08] rounded-xl p-3.5 text-xs text-zinc-300 font-mono leading-relaxed line-clamp-4 max-h-28 overflow-hidden select-all">
+                      {p.prompt}
+                    </div>
+                  </div>
+
+                  {/* Tags */}
+                  {p.tags && p.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-1.5 mb-5">
+                      {p.tags.slice(0, 3).map(tag => (
+                        <span key={tag} className="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-900/80 border border-white/10 text-zinc-400">
+                          #{tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Footer Action: Copy Button */}
+                <div className="pt-4 border-t border-white/[0.06]">
+                  <button
+                    onClick={() => handleCopyPrompt(p)}
+                    className={`w-full py-2.5 px-4 rounded-xl text-xs font-medium flex items-center justify-center gap-2 transition-all active:scale-95 ${
+                      isCopied
+                        ? 'bg-emerald-500 text-white shadow-[0_0_15px_rgba(16,185,129,0.5)]'
+                        : 'bg-white text-zinc-950 hover:bg-zinc-100 shadow-[0_0_12px_rgba(255,255,255,0.15)]'
+                    }`}
+                  >
+                    {isCopied ? (
+                      <>
+                        <Check size={14} className="text-white" />
+                        <span>Copied to Clipboard!</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy size={14} />
+                        <span>Copy Prompt</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+              </StaggerItem>
+            );
+          })}
+        </StaggerGrid>
       ) : (
-        <div className="empty-state" style={{ padding: '60px 20px', textAlign: 'center', background: 'rgba(var(--ink-tint-rgb), 0.02)', border: '1px solid rgba(var(--ink-tint-rgb), 0.08)', borderRadius: 16 }}>
-          <div style={{ fontSize: 36, marginBottom: 12 }}>🔍</div>
-          <h3 style={{ fontSize: 18, color: 'var(--text-strong)', marginBottom: 8 }}>No prompts matched your search</h3>
-          <p style={{ color: 'var(--text-secondary)', fontSize: 14, maxWidth: 450, margin: '0 auto 16px' }}>
-            No prompt recipes matched &ldquo;{searchQuery || selectedTarget}&rdquo;. Try broadening your keywords or resetting filters.
+        <div className="text-center py-20 px-4 obsidian-card rounded-3xl border border-dashed border-white/10 max-w-lg mx-auto">
+          <Terminal size={40} className="text-zinc-500 mx-auto mb-3" />
+          <h3 className="text-lg font-semibold text-white mb-2 font-['Geist',sans-serif]">
+            No prompts matched "{searchQuery}"
+          </h3>
+          <p className="text-xs text-zinc-400 mb-6">
+            Try searching for 'Gmail MCP', 'Midjourney', 'Cursor', or clear your filters.
           </p>
-          <button
-            className="btn btn-secondary"
-            onClick={handleResetFilters}
-            style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
+          <button 
+            className="px-4 py-2 rounded-lg bg-violet-600 hover:bg-violet-500 text-white text-xs font-medium transition-colors"
+            onClick={() => { setSearchQuery(''); setSelectedTarget('All Models'); setSelectedType('all'); }}
           >
-            <RotateCcw size={14} />
-            <span>Reset All Filters</span>
+            Reset Filters
           </button>
         </div>
       )}
