@@ -20,7 +20,7 @@ import {
 
 interface ObsidianHeaderProps {
   onSearchClick?: () => void;
-  activeNav?: 'categories' | 'prompts' | 'research' | 'mcp' | 'spotlight' | 'directory';
+  activeNav?: 'categories' | 'prompts' | 'research' | 'mcp' | 'spotlight' | 'directory' | 'alternatives';
 }
 
 export default function ObsidianHeader({ onSearchClick, activeNav }: ObsidianHeaderProps) {
@@ -66,6 +66,12 @@ export default function ObsidianHeader({ onSearchClick, activeNav }: ObsidianHea
               className={`hover:text-white transition-colors ${activeNav === 'categories' ? 'text-violet-400 font-medium' : ''}`}
             >
               Categories
+            </Link>
+            <Link 
+              href="/alternatives" 
+              className={`hover:text-white transition-colors ${activeNav === 'alternatives' ? 'text-violet-400 font-medium' : ''}`}
+            >
+              Alternatives
             </Link>
             <Link 
               href="/prompts" 
@@ -140,6 +146,14 @@ export default function ObsidianHeader({ onSearchClick, activeNav }: ObsidianHea
               >
                 <span>Categories</span>
                 <span className="text-xs text-violet-400 font-mono">8 Core</span>
+              </Link>
+              <Link 
+                href="/alternatives" 
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center justify-between text-zinc-300 hover:text-white py-1.5"
+              >
+                <span>Alternatives</span>
+                <span className="text-xs text-cyan-400 font-mono">40+ Hubs</span>
               </Link>
               <Link 
                 href="/prompts" 

@@ -3,15 +3,15 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { getToolBySlug, getAllTools, getAlternativesForTool } from '@/lib/tools';
 import ToolLogo from '@/app/components/ToolLogo';
+import ObsidianHeader from '@/app/components/ObsidianHeader';
+import ObsidianFooter from '@/app/components/ObsidianFooter';
 import { 
   GitCompare, 
   ChevronRight, 
   Star, 
   ArrowRight, 
-  ExternalLink, 
   ShieldCheck, 
   Sparkles,
-  CheckCircle2,
   HelpCircle,
   BookOpen
 } from 'lucide-react';
@@ -146,7 +146,8 @@ export default async function AlternativeDetailPage({ params }: AlternativePageP
   };
 
   return (
-    <div>
+    <div data-redesign-page="true" className="min-h-screen bg-[#040406] text-[#e3e1ec] antialiased selection:bg-[#8b5cf6] selection:text-white relative">
+      {/* Schemas */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
@@ -156,213 +157,278 @@ export default async function AlternativeDetailPage({ params }: AlternativePageP
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
+      {/* Atmospheric Ambient Glow Mesh */}
+      <div className="obsidian-glow-mesh fixed inset-x-0 top-0 h-[700px] pointer-events-none -z-10" />
+
+      {/* Shared Obsidian Luxury Header */}
+      <ObsidianHeader activeNav="alternatives" />
+
       {/* Breadcrumbs */}
-      <nav className="tool-breadcrumbs" aria-label="Breadcrumb">
-        <Link href="/">Home</Link>
-        <ChevronRight size={14} />
-        <Link href="/alternatives">Alternatives</Link>
-        <ChevronRight size={14} />
-        <span>{tool.name} Alternatives</span>
-      </nav>
+      <div className="max-w-7xl mx-auto px-4 md:px-8 pt-8">
+        <nav className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-zinc-900/70 border border-white/10 text-xs text-zinc-400 font-mono" aria-label="Breadcrumb">
+          <Link href="/" className="hover:text-white transition-colors">Home</Link>
+          <ChevronRight size={12} className="text-zinc-600" />
+          <Link href="/alternatives" className="hover:text-white transition-colors">Alternatives</Link>
+          <ChevronRight size={12} className="text-zinc-600" />
+          <span className="text-violet-400 font-medium">{tool.name} Alternatives</span>
+        </nav>
+      </div>
 
       {/* Header */}
-      <div className="page-header" style={{ textAlign: 'left', marginBottom: 36 }}>
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: 'var(--accent-secondary)', fontSize: 13, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 8 }}>
-          <GitCompare size={15} />
-          <span>Competitor Comparison 2026</span>
+      <header className="pt-10 pb-8 px-4 md:px-8 max-w-5xl mx-auto text-center relative z-10">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-zinc-900/90 border border-violet-500/30 text-xs text-zinc-300 mb-6 shadow-sm">
+          <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span className="tracking-wide uppercase font-mono text-[11px] text-zinc-400">COMPETITOR COMPARISON 2026</span>
+          <span className="text-zinc-600">•</span>
+          <span className="text-violet-400 font-medium">{alternatives.length} VETTED ALTERNATIVES</span>
         </div>
-        <h1 className="page-title" style={{ fontSize: 36 }}>
-          Best {tool.name} Alternatives & Competitors
+
+        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-white mb-5 font-['Geist',sans-serif] leading-[1.12]">
+          Best {tool.name} Alternatives &{' '}
+          <span className="bg-gradient-to-r from-violet-400 via-purple-300 to-cyan-400 bg-clip-text text-transparent">
+            Competitors
+          </span>
         </h1>
-        <p className="page-subtitle" style={{ maxWidth: 850 }}>
-          While <strong>{tool.name}</strong> remains a market leader in {tool.category.toLowerCase()}, you may need different pricing structures, localized data privacy, or specialized features. Below are the top 5 vetted alternatives.
+
+        <p className="text-base sm:text-lg text-zinc-400 max-w-2xl mx-auto leading-relaxed font-light mb-8">
+          While <strong className="text-zinc-200 font-medium">{tool.name}</strong> remains a market leader in {tool.category.toLowerCase()}, you may need different pricing structures, localized privacy, or specialized features. Below are the top 5 vetted replacements.
         </p>
-      </div>
+      </header>
 
       {/* Comparison Matrix Table */}
-      <div className="tool-card-box" style={{ marginBottom: 48 }}>
-        <h2 className="tool-box-title">
-          <Sparkles size={20} color="#818cf8" />
-          Head-to-Head Comparison: {tool.name} vs Top Competitors
-        </h2>
-        <div className="comparison-table-wrapper">
-          <table className="comparison-table">
-            <thead>
-              <tr>
-                <th>Software</th>
-                <th>Pricing Tier</th>
-                <th>Rating</th>
-                <th>Category</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {/* Baseline Tool */}
-              <tr style={{ background: 'rgba(99, 102, 241, 0.08)' }}>
-                <td>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                    <ToolLogo name={tool.name} domain={tool.domain} logoUrl={tool.logoUrl} icon={tool.icon} size={28} />
-                    <strong>{tool.name} (Current)</strong>
-                  </div>
-                </td>
-                <td><span className={`tool-price-tag price-${tool.priceClass}`}>{tool.pricingModel}</span></td>
-                <td><span style={{ color: 'var(--color-warning)' }}>★ {tool.rating}</span> ({tool.reviewsCount})</td>
-                <td>{tool.category}</td>
-                <td>
-                  <Link href={`/tool/${tool.slug}`} className="btn btn-secondary" style={{ padding: '6px 12px', fontSize: 12 }}>
-                    View Details
-                  </Link>
-                </td>
-              </tr>
+      <section className="max-w-7xl mx-auto px-4 md:px-8 py-8 relative z-10">
+        <div className="obsidian-card rounded-2xl p-6 md:p-8 border border-white/10">
+          <div className="flex items-center gap-2.5 mb-6">
+            <div className="w-8 h-8 rounded-lg bg-violet-500/10 border border-violet-500/25 flex items-center justify-center text-violet-400">
+              <Sparkles size={18} />
+            </div>
+            <h2 className="text-xl font-semibold text-white tracking-tight font-['Geist',sans-serif]">
+              Head-to-Head Comparison: {tool.name} vs Top Competitors
+            </h2>
+          </div>
 
-              {/* Alternatives */}
-              {alternatives.map((alt) => (
-                <tr key={alt.id}>
-                  <td>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                      <ToolLogo name={alt.name} domain={alt.domain} logoUrl={alt.logoUrl} icon={alt.icon} size={28} />
-                      <Link href={`/tool/${alt.slug}`} style={{ color: 'var(--text-strong)', fontWeight: 600 }}>
-                        {alt.name}
-                      </Link>
+          <div className="overflow-x-auto no-scrollbar">
+            <table className="w-full text-left border-collapse text-xs sm:text-sm">
+              <thead>
+                <tr className="border-b border-white/10 text-zinc-400 font-mono text-[11px] uppercase tracking-wider">
+                  <th className="py-3 px-4">Software</th>
+                  <th className="py-3 px-4">Pricing Tier</th>
+                  <th className="py-3 px-4">Rating</th>
+                  <th className="py-3 px-4">Category</th>
+                  <th className="py-3 px-4 text-right">Action</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-white/[0.06]">
+                {/* Baseline Tool */}
+                <tr className="bg-violet-500/10 font-medium">
+                  <td className="py-3.5 px-4">
+                    <div className="flex items-center gap-3">
+                      <ToolLogo name={tool.name} domain={tool.domain} logoUrl={tool.logoUrl} icon={tool.icon} size={28} />
+                      <div>
+                        <span className="text-white font-semibold">{tool.name}</span>
+                        <span className="ml-2 text-[10px] font-mono px-1.5 py-0.2 rounded bg-violet-500/20 text-violet-300 border border-violet-500/30">CURRENT</span>
+                      </div>
                     </div>
                   </td>
-                  <td><span className={`tool-price-tag price-${alt.priceClass}`}>{alt.pricingModel}</span></td>
-                  <td><span style={{ color: 'var(--color-warning)' }}>★ {alt.rating}</span> ({alt.reviewsCount})</td>
-                  <td>{alt.category}</td>
-                  <td>
-                    <a 
-                      href={`/go/${alt.slug}`} 
-                      target="_blank" 
-                      rel="sponsored nofollow noopener"
-                      className="btn btn-primary"
-                      style={{ padding: '6px 14px', fontSize: 12 }}
-                    >
-                      Try Free →
-                    </a>
+                  <td className="py-3.5 px-4">
+                    <span className="font-mono text-xs text-zinc-300">{tool.pricingModel}</span>
+                  </td>
+                  <td className="py-3.5 px-4 font-mono text-amber-400">
+                    ★ {tool.rating.toFixed(1)} <span className="text-zinc-500 text-xs">({tool.reviewsCount.toLocaleString()})</span>
+                  </td>
+                  <td className="py-3.5 px-4 text-zinc-400">{tool.category}</td>
+                  <td className="py-3.5 px-4 text-right">
+                    <Link href={`/tool/${tool.slug}`} className="inline-flex items-center px-3 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white border border-white/10 text-xs font-medium transition-colors">
+                      View Details
+                    </Link>
                   </td>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+
+                {/* Alternatives */}
+                {alternatives.map((alt) => (
+                  <tr key={alt.id} className="hover:bg-zinc-900/40 transition-colors">
+                    <td className="py-3.5 px-4">
+                      <div className="flex items-center gap-3">
+                        <ToolLogo name={alt.name} domain={alt.domain} logoUrl={alt.logoUrl} icon={alt.icon} size={28} />
+                        <Link href={`/tool/${alt.slug}`} className="text-zinc-200 hover:text-violet-300 font-medium transition-colors">
+                          {alt.name}
+                        </Link>
+                      </div>
+                    </td>
+                    <td className="py-3.5 px-4">
+                      <span className={`text-[10px] font-mono px-2 py-0.5 rounded border ${
+                        alt.priceClass === 'free' 
+                          ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/25' 
+                          : alt.priceClass === 'freemium'
+                          ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/25'
+                          : 'bg-zinc-800 text-zinc-300 border-white/10'
+                      }`}>
+                        {alt.pricingModel}
+                      </span>
+                    </td>
+                    <td className="py-3.5 px-4 font-mono text-amber-400">
+                      ★ {alt.rating.toFixed(1)} <span className="text-zinc-500 text-xs">({alt.reviewsCount.toLocaleString()})</span>
+                    </td>
+                    <td className="py-3.5 px-4 text-zinc-400">{alt.category}</td>
+                    <td className="py-3.5 px-4 text-right">
+                      <a 
+                        href={`/go/${alt.slug}`} 
+                        target="_blank" 
+                        rel="sponsored nofollow noopener"
+                        className="inline-flex items-center gap-1 px-3.5 py-1.5 rounded-lg bg-white text-zinc-950 hover:bg-zinc-100 text-xs font-medium transition-all shadow-[0_0_10px_rgba(255,255,255,0.15)] active:scale-95"
+                      >
+                        <span>Try Free</span>
+                        <ArrowRight size={12} />
+                      </a>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
+      </section>
 
       {/* Deep-Dive Cards for Each Alternative */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 32, marginBottom: 48 }}>
-        <h2 style={{ fontSize: 24, fontWeight: 700, color: 'var(--text-strong)' }}>
+      <section className="max-w-7xl mx-auto px-4 md:px-8 py-8 relative z-10">
+        <h2 className="text-2xl font-semibold text-white tracking-tight font-['Geist',sans-serif] mb-6">
           Detailed Breakdown of Each Alternative
         </h2>
 
-        {alternatives.map((alt, index) => (
-          <div key={alt.id} className="tool-hero" style={{ padding: 32 }}>
-            <div className="tool-hero-top">
-              <div className="tool-hero-identity">
-                <div className="tool-logo-large">
-                  <ToolLogo name={alt.name} domain={alt.domain} logoUrl={alt.logoUrl} icon={alt.icon} size={50} />
-                </div>
-                <div className="tool-title-wrapper">
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                    <span style={{ background: 'var(--accent-secondary)', color: '#fff', fontSize: 12, fontWeight: 700, padding: '2px 8px', borderRadius: 4 }}>
-                      #{index + 1} Alternative
-                    </span>
-                    <h3 style={{ fontSize: 22, fontWeight: 700, color: 'var(--text-strong)', margin: 0 }}>
-                      {alt.name}
-                    </h3>
+        <div className="space-y-6">
+          {alternatives.map((alt, index) => (
+            <div key={alt.id} className="obsidian-card rounded-2xl p-6 md:p-8 border border-white/[0.08] hover:border-violet-500/40 transition-all group">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/[0.06] mb-4">
+                <div className="flex items-center gap-3.5">
+                  <div className="w-12 h-12 rounded-xl bg-zinc-900 border border-white/10 p-1 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                    <ToolLogo name={alt.name} domain={alt.domain} logoUrl={alt.logoUrl} icon={alt.icon} size={38} />
                   </div>
-                  <div className="tool-meta-badges" style={{ marginTop: 8 }}>
-                    <span className={`tool-price-tag price-${alt.priceClass}`}>{alt.pricingModel}</span>
-                    <div className="tool-rating-box">
-                      <Star size={13} className="star-icon" fill="currentColor" />
-                      <span className="rating-num">{alt.rating}</span>
-                      <span className="reviews-count">({alt.reviewsCount.toLocaleString()} reviews)</span>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-violet-500/20 text-violet-300 border border-violet-500/30">
+                        #{index + 1} Alternative
+                      </span>
+                      <h3 className="text-lg font-semibold text-white font-['Geist',sans-serif]">
+                        {alt.name}
+                      </h3>
+                    </div>
+                    <div className="flex items-center gap-2 mt-1">
+                      <span className="text-xs text-zinc-400 font-mono">{alt.category}</span>
+                      <span className="text-zinc-600">•</span>
+                      <span className={`text-[10px] font-mono px-2 py-0.5 rounded border ${
+                        alt.priceClass === 'free' 
+                          ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/25' 
+                          : alt.priceClass === 'freemium'
+                          ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/25'
+                          : 'bg-zinc-800 text-zinc-300 border-white/10'
+                      }`}>
+                        {alt.pricingModel}
+                      </span>
+                      <span className="text-zinc-600">•</span>
+                      <span className="text-xs font-mono text-amber-400 flex items-center gap-1">
+                        ★ {alt.rating.toFixed(1)} <span className="text-zinc-500">({alt.reviewsCount.toLocaleString()})</span>
+                      </span>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="tool-action-bar">
-                <a 
-                  href={`/go/${alt.slug}`} 
-                  target="_blank" 
-                  rel="sponsored nofollow noopener"
-                  className="btn-affiliate-primary"
-                >
-                  <span>Try {alt.name.split(' ')[0]} Free</span>
-                  <ArrowRight size={15} />
-                </a>
-              </div>
-            </div>
-
-            <p style={{ color: 'var(--text-secondary)', fontSize: 15, lineHeight: 1.6, marginBottom: 16 }}>
-              {alt.description}
-            </p>
-
-            <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-              <Link href={`/tool/${alt.slug}`} style={{ color: 'var(--accent-secondary)', fontSize: 13, fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 4 }}>
-                <span>Read Full {alt.name} Review</span>
-                <ChevronRight size={14} />
-              </Link>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Related Head-to-Head Comparison Guides */}
-      {relatedArticles.length > 0 && (
-        <div className="tool-card-box" style={{ marginBottom: 48 }}>
-          <h2 className="tool-box-title">
-            <BookOpen size={20} color="#818cf8" />
-            Head-to-Head Comparison & Review Guides
-          </h2>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            {relatedArticles.map((art) => (
-              <Link 
-                key={art.slug} 
-                href={`/blog/${art.slug}`} 
-                style={{ 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  justifyContent: 'space-between', 
-                  padding: '14px 18px', 
-                  background: 'rgba(var(--ink-tint-rgb), 0.03)', 
-                  border: '1px solid rgba(var(--ink-tint-rgb), 0.08)', 
-                  borderRadius: 8, 
-                  textDecoration: 'none',
-                  transition: 'all 0.2s ease'
-                }}
-              >
                 <div>
-                  <h4 style={{ color: 'var(--text-strong)', margin: '0 0 4px', fontSize: 14.5 }}>{art.title}</h4>
-                  <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>{art.readTime} • Verified Comparison</span>
+                  <a 
+                    href={`/go/${alt.slug}`} 
+                    target="_blank" 
+                    rel="sponsored nofollow noopener"
+                    className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-white text-zinc-950 hover:bg-zinc-100 font-medium text-xs shadow-[0_0_12px_rgba(255,255,255,0.15)] active:scale-95 transition-all w-full sm:w-auto"
+                  >
+                    <span>Try {alt.name.split(' ')[0]} Free</span>
+                    <ArrowRight size={13} />
+                  </a>
                 </div>
-                <span style={{ color: 'var(--arcade-cyan)', fontSize: 13, fontWeight: 600, whiteSpace: 'nowrap', marginLeft: 12 }}>
-                  Read Guide →
-                </span>
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
+              </div>
 
-      {/* FAQ Section */}
-      <div className="tool-card-box" style={{ marginBottom: 48 }}>
-        <h2 className="tool-box-title">
-          <HelpCircle size={20} color="#818cf8" />
-          Frequently Asked Questions About {tool.name} Alternatives
-        </h2>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-          {faqs.map((faq, idx) => (
-            <div key={idx} style={{ borderBottom: idx !== faqs.length - 1 ? '1px solid rgba(var(--ink-tint-rgb), 0.06)' : 'none', paddingBottom: 16 }}>
-              <h3 style={{ fontSize: 16, fontWeight: 600, color: 'var(--text-strong)', marginBottom: 6 }}>
-                {faq.question}
-              </h3>
-              <p style={{ fontSize: 14, color: 'var(--text-secondary)', lineHeight: 1.6 }}>
-                {faq.answer}
+              <p className="text-sm text-zinc-400 font-light leading-relaxed mb-4">
+                {alt.description}
               </p>
+
+              <div>
+                <Link 
+                  href={`/tool/${alt.slug}`} 
+                  className="text-xs text-violet-400 hover:text-violet-300 font-mono inline-flex items-center gap-1 transition-colors"
+                >
+                  <span>Read Full {alt.name} Review</span>
+                  <ChevronRight size={13} />
+                </Link>
+              </div>
             </div>
           ))}
         </div>
-      </div>
+      </section>
+
+      {/* Related Comparison Guides */}
+      {relatedArticles.length > 0 && (
+        <section className="max-w-7xl mx-auto px-4 md:px-8 py-8 relative z-10">
+          <div className="obsidian-card rounded-2xl p-6 md:p-8 border border-white/10">
+            <div className="flex items-center gap-2.5 mb-6">
+              <div className="w-8 h-8 rounded-lg bg-pink-500/10 border border-pink-500/25 flex items-center justify-center text-pink-400">
+                <BookOpen size={18} />
+              </div>
+              <h2 className="text-xl font-semibold text-white tracking-tight font-['Geist',sans-serif]">
+                Head-to-Head Comparison & Review Guides
+              </h2>
+            </div>
+
+            <div className="space-y-3">
+              {relatedArticles.map((art) => (
+                <Link 
+                  key={art.slug} 
+                  href={`/blog/${art.slug}`} 
+                  className="flex items-center justify-between p-4 rounded-xl bg-zinc-900/60 hover:bg-zinc-800/80 border border-white/[0.06] hover:border-violet-500/30 transition-all group/art"
+                >
+                  <div>
+                    <h4 className="text-sm font-semibold text-zinc-200 group-hover/art:text-white transition-colors">
+                      {art.title}
+                    </h4>
+                    <span className="text-xs text-zinc-500 font-mono">{art.readTime} • Verified Comparison</span>
+                  </div>
+                  <span className="text-xs text-violet-400 group-hover/art:text-violet-300 font-mono flex items-center gap-1 shrink-0 ml-4">
+                    <span>Read Guide</span>
+                    <ArrowRight size={12} />
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* FAQ Section */}
+      <section className="max-w-4xl mx-auto px-4 md:px-8 py-16 relative z-10">
+        <div className="obsidian-card rounded-3xl p-8 md:p-10 border border-white/10">
+          <div className="flex items-center gap-2.5 mb-6">
+            <div className="w-8 h-8 rounded-lg bg-cyan-500/10 border border-cyan-500/25 flex items-center justify-center text-cyan-400">
+              <HelpCircle size={18} />
+            </div>
+            <h2 className="text-xl sm:text-2xl font-semibold text-white tracking-tight font-['Geist',sans-serif]">
+              Frequently Asked Questions About {tool.name} Alternatives
+            </h2>
+          </div>
+
+          <div className="space-y-4">
+            {faqs.map((faq, idx) => (
+              <div key={idx} className="p-5 rounded-xl bg-zinc-950/60 border border-white/[0.08]">
+                <h3 className="text-sm sm:text-base font-semibold text-zinc-200 mb-2 font-['Geist',sans-serif]">
+                  {faq.question}
+                </h3>
+                <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed font-light">
+                  {faq.answer}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Shared Obsidian Luxury Footer */}
+      <ObsidianFooter />
     </div>
   );
 }

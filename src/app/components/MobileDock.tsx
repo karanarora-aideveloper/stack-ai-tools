@@ -34,7 +34,9 @@ export default function MobileDock() {
     pathname?.startsWith('/redesign') ||
     pathname === '/categories' ||
     pathname?.startsWith('/categories') ||
-    pathname?.startsWith('/category')
+    pathname?.startsWith('/category') ||
+    pathname === '/alternatives' ||
+    pathname?.startsWith('/alternatives')
   ) {
     return null;
   }

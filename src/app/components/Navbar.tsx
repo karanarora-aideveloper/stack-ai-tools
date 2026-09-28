@@ -47,7 +47,9 @@ export default function Navbar() {
     pathname?.startsWith('/redesign') ||
     pathname === '/categories' ||
     pathname?.startsWith('/categories') ||
-    pathname?.startsWith('/category')
+    pathname?.startsWith('/category') ||
+    pathname === '/alternatives' ||
+    pathname?.startsWith('/alternatives')
   ) {
     return null;
   }
