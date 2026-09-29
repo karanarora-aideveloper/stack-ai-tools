@@ -9674,5 +9674,52 @@
     "affiliateNetwork": null,
     "affiliateNotes": null,
     "createdAt": "2026-09-29T10:00:00.000Z"
+  },
+  {
+    "id": "openai-gpt-6-frontier",
+    "name": "OpenAI GPT-6 Astra & Sol (Frontier Reasoning Engine)",
+    "category": "Code",
+    "icon": "🧠",
+    "logoUrl": "https://www.google.com/s2/favicons?domain=openai.com&sz=128",
+    "domain": "openai.com",
+    "description": "OpenAI's September 2026 flagship frontier reasoning family (GPT-6 Astra, Sol, and Luna). Delivers master-tier deductive reasoning (96.2% on AIME), autonomous agent sandboxing, 2M context window with prompt caching, and native JSON Schema Structured Outputs.",
+    "pricingModel": "Freemium",
+    "priceClass": "freemium",
+    "link": "https://openai.com",
+    "rating": 4.98,
+    "reviewsCount": 38200,
+    "tags": [
+      "GPT-6 Astra",
+      "GPT-6 Sol",
+      "Reasoning Model",
+      "Autonomous Agents",
+      "STEM",
+      "Math",
+      "Prompt Caching"
+    ],
+    "badge": "Frontier #1",
+    "featured": true,
+    "status": "approved",
+    "editorialReview": "OpenAI's GPT-6 generation sets the benchmark for production reasoning compute. With Astra leading frontier intelligence and Sol offering high-throughput cost efficiency, GPT-6 unifies test-time deliberate thought with streaming agentic execution.",
+    "zapierVerdict": "OpenAI GPT-6 Astra sets the gold standard for production reasoning compute, delivering master-tier STEM problem solving with predictable latency.",
+    "authoritySummary": "Scored 96.2% on AIME and 2350 Elo on Codeforces. Powers enterprise mission-critical agent loops across global infrastructure.",
+    "pros": [
+      "Configurable reasoning effort: instant low-latency streaming up to high-budget formal proofs",
+      "Native Structured Outputs guarantee 100% adherence to Pydantic/Zod schemas",
+      "2M token context window with deep prompt caching (slashing input costs up to 80%)",
+      "Supports native Function Calling, computer use, and Server-Sent Events (SSE) streaming"
+    ],
+    "cons": [
+      "Extended deliberation tokens consume output billing budget",
+      "Ultra-high reasoning effort mode can take 15-20 seconds before outputting visible tokens"
+    ],
+    "bestFor": "Engineering teams building mission-critical services that require verifiable chain-of-thought proofs and zero schema hallucination",
+    "verifiedBy": "AIME Verified • Codeforces Grandmaster Tier",
+    "affiliateLink": null,
+    "affiliateStatus": null,
+    "commissionRate": null,
+    "affiliateNetwork": null,
+    "affiliateNotes": null,
+    "createdAt": "2026-09-29T10:00:00.000Z"
   }
 ]

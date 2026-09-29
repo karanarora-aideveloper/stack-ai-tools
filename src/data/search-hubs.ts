@@ -8,6 +8,20 @@ export interface SearchHub {
 
 export const TOP_SEARCH_HUBS: SearchHub[] = [
   {
+    slug: "gpt-6",
+    query: "gpt 6",
+    volume: 310000,
+    cpc: 5.60,
+    categoryHint: "Code"
+  },
+  {
+    slug: "gpt-6-astra",
+    query: "gpt 6 astra",
+    volume: 125000,
+    cpc: 4.90,
+    categoryHint: "Code"
+  },
+  {
     slug: "gpt-extra",
     query: "gpt extra",
     volume: 88400,

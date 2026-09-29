@@ -249,8 +249,11 @@ async function runBrowserAudit() {
     // -------------------------------------------------------------
     // TEST 7: Frontier US Trending Tools: GPT Extra, Grok 3, Manus AI
     // -------------------------------------------------------------
-    console.log(`\n[TEST 7] Testing Frontier US Trending Tools: GPT Extra, Grok 3, Manus AI...`);
+    console.log(`\n[TEST 7] Testing Frontier US Trending Tools: GPT-6, GPT Extra, Grok 3, Manus AI...`);
     const trendingTools = [
+      { slug: 'gpt-6', expectedTitle: 'GPT-6' },
+      { slug: 'gpt6', expectedTitle: 'GPT-6' }, // alias test
+      { slug: 'gpt-6-astra', expectedTitle: 'GPT-6' }, // alias test
       { slug: 'gpt-extra', expectedTitle: 'GPT Extra' },
       { slug: 'chatgpt-extra', expectedTitle: 'GPT Extra' }, // alias test
       { slug: 'grok-3', expectedTitle: 'Grok 3' },

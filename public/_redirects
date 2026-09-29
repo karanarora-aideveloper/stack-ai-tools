@@ -234,6 +234,7 @@
 /go/gpt-extra https://chatgpt.com 302
 /go/grok-3 https://x.ai 302
 /go/manus-ai https://manus.im 302
+/go/gpt-6 https://openai.com 302
 /go/flux-3-action-flux2-max-black-forest-labs https://blackforestlabs.ai 302
 /go/vapi-ai-voice-agents https://vapi.ai 302
 /go/retell-ai-conversational-voice https://retellai.com 302
@@ -283,7 +284,6 @@
 /go/claude-sonnet-5 https://claude.ai 302
 /go/claude-opus-5-5 https://claude.ai 302
 /go/claude-3-7-sonnet https://claude.ai 302
-/go/gpt-6 https://chatgpt.com 302
 /go/gpt-6-astra https://chatgpt.com 302
 /go/gpt-6-sol https://chatgpt.com 302
 /go/gemini-3-8-flash https://gemini.google.com 302
