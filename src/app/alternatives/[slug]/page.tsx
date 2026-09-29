@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { getToolBySlug, getAllTools, getAlternativesForTool } from '@/lib/tools';
+import { getToolBySlug, getAllTools, getAlternativesForTool, SLUG_ALIASES } from '@/lib/tools';
 import ToolLogo from '@/app/components/ToolLogo';
 import ObsidianHeader from '@/app/components/ObsidianHeader';
 import ObsidianFooter from '@/app/components/ObsidianFooter';
@@ -25,9 +25,18 @@ export const dynamicParams = false;
 
 export async function generateStaticParams() {
   const tools = await getAllTools();
-  return tools.map((tool) => ({
-    slug: tool.slug,
-  }));
+  const canonicalParams = tools.map((tool) => ({ slug: tool.slug }));
+  const aliasParams = Object.keys(SLUG_ALIASES).map((alias) => ({ slug: alias }));
+
+  const seen = new Set<string>();
+  const params: { slug: string }[] = [];
+  for (const p of [...canonicalParams, ...aliasParams]) {
+    if (!seen.has(p.slug)) {
+      seen.add(p.slug);
+      params.push(p);
+    }
+  }
+  return params;
 }
 
 export async function generateMetadata({ params }: AlternativePageProps): Promise<Metadata> {

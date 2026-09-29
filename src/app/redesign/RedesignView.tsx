@@ -912,13 +912,13 @@ export default function RedesignView({ initialTools, initialPrompts }: RedesignV
                       <div>
                         {/* Header: Icon, Name, Maintainer & Category */}
                         <div className="flex items-start justify-between gap-3 mb-3">
-                          <div className="flex items-center gap-3">
-                            <div className="w-11 h-11 rounded-xl bg-zinc-900 border border-white/10 flex items-center justify-center text-xl shrink-0 group-hover:scale-105 group-hover:border-cyan-500/40 transition-all">
+                          <Link href={`/tool/${server.slug}`} className="flex items-center gap-3 group/mcpTitle">
+                            <div className="w-11 h-11 rounded-xl bg-zinc-900 border border-white/10 flex items-center justify-center text-xl shrink-0 group-hover/mcpTitle:scale-105 group-hover/mcpTitle:border-cyan-500/40 transition-all">
                               {server.icon}
                             </div>
                             <div>
                               <div className="flex items-center gap-1.5">
-                                <h4 className="text-base font-semibold text-white group-hover:text-cyan-300 transition-colors line-clamp-1">
+                                <h4 className="text-base font-semibold text-white group-hover/mcpTitle:text-cyan-300 transition-colors line-clamp-1">
                                   {server.name}
                                 </h4>
                                 {server.verified && (
@@ -936,7 +936,7 @@ export default function RedesignView({ initialTools, initialPrompts }: RedesignV
                                 )}
                               </div>
                             </div>
-                          </div>
+                          </Link>
 
                           <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-900 border border-white/[0.08] text-zinc-400 shrink-0">
                             {server.category}
@@ -975,23 +975,30 @@ export default function RedesignView({ initialTools, initialPrompts }: RedesignV
 
                       {/* Footer: Copy Config Button & Setup Link */}
                       <div className="flex items-center justify-between pt-3 border-t border-white/[0.08]">
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-2.5">
+                          <Link
+                            href={`/tool/${server.slug}`}
+                            className="text-xs text-cyan-400 hover:text-cyan-300 transition-colors font-mono inline-flex items-center gap-0.5"
+                          >
+                            <span>Profile</span>
+                            <ArrowRight size={11} />
+                          </Link>
                           <Link
                             href={`/antigravity-mcp#${server.slug}`}
-                            className="text-xs text-zinc-400 hover:text-white transition-colors font-mono inline-flex items-center gap-1"
+                            className="text-xs text-zinc-400 hover:text-white transition-colors font-mono inline-flex items-center gap-0.5"
                           >
                             <span>Docs</span>
-                            <ArrowUpRight size={12} />
+                            <ArrowUpRight size={11} />
                           </Link>
                           {server.githubUrl && (
                             <a
                               href={server.githubUrl}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors font-mono inline-flex items-center gap-1"
+                              className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors font-mono inline-flex items-center gap-0.5"
                             >
                               <span>Repo</span>
-                              <ExternalLink size={11} />
+                              <ExternalLink size={10} />
                             </a>
                           )}
                         </div>

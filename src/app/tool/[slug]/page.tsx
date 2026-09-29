@@ -6,10 +6,12 @@ import {
   getAllTools, 
   getAlternativesForTool, 
   getPromptsForTool,
-  EnrichedTool 
+  EnrichedTool,
+  SLUG_ALIASES
 } from '@/lib/tools';
 import ToolLogo from '@/app/components/ToolLogo';
 import PromptCard from '@/app/components/PromptCard';
+import McpConfigBox from '@/app/components/McpConfigBox';
 import ObsidianHeader from '@/app/components/ObsidianHeader';
 import ObsidianFooter from '@/app/components/ObsidianFooter';
 import { 
@@ -20,7 +22,7 @@ import {
   DollarSign, 
   Globe, 
   ShieldCheck, 
-  ArrowRight,
+  ArrowRight, 
   ArrowUpRight,
   Sparkles, 
   ChevronRight, 
@@ -40,9 +42,18 @@ export const dynamicParams = false;
 
 export async function generateStaticParams() {
   const tools = await getAllTools();
-  return tools.map((tool) => ({
-    slug: tool.slug,
-  }));
+  const canonicalParams = tools.map((tool) => ({ slug: tool.slug }));
+  const aliasParams = Object.keys(SLUG_ALIASES).map((alias) => ({ slug: alias }));
+
+  const seen = new Set<string>();
+  const params: { slug: string }[] = [];
+  for (const p of [...canonicalParams, ...aliasParams]) {
+    if (!seen.has(p.slug)) {
+      seen.add(p.slug);
+      params.push(p);
+    }
+  }
+  return params;
 }
 
 export async function generateMetadata({ params }: ToolPageProps): Promise<Metadata> {
@@ -445,7 +456,11 @@ export default async function ToolPage({ params }: ToolPageProps) {
                   Core Capabilities &amp; Production Workflows:
                 </h3>
                 <div className="grid grid-cols-1 gap-2.5">
-                  {(tool.keyUseCases || [tool.description]).map((useCase, idx) => (
+                  {(tool.keyUseCases && tool.keyUseCases.length > 0 ? tool.keyUseCases : [
+                    `Accelerating day-to-day ${tool.category} workflows by 3x - 5x`,
+                    'Automating repetitive content and asset production',
+                    'Cross-functional team collaboration and ideation'
+                  ]).map((useCase, idx) => (
                     <div 
                       key={idx} 
                       className="p-3.5 rounded-xl bg-zinc-950/70 border border-white/[0.06] flex items-start gap-3 text-xs sm:text-sm text-zinc-300"
@@ -477,6 +492,11 @@ export default async function ToolPage({ params }: ToolPageProps) {
                 </div>
               )}
             </div>
+
+            {/* Dedicated MCP Server Configuration & Runtime Box */}
+            {tool.mcpData && (
+              <McpConfigBox server={tool.mcpData} />
+            )}
 
             {/* Authority & Tested Verdict Box */}
             {(tool.zapierVerdict || tool.authoritySummary) && (
@@ -775,7 +795,7 @@ export default async function ToolPage({ params }: ToolPageProps) {
 
                 <div className="flex items-center justify-between py-1 border-b border-white/[0.04]">
                   <span className="text-zinc-500 font-mono">Official Domain</span>
-                  <span className="text-zinc-300 font-mono">{tool.domain || 'scispace.com'}</span>
+                  <span className="text-zinc-300 font-mono">{tool.domain || 'Official Site'}</span>
                 </div>
 
                 <div className="flex items-center justify-between py-1 border-b border-white/[0.04]">
