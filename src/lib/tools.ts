@@ -47,6 +47,12 @@ const SLUG_MAP: Record<string, string> = {
   'Roo Code': 'roo-code',
 
   // Frontier Reasoning & LLMs
+  'GPT Extra (OpenAI Reasoning & Tool Engine)': 'gpt-extra',
+  'GPT Extra': 'gpt-extra',
+  'Grok 3 (xAI Reasoning Engine)': 'grok-3',
+  'Grok 3': 'grok-3',
+  'Manus AI (Autonomous General Agent)': 'manus-ai',
+  'Manus AI': 'manus-ai',
   'OpenAI GPT-6 Astra & Sol (Frontier Reasoning Engine)': 'openai-o3',
   'OpenAI o3 & o3-mini (Reasoning Engine)': 'openai-o3',
   'ChatGPT Plus & Team (OpenAI)': 'chatgpt',
@@ -293,7 +299,18 @@ export const SLUG_ALIASES: Record<string, string> = {
   'scrapenew': 'scrape-new',
   'speaqai': 'speaq-ai',
   'jaceai': 'jace-ai',
-  'cartesia-sonic-36': 'cartesia'
+  'cartesia-sonic-36': 'cartesia',
+  'gptextra': 'gpt-extra',
+  'chatgpt-extra': 'gpt-extra',
+  'gpt-extra-ai': 'gpt-extra',
+  'gpt-extra-openai-reasoning-tool-engine': 'gpt-extra',
+  'grok': 'grok-3',
+  'grok3': 'grok-3',
+  'xai-grok': 'grok-3',
+  'grok-3-xai-reasoning-engine': 'grok-3',
+  'manus': 'manus-ai',
+  'manusai': 'manus-ai',
+  'manus-ai-autonomous-general-agent': 'manus-ai'
 };
 
 export function slugify(text: string): string {

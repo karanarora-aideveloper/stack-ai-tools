@@ -246,6 +246,44 @@ async function runBrowserAudit() {
       console.log(`📸 Saved Alternatives screenshot: ${altScreenshot}`);
     }
 
+    // -------------------------------------------------------------
+    // TEST 7: Frontier US Trending Tools: GPT Extra, Grok 3, Manus AI
+    // -------------------------------------------------------------
+    console.log(`\n[TEST 7] Testing Frontier US Trending Tools: GPT Extra, Grok 3, Manus AI...`);
+    const trendingTools = [
+      { slug: 'gpt-extra', expectedTitle: 'GPT Extra' },
+      { slug: 'chatgpt-extra', expectedTitle: 'GPT Extra' }, // alias test
+      { slug: 'grok-3', expectedTitle: 'Grok 3' },
+      { slug: 'manus-ai', expectedTitle: 'Manus AI' },
+    ];
+
+    for (const item of trendingTools) {
+      const toolUrl = `${BASE_URL}/tool/${item.slug}`;
+      console.log(`➡️ Testing Trending Tool: ${toolUrl}`);
+      const res = await page.goto(toolUrl, { waitUntil: 'networkidle', timeout: 20000 });
+      auditLog.pagesVisited++;
+      auditLog.toolsClicked++;
+
+      const status = res.status();
+      const pageTitle = await page.title();
+      const bodyText = await page.innerText('body');
+      const is404 = status === 404 || bodyText.includes('Tool Not Found');
+
+      if (is404) {
+        console.error(`❌ 404 on Trending Tool ${toolUrl}!`);
+        auditLog.failures.push({ url: toolUrl, status, reason: 'Trending Tool 404' });
+      } else {
+        console.log(`✅ 200 OK | "${item.slug}" resolved to: "${pageTitle}"`);
+        auditLog.successes.push({ url: toolUrl, name: item.slug, status });
+        
+        if (item.slug === 'gpt-extra') {
+          const gptExtraScreenshot = path.join(ARTIFACTS_DIR, 'e2e_tool_detail_gpt_extra.png');
+          await page.screenshot({ path: gptExtraScreenshot, fullPage: false });
+          console.log(`📸 Saved GPT Extra screenshot: ${gptExtraScreenshot}`);
+        }
+      }
+    }
+
   } catch (error) {
     console.error(`💥 Unhandled Exception during browser audit:`, error);
     auditLog.failures.push({ error: error.message });

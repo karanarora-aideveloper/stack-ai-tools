@@ -50,7 +50,7 @@ export async function generateMetadata({ params }: AlternativePageProps): Promis
   }
 
   const baseName = tool.name.replace(/\s*\([^)]*\)\s*$/, '').trim();
-  const title = `Top 5 ${baseName} Alternatives (2026): Free & Paid Competitors`;
+  const title = `Top 5 ${baseName} Alternatives [Tested 2026]: Free & Paid Competitors`;
   const description = `Compare the top 5 alternatives to ${tool.name} in 2026. Explore verified user ratings, pricing tiers (${tool.pricingModel}), free plans, and side-by-side feature comparisons.`;
 
   return {

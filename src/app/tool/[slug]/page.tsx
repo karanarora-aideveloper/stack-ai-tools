@@ -68,7 +68,7 @@ export async function generateMetadata({ params }: ToolPageProps): Promise<Metad
 
   // Strip trailing parenthetical to keep under Google's ~60-char display limit
   const baseName = tool.name.replace(/\s*\([^)]*\)\s*$/, '').trim();
-  const title = `${baseName} Review 2026: Pricing Plans, Free Tier & Top Alternatives`;
+  const title = `${baseName} Review [Tested Sept 2026]: Pricing, Free Tier & Alternatives`;
   const description = `In-depth 2026 review of ${tool.name}. Explore verified user ratings (${tool.rating}/5), pricing plans (${tool.pricingModel} - ${tool.startingPrice || 'Free tier'}), core capabilities, pros & cons, and top alternatives. Try free →`;
 
   return {

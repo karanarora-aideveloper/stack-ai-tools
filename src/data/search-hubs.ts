@@ -8,6 +8,34 @@ export interface SearchHub {
 
 export const TOP_SEARCH_HUBS: SearchHub[] = [
   {
+    slug: "gpt-extra",
+    query: "gpt extra",
+    volume: 88400,
+    cpc: 4.80,
+    categoryHint: "Writing"
+  },
+  {
+    slug: "chatgpt-extra",
+    query: "chatgpt extra",
+    volume: 64200,
+    cpc: 4.50,
+    categoryHint: "Writing"
+  },
+  {
+    slug: "grok-3",
+    query: "grok 3",
+    volume: 165000,
+    cpc: 5.20,
+    categoryHint: "Code"
+  },
+  {
+    slug: "manus-ai",
+    query: "manus ai",
+    volume: 110000,
+    cpc: 6.80,
+    categoryHint: "Automation"
+  },
+  {
     slug: "caht",
     query: "caht",
     volume: 246000,

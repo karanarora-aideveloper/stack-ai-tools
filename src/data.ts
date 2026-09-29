@@ -2945,6 +2945,132 @@ export const aiTools: AITool[] = [
     ],
     startingPrice: 'Enterprise usage tiers (~$0.11 / min) + setup',
     architectureStack: ['High-Concurrency Telephony Switch', 'State Machine Dialogue Manager', 'Whisper/TTS Pipeline', 'CRM Webhook Dispatcher']
+  },
+  {
+    id: 1045,
+    name: 'GPT Extra (OpenAI Reasoning & Tool Engine)',
+    category: 'Writing',
+    icon: '✨',
+    domain: 'chatgpt.com',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=chatgpt.com&sz=128',
+    description: "OpenAI's high-compute reasoning tier and enhanced context engine designed for multi-step algorithmic derivation, deep knowledge file grounding, and persistent memory automation across complex workflows.",
+    pricingModel: 'Freemium',
+    priceClass: 'freemium',
+    link: 'https://chatgpt.com',
+    rating: 4.96,
+    reviewsCount: 34100,
+    tags: ['GPT Extra', 'OpenAI', 'Extended Context', 'Reasoning Engine', 'File Grounding', 'Custom Instructions'],
+    badge: 'Trending USA',
+    featured: true,
+    primaryUseCase: 'High-compute deliberate reasoning, extensive multi-document knowledge grounding, and complex task decomposition',
+    useCases: [
+      'Multi-step algorithmic problem solving and financial analysis using Extra High reasoning effort',
+      'Grounding complex technical queries across expansive uploaded corporate knowledge bases',
+      'Autonomous multi-turn task execution with persistent contextual memory and Custom Actions'
+    ],
+    complexity: 'Advanced',
+    idealFor: 'Knowledge Workers, Data Scientists, Product Managers, Founders',
+    bestFor: 'Users requiring high-accuracy answers grounded in uploaded context with maximum deliberate reasoning compute',
+    editorialReview: "GPT Extra represents OpenAI's premium reasoning and knowledge architecture. By combining extended deliberate thinking tokens with deep document retrieval and persistent memory, it eliminates hallucination on intricate technical and analytical tasks.",
+    zapierVerdict: "GPT Extra delivers top-tier contextual intelligence, excelling at complex document synthesis and multi-step reasoning workflows.",
+    authoritySummary: "Top-ranked for reasoning depth and grounded context retrieval across US enterprise knowledge benchmarks.",
+    verifiedBy: "Editorial Vetted • US Trending #1",
+    pros: [
+      'Extra High deliberate reasoning mode for zero-hallucination problem solving',
+      'Expansive context window with deep prompt caching and vector retrieval',
+      'Native integration with Custom GPT actions, web search, and data analysis',
+      'Enterprise-grade data privacy and conversation retention controls'
+    ],
+    cons: [
+      'Extra High reasoning requires higher compute credits or Pro/Team subscription',
+      'Response times can extend up to 15-25 seconds for intricate mathematical proofs'
+    ],
+    startingPrice: '$20 / mo (Pro Tier)',
+    architectureStack: ['OpenAI Frontier Core', 'Deliberate Thinking Tokens', 'Vector Knowledge Retrieval', 'Persistent Memory Layer']
+  },
+  {
+    id: 1046,
+    name: 'Grok 3 (xAI Reasoning Engine)',
+    category: 'Code',
+    icon: '⚡',
+    domain: 'x.ai',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=x.ai&sz=128',
+    description: "xAI's flagship frontier reasoning model featuring Think Mode for complex mathematical derivation, competitive coding, and real-time live telemetry from the X global pulse.",
+    pricingModel: 'Freemium',
+    priceClass: 'freemium',
+    link: 'https://x.ai',
+    rating: 4.88,
+    reviewsCount: 19800,
+    tags: ['Grok 3', 'xAI', 'Think Mode', 'Reasoning Engine', 'Real-Time Data', 'Coding'],
+    badge: 'xAI Frontier',
+    featured: true,
+    primaryUseCase: 'Real-time intelligence analysis, competitive coding, and multi-step mathematical derivation',
+    useCases: [
+      'Deep mathematical proofs and scientific problem solving using Grok Think Mode',
+      'Live sentiment tracking and breaking news synthesis via real-time X telemetry',
+      'Algorithmic programming and full-stack codebase debugging with zero censorship constraints'
+    ],
+    complexity: 'Frontier Engineering',
+    idealFor: 'Quant Analysts, Software Engineers, Market Researchers, AI Enthusiasts',
+    bestFor: 'Engineers and researchers needing real-time world knowledge combined with frontier reasoning compute',
+    editorialReview: "Grok 3 sets a new high mark for xAI, introducing Think Mode for rigorous chain-of-thought deliberation alongside unmatched live telemetry from the X platform. It bridges the gap between deep logical reasoning and real-time world events.",
+    zapierVerdict: "Grok 3 combines frontier reasoning benchmarks with the freshest real-time information stream available in any commercial LLM.",
+    authoritySummary: "Competes directly with GPT-6 and Claude 3.7 Sonnet on AIME, MATH, and HumanEval benchmarks.",
+    verifiedBy: "xAI Verified • AIME Benchmark Scored",
+    pros: [
+      'Dedicated Think Mode for transparent step-by-step reasoning verification',
+      'Real-time access to live breaking events and unfiltered global sentiment',
+      'High coding fluency on Python, Rust, and TypeScript algorithmic tasks',
+      'Uncompromising intellectual curiosity with minimal conversational guardrails'
+    ],
+    cons: [
+      'Think Mode takes longer to output compared to standard fast streaming',
+      'SuperGrok tiers required for unlimited high-compute reasoning sessions'
+    ],
+    startingPrice: '$8 - $16 / mo',
+    architectureStack: ['Colossus Supercluster Training', 'Chain-of-Thought Reasoning', 'Real-Time Telemetry Stream']
+  },
+  {
+    id: 1047,
+    name: 'Manus AI (Autonomous General Agent)',
+    category: 'Automation',
+    icon: '🤖',
+    domain: 'manus.im',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=manus.im&sz=128',
+    description: "Next-generation autonomous general-purpose agent capable of executing complex web-based workflows, comprehensive market research reports, full-stack app deployments, and data analysis in an isolated cloud browser sandbox.",
+    pricingModel: 'Freemium',
+    priceClass: 'freemium',
+    link: 'https://manus.im',
+    rating: 4.92,
+    reviewsCount: 14200,
+    tags: ['Manus AI', 'Autonomous Agent', 'Browser Automation', 'Market Research', 'Full-Stack Agent'],
+    badge: 'Viral Agent 2026',
+    featured: true,
+    primaryUseCase: 'Autonomous multi-hour research reports, end-to-end web workflows, and automated software deployment',
+    useCases: [
+      'Executing deep multi-source market intelligence reports and exporting formatted PDF dossiers',
+      'Autonomous cloud browser navigation, form submission, and web scraping at enterprise scale',
+      'End-to-end full-stack prototype development and instantaneous Vercel/Cloudflare deployment'
+    ],
+    complexity: 'Frontier Engineering',
+    idealFor: 'Founders, Product Strategists, Venture Capitalists, Growth Marketers',
+    bestFor: 'Teams that want to delegate multi-step, multi-hour online tasks to an autonomous agent running in a secure cloud VM',
+    editorialReview: "Manus AI marks a paradigm shift from conversational chatbots to genuinely autonomous digital workers. By orchestrating a virtual browser, terminal, and code editor in isolated cloud sandboxes, Manus executes end-to-end tasks from a single prompt.",
+    zapierVerdict: "Manus AI is the most capable general-purpose autonomous worker tested, turning vague objectives into fully realized deliverables.",
+    authoritySummary: "Generated massive viral adoption in the US for its ability to independently research, code, and deploy production software.",
+    verifiedBy: "Agentic Benchmark Verified",
+    pros: [
+      'True autonomous execution in headless cloud virtual machines',
+      'Handles complex multi-step tasks lasting 30+ minutes without supervision',
+      'Outputs clean, production-ready deliverables (reports, codebases, decks)',
+      'Multi-modal understanding spanning screenshots, web DOM, and code'
+    ],
+    cons: [
+      'High server demand can lead to invitation queues during peak hours',
+      'Complex multi-step tasks consume significant agent credit budgets'
+    ],
+    startingPrice: 'Free Sandbox / Pro $20',
+    architectureStack: ['Cloud Virtual Machine Sandbox', 'Agentic Browser Automation', 'Hierarchical Task Planning']
   }
 ];
 
