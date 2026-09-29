@@ -204,13 +204,15 @@ export function enrichTool(tool: AITool): EnrichedTool {
     'Occasional rate limits during peak US work hours'
   ];
 
-  const defaultUseCases = tool.useCases && tool.useCases.length > 0 
-    ? tool.useCases 
-    : [
-        'Accelerating daily professional workflows by 3x - 5x',
-        'Automating repetitive content and asset production',
-        'Cross-functional team collaboration and ideation'
-      ];
+  const resolvedUseCases = (tool.keyUseCases && tool.keyUseCases.length > 0)
+    ? tool.keyUseCases
+    : (tool.useCases && tool.useCases.length > 0)
+      ? tool.useCases
+      : [
+          'Accelerating daily professional workflows by 3x - 5x',
+          'Automating repetitive content and asset production',
+          'Cross-functional team collaboration and ideation'
+        ];
 
   return {
     ...tool,
@@ -218,9 +220,9 @@ export function enrichTool(tool: AITool): EnrichedTool {
     startingPrice: tool.startingPrice || startingPrice,
     pros: (tool.pros && tool.pros.length > 0) ? tool.pros : defaultPros,
     cons: (tool.cons && tool.cons.length > 0) ? tool.cons : defaultCons,
-    keyUseCases: defaultUseCases,
+    keyUseCases: resolvedUseCases,
     primaryUseCase: tool.primaryUseCase || tool.description,
-    useCases: defaultUseCases,
+    useCases: resolvedUseCases,
     complexity: tool.complexity || 'Advanced',
     architectureStack: tool.architectureStack || ['Enterprise Cloud', 'Neural Inference', 'API Integration'],
     idealFor: tool.bestFor || tool.idealFor || `${tool.category} professionals, startups, and modern engineering teams`,

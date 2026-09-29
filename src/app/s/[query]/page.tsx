@@ -5,6 +5,8 @@ import { notFound } from 'next/navigation';
 import { getAllTools, EnrichedTool } from '@/lib/tools';
 import { TOP_SEARCH_HUBS, getSearchHubBySlug, getAllSearchHubs } from '@/data/search-hubs';
 import ToolLogo from '@/app/components/ToolLogo';
+import ObsidianHeader from '@/app/components/ObsidianHeader';
+import ObsidianFooter from '@/app/components/ObsidianFooter';
 import { 
   Search, 
   Sparkles, 
@@ -215,7 +217,10 @@ export default async function SearchHubPage({ params }: SearchHubPageProps) {
   };
 
   return (
-    <main style={{ minHeight: '100vh', background: 'var(--bg-primary)', paddingBottom: 80 }}>
+    <div data-redesign-page="true" className="min-h-screen bg-[#040406] text-[#e3e1ec] antialiased selection:bg-[#8b5cf6] selection:text-white relative flex flex-col justify-between">
+      <div className="obsidian-glow-mesh fixed inset-x-0 top-0 h-[700px] pointer-events-none -z-10" />
+      <ObsidianHeader activeNav="directory" />
+      <main className="flex-1 w-full pb-20">
       {/* Schema.org Injection */}
       <script
         type="application/ld+json"
@@ -501,5 +506,7 @@ export default async function SearchHubPage({ params }: SearchHubPageProps) {
         </section>
       </div>
     </main>
+    <ObsidianFooter />
+  </div>
   );
 }

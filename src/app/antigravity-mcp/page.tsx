@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     canonical: 'https://www.stackaitools.com/antigravity-mcp',
   },
   openGraph: {
-    title: 'Top Antigravity MCP Servers & Tools (2026): 30+ Verified AGY Connectors',
+    title: 'Top Antigravity MCP Servers & Tools (2026): 40+ Verified AGY Connectors',
     description: 'Curated catalog of top Model Context Protocol (MCP) servers and tools for Google Antigravity (AGY). One-click mcp_config.json configs and setup guide.',
     url: 'https://www.stackaitools.com/antigravity-mcp',
     siteName: 'Stack AI Tools',
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Top Antigravity MCP Servers & Tools (2026): 30+ Verified Connectors',
+    title: 'Top Antigravity MCP Servers & Tools (2026): 40+ Verified Connectors',
     description: 'Curated directory of top Model Context Protocol (MCP) servers for Google Antigravity. Instant one-click mcp_config.json configs.',
   }
 };
@@ -152,7 +152,7 @@ export default function AntigravityMcpPage() {
         </h1>
 
         <p className="text-base sm:text-lg text-zinc-400 max-w-2xl mx-auto leading-relaxed font-light mb-10">
-          Curated catalog of official and verified Model Context Protocol (MCP) servers for <strong className="text-zinc-200">Google Antigravity (AGY)</strong>, the premier platform for autonomous AI coding agents. Connect your agent to <strong className="text-zinc-200">Google Flow, Gmail, Chrome DevTools, GitHub, PostgreSQL, Playwright</strong>, and live web grounding with one-click JSON configurations.
+          Curated catalog of official and verified Model Context Protocol (MCP) servers for <strong className="text-zinc-200">Google Antigravity (AGY)</strong>, the premier platform for autonomous AI coding agents. Connect your agent to <strong className="text-zinc-200">Google Flow 2.0, Stitch UI, GA4, GSC, Chrome DevTools, GitHub, Neon Postgres, Qdrant, Cognee</strong>, and live web grounding with one-click JSON configurations.
         </p>
 
         {/* 4-Stat Metric Ribbon */}

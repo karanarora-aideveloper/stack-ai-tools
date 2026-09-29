@@ -3,6 +3,8 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import ToolLogo from '@/app/components/ToolLogo';
+import ObsidianHeader from '@/app/components/ObsidianHeader';
+import { ANTIGRAVITY_MCP_SERVERS, AntigravityMcpServer, ANTIGRAVITY_MCP_CATEGORIES } from '@/data/antigravity-mcp';
 import {
   Search,
   Sparkles,
@@ -81,6 +83,7 @@ interface RedesignViewProps {
 const CATEGORIES = [
   { id: 'all', label: 'All Tools', icon: Layers },
   { id: 'code', label: 'Developer & Code', icon: Code2 },
+  { id: 'mcp', label: 'MCP & Connectors', icon: Cpu },
   { id: 'writing', label: 'Writing & Reasoning', icon: PenTool },
   { id: 'design', label: 'Design & 3D', icon: Sparkles },
   { id: 'video', label: 'Video & Media', icon: Video },
@@ -90,11 +93,12 @@ const CATEGORIES = [
 ];
 
 const TRENDING_QUERIES = [
+  'Google Stitch MCP',
   'Claude Sonnet 5',
   'Claude Opus 5.5',
   'GPT-6 Astra',
+  'Antigravity MCP',
   'Cursor 4.0',
-  'Gemini 3.8 Flash',
   'DeepSeek-V4',
   'FLUX 3 Action'
 ];
@@ -104,7 +108,9 @@ export default function RedesignView({ initialTools, initialPrompts }: RedesignV
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedPrice, setSelectedPrice] = useState<'all' | 'free' | 'freemium' | 'paid'>('all');
   const [sortBy, setSortBy] = useState<'trending' | 'rating' | 'reviews' | 'name'>('trending');
-  const [activeTab, setActiveTab] = useState<'tools' | 'prompts'>('tools');
+  const [activeTab, setActiveTab] = useState<'tools' | 'mcp' | 'prompts'>('tools');
+  const [copiedMcpId, setCopiedMcpId] = useState<string | null>(null);
+  const [selectedMcpCategory, setSelectedMcpCategory] = useState<string>('All MCPs');
   const [bookmarkedIds, setBookmarkedIds] = useState<Set<string | number>>(new Set());
   const [showBookmarksOnly, setShowBookmarksOnly] = useState(false);
   const [copiedPromptId, setCopiedPromptId] = useState<string | number | null>(null);
@@ -112,6 +118,19 @@ export default function RedesignView({ initialTools, initialPrompts }: RedesignV
   const [subscribed, setSubscribed] = useState(false);
 
   const searchInputRef = useRef<HTMLInputElement>(null);
+
+  // Read URL query parameter for tab (?tab=mcp)
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const tabParam = params.get('tab');
+      if (tabParam === 'mcp' || tabParam === 'mcps' || tabParam === 'connectors') {
+        setActiveTab('mcp');
+      } else if (tabParam === 'prompts') {
+        setActiveTab('prompts');
+      }
+    }
+  }, []);
 
   // Load bookmarks from localStorage
   useEffect(() => {
@@ -171,7 +190,8 @@ export default function RedesignView({ initialTools, initialPrompts }: RedesignV
           tool.tags.some(t => t.toLowerCase().includes(sel)) ||
           (sel === 'code' && (cat.includes('developer') || cat.includes('code'))) ||
           (sel === 'video' && (cat.includes('video') || cat.includes('media'))) ||
-          (sel === 'automation' && (cat.includes('automation') || cat.includes('ops') || cat.includes('agent')));
+          (sel === 'automation' && (cat.includes('automation') || cat.includes('ops') || cat.includes('agent'))) ||
+          (sel === 'mcp' && (cat.includes('mcp') || tool.tags.some(t => t.toLowerCase().includes('mcp')) || tool.description.toLowerCase().includes('mcp') || tool.name.toLowerCase().includes('mcp')));
         if (!matchesCategory) return false;
       }
 
@@ -212,6 +232,27 @@ export default function RedesignView({ initialTools, initialPrompts }: RedesignV
     });
   }, [initialTools, selectedCategory, selectedPrice, searchQuery, sortBy, showBookmarksOnly, bookmarkedIds]);
 
+  // Filter MCP servers
+  const filteredMcpServers = useMemo(() => {
+    return ANTIGRAVITY_MCP_SERVERS.filter(server => {
+      if (selectedMcpCategory !== 'All MCPs' && server.category !== selectedMcpCategory) {
+        return false;
+      }
+      if (searchQuery.trim()) {
+        const q = searchQuery.toLowerCase().trim();
+        return (
+          server.name.toLowerCase().includes(q) ||
+          server.description.toLowerCase().includes(q) ||
+          server.slug.toLowerCase().includes(q) ||
+          server.maintainer.toLowerCase().includes(q) ||
+          server.keyFeatures.some(f => f.toLowerCase().includes(q)) ||
+          server.category.toLowerCase().includes(q)
+        );
+      }
+      return true;
+    });
+  }, [selectedMcpCategory, searchQuery]);
+
   // Filter prompts
   const filteredPrompts = useMemo(() => {
     return initialPrompts.filter(prompt => {
@@ -228,6 +269,24 @@ export default function RedesignView({ initialTools, initialPrompts }: RedesignV
       return true;
     });
   }, [initialPrompts, searchQuery]);
+
+  // Copy MCP config helper
+  const handleCopyMcp = (server: AntigravityMcpServer) => {
+    const config = server.transport === 'sse' && server.serverUrl
+      ? { mcpServers: { [server.slug]: { serverUrl: server.serverUrl } } }
+      : {
+          mcpServers: {
+            [server.slug]: {
+              command: server.command || 'npx',
+              args: server.args || [],
+              ...(server.env ? { env: server.env } : {})
+            }
+          }
+        };
+    navigator.clipboard.writeText(JSON.stringify(config, null, 2));
+    setCopiedMcpId(server.id);
+    setTimeout(() => setCopiedMcpId(null), 2500);
+  };
 
   // Copy prompt helper
   const handleCopyPrompt = (prompt: RedesignPrompt) => {
@@ -250,87 +309,19 @@ export default function RedesignView({ initialTools, initialPrompts }: RedesignV
       {/* Ambient Decorative Glow Mesh */}
       <div className="obsidian-glow-mesh absolute inset-x-0 top-0 h-[700px] pointer-events-none z-0"></div>
 
-      {/* Top Floating Glass Header */}
-      <header className="sticky top-0 z-50 w-full bg-[#040406]/85 backdrop-blur-xl border-b border-white/[0.07]">
-        <div className="flex justify-between items-center h-16 px-4 md:px-8 max-w-7xl mx-auto">
-          {/* Brand Logo & Version Chip */}
-          <div className="flex items-center gap-3">
-            <Link href="/" className="flex items-center gap-2.5 group">
-              <div className="w-8 h-8 rounded-lg bg-zinc-900 border border-violet-500/30 flex items-center justify-center text-violet-400 shadow-[0_0_15px_rgba(139,92,246,0.3)] group-hover:scale-105 transition-transform">
-                <Layers size={18} strokeWidth={2.2} />
-              </div>
-              <div className="flex items-baseline gap-1.5">
-                <span className="font-semibold text-lg tracking-tight text-white font-['Geist',sans-serif]">Stack AI</span>
-                <span className="text-xs text-zinc-400 font-medium">Tools</span>
-              </div>
-            </Link>
-
-            <span className="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full bg-violet-500/10 border border-violet-500/25 text-[10px] font-mono text-violet-300 uppercase tracking-wider">
-              2026 Directory
-            </span>
-          </div>
-
-          {/* Center Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-6 text-sm text-zinc-400">
-            <a href="#spotlight" className="hover:text-white transition-colors">Spotlight</a>
-            <a href="#directory" className="hover:text-white transition-colors">Directory</a>
-            <Link href="/categories" className="hover:text-white transition-colors">Categories</Link>
-            <Link href="/prompts" className="hover:text-white transition-colors">Prompts</Link>
-            <Link href="/blog" className="hover:text-white transition-colors">Research</Link>
-            <Link href="/antigravity-mcp" className="hover:text-cyan-400 transition-colors flex items-center gap-1.5">
-              <span>MCP Servers</span>
-              <span className="text-[9px] px-1.5 py-0.2 rounded bg-cyan-500/15 border border-cyan-500/30 text-cyan-300 font-mono">NEW</span>
-            </Link>
-          </nav>
-
-          {/* Right Action Buttons */}
-          <div className="flex items-center gap-3">
-            {/* Quick Find Trigger */}
-            <button
-              onClick={() => {
-                searchInputRef.current?.focus();
-                searchInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-              }}
-              className="hidden sm:flex items-center gap-2 bg-zinc-900/80 border border-white/10 hover:border-violet-500/40 rounded-lg px-3 py-1.5 text-xs text-zinc-400 transition-all hover:text-white"
-            >
-              <Search size={14} className="text-zinc-500" />
-              <span>Search...</span>
-              <kbd className="px-1.5 py-0.5 rounded bg-zinc-800 border border-white/10 text-[10px] font-mono text-zinc-300">⌘K</kbd>
-            </button>
-
-            {/* Saved Bookmarks Button */}
-            <button
-              onClick={() => {
-                setShowBookmarksOnly(!showBookmarksOnly);
-                setActiveTab('tools');
-              }}
-              className={`relative p-2 rounded-lg border transition-all ${
-                showBookmarksOnly
-                  ? 'bg-violet-500/20 border-violet-500/50 text-violet-300'
-                  : 'bg-zinc-900/60 border-white/10 text-zinc-400 hover:text-white hover:border-white/20'
-              }`}
-              title="View Saved Bookmarks"
-              aria-label="Saved Bookmarks"
-            >
-              <Bookmark size={16} />
-              {bookmarkedIds.size > 0 && (
-                <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-violet-600 text-white text-[9px] font-bold flex items-center justify-center shadow-[0_0_8px_rgba(139,92,246,0.5)]">
-                  {bookmarkedIds.size}
-                </span>
-              )}
-            </button>
-
-            {/* Submit Tool Action */}
-            <Link
-              href="/submit"
-              className="inline-flex items-center gap-1.5 bg-white text-zinc-950 hover:bg-zinc-100 font-medium text-xs sm:text-sm px-3.5 py-1.5 rounded-lg transition-all duration-150 shadow-[0_0_20px_rgba(255,255,255,0.15)] active:scale-95"
-            >
-              <Plus size={15} strokeWidth={2.5} />
-              <span>Submit Tool</span>
-            </Link>
-          </div>
-        </div>
-      </header>
+      {/* Top Floating Glass Header (Unified across all pages) */}
+      <ObsidianHeader
+        onSearchClick={() => {
+          searchInputRef.current?.focus();
+          searchInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }}
+        onBookmarksClick={() => {
+          setShowBookmarksOnly(!showBookmarksOnly);
+          setActiveTab('tools');
+        }}
+        savedBookmarksCount={bookmarkedIds.size}
+        showBookmarksOnly={showBookmarksOnly}
+      />
 
       {/* Hero Section */}
       <main className="relative z-10">
@@ -617,8 +608,8 @@ export default function RedesignView({ initialTools, initialPrompts }: RedesignV
           <div className="px-4 md:px-8 max-w-7xl mx-auto space-y-3">
             {/* Top Row: Mode Switcher, Pricing Chips & Sort */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
-              {/* View Switcher: Tools vs Prompts */}
-              <div className="flex items-center bg-zinc-900/90 border border-white/10 rounded-xl p-1 shrink-0">
+              {/* View Switcher: Tools vs MCP vs Prompts */}
+              <div className="flex items-center bg-zinc-900/90 border border-white/10 rounded-xl p-1 shrink-0 gap-1">
                 <button
                   onClick={() => setActiveTab('tools')}
                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
@@ -629,6 +620,18 @@ export default function RedesignView({ initialTools, initialPrompts }: RedesignV
                 >
                   <Layers size={14} />
                   <span>Tools ({filteredTools.length})</span>
+                </button>
+                <button
+                  onClick={() => setActiveTab('mcp')}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                    activeTab === 'mcp'
+                      ? 'bg-cyan-600 text-white shadow-[0_0_15px_rgba(6,182,212,0.4)] font-semibold'
+                      : 'text-zinc-400 hover:text-white'
+                  }`}
+                >
+                  <Cpu size={14} className={activeTab === 'mcp' ? 'text-white' : 'text-cyan-400'} />
+                  <span>MCP Tools ({filteredMcpServers.length})</span>
+                  <span className="text-[9px] px-1.5 py-0.2 rounded bg-cyan-400/20 text-cyan-200 font-mono font-bold">HOT</span>
                 </button>
                 <button
                   onClick={() => setActiveTab('prompts')}
@@ -691,7 +694,13 @@ export default function RedesignView({ initialTools, initialPrompts }: RedesignV
                   return (
                     <button
                       key={cat.id}
-                      onClick={() => setSelectedCategory(cat.id)}
+                      onClick={() => {
+                        if (cat.id === 'mcp') {
+                          setActiveTab('mcp');
+                        } else {
+                          setSelectedCategory(cat.id);
+                        }
+                      }}
                       className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all border ${
                         isSelected
                           ? 'bg-white text-zinc-950 border-white shadow-[0_0_12px_rgba(255,255,255,0.25)]'
@@ -703,6 +712,40 @@ export default function RedesignView({ initialTools, initialPrompts }: RedesignV
                     </button>
                   );
                 })}
+              </div>
+            )}
+
+            {activeTab === 'mcp' && (
+              <div className="flex items-center justify-between gap-3 overflow-x-auto no-scrollbar py-1">
+                <div className="flex items-center gap-2">
+                  {ANTIGRAVITY_MCP_CATEGORIES.map(cat => {
+                    const isSelected = selectedMcpCategory === cat;
+                    return (
+                      <button
+                        key={cat}
+                        onClick={() => setSelectedMcpCategory(cat)}
+                        className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all border ${
+                          isSelected
+                            ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/50 shadow-[0_0_12px_rgba(6,182,212,0.3)]'
+                            : 'bg-zinc-900/70 hover:bg-zinc-800 text-zinc-400 hover:text-white border-white/[0.08]'
+                        }`}
+                      >
+                        <span>{cat}</span>
+                        {cat === 'All MCPs' && (
+                          <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-zinc-800 text-zinc-400">
+                            {ANTIGRAVITY_MCP_SERVERS.length}
+                          </span>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+                <Link
+                  href="/antigravity-mcp"
+                  className="hidden md:inline-flex items-center gap-1 text-xs font-mono text-cyan-400 hover:text-cyan-300 whitespace-nowrap pl-2 shrink-0"
+                >
+                  <span>Full AGY Setup Hub &amp; Docs →</span>
+                </Link>
               </div>
             )}
           </div>
@@ -852,6 +895,147 @@ export default function RedesignView({ initialTools, initialPrompts }: RedesignV
                   className="px-4 py-2 rounded-lg bg-violet-600 hover:bg-violet-500 text-white text-xs font-medium transition-colors"
                 >
                   Clear All Filters
+                </button>
+              </div>
+            )
+          ) : activeTab === 'mcp' ? (
+            /* MCP Servers Grid */
+            filteredMcpServers.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredMcpServers.map(server => {
+                  const isCopied = copiedMcpId === server.id;
+                  return (
+                    <div
+                      key={server.id}
+                      className="obsidian-card rounded-2xl p-5 flex flex-col justify-between group hover:border-cyan-500/40 relative transition-all duration-300"
+                    >
+                      <div>
+                        {/* Header: Icon, Name, Maintainer & Category */}
+                        <div className="flex items-start justify-between gap-3 mb-3">
+                          <div className="flex items-center gap-3">
+                            <div className="w-11 h-11 rounded-xl bg-zinc-900 border border-white/10 flex items-center justify-center text-xl shrink-0 group-hover:scale-105 group-hover:border-cyan-500/40 transition-all">
+                              {server.icon}
+                            </div>
+                            <div>
+                              <div className="flex items-center gap-1.5">
+                                <h4 className="text-base font-semibold text-white group-hover:text-cyan-300 transition-colors line-clamp-1">
+                                  {server.name}
+                                </h4>
+                                {server.verified && (
+                                  <CheckCircle2 size={14} className="text-cyan-400 shrink-0" title="Verified AGY Connector" />
+                                )}
+                              </div>
+                              <div className="flex items-center gap-2 mt-0.5">
+                                <span className="text-[11px] font-mono text-zinc-500">
+                                  by {server.maintainer}
+                                </span>
+                                {server.stars && (
+                                  <span className="text-[9px] px-1.5 py-0.2 rounded bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 font-mono">
+                                    ★ {server.stars}
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+
+                          <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-900 border border-white/[0.08] text-zinc-400 shrink-0">
+                            {server.category}
+                          </span>
+                        </div>
+
+                        {/* Description */}
+                        <p className="text-xs sm:text-sm text-zinc-400 line-clamp-2 mb-3 leading-relaxed">
+                          {server.description}
+                        </p>
+
+                        {/* Features chips */}
+                        {server.keyFeatures && server.keyFeatures.length > 0 && (
+                          <div className="flex flex-wrap gap-1.5 mb-4">
+                            {server.keyFeatures.slice(0, 3).map((feat, i) => (
+                              <span
+                                key={i}
+                                className="px-2 py-0.5 rounded-md bg-zinc-950/80 border border-white/[0.06] text-[10px] font-mono text-zinc-400"
+                              >
+                                {feat}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+
+                        {/* Snippet box */}
+                        <div className="p-2.5 rounded-xl bg-zinc-950/90 border border-white/[0.08] font-mono text-[11px] text-zinc-300 mb-4 flex items-center justify-between gap-2 overflow-hidden">
+                          <code className="truncate text-cyan-300/90">
+                            {server.command ? `${server.command} ${server.args?.slice(0, 2).join(' ') || ''}` : server.serverUrl || 'stdio'}
+                          </code>
+                          <span className="text-[9px] uppercase px-1.5 py-0.5 rounded bg-zinc-900 border border-white/10 text-zinc-400 font-semibold shrink-0">
+                            {server.transport}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Footer: Copy Config Button & Setup Link */}
+                      <div className="flex items-center justify-between pt-3 border-t border-white/[0.08]">
+                        <div className="flex items-center gap-3">
+                          <Link
+                            href={`/antigravity-mcp#${server.slug}`}
+                            className="text-xs text-zinc-400 hover:text-white transition-colors font-mono inline-flex items-center gap-1"
+                          >
+                            <span>Docs</span>
+                            <ArrowUpRight size={12} />
+                          </Link>
+                          {server.githubUrl && (
+                            <a
+                              href={server.githubUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors font-mono inline-flex items-center gap-1"
+                            >
+                              <span>Repo</span>
+                              <ExternalLink size={11} />
+                            </a>
+                          )}
+                        </div>
+
+                        <button
+                          onClick={() => handleCopyMcp(server)}
+                          className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                            isCopied
+                              ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
+                              : 'bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30'
+                          }`}
+                        >
+                          {isCopied ? (
+                            <>
+                              <Check size={14} className="text-emerald-400" />
+                              <span>Config Copied!</span>
+                            </>
+                          ) : (
+                            <>
+                              <Copy size={14} />
+                              <span>Copy Config</span>
+                            </>
+                          )}
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="obsidian-card rounded-2xl p-12 text-center max-w-lg mx-auto">
+                <Terminal size={36} className="text-cyan-500/60 mx-auto mb-4" />
+                <h3 className="text-lg font-semibold text-white mb-2">No matching MCP servers found</h3>
+                <p className="text-sm text-zinc-400 mb-6">
+                  Try searching for tools like &quot;Stitch&quot;, &quot;Analytics&quot;, &quot;Postgres&quot;, or &quot;Memory&quot;.
+                </p>
+                <button
+                  onClick={() => {
+                    setSearchQuery('');
+                    setSelectedMcpCategory('All MCPs');
+                  }}
+                  className="px-4 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-medium transition-colors"
+                >
+                  Reset MCP Filters
                 </button>
               </div>
             )

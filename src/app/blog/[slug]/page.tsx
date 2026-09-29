@@ -10,8 +10,9 @@ import {
   getRelatedArticles,
   getVisualToolsForArticle
 } from '@/lib/blog';
-import { breakingNewsArticlesMetadata } from '@/data/blogs';
 import VisualToolList from '@/app/components/VisualToolList';
+import ObsidianHeader from '@/app/components/ObsidianHeader';
+import ObsidianFooter from '@/app/components/ObsidianFooter';
 import { 
   Clock, 
   Calendar, 
@@ -145,7 +146,11 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   };
 
   return (
-    <div className="article-post-wrapper">
+    <div data-redesign-page="true" className="min-h-screen bg-[#040406] text-[#e3e1ec] antialiased selection:bg-[#8b5cf6] selection:text-white relative flex flex-col justify-between">
+      <div className="obsidian-glow-mesh fixed inset-x-0 top-0 h-[700px] pointer-events-none -z-10" />
+      <ObsidianHeader activeNav="research" />
+      <main className="flex-1 w-full">
+        <div className="article-post-wrapper">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
@@ -537,5 +542,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         </aside>
       </div>
     </div>
-  );
+  </main>
+  <ObsidianFooter />
+</div>
+);
 }

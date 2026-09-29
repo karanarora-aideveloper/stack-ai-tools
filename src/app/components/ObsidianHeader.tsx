@@ -2,92 +2,108 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { 
   Layers, 
   Search, 
   Plus, 
   Menu, 
   X, 
-  Code2, 
-  PenTool, 
-  Video, 
-  Music, 
-  Workflow, 
-  Briefcase,
-  Sparkles,
+  Bookmark,
   ExternalLink
 } from 'lucide-react';
 
 interface ObsidianHeaderProps {
   onSearchClick?: () => void;
   activeNav?: 'categories' | 'prompts' | 'research' | 'mcp' | 'spotlight' | 'directory' | 'alternatives' | 'about';
+  onBookmarksClick?: () => void;
+  savedBookmarksCount?: number;
+  showBookmarksOnly?: boolean;
 }
 
-export default function ObsidianHeader({ onSearchClick, activeNav }: ObsidianHeaderProps) {
+export default function ObsidianHeader({ 
+  onSearchClick, 
+  activeNav,
+  onBookmarksClick,
+  savedBookmarksCount,
+  showBookmarksOnly
+}: ObsidianHeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
+
+  const isNavActive = (key: string) => {
+    if (activeNav) return activeNav === key;
+    if (key === 'categories' && (pathname?.startsWith('/category') || pathname?.startsWith('/categories'))) return true;
+    if (key === 'alternatives' && pathname?.startsWith('/alternatives')) return true;
+    if (key === 'prompts' && pathname?.startsWith('/prompts')) return true;
+    if (key === 'research' && pathname?.startsWith('/blog')) return true;
+    if (key === 'mcp' && (pathname?.startsWith('/antigravity-mcp') || pathname?.startsWith('/claude-connectors'))) return true;
+    if (key === 'about' && pathname?.startsWith('/about')) return true;
+    return false;
+  };
 
   return (
     <>
       <header className="sticky top-0 z-50 w-full bg-[#040406]/85 backdrop-blur-xl border-b border-white/[0.07]">
         <div className="flex justify-between items-center h-16 px-4 md:px-8 max-w-7xl mx-auto">
           {/* Brand Logo & Version Chip */}
-          <div className="flex items-center gap-3">
-            <Link href="/" className="flex items-center gap-2.5 group">
-              <div className="w-8 h-8 rounded-lg bg-zinc-900 border border-violet-500/30 flex items-center justify-center text-violet-400 shadow-[0_0_15px_rgba(139,92,246,0.3)] group-hover:scale-105 transition-transform">
+          <div className="flex items-center gap-3 shrink-0">
+            <Link href="/" className="flex items-center gap-2.5 group shrink-0">
+              <div className="w-8 h-8 rounded-lg bg-zinc-900 border border-violet-500/30 flex items-center justify-center text-violet-400 shadow-[0_0_15px_rgba(139,92,246,0.3)] group-hover:scale-105 transition-transform shrink-0">
                 <Layers size={18} strokeWidth={2.2} />
               </div>
-              <div className="flex items-baseline gap-1.5">
+              <div className="flex items-baseline gap-1.5 whitespace-nowrap shrink-0">
                 <span className="font-semibold text-lg tracking-tight text-white font-['Geist',sans-serif]">Stack AI</span>
                 <span className="text-xs text-zinc-400 font-medium">Tools</span>
               </div>
             </Link>
 
-            <span className="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full bg-violet-500/10 border border-violet-500/25 text-[10px] font-mono text-violet-300 uppercase tracking-wider">
+            <span className="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full bg-violet-500/10 border border-violet-500/25 text-[10px] font-mono text-violet-300 uppercase tracking-wider whitespace-nowrap shrink-0">
               2026 Directory
             </span>
           </div>
 
-          {/* Center Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-6 text-sm text-zinc-400">
+          {/* Center Navigation Links - Universal across all pages */}
+          <nav className="hidden lg:flex items-center gap-3 xl:gap-6 text-[13px] xl:text-sm text-zinc-400 whitespace-nowrap shrink-0">
             <Link 
               href="/#spotlight" 
-              className={`hover:text-white transition-colors ${activeNav === 'spotlight' ? 'text-white font-medium' : ''}`}
+              className={`hover:text-white transition-colors ${isNavActive('spotlight') ? 'text-white font-medium' : ''}`}
             >
               Spotlight
             </Link>
             <Link 
               href="/#directory" 
-              className={`hover:text-white transition-colors ${activeNav === 'directory' ? 'text-white font-medium' : ''}`}
+              className={`hover:text-white transition-colors ${isNavActive('directory') ? 'text-white font-medium' : ''}`}
             >
               Directory
             </Link>
             <Link 
               href="/categories" 
-              className={`hover:text-white transition-colors ${activeNav === 'categories' ? 'text-violet-400 font-medium' : ''}`}
+              className={`hover:text-white transition-colors ${isNavActive('categories') ? 'text-violet-400 font-medium' : ''}`}
             >
               Categories
             </Link>
             <Link 
               href="/alternatives" 
-              className={`hover:text-white transition-colors ${activeNav === 'alternatives' ? 'text-violet-400 font-medium' : ''}`}
+              className={`hover:text-white transition-colors ${isNavActive('alternatives') ? 'text-violet-400 font-medium' : ''}`}
             >
               Alternatives
             </Link>
             <Link 
               href="/prompts" 
-              className={`hover:text-white transition-colors ${activeNav === 'prompts' ? 'text-violet-400 font-medium' : ''}`}
+              className={`hover:text-white transition-colors ${isNavActive('prompts') ? 'text-violet-400 font-medium' : ''}`}
             >
               Prompts
             </Link>
             <Link 
               href="/blog" 
-              className={`hover:text-white transition-colors ${activeNav === 'research' ? 'text-violet-400 font-medium' : ''}`}
+              className={`hover:text-white transition-colors ${isNavActive('research') ? 'text-violet-400 font-medium' : ''}`}
             >
               Research
             </Link>
             <Link 
               href="/antigravity-mcp" 
-              className={`hover:text-cyan-400 transition-colors flex items-center gap-1.5 ${activeNav === 'mcp' ? 'text-cyan-400 font-medium' : ''}`}
+              className={`hover:text-cyan-400 transition-colors flex items-center gap-1.5 ${isNavActive('mcp') ? 'text-cyan-400 font-medium' : ''}`}
             >
               <span>MCP Servers</span>
               <span className="text-[9px] px-1.5 py-0.2 rounded bg-cyan-500/15 border border-cyan-500/30 text-cyan-300 font-mono">NEW</span>
@@ -95,17 +111,50 @@ export default function ObsidianHeader({ onSearchClick, activeNav }: ObsidianHea
           </nav>
 
           {/* Right Action Buttons */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
             {/* Search Trigger */}
-            <Link
-              href="/#directory"
-              onClick={onSearchClick}
-              className="hidden sm:flex items-center gap-2 bg-zinc-900/80 border border-white/10 hover:border-violet-500/40 rounded-lg px-3 py-1.5 text-xs text-zinc-400 transition-all hover:text-white"
-            >
-              <Search size={14} className="text-zinc-500" />
-              <span>Search...</span>
-              <kbd className="px-1.5 py-0.5 rounded bg-zinc-800 border border-white/10 text-[10px] font-mono text-zinc-300">⌘K</kbd>
-            </Link>
+            {onSearchClick ? (
+              <button
+                onClick={onSearchClick}
+                className="hidden sm:flex items-center gap-2 bg-zinc-900/80 border border-white/10 hover:border-violet-500/40 rounded-lg px-3 py-1.5 text-xs text-zinc-400 transition-all hover:text-white"
+                title="Search Tools"
+              >
+                <Search size={14} className="text-zinc-500" />
+                <span>Search...</span>
+                <kbd className="px-1.5 py-0.5 rounded bg-zinc-800 border border-white/10 text-[10px] font-mono text-zinc-300">⌘K</kbd>
+              </button>
+            ) : (
+              <Link
+                href="/#directory"
+                className="hidden sm:flex items-center gap-2 bg-zinc-900/80 border border-white/10 hover:border-violet-500/40 rounded-lg px-3 py-1.5 text-xs text-zinc-400 transition-all hover:text-white"
+                title="Search Tools"
+              >
+                <Search size={14} className="text-zinc-500" />
+                <span>Search...</span>
+                <kbd className="px-1.5 py-0.5 rounded bg-zinc-800 border border-white/10 text-[10px] font-mono text-zinc-300">⌘K</kbd>
+              </Link>
+            )}
+
+            {/* Optional Saved Bookmarks Button */}
+            {onBookmarksClick && (
+              <button
+                onClick={onBookmarksClick}
+                className={`relative p-2 rounded-lg border transition-all ${
+                  showBookmarksOnly
+                    ? 'bg-violet-500/20 border-violet-500/50 text-violet-300'
+                    : 'bg-zinc-900/60 border-white/10 text-zinc-400 hover:text-white hover:border-white/20'
+                }`}
+                title="View Saved Bookmarks"
+                aria-label="Saved Bookmarks"
+              >
+                <Bookmark size={16} />
+                {savedBookmarksCount !== undefined && savedBookmarksCount > 0 && (
+                  <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-violet-600 text-white text-[9px] font-bold flex items-center justify-center shadow-[0_0_8px_rgba(139,92,246,0.5)]">
+                    {savedBookmarksCount}
+                  </span>
+                )}
+              </button>
+            )}
 
             {/* Submit Tool Action */}
             <Link

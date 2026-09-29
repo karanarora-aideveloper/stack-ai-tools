@@ -1,5 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import ObsidianHeader from '@/app/components/ObsidianHeader';
+import ObsidianFooter from '@/app/components/ObsidianFooter';
+import { ChevronRight } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: { absolute: 'Privacy Policy | Stack AI Tools' },
@@ -10,107 +13,117 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <div style={{ maxWidth: 780, margin: '0 auto', padding: '40px 20px 80px' }}>
-      <div className="breadcrumbs" style={{ marginBottom: 28 }}>
-        <Link href="/" className="crumb-link">Home</Link>
-        <span className="crumb-sep">/</span>
-        <span className="crumb-current">Privacy Policy</span>
-      </div>
+    <div data-redesign-page="true" className="min-h-screen bg-[#040406] text-[#e3e1ec] antialiased selection:bg-[#8b5cf6] selection:text-white relative flex flex-col justify-between">
+      <div className="obsidian-glow-mesh fixed inset-x-0 top-0 h-[700px] pointer-events-none -z-10" />
+      <ObsidianHeader />
+      
+      <main className="flex-1 max-w-4xl mx-auto px-4 md:px-8 py-12 w-full">
+        {/* Breadcrumb Navigation */}
+        <nav className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-zinc-900/70 border border-white/10 text-xs text-zinc-400 font-mono mb-8" aria-label="Breadcrumb">
+          <Link href="/" className="hover:text-white transition-colors">Home</Link>
+          <ChevronRight size={12} className="text-zinc-600" />
+          <span className="text-violet-400 font-medium">Privacy Policy</span>
+        </nav>
 
-      <h1 style={{ fontSize: 'clamp(28px, 4vw, 40px)', fontWeight: 800, color: 'var(--text-strong)', letterSpacing: '-0.02em', margin: '0 0 8px' }}>
-        Privacy Policy
-      </h1>
-      <p style={{ fontSize: 13.5, color: 'var(--text-muted)', margin: '0 0 36px' }}>
-        Last updated: September 2, 2026
-      </p>
-
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 28, fontSize: 14.5, lineHeight: 1.75, color: 'var(--text-secondary)' }}>
-        <section>
-          <h2 style={{ fontSize: 18, fontWeight: 700, color: 'var(--text-strong)', marginBottom: 10 }}>1. Overview</h2>
-          <p>
-            Stack AI Tools (&quot;we&quot;, &quot;us&quot;, &quot;our&quot;) operates stackaitools.com, an independent directory of AI
-            software, autonomous agents, and prompt templates. This policy explains what information we collect
-            when you use the site, how we use it, and the choices available to you.
+        <div className="obsidian-card rounded-3xl p-6 sm:p-10 border border-white/10">
+          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-white mb-3 font-['Geist',sans-serif]">
+            Privacy Policy
+          </h1>
+          <p className="text-xs font-mono text-zinc-500 mb-8 pb-6 border-b border-white/[0.08]">
+            Last updated: September 29, 2026
           </p>
-        </section>
 
-        <section>
-          <h2 style={{ fontSize: 18, fontWeight: 700, color: 'var(--text-strong)', marginBottom: 10 }}>2. Information We Collect</h2>
-          <p style={{ marginBottom: 10 }}>
-            <strong style={{ color: 'var(--text-strong)' }}>Information you provide directly:</strong> your email
-            address if you subscribe to our newsletter, and any details you submit through the tool submission
-            form (tool name, description, contact information for the tool being submitted).
-          </p>
-          <p>
-            <strong style={{ color: 'var(--text-strong)' }}>Information collected automatically:</strong> standard
-            analytics data such as pages visited, referring URL, device/browser type, and approximate location
-            (derived from IP address), collected via Google Analytics, PostHog, and our own first-party event
-            store. We do not collect payment information, government IDs, or other sensitive personal data.
-          </p>
-        </section>
+          <div className="space-y-8 text-sm sm:text-base leading-relaxed text-zinc-300 font-light">
+            <section>
+              <h2 className="text-lg font-semibold text-white mb-2 font-['Geist',sans-serif]">1. Overview</h2>
+              <p>
+                Stack AI Tools (&quot;we&quot;, &quot;us&quot;, &quot;our&quot;) operates stackaitools.com, an independent directory of AI
+                software, autonomous agents, and prompt templates. This policy explains what information we collect
+                when you use the site, how we use it, and the choices available to you.
+              </p>
+            </section>
 
-        <section>
-          <h2 style={{ fontSize: 18, fontWeight: 700, color: 'var(--text-strong)', marginBottom: 10 }}>3. How We Use Information</h2>
-          <ul style={{ margin: 0, paddingLeft: 20, display: 'flex', flexDirection: 'column', gap: 6 }}>
-            <li>To operate, maintain, and improve the directory and its search/recommendation features.</li>
-            <li>To send the newsletter you opted into, and to let you unsubscribe at any time.</li>
-            <li>To review and respond to tool submissions.</li>
-            <li>To understand aggregate traffic patterns and improve site performance and content.</li>
-          </ul>
-        </section>
+            <section>
+              <h2 className="text-lg font-semibold text-white mb-2 font-['Geist',sans-serif]">2. Information We Collect</h2>
+              <p className="mb-2">
+                <strong className="text-white font-medium">Information you provide directly:</strong> your email
+                address if you subscribe to our newsletter, and any details you submit through the tool submission
+                form (tool name, description, contact information for the tool being submitted).
+              </p>
+              <p>
+                <strong className="text-white font-medium">Information collected automatically:</strong> standard
+                analytics data such as pages visited, referring URL, device/browser type, and approximate location
+                (derived from IP address), collected via Google Analytics, PostHog, and our own first-party event
+                store. We do not collect payment information, government IDs, or other sensitive personal data.
+              </p>
+            </section>
 
-        <section>
-          <h2 style={{ fontSize: 18, fontWeight: 700, color: 'var(--text-strong)', marginBottom: 10 }}>4. Cookies & Analytics</h2>
-          <p>
-            We use cookies and similar technologies from Google Analytics, PostHog, and Vercel Analytics to
-            understand how the site is used. You can disable cookies in your browser settings; the site will
-            continue to function, though some preferences may not persist across visits.
-          </p>
-        </section>
+            <section>
+              <h2 className="text-lg font-semibold text-white mb-2 font-['Geist',sans-serif]">3. How We Use Information</h2>
+              <ul className="list-disc pl-5 space-y-1.5 text-zinc-300">
+                <li>To operate, maintain, and improve the directory and its search/recommendation features.</li>
+                <li>To send the newsletter you opted into, and to let you unsubscribe at any time.</li>
+                <li>To review and respond to tool submissions.</li>
+                <li>To understand aggregate traffic patterns and improve site performance and content.</li>
+              </ul>
+            </section>
 
-        <section>
-          <h2 style={{ fontSize: 18, fontWeight: 700, color: 'var(--text-strong)', marginBottom: 10 }}>5. Affiliate Links</h2>
-          <p>
-            Stack AI Tools is reader-supported. Some outbound links to third-party AI tools are affiliate links —
-            we may earn a commission if you sign up or purchase through them, at no additional cost to you. This
-            never affects which tools we list or how they are described; see our{' '}
-            <Link href="/about" style={{ color: 'var(--accent-primary)', fontWeight: 600 }}>editorial standards</Link>.
-          </p>
-        </section>
+            <section>
+              <h2 className="text-lg font-semibold text-white mb-2 font-['Geist',sans-serif]">4. Cookies &amp; Analytics</h2>
+              <p>
+                We use cookies and similar technologies from Google Analytics and PostHog to
+                understand how the site is used. You can disable cookies in your browser settings; the site will
+                continue to function, though some preferences may not persist across visits.
+              </p>
+            </section>
 
-        <section>
-          <h2 style={{ fontSize: 18, fontWeight: 700, color: 'var(--text-strong)', marginBottom: 10 }}>6. Third-Party Links</h2>
-          <p>
-            Our directory links to third-party AI tools and services. We are not responsible for the privacy
-            practices of those sites. Review their own privacy policies before providing them any information.
-          </p>
-        </section>
+            <section>
+              <h2 className="text-lg font-semibold text-white mb-2 font-['Geist',sans-serif]">5. Affiliate Links</h2>
+              <p>
+                Stack AI Tools is reader-supported. Some outbound links to third-party AI tools are affiliate links —
+                we may earn a commission if you sign up or purchase through them, at no additional cost to you. This
+                never affects which tools we list or how they are described; see our{' '}
+                <Link href="/about" className="text-violet-400 hover:text-violet-300 underline font-medium">editorial standards</Link>.
+              </p>
+            </section>
 
-        <section>
-          <h2 style={{ fontSize: 18, fontWeight: 700, color: 'var(--text-strong)', marginBottom: 10 }}>7. Data Retention & Your Choices</h2>
-          <p>
-            We retain newsletter subscriber emails until you unsubscribe (a one-click link is included in every
-            email). You may request deletion of any personal data we hold about you by submitting a request
-            through our <Link href="/submit" style={{ color: 'var(--accent-primary)', fontWeight: 600 }}>contact form</Link>.
-          </p>
-        </section>
+            <section>
+              <h2 className="text-lg font-semibold text-white mb-2 font-['Geist',sans-serif]">6. Third-Party Links</h2>
+              <p>
+                Our directory links to third-party AI tools and services. We are not responsible for the privacy
+                practices of those sites. Review their own privacy policies before providing them any information.
+              </p>
+            </section>
 
-        <section>
-          <h2 style={{ fontSize: 18, fontWeight: 700, color: 'var(--text-strong)', marginBottom: 10 }}>8. Children&apos;s Privacy</h2>
-          <p>
-            Stack AI Tools is not directed at children under 13, and we do not knowingly collect personal
-            information from them.
-          </p>
-        </section>
+            <section>
+              <h2 className="text-lg font-semibold text-white mb-2 font-['Geist',sans-serif]">7. Data Retention &amp; Your Choices</h2>
+              <p>
+                We retain newsletter subscriber emails until you unsubscribe (a one-click link is included in every
+                email). You may request deletion of any personal data we hold about you by submitting a request
+                through our <Link href="/submit" className="text-violet-400 hover:text-violet-300 underline font-medium">submission portal</Link>.
+              </p>
+            </section>
 
-        <section>
-          <h2 style={{ fontSize: 18, fontWeight: 700, color: 'var(--text-strong)', marginBottom: 10 }}>9. Changes to This Policy</h2>
-          <p>
-            We may update this policy from time to time. Material changes will be reflected by updating the
-            &quot;Last updated&quot; date above.
-          </p>
-        </section>
-      </div>
+            <section>
+              <h2 className="text-lg font-semibold text-white mb-2 font-['Geist',sans-serif]">8. Children&apos;s Privacy</h2>
+              <p>
+                Stack AI Tools is not directed at children under 13, and we do not knowingly collect personal
+                information from them.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-lg font-semibold text-white mb-2 font-['Geist',sans-serif]">9. Changes to This Policy</h2>
+              <p>
+                We may update this policy from time to time. Material changes will be reflected by updating the
+                &quot;Last updated&quot; date above.
+              </p>
+            </section>
+          </div>
+        </div>
+      </main>
+
+      <ObsidianFooter />
     </div>
   );
 }

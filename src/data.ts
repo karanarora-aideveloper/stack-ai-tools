@@ -1374,7 +1374,33 @@ export const aiTools: AITool[] = [
     link: 'https://scispace.com',
     rating: 4.89,
     reviewsCount: 7600,
-    tags: ['Research Assistant', 'PDF Chat', 'Citations', 'Literature Search']
+    badge: '📚 ACADEMIC RESEARCH #1',
+    startingPrice: '$0 (Free Tier) / $12/mo Premium',
+    editorialReview: "SciSpace (formerly Typeset) is one of the world's most capable AI platforms for literature reviews and scientific discovery. Featuring a real-time Copilot that directly interacts with scientific PDFs, SciSpace decodes complex mathematical formulations, translates nested statistical tables into plain English, summarizes experimental conclusions across 280M+ papers, and generates verified citation matrices with pinpoint precision.",
+    zapierVerdict: "SciSpace Copilot is the gold standard for researchers and students wading through dense academic literature. Its ability to highlight an equation or chart inside a PDF and get an instant, plain-English breakdown saves hours of cognitive overhead.",
+    authoritySummary: "Indexed over 280 million research papers and relied on by researchers at Harvard, Stanford, and MIT. Ranked #1 for academic literature discovery and PDF citation extraction.",
+    verifiedBy: "Academic Peer Benchmark • Top Rated Research Tool",
+    pros: [
+      "Interactive PDF Copilot decodes equations, tables, and dense jargon inline without leaving the paper",
+      "Comprehensive database of 280M+ indexed research papers spanning arXiv, PubMed, Nature, and IEEE",
+      "Generates structured literature review matrices comparing methodology, sample sizes, and findings",
+      "Generous free tier with built-in multi-language academic translation and BibTeX/Zotero exports"
+    ],
+    cons: [
+      "Advanced cross-paper matrix queries and unlimited Copilot explanations require the Premium subscription ($12/mo)",
+      "Very old scanned archive papers without native OCR require manual text highlighting"
+    ],
+    keyUseCases: [
+      "Highlighting dense mathematical formulas and scientific charts in PDFs for instant plain-English explanations",
+      "Synthesizing literature reviews across dozens of related papers into a structured comparison table",
+      "Searching 280M+ papers to extract consensus views, methodologies, and contrasting findings",
+      "Drafting academic manuscripts with auto-formatted citations and journal formatting compliance"
+    ],
+    primaryUseCase: "Academic paper reading, literature review matrix synthesis, and instant equation/table explanations",
+    bestFor: "PhD researchers, graduate students, academic scholars, clinicians, and R&D engineers",
+    complexity: "Intermediate",
+    architectureStack: ["280M+ Academic Corpus", "PDF Vector RAG", "OCR Formula Parser", "Semantic Scholar Graph"],
+    tags: ['Research Assistant', 'PDF Chat', 'Citations', 'Literature Search', 'SciSpace Copilot', 'Academic Writing']
   },
   {
     id: 75,
