@@ -765,6 +765,15 @@ export async function getToolBySlug(slug: string): Promise<EnrichedTool | null> 
 export async function getToolsByCategory(category: string): Promise<EnrichedTool[]> {
   const tools = await getAllTools();
   const normCat = category.toLowerCase().trim();
+
+  if (normCat === 'mcp' || normCat === 'mcp-coding-agents' || normCat === 'mcp-agents' || normCat === 'mcp & coding agents') {
+    return tools.filter(t => 
+      t.category.toLowerCase().includes('mcp') || 
+      t.tags.some(tag => tag.toLowerCase().includes('mcp') || tag.toLowerCase().includes('model context protocol')) ||
+      Boolean(t.mcpData)
+    );
+  }
+
   const directMatches = tools.filter(t => t.category.toLowerCase() === normCat);
   if (directMatches.length > 0) {
     return directMatches;

@@ -22,9 +22,12 @@ export const dynamicParams = false;
 
 export async function generateStaticParams() {
   const categories = await getAllCategories();
-  return categories.map((cat) => ({
+  const base = categories.map((cat) => ({
     category: cat.toLowerCase(),
   }));
+  base.push({ category: 'mcp' });
+  base.push({ category: 'mcp-coding-agents' });
+  return base;
 }
 
 export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {

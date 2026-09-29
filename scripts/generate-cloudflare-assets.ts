@@ -262,6 +262,19 @@ export default {
       return Response.redirect('https://www.stackaitools.com/', 302);
     }
 
+    // 1b. Intercept client analytics beacon on Cloudflare Pages static edge
+    if (path === '/api/analytics') {
+      return new Response(JSON.stringify({ success: true, edge: true }), {
+        status: 200,
+        headers: { 
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type'
+        }
+      });
+    }
+
     // 2. Intercept deepseek-v3 blog variations
     if (path.startsWith('/blog/deepseek-v3') && path !== '/blog/deepseek-v3-review-2026-pricing-latency-tested-roi') {
       return Response.redirect('https://www.stackaitools.com/blog/deepseek-v3-review-2026-pricing-latency-tested-roi', 302);
