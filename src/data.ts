@@ -45,6 +45,20 @@ export interface PromptItem {
 
 export const aiTools: AITool[] = [
   {
+    id: 1048,
+    name: 'Orkas',
+    category: 'Automation',
+    domain: 'orkas.ai',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=orkas.ai&sz=128',
+    description: 'Orkas is an open-source, local-first desktop AI workforce. A Commander turns goals into executable plans and coordinates specialist agents in parallel or sequence through one chat. It supports research, coding, data analysis, and documents. The core app is free; model usage and optional services may cost extra.',
+    pricingModel: 'Freemium',
+    priceClass: 'freemium',
+    link: 'https://orkas.ai/?source=dir_stackaitools',
+    rating: 0,
+    reviewsCount: 0,
+    tags: ['Open Source', 'Local-First', 'Desktop', 'AI Agents']
+  },
+  {
     id: 1001,
     name: 'OpenAI GPT-6 Astra & Sol (Frontier Reasoning Engine)',
     category: 'Code',
