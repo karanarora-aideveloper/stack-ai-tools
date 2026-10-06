@@ -205,7 +205,7 @@ export async function generateCloudflareAssets() {
   const today = new Date().toISOString().split('T')[0];
   let sitemapIndexXml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
   sitemapIndexXml += `<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
-  for (let i = 0; i <= 10; i++) {
+  for (let i = 0; i <= 1; i++) {
     sitemapIndexXml += `  <sitemap>\n`;
     sitemapIndexXml += `    <loc>https://www.stackaitools.com/sitemap/${i}.xml</loc>\n`;
     sitemapIndexXml += `    <lastmod>${today}</lastmod>\n`;

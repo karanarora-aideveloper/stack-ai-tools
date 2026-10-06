@@ -5,20 +5,11 @@ import { getAllArticles } from '@/lib/blog';
 export const dynamic = 'force-static';
 
 export async function generateSitemaps() {
-  // 0: Core pages, categories, tools, alternatives, search hubs (~600 URLs)
-  // 1-10: 1,000 articles per chunk for the 10,000 article catalog
+  // 0: Core pages, categories, tools, alternatives, search hubs (~650 URLs)
+  // 1: Verified prerendered research guides & articles (~235 URLs)
   return [
     { id: 0 },
     { id: 1 },
-    { id: 2 },
-    { id: 3 },
-    { id: 4 },
-    { id: 5 },
-    { id: 6 },
-    { id: 7 },
-    { id: 8 },
-    { id: 9 },
-    { id: 10 },
   ];
 }
 
@@ -109,12 +100,15 @@ export default async function sitemap(
       },
     ];
 
-    const categoryRoutes: MetadataRoute.Sitemap = categories.map((cat) => ({
-      url: `${baseUrl}/category/${cat.toLowerCase()}`,
-      lastModified: currentDate,
-      changeFrequency: 'daily',
-      priority: 0.85,
-    }));
+    const categoryRoutes: MetadataRoute.Sitemap = categories.map((cat) => {
+      const catSlug = cat.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+      return {
+        url: `${baseUrl}/category/${catSlug}`,
+        lastModified: currentDate,
+        changeFrequency: 'daily',
+        priority: 0.85,
+      };
+    });
 
     const toolRoutes: MetadataRoute.Sitemap = tools.map((tool) => ({
       url: `${baseUrl}/tool/${tool.slug}`,
@@ -149,15 +143,12 @@ export default async function sitemap(
   }
 
   // -------------------------------------------------------------
-  // SITEMAPS 1-10: 1,000 blog articles each (Chunked for GSC speed)
+  // SITEMAP 1: Prerendered verified research guides (100% 200 OK)
   // -------------------------------------------------------------
-  const articles = await getAllArticles();
-  const chunkSize = 1000;
-  const startIndex = (resolvedId - 1) * chunkSize;
-  const endIndex = startIndex + chunkSize;
-  const chunkedArticles = articles.slice(startIndex, endIndex);
+  const { getPrerenderedArticles } = await import('@/lib/blog');
+  const articles = await getPrerenderedArticles();
 
-  return chunkedArticles.map((article) => ({
+  return articles.map((article) => ({
     url: `${baseUrl}/blog/${article.slug}`,
     lastModified: article.updatedAt || currentDate,
     changeFrequency: 'weekly',

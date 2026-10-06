@@ -258,6 +258,13 @@ async function runBrowserAudit() {
       { slug: 'chatgpt-extra', expectedTitle: 'GPT Extra' }, // alias test
       { slug: 'grok-3', expectedTitle: 'Grok 3' },
       { slug: 'manus-ai', expectedTitle: 'Manus AI' },
+      { slug: 'character-ai', expectedTitle: 'Character.AI' },
+      { slug: 'trae-ai', expectedTitle: 'Trae AI' },
+      { slug: 'zed-ai', expectedTitle: 'Zed AI' },
+      { slug: 'pearai', expectedTitle: 'PearAI' },
+      { slug: 'microsoft-copilot', expectedTitle: 'Microsoft Copilot' },
+      { slug: 'meta-ai', expectedTitle: 'Meta AI' },
+      { slug: 'open-interpreter', expectedTitle: 'Open Interpreter' },
     ];
 
     for (const item of trendingTools) {

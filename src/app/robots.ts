@@ -45,7 +45,8 @@ export default function robots(): MetadataRoute.Robots {
     ],
     sitemap: [
       `${baseUrl}/sitemap.xml`,
-      ...Array.from({ length: 11 }, (_, i) => `${baseUrl}/sitemap/${i}.xml`),
+      `${baseUrl}/sitemap/0.xml`,
+      `${baseUrl}/sitemap/1.xml`,
     ],
     host: baseUrl,
   };

@@ -8,6 +8,62 @@ export interface SearchHub {
 
 export const TOP_SEARCH_HUBS: SearchHub[] = [
   {
+    slug: "character-ai",
+    query: "character ai",
+    volume: 18200000,
+    cpc: 0.85,
+    categoryHint: "Writing"
+  },
+  {
+    slug: "microsoft-copilot",
+    query: "microsoft copilot",
+    volume: 2240000,
+    cpc: 3.50,
+    categoryHint: "Writing"
+  },
+  {
+    slug: "meta-ai",
+    query: "meta ai",
+    volume: 1850000,
+    cpc: 2.10,
+    categoryHint: "Writing"
+  },
+  {
+    slug: "trae-ai",
+    query: "trae ai",
+    volume: 165000,
+    cpc: 4.80,
+    categoryHint: "Code"
+  },
+  {
+    slug: "zed-ai",
+    query: "zed ai",
+    volume: 135000,
+    cpc: 5.10,
+    categoryHint: "Code"
+  },
+  {
+    slug: "open-interpreter",
+    query: "open interpreter",
+    volume: 110000,
+    cpc: 4.90,
+    categoryHint: "Automation"
+  },
+  {
+    slug: "pearai",
+    query: "pearai",
+    volume: 90500,
+    cpc: 4.20,
+    categoryHint: "Code"
+  },
+  {
+    slug: "pi-ai",
+    query: "pi ai",
+    volume: 450000,
+    cpc: 1.40,
+    categoryHint: "Writing"
+  },
+  {
     slug: "gpt-6",
     query: "gpt 6",
     volume: 310000,

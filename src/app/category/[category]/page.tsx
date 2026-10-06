@@ -22,12 +22,19 @@ export const dynamicParams = false;
 
 export async function generateStaticParams() {
   const categories = await getAllCategories();
-  const base = categories.map((cat) => ({
-    category: cat.toLowerCase(),
-  }));
-  base.push({ category: 'mcp' });
-  base.push({ category: 'mcp-coding-agents' });
-  return base;
+  const base = categories
+    .map((cat) => cat.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''))
+    .concat(['mcp', 'mcp-coding-agents']);
+
+  const seen = new Set<string>();
+  const result: { category: string }[] = [];
+  for (const cat of base) {
+    if (!seen.has(cat)) {
+      seen.add(cat);
+      result.push({ category: cat });
+    }
+  }
+  return result;
 }
 
 export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
