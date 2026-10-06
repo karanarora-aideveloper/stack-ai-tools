@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { getToolsByCategory, getAllCategories } from '@/lib/tools';
+import { getToolsByCategory, getAllCategories, getCategorySlug } from '@/lib/tools';
 import ToolLogo from '@/app/components/ToolLogo';
 import ObsidianHeader from '@/app/components/ObsidianHeader';
 import ObsidianFooter from '@/app/components/ObsidianFooter';
@@ -23,7 +23,7 @@ export const dynamicParams = false;
 export async function generateStaticParams() {
   const categories = await getAllCategories();
   const base = categories
-    .map((cat) => cat.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''))
+    .map((cat) => getCategorySlug(cat))
     .concat(['mcp', 'mcp-coding-agents']);
 
   const seen = new Set<string>();
@@ -49,11 +49,11 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
     openGraph: {
       title,
       description,
-      url: `https://www.stackaitools.com/category/${category.toLowerCase()}`,
+      url: `https://www.stackaitools.com/category/${getCategorySlug(category)}`,
       type: 'website'
     },
     alternates: {
-      canonical: `https://www.stackaitools.com/category/${category.toLowerCase()}`
+      canonical: `https://www.stackaitools.com/category/${getCategorySlug(category)}`
     }
   };
 }
@@ -67,11 +67,16 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     notFound();
   }
 
-  const categoryName = tools[0].category;
+  const isMcp = category.toLowerCase().includes('mcp') || category.toLowerCase().includes('coding-agent');
+  const categoryName = isMcp 
+    ? 'MCP & Coding Agents' 
+    : (tools[0]?.category || category.charAt(0).toUpperCase() + category.slice(1));
   const freeToolsCount = tools.filter(t => t.priceClass === 'free' || t.priceClass === 'freemium').length;
 
   const categoryDescriptions: Record<string, string> = {
     code: 'Frontier AI coding assistants, autonomous software engineering agents, and terminal copilots benchmarked for zero-shot accuracy, latency, and full-stack repo execution.',
+    'mcp-coding-agents': 'Verified Model Context Protocol (MCP) servers and autonomous coding agents designed to give LLMs direct access to developer tools, APIs, and local systems.',
+    mcp: 'Verified Model Context Protocol (MCP) servers and autonomous coding agents designed to give LLMs direct access to developer tools, APIs, and local systems.',
     writing: 'Next-generation copywriters, research summarizers, and long-form editorial agents engineered to accelerate high-volume publishing and marketing workflows.',
     design: 'Generative UI builders, vector design studios, and neural concept rendering engines designed to turn natural language into production-ready design systems.',
     video: 'AI video generators, hyper-realistic avatar actors, and automatic viral repurposing engines transforming text into studio-grade media.',
@@ -133,7 +138,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
         '@type': 'ListItem',
         position: 3,
         name: categoryName,
-        item: `https://www.stackaitools.com/category/${category.toLowerCase()}`
+        item: `https://www.stackaitools.com/category/${getCategorySlug(category)}`
       }
     ]
   };
@@ -209,11 +214,13 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
         {/* Quick Category Switcher Tabs */}
         <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-2 px-1 max-w-4xl mx-auto justify-start sm:justify-center">
           {allCategories.map((cat) => {
-            const isActive = cat.toLowerCase() === category.toLowerCase();
+            const catSlug = getCategorySlug(cat);
+            const currentSlug = getCategorySlug(category);
+            const isActive = catSlug === currentSlug;
             return (
               <Link
                 key={cat}
-                href={`/category/${cat.toLowerCase()}`}
+                href={`/category/${catSlug}`}
                 className={`px-3.5 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all duration-200 border ${
                   isActive
                     ? 'bg-violet-600 text-white border-violet-400/50 shadow-[0_0_15px_rgba(139,92,246,0.4)]'

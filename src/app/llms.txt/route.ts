@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getAllTools, getAllCategories, getAllPrompts } from '@/lib/tools';
+import { getAllTools, getAllCategories, getAllPrompts, getCategorySlug } from '@/lib/tools';
 
 export async function GET() {
   const [tools, categories, prompts] = await Promise.all([
@@ -24,7 +24,7 @@ export async function GET() {
 
   categories.forEach((cat) => {
     const count = tools.filter(t => t.category.toLowerCase() === cat.toLowerCase()).length;
-    markdown += `- [${cat}](https://www.stackaitools.com/category/${cat.toLowerCase()}): ${count} vetted tools\n`;
+    markdown += `- [${cat}](https://www.stackaitools.com/category/${getCategorySlug(cat)}): ${count} vetted tools\n`;
   });
 
   markdown += `\n---

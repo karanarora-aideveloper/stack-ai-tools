@@ -7,7 +7,8 @@ import {
   getAlternativesForTool, 
   getPromptsForTool,
   EnrichedTool,
-  SLUG_ALIASES
+  SLUG_ALIASES,
+  getCategorySlug
 } from '@/lib/tools';
 import ToolLogo from '@/app/components/ToolLogo';
 import PromptCard from '@/app/components/PromptCard';
@@ -180,7 +181,7 @@ export default async function ToolPage({ params }: ToolPageProps) {
         '@type': 'ListItem',
         'position': 2,
         'name': tool.category,
-        'item': `https://www.stackaitools.com/category/${tool.category.toLowerCase()}`
+        'item': `https://www.stackaitools.com/category/${getCategorySlug(tool.category)}`
       },
       {
         '@type': 'ListItem',
@@ -233,7 +234,7 @@ export default async function ToolPage({ params }: ToolPageProps) {
           <ChevronRight size={12} className="text-zinc-600" />
           <Link href="/categories" className="hover:text-white transition-colors">Categories</Link>
           <ChevronRight size={12} className="text-zinc-600" />
-          <Link href={`/category/${tool.category.toLowerCase()}`} className="hover:text-white transition-colors capitalize">
+          <Link href={`/category/${getCategorySlug(tool.category)}`} className="hover:text-white transition-colors capitalize">
             {tool.category}
           </Link>
           <ChevronRight size={12} className="text-zinc-600" />
@@ -266,7 +267,7 @@ export default async function ToolPage({ params }: ToolPageProps) {
                   {/* Meta badges row */}
                   <div className="flex flex-wrap items-center gap-2 mb-2">
                     <Link
-                      href={`/category/${tool.category.toLowerCase()}`}
+                      href={`/category/${getCategorySlug(tool.category)}`}
                       className="px-2.5 py-0.5 rounded-full bg-violet-500/10 border border-violet-500/25 text-violet-300 text-[11px] font-mono hover:bg-violet-500/20 transition-colors uppercase tracking-wider"
                     >
                       {tool.category}
@@ -982,7 +983,7 @@ export default async function ToolPage({ params }: ToolPageProps) {
                 <div className="flex items-center justify-between py-1 border-b border-white/[0.04]">
                   <span className="text-zinc-500 font-mono">Category</span>
                   <Link 
-                    href={`/category/${tool.category.toLowerCase()}`}
+                    href={`/category/${getCategorySlug(tool.category)}`}
                     className="text-violet-400 hover:text-violet-300 font-medium font-mono capitalize transition-colors"
                   >
                     {tool.category}
@@ -1057,7 +1058,7 @@ export default async function ToolPage({ params }: ToolPageProps) {
                 Discover {tool.category.toLowerCase()} software, agent frameworks, and battle-tested prompt recipes.
               </p>
               <Link
-                href={`/category/${tool.category.toLowerCase()}`}
+                href={`/category/${getCategorySlug(tool.category)}`}
                 className="w-full inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white border border-white/10 text-xs font-mono transition-colors"
               >
                 <span>Browse {tool.category} Category →</span>

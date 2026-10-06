@@ -374,6 +374,14 @@ export function slugify(text: string): string {
     .replace(/^-+|-+$/g, '');
 }
 
+export function getCategorySlug(category: string): string {
+  const norm = (category || '').toLowerCase().trim();
+  if (norm.includes('mcp') || norm.includes('coding agents')) {
+    return 'mcp-coding-agents';
+  }
+  return norm.replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'all';
+}
+
 export function getToolSlug(tool: AITool | { name: string } | string): string {
   const name = typeof tool === 'string' ? tool : tool?.name || '';
   if (SLUG_MAP[name]) {

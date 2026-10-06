@@ -10,6 +10,7 @@ import {
   getRelatedArticles,
   getVisualToolsForArticle
 } from '@/lib/blog';
+import { getCategorySlug } from '@/lib/tools';
 import VisualToolList from '@/app/components/VisualToolList';
 import ObsidianHeader from '@/app/components/ObsidianHeader';
 import ObsidianFooter from '@/app/components/ObsidianFooter';
@@ -294,7 +295,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                 <Link href={`/alternatives/${content.matchedTool.slug}`} className="btn btn-secondary" style={{ padding: '6px 12px', fontSize: 12 }}>
                   Top Alternatives →
                 </Link>
-                <Link href={`/category/${article.category}`} className="btn btn-primary" style={{ padding: '6px 12px', fontSize: 12 }}>
+                <Link href={`/category/${getCategorySlug(article.category)}`} className="btn btn-primary" style={{ padding: '6px 12px', fontSize: 12 }}>
                   All {article.category.toUpperCase()} Tools →
                 </Link>
               </div>
